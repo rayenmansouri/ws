@@ -1,0 +1,35 @@
+{
+  // Version of the setting file.  Always 0.2
+  "version": "0.2",
+  // language - current active spelling language
+  "language": "en",
+  // words - list of words to be always considered correct
+  "ignorePaths": [
+    "*.translation.ts",
+    "package*.json",
+    "french.ts",
+    "arabic.ts"
+  ],
+  "words": [
+    "administrateur",
+    "CLASSTYPE",
+    "datetime",
+    "dtos",
+    "élève",
+    "enseignant",
+    "Exclu",
+    "fieldname",
+    "inversify",
+    "mongodump",
+    "moongoose",
+    "papaparse",
+    "pino",
+    "rôle",
+    "Tunisie",
+    "UNPAY",
+    "usecase",
+    "uuidv",
+    "valueobject",
+    "webschool"
+  ]
+}

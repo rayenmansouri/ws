@@ -1,0 +1,71 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+.idea
+src/scripts/seedNoteInExamGrade.ts
+.VSCodeCounter
+
+# ignore logs
+logs
+*.log
+audit.json
+# ignore 3rd party lib
+node_modules
+# ignore key
+*.pem
+
+# Ignore built files
+dist
+build
+
+backups
+# ignore test converage
+coverage
+
+# Environment varibles
+.env
+src/fixes
+#keys
+.keyfile
+keys/*
+!keys/*.md
+!keys/*.example
+#temp
+temp
+.DS_Store
+
+cloneDb.sh
+
+*.save
+*.save.*
+
+coverage
+jest.config.js
+
+certbot/
+cloudflare.ini
+
+importDB/*
+
+db.sh
+
+pdf/*
+
+importDB.sh
+
+**/DockerFile
+importDB*.sh
+test.sh
+
+createConstantFile.sh
+createTranslation.sh
+createTranslation.sh
+
+fetResults/
+fetFiles/
+
+webschool-types/src/autoExport
+webschool-types/package-lock.json
+
+src/apps/main/Routes.routes.ts
+
+dump
+dump/*
