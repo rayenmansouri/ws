@@ -1,35 +1,35 @@
-import { BaseEntity } from "./../shared/domain/baseEntity";
-import { EntityMetaData } from "./../shared/domain/EntityMetadata.type";
 import { injectable, unmanaged } from "inversify";
 import { CounterRepo } from "../feature/counter/counter.repo";
 import { TranslationPaths } from "../translation/translationKeys";
-import { Populate } from "./populateTypes";
-import { BadRequestError, NotFoundError } from "./ApplicationErrors";
-
 import { RemoveNull } from "../types/utils";
+import { BaseEntity } from "./../shared/domain/baseEntity";
+import { EntityMetaData } from "./../shared/domain/EntityMetadata.type";
+import { ID } from "./../shared/value-objects/ID.vo";
+import { BadRequestError, NotFoundError } from "./ApplicationErrors";
+import { Populate } from "./populateTypes";
 
 @injectable()
-export abstract class BaseRepo<T extends BaseEntity> {
+export abstract class BaseRepo<MetaData extends EntityMetaData<BaseEntity>> {
   constructor(@unmanaged() private counterRepo: CounterRepo) {}
 
   abstract findOneByNewId<
-    FieldsToPopulate extends keyof EntityMetaData<T> = never
+    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
   >(
     newId: string,
     options?: {
       populate?: FieldsToPopulate[];
     }
-  ): Promise<Populate<EntityMetaData<T>, FieldsToPopulate> | null>;
+  ): Promise<Populate<MetaData, FieldsToPopulate> | null>;
 
   async findOneByNewIdOrThrow<
-    FieldsToPopulate extends keyof EntityMetaData<T> = never
+    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
   >(
     newId: string,
     message: TranslationPaths,
     options?: {
       populate?: FieldsToPopulate[];
     }
-  ): Promise<Populate<EntityMetaData<T>, FieldsToPopulate>> {
+  ): Promise<Populate<MetaData, FieldsToPopulate>> {
     const entity = await this.findOneByNewId(newId, options);
 
     if (!entity) throw new NotFoundError(message);
@@ -38,7 +38,7 @@ export abstract class BaseRepo<T extends BaseEntity> {
   }
 
   abstract findOneById<
-    FieldsToPopulate extends keyof EntityMetaData<T> = never
+    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
   >(
     id: ID,
     options?: {
@@ -127,7 +127,7 @@ export abstract class BaseRepo<T extends BaseEntity> {
 
     const currentTime = new Date();
 
-    const baseEntity: Omit<BaseEntity, "_id"> = {
+    const baseEntity: Omit<BaseEntity, "id"> = {
       newId: this.counterRepo.formatNewId(newId),
       updatedAt: currentTime,
       createdAt: currentTime,
@@ -150,7 +150,7 @@ export abstract class BaseRepo<T extends BaseEntity> {
 
     const currentCount = await this.counterRepo.getCurrentCount();
 
-    const baseEntities: Omit<BaseEntity, "_id" | "newId"> = {
+    const baseEntities: Omit<BaseEntity, "id" | "newId"> = {
       updatedAt: currentTime,
       createdAt: currentTime,
     };
@@ -245,7 +245,7 @@ export abstract class BaseRepo<T extends BaseEntity> {
 
   abstract deleteManyByIds(ids: ID[]): Promise<void>;
 
-  abstract deleteOneByNewId(newId: string): Promise<void>;
+  abstract deleteOneByNewId(newId: ID): Promise<void>;
 
-  abstract deleteManyByNewIds(newIds: string[]): Promise<void>;
+  abstract deleteManyByNewIds(newIds: ID[]): Promise<void>;
 }

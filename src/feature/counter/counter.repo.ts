@@ -1,6 +1,4 @@
-import { BaseRepo } from "../../core/BaseRepo";
-
-export abstract class CounterRepo extends BaseRepo<Counter> {
+export abstract class CounterRepo {
   abstract getCurrentCount(): Promise<number>;
 
   abstract incrementAndGet(): Promise<number>;

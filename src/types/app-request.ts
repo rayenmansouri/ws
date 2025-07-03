@@ -1,13 +1,13 @@
+import { BaseUser } from "./../shared/domain/baseUser.entity";
+import { ID } from "./../shared/value-objects/ID.vo";
 import { Request } from "express";
 import * as core from "express-serve-static-core";
 import { Connection } from "mongoose";
 import { TLanguageEnum } from "../translation/constants";
 import { IUser } from "./entities";
-import { BaseUser } from "../feature/users/domain/baseUser.entity";
-import { ID } from "./BaseEntity";
-import { Role } from "../feature/authorization/domain/role.entity";
 
-export interface PublicRequest<T = unknown> extends Request<core.ParamsDictionary, unknown, T> {
+export interface PublicRequest<T = unknown>
+  extends Request<core.ParamsDictionary, unknown, T> {
   user: IUser;
   conn: Connection;
   tenantId: string;
@@ -36,7 +36,7 @@ export interface ProtectedRequestOptions {
 }
 
 export interface BaseProtectedRequest extends Request {
-  user: Omit<BaseUser, "roles"> & { roles: Role[] };
+  user: Omit<BaseUser, "roles"> /*& { roles: Role[] };*/;
   conn: Connection;
   newConnection: Connection;
   tenantId: ID;
@@ -55,5 +55,6 @@ export type DefaultRequestOptions = {
   files: never;
 };
 
-export type ProtectedRequest<Options extends ProtectedRequestOptions = DefaultRequestOptions> =
-  Omit<BaseProtectedRequest, "body" | "params" | "query" | "files"> & Options;
+export type ProtectedRequest<
+  Options extends ProtectedRequestOptions = DefaultRequestOptions
+> = Omit<BaseProtectedRequest, "body" | "params" | "query" | "files"> & Options;

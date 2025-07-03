@@ -1,12 +1,16 @@
 import * as Sentry from "@sentry/node";
 import cors from "cors";
 import express from "express";
-import { ApplicationError, InternalError, NotFoundError } from "../../core/ApplicationErrors";
+import {
+  ApplicationError,
+  InternalError,
+  NotFoundError,
+} from "../../core/ApplicationErrors";
 import { default as logger } from "../../core/Logger";
 import "../../core/sentry";
 import { errorHandler } from "../../middlewares/errorHandler";
 import { logRequest } from "../../middlewares/logRequest";
-import { internalRouter } from "./index.routes";
+// import { internalRouter } from "./index.routes";
 
 export const internalApp = express();
 
@@ -15,7 +19,7 @@ internalApp.use(cors());
 
 internalApp.use(logRequest);
 
-internalApp.use("/api/internal", internalRouter);
+// internalApp.use("/api/internal", internalRouter);
 
 Sentry.setupExpressErrorHandler(internalApp, {
   shouldHandleError: (err: unknown) => {

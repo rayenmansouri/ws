@@ -1,6 +1,6 @@
 import { ID } from "./../value-objects/ID.vo";
 
-export class BaseEntity {
+export abstract class BaseEntity {
   protected _id: ID;
   protected _newId: string;
   protected _createdAt: Date;

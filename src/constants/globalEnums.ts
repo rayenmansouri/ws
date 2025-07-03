@@ -1,4 +1,3 @@
-import { omit } from "lodash";
 import { PickFromEnum } from "../types/utils/enums.util";
 
 export const END_USER_ENUM = {
@@ -15,4 +14,7 @@ export type TEndUserWithoutMasterEnums =
 
 export type TEndUserEnum = (typeof END_USER_ENUM)[keyof typeof END_USER_ENUM];
 
-export type TEndAdministrationUserEnums = PickFromEnum<TEndUserEnum, "teacher" | "admin">;
+export type TEndAdministrationUserEnums = PickFromEnum<
+  TEndUserEnum,
+  "teacher" | "admin"
+>;

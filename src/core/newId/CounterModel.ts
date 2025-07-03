@@ -1,6 +1,6 @@
-import { Schema } from 'mongoose';
+import { Document, Schema } from "mongoose";
 
-export interface ICounterSchema {
+export interface ICounterSchema extends Document {
   collectionName: string;
   count: number;
 }
@@ -17,5 +17,5 @@ export const CounterSchema = new Schema<ICounterSchema>(
       default: 0,
     },
   },
-  { versionKey: false, timestamps: true },
+  { versionKey: false, timestamps: true }
 );

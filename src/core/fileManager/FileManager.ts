@@ -5,7 +5,7 @@ import { School } from "../../feature/schools/domain/school.entity";
 import { deleteSpaces } from "../../helpers/functions";
 import { getVideoDurationFromBuffer } from "../../helpers/getVideoDuration";
 import { RandomUtils } from "../../helpers/RandomUtils";
-import { allMongoSchemas } from "../../newDatabase/mongo/schemas/allMongoSchemas";
+import { allMongoSchemas } from "../../database/mongo/schemas/allMongoSchemas";
 import { BadRequestError, InternalError } from "../ApplicationErrors";
 import { inject } from "../container/TypedContainer";
 import logger from "../Logger";
@@ -38,22 +38,25 @@ export abstract class FileManager {
 
   constructor(
     @inject("School") school: School,
-    @inject("RandomUtils") private randomUtils: typeof RandomUtils,
+    @inject("RandomUtils") private randomUtils: typeof RandomUtils
   ) {
     this.tenantName = school.subdomain;
   }
 
   protected abstract baseUploadFile(
     filePayload: FileUploadPayload,
-    filePath: string,
+    filePath: string
   ): Promise<string>;
 
   protected abstract baseBatchUploadFiles(
     pdfBuffers: FileUploadPayload[],
-    paths: string[],
+    paths: string[]
   ): Promise<FileDetails[]>;
 
-  async uploadFile(filePayload: FileUploadPayload, filePath: string): Promise<FileDetails> {
+  async uploadFile(
+    filePayload: FileUploadPayload,
+    filePath: string
+  ): Promise<FileDetails> {
     const pathFileName = this.formatFileName(filePayload.name);
 
     const fullFilePath = this.generateFullFilePath(filePath, pathFileName);
@@ -76,13 +79,19 @@ export abstract class FileManager {
     return `/${environment}/${this.tenantName}/${filePath}/${pathFileName}`;
   }
 
-  async uploadFiles(filesPayload: FileUploadPayload[], paths: string[]): Promise<FileDetails[]> {
+  async uploadFiles(
+    filesPayload: FileUploadPayload[],
+    paths: string[]
+  ): Promise<FileDetails[]> {
     if (filesPayload.length !== paths.length) {
       throw new InternalError("The number of files and paths must match.");
     }
 
     if (filesPayload.length > 0) {
-      const uploadedFiles = await this.baseBatchUploadFiles(filesPayload, paths);
+      const uploadedFiles = await this.baseBatchUploadFiles(
+        filesPayload,
+        paths
+      );
 
       return uploadedFiles.map((file, i) => ({
         name: filesPayload[i].name,
@@ -99,15 +108,23 @@ export abstract class FileManager {
   async uploadVideosFile(
     filePayload: FileUploadPayload[],
     filePath: keyof typeof allMongoSchemas,
-    tenantId: string,
+    tenantId: string
   ): Promise<VideoDetails[]> {
-    const isEveryFileVideo = filePayload.every(file => FileUpload.isVideoFile(file.mimetype));
+    const isEveryFileVideo = filePayload.every((file) =>
+      FileUpload.isVideoFile(file.mimetype)
+    );
 
     if (!isEveryFileVideo) throw new InternalError("Not all files are videos");
 
-    const filePaths = FileManager.generateFilePaths(filePayload, tenantId, filePath);
+    const filePaths = FileManager.generateFilePaths(
+      filePayload,
+      tenantId,
+      filePath
+    );
     const uploadedVideo = await this.uploadFiles(filePayload, filePaths);
-    const videoDurationsPromise = filePayload.map(file => getVideoDurationFromBuffer(file.buffer));
+    const videoDurationsPromise = filePayload.map((file) =>
+      getVideoDurationFromBuffer(file.buffer)
+    );
     const videoDurations = await Promise.all(videoDurationsPromise);
     return uploadedVideo.map((video, i) => ({
       ...video,
@@ -118,7 +135,8 @@ export abstract class FileManager {
   public formatFileName(fileName: string): string {
     const lastDotIndex = fileName.lastIndexOf(".");
 
-    if (lastDotIndex === -1) throw new BadRequestError("global.unsupportedFile");
+    if (lastDotIndex === -1)
+      throw new BadRequestError("global.unsupportedFile");
 
     const fileExtension = fileName.slice(lastDotIndex);
 
@@ -152,7 +170,7 @@ export abstract class FileManager {
     let filesToBeAdded: Awaited<ReturnType<typeof this.uploadFiles>> = [];
     let uploadedFiles: FileDetails[] = [];
     if (newFiles && newFiles.length) {
-      const paths = newFiles.map(file => {
+      const paths = newFiles.map((file) => {
         const subFilePath = this.formatFileName(file.name);
         return this.generateFullFilePath(filePath, subFilePath);
       });
@@ -170,18 +188,18 @@ export abstract class FileManager {
     }));
 
     const remainingFiles = currentFiles.filter(
-      file => !(filesPathToBeDeleted || []).includes(file.path),
+      (file) => !(filesPathToBeDeleted || []).includes(file.path)
     );
 
     return [...remainingFiles, ...filesToBeAdded];
   }
   static getMediaFiles(files: FileUploadPayload[]): FileUploadPayload[] {
-    const mediaFiles = files.filter(file => this.isMediaFile(file.mimetype));
+    const mediaFiles = files.filter((file) => this.isMediaFile(file.mimetype));
     return mediaFiles;
   }
 
   static removeMediaFiles(files: FileUploadPayload[]): FileUploadPayload[] {
-    const mediaFiles = files.filter(file => !this.isMediaFile(file.mimetype));
+    const mediaFiles = files.filter((file) => !this.isMediaFile(file.mimetype));
     return mediaFiles;
   }
 
@@ -200,19 +218,27 @@ export abstract class FileManager {
   static generateFilePaths(
     files: FileUploadPayload[],
     tenantId: string,
-    folderName: string,
+    folderName: string
   ): string[] {
     const paths: string[] = [];
 
-    files.forEach(file => {
-      const uniquePath = this.generateUniquePath(file.name, tenantId, folderName);
+    files.forEach((file) => {
+      const uniquePath = this.generateUniquePath(
+        file.name,
+        tenantId,
+        folderName
+      );
       paths.push(uniquePath);
     });
 
     return paths;
   }
 
-  static generateUniquePath = (fileName: string, tenantId: string, folderName: string): string => {
+  static generateUniquePath = (
+    fileName: string,
+    tenantId: string,
+    folderName: string
+  ): string => {
     const schoolSubdomain = schoolDocStore[tenantId].subdomain;
     const originalname = StringUtils.removeArabicLetters(fileName);
     const extension = originalname.split(".").pop();
@@ -220,11 +246,11 @@ export abstract class FileManager {
     const lastDotIndex = originalname.lastIndexOf(".");
     const newNameWithExtension = `${originalname.slice(
       0,
-      lastDotIndex,
+      lastDotIndex
     )}_${randomSuffix}.${extension}`;
 
     const path = deleteSpaces(
-      `/${environment}/${schoolSubdomain}/${folderName}/${newNameWithExtension}`,
+      `/${environment}/${schoolSubdomain}/${folderName}/${newNameWithExtension}`
     );
 
     return path;
@@ -245,11 +271,15 @@ export abstract class FileManager {
 
     let filesToBeAdded: Awaited<ReturnType<typeof this.uploadVideosFile>> = [];
     if (newFiles && newFiles.length) {
-      filesToBeAdded = await this.uploadVideosFile(newFiles, filePath, data.tenantId);
+      filesToBeAdded = await this.uploadVideosFile(
+        newFiles,
+        filePath,
+        data.tenantId
+      );
     }
 
     const remainingFiles = currentFiles.filter(
-      file => !(filesPathToBeDeleted || []).includes(file.path),
+      (file) => !(filesPathToBeDeleted || []).includes(file.path)
     );
 
     return [...remainingFiles, ...filesToBeAdded];

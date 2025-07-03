@@ -1,4 +1,4 @@
-import { PaginationMeta } from "../newDatabase/mongo/types";
+import { PaginationMeta } from "../database/mongo/types";
 
 /**
  * Function to slice an array given a limit and page
@@ -10,7 +10,7 @@ import { PaginationMeta } from "../newDatabase/mongo/types";
 export function paginateResult<T = any>(
   array: T[],
   limit = 10,
-  page = 1,
+  page = 1
 ): { docs: T[]; meta: PaginationMeta } {
   const start = (page - 1) * limit;
   const end = start + limit;

@@ -1,5 +1,6 @@
 import { BaseUser } from "./../../../shared/domain/baseUser.entity";
 import { ID } from "./../../../shared/value-objects/ID.vo";
+import { GenerateMetaData } from "../../../core/populateTypes";
 
 export class Admin extends BaseUser {
   private _isImpersonation: boolean;
@@ -19,7 +20,4 @@ export class Admin extends BaseUser {
   }
 }
 
-export type AdminMetaData = {
-  entity: Admin;
-  populatedFields: never;
-};
+export type AdminMetaData = GenerateMetaData<Admin, never>;

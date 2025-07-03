@@ -2,26 +2,31 @@ import "../../core/sentry";
 import cors from "cors";
 import express from "express";
 import { default as Logger, default as logger } from "../../core/Logger";
-import { ApplicationError, InternalError, NotFoundError } from "../../core/ApplicationErrors";
+import {
+  ApplicationError,
+  InternalError,
+  NotFoundError,
+} from "../../core/ApplicationErrors";
 import { errorHandler } from "../../middlewares/errorHandler";
 import { logRequest } from "../../middlewares/logRequest";
-import routes from "./index.routes";
+// import routes from "./index.routes";
 import * as Sentry from "@sentry/node";
 import "./Routes.routes";
-import { APIErrorResponse } from "../../core/responseAPI/APIErrorResponse";
+// import { APIErrorResponse } from "../../core/responseAPI/APIErrorResponse";
 
-process.on("uncaughtException", e => {
+process.on("uncaughtException", (e) => {
   Logger.error(e);
 });
 
 const app = express();
 
 app.use(express.json());
+
 app.use(cors());
 
 app.use(logRequest);
 
-app.use("/api/v1", routes);
+app.use("/api/v1" /*routes*/);
 
 Sentry.setupExpressErrorHandler(app, {
   shouldHandleError: (err: unknown) => {
