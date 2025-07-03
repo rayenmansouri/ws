@@ -27,7 +27,11 @@ export class MongoCounterRepo extends CounterRepo {
   async incrementAndGet(): Promise<number> {
     const counter = await this.connection
       .model("counter", CounterSchema)
-      .findOneAndUpdate({ collectionName: this.entityName }, { $inc: { count: 1 } }, { new: true });
+      .findOneAndUpdate(
+        { collectionName: this.entityName },
+        { $inc: { count: 1 } },
+        { new: true }
+      );
 
     if (!counter) {
       await this.connection.model("counter", CounterSchema).create({
@@ -44,6 +48,9 @@ export class MongoCounterRepo extends CounterRepo {
   async incrementByValue(value: number): Promise<void> {
     await this.connection
       .model("counter", CounterSchema)
-      .findOneAndUpdate({ collectionName: this.entityName }, { $inc: { count: value } });
+      .findOneAndUpdate(
+        { collectionName: this.entityName },
+        { $inc: { count: value } }
+      );
   }
 }

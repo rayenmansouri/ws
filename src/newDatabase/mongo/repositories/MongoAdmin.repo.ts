@@ -1,23 +1,30 @@
+import { ID } from "./../../../shared/value-objects/ID.vo";
 import { ClientSession, Connection, FilterQuery } from "mongoose";
 import { inject } from "../../../core/container/TypedContainer";
-import { Admin, AdminMetaData } from "../../../feature/admins/domain/admin.entity";
+import {
+  Admin,
+  AdminMetaData,
+} from "../../../feature/admins/domain/admin.entity";
 import { AdminRepo } from "../../../feature/admins/domain/Admin.repo";
-import { ID } from "../../../types/BaseEntity";
+
 import { ListOptions } from "../../../types/types";
 import { ResponseWithPagination } from "../types";
 import { MongoBaseRepo } from "./MongoBase.repo";
 
-export class MongoAdminRepo extends MongoBaseRepo<AdminMetaData> implements AdminRepo {
+export class MongoAdminRepo
+  extends MongoBaseRepo<AdminMetaData>
+  implements AdminRepo
+{
   constructor(
     @inject("Connection") connection: Connection,
-    @inject("Session") session: ClientSession | null,
+    @inject("Session") session: ClientSession | null
   ) {
     super(connection, "admin", session);
   }
 
   async listAdmins(
     filter: { search?: string; isArchived?: boolean },
-    options: ListOptions,
+    options: ListOptions
   ): Promise<ResponseWithPagination<Admin>> {
     const filterQuery: FilterQuery<AdminMetaData["entity"]> = {
       isImpersonation: false,
@@ -26,20 +33,27 @@ export class MongoAdminRepo extends MongoBaseRepo<AdminMetaData> implements Admi
     if (filter.search) {
       filterQuery.$or = [];
 
-      filterQuery.$or.push({ fullName: { $regex: filter.search, $options: "i" } });
-      filterQuery.$or.push({ phoneNumber: { $regex: filter.search, $options: "i" } });
+      filterQuery.$or.push({
+        fullName: { $regex: filter.search, $options: "i" },
+      });
+      filterQuery.$or.push({
+        phoneNumber: { $regex: filter.search, $options: "i" },
+      });
       filterQuery.$or.push({ newId: { $regex: filter.search, $options: "i" } });
     }
 
     const response = await this.findManyWithPagination(
       { ...filterQuery, isArchived: filter.isArchived === true ? true : false },
-      options,
+      options
     );
 
     return response;
   }
 
-  async findManyByFullNameAndIds(fullName: string, ids: ID[]): Promise<AdminMetaData["entity"][]> {
+  async findManyByFullNameAndIds(
+    fullName: string,
+    ids: ID[]
+  ): Promise<AdminMetaData["entity"][]> {
     const admins = await this.model.find({
       _id: { $in: ids },
       fullName: { $regex: fullName, $options: "i" },
@@ -53,7 +67,7 @@ export class MongoAdminRepo extends MongoBaseRepo<AdminMetaData> implements Admi
     await this.model.updateMany(
       { roles: { $in: [roleId] } },
       { $pull: { roles: roleId } },
-      { session: this.session },
+      { session: this.session }
     );
   }
 
