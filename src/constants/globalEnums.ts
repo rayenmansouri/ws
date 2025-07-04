@@ -1,4 +1,5 @@
 import { PickFromEnum } from "../types/utils/enums.util";
+import { omit } from "lodash";
 
 export const END_USER_ENUM = {
   ADMIN: "admin",

@@ -1,12 +1,29 @@
 import { BaseUser } from "./../../../shared/domain/baseUser.entity";
 import { ID } from "./../../../shared/value-objects/ID.vo";
 import { GenerateMetaData } from "../../../core/populateTypes";
+import { FileUploadPayload } from "../../../shared/domain/FileManager";
 
 export class Admin extends BaseUser {
   private _isImpersonation: boolean;
 
-  constructor(isImpersonation = false) {
-    super({ id: ID.create(""), name: "", email: "" });
+  constructor({
+    firstName,
+    lastName,
+    isImpersonation,
+    avatar,
+  }: {
+    firstName: string;
+    lastName: string;
+    isImpersonation: boolean;
+    avatar: FileUploadPayload;
+  }) {
+    super({
+      id: ID.create(""),
+      firstName,
+      lastName,
+      email: "",
+      avatar,
+    });
     this._isImpersonation = isImpersonation;
   }
 
@@ -14,9 +31,12 @@ export class Admin extends BaseUser {
     return this._isImpersonation;
   }
 
-  static fromObject(obj: { isImpersonation: boolean }): Admin {
-    const { isImpersonation = false } = obj;
-    return new Admin(isImpersonation);
+  get firstName(): string {
+    return this._firstName;
+  }
+
+  get lastName(): string {
+    return this._lastName;
   }
 }
 

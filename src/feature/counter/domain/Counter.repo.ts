@@ -1,4 +1,11 @@
-import { BaseRepo } from "../../../core/BaseRepo";
-import { CounterMetaData } from "./counter.entity";
+export abstract class CounterRepo {
+  abstract getCurrentCount(): Promise<number>;
 
-export abstract class CounterRepo extends BaseRepo<CounterMetaData> {}
+  abstract incrementAndGet(): Promise<number>;
+
+  abstract incrementByValue(value: number): Promise<void>;
+
+  formatNewId(count: number): string {
+    return count.toString().padStart(5, "0");
+  }
+}

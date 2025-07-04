@@ -1,24 +1,11 @@
-import { Types } from "mongoose";
-import { Admin } from "../../../feature/admins/domain/admin.entity";
+import { AdminMetaData } from "./../../../feature/admins/domain/admin.entity";
+import { FileUploadPayload } from "../../../shared/domain/FileManager";
+import { fileSchema } from "../../../types/entities";
 import { createMongoSchema } from "../createSchema";
-import { newfileSchema } from "../../../types/entities";
 
-export const mongoAdminSchema = createMongoSchema<Admin>({
+export const mongoAdminSchema = createMongoSchema<AdminMetaData["entity"]>({
   firstName: String,
   lastName: String,
-  fullName: String,
-  gender: String,
-  avatar: newfileSchema,
-  address1: String,
-  address2: String,
-  phoneNumber: String,
-  birthDate: Date,
-  email: String,
-  password: String,
-  passwordChangedAt: Date,
+  avatar: fileSchema,
   isImpersonation: Boolean,
-  roles: [{ type: Types.ObjectId }],
-  isArchived: Boolean,
-  archivedAt: Date,
-  isActive: Boolean,
 });

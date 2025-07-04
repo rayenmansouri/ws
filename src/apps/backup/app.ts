@@ -1,12 +1,10 @@
 import cors from "cors";
 import express from "express";
 import Logger from "../../core/Logger";
-import { errorHandler } from "../../middlewares/errorHandler";
-import { logRequest } from "../../middlewares/logRequest";
 import routes from "./routes";
 import { NotFoundError } from "../../core/ApplicationErrors";
 
-process.on("uncaughtException", e => {
+process.on("uncaughtException", (e) => {
   Logger.error(e.message + e.stack);
 });
 
@@ -17,7 +15,8 @@ app.use(cors());
 
 // app.use(gatherMetrics);
 
-app.use(logRequest);
+//TODO: refactor the log request middleware
+// app.use(logRequest);
 
 app.use("/api/v1", routes);
 
@@ -25,6 +24,7 @@ app.use("/api/v1", routes);
 
 app.use((_, __, next) => next(new NotFoundError("Path not found")));
 
-app.use(errorHandler);
+//TODO: refactor the global error handler
+// app.use(errorHandler);
 
 export default app;

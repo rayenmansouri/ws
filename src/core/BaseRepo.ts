@@ -1,5 +1,4 @@
 import { injectable, unmanaged } from "inversify";
-import { CounterRepo } from "../feature/counter/counter.repo";
 import { TranslationPaths } from "../translation/translationKeys";
 import { RemoveNull } from "../types/utils";
 import { BaseEntity } from "./../shared/domain/baseEntity";
@@ -7,6 +6,7 @@ import { EntityMetaData } from "./../shared/domain/EntityMetadata.type";
 import { ID } from "./../shared/value-objects/ID.vo";
 import { BadRequestError, NotFoundError } from "./ApplicationErrors";
 import { Populate } from "./populateTypes";
+import { CounterRepo } from "../feature/counter/domain/Counter.repo";
 
 @injectable()
 export abstract class BaseRepo<MetaData extends EntityMetaData<BaseEntity>> {

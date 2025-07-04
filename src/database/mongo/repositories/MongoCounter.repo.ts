@@ -1,6 +1,6 @@
 import { Connection } from "mongoose";
 import { CounterSchema } from "../../../core/newId/CounterModel";
-import { CounterRepo } from "../../../feature/counter/counter.repo";
+import { CounterRepo } from "../../../feature/counter/domain/Counter.repo";
 
 export class MongoCounterRepo extends CounterRepo {
   constructor(private connection: Connection, private entityName: string) {

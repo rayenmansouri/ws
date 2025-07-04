@@ -1,7 +1,8 @@
 import mongoose, { AnyArray, Schema, SchemaTypes, Types } from "mongoose";
-import { autoLeanAndConvertObjectId } from "../../helpers/databaseHooks";
-import { BaseEntity, ID } from "../../types/BaseEntity";
+// import { autoLeanAndConvertObjectId } from "../../helpers/databaseHooks";
+import { ID } from "../../shared/value-objects/ID.vo";
 import { RemoveNull } from "../../types/utils";
+import { BaseEntity } from "../../shared/domain/baseEntity";
 
 type SchemaTypeOptions<T> = T extends ID
   ? typeof Types.ObjectId
@@ -39,7 +40,7 @@ type SchemaDefinition<Type extends Record<string, unknown>> = {
             index?: boolean;
             ref?: string;
             refPath?: string;
-          },
+          }
         ]
     : Type[Field] extends BaseEntity
     ? Schema<Type[Field]>
@@ -59,7 +60,7 @@ type SchemaDefinition<Type extends Record<string, unknown>> = {
 };
 
 export const createMongoSchema = <Entity extends BaseEntity>(
-  schema: SchemaDefinition<Omit<Entity, keyof BaseEntity>>,
+  schema: SchemaDefinition<Omit<Entity, keyof BaseEntity>>
 ): Schema<Entity> => {
   const createdSchema = new Schema<Entity>(
     {
@@ -77,10 +78,10 @@ export const createMongoSchema = <Entity extends BaseEntity>(
         virtuals: false,
       },
       minimize: false,
-    },
+    }
   );
 
-  autoLeanAndConvertObjectId(createdSchema);
+  // autoLeanAndConvertObjectId(createdSchema);
 
   return createdSchema;
 };

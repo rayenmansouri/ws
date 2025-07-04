@@ -1,17 +1,8 @@
-import { BaseUser } from "./../shared/domain/baseUser.entity";
-import { ID } from "./../shared/value-objects/ID.vo";
 import { Request } from "express";
-import * as core from "express-serve-static-core";
 import { Connection } from "mongoose";
 import { TLanguageEnum } from "../translation/constants";
-import { IUser } from "./entities";
-
-export interface PublicRequest<T = unknown>
-  extends Request<core.ParamsDictionary, unknown, T> {
-  user: IUser;
-  conn: Connection;
-  tenantId: string;
-}
+import { BaseUser } from "./../shared/domain/baseUser.entity";
+import { ID } from "./../shared/value-objects/ID.vo";
 
 export interface File {
   fieldname: string;

@@ -1,3 +1,5 @@
+import { Guard } from "./../utils/Guards";
+
 export class ID {
   private readonly _value: string;
 
@@ -6,9 +8,8 @@ export class ID {
   }
 
   static create(value: string): ID {
-    if (!ID.isValid(value)) {
-      throw new Error(`Invalid ID value: ${value}`);
-    }
+    Guard.againstNullOrUndefined(value, ID.constructor.name);
+    Guard.againstInvalidObjectId(value, ID.constructor.name);
     return new ID(value);
   }
 
