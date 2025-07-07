@@ -114,6 +114,22 @@ export class MongoRoleRepo
 
     const roles = await this.findManyWithPagination(filterQuery, options);
 
-    return roles;
+    const formatted = roles.docs.map(
+      (role) =>
+        new Role({
+          id: role.id,
+          newId: role.newId,
+          createdAt: role.createdAt,
+          updatedAt: role.updatedAt,
+          name: role.name,
+          permissions: role.permissions,
+          userTypes: role.userTypes,
+          translation: role.translation,
+        })
+    );
+    return {
+      docs: formatted,
+      meta: roles.meta,
+    };
   }
 }

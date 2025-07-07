@@ -16,4 +16,24 @@ export class Guard {
       throw new Error(`${argumentName} is not a valid MongoDB ObjectId`);
     }
   }
+  static againstEmptyArray(value: unknown[], argumentName: string): void {
+    if (value.length === 0) {
+      throw new Error(`${argumentName} is empty`);
+    }
+  }
+
+  static againstEmptyObject(
+    value: Record<string, unknown>,
+    argumentName: string
+  ): void {
+    if (Object.keys(value).length === 0) {
+      throw new Error(`${argumentName} is empty`);
+    }
+  }
+
+  static againstInvalidDate(value: Date, argumentName: string): void {
+    if (isNaN(value.getTime())) {
+      throw new Error(`${argumentName} is not a valid date`);
+    }
+  }
 }

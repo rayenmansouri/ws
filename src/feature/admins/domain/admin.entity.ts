@@ -11,17 +11,19 @@ export class Admin extends BaseUser {
     lastName,
     isImpersonation,
     avatar,
+    email,
   }: {
     firstName: string;
     lastName: string;
     isImpersonation: boolean;
     avatar: FileUploadPayload;
+    email: string;
   }) {
     super({
       id: ID.create(""),
       firstName,
       lastName,
-      email: "",
+      email,
       avatar,
     });
     this._isImpersonation = isImpersonation;
