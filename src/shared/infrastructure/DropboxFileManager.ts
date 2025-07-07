@@ -19,7 +19,7 @@ import {
 @injectable()
 export class DropboxFileManager extends FileManager {
   async listSubDirectories(path: string): Promise<string[]> {
-    const accessToken = await this.getAccessToken();
+    const accessToken = await this.refreshAccessToken();
     const res = await axios.post(
       `${dropboxShareUri}/2/files/list_folder`,
       {
@@ -47,7 +47,7 @@ export class DropboxFileManager extends FileManager {
 
   async baseDeleteFiles(filePath: string[]): Promise<void> {
     if (process.env.NODE_ENV === ENVIRONMENT_ENUM.TEST) return;
-    const accessToken = await this.getAccessToken();
+    const accessToken = await this.refreshAccessToken();
 
     const entries = filePath.map((publicId) => ({ path: publicId }));
 
@@ -65,7 +65,7 @@ export class DropboxFileManager extends FileManager {
 
   protected async deleteDirectory(folderPath: string): Promise<void> {
     if (process.env.NODE_ENV === ENVIRONMENT_ENUM.TEST) return;
-    const accessToken = await this.getAccessToken();
+    const accessToken = await this.refreshAccessToken();
     await axios.post(
       `${dropboxShareUri}/2/files/delete_v2`,
       { path: folderPath },
@@ -82,7 +82,7 @@ export class DropboxFileManager extends FileManager {
     filePayload: FileUploadPayload,
     filePath: string
   ): Promise<string> {
-    const accessToken = await this.getAccessToken();
+    const accessToken = await this.refreshAccessToken();
 
     await axios.post<{ path_lower: string; id: string; path_display: string }>(
       `${dropboxBaseUri}/2/files/upload`,
@@ -126,7 +126,7 @@ export class DropboxFileManager extends FileManager {
       .replace("www.dropbox.com", "dl.dropboxusercontent.com");
   }
 
-  private async getAccessToken(): Promise<string> {
+  private async refreshAccessToken(): Promise<string> {
     const accessToken = Buffer.from(
       `${dropboxAppKey}:${dropboxAppSecret}`
     ).toString("base64");
@@ -148,7 +148,7 @@ export class DropboxFileManager extends FileManager {
     paths: string[]
   ): Promise<FileDetails[]> {
     try {
-      const accessToken = await this.getAccessToken();
+      const accessToken = await this.refreshAccessToken();
 
       const sessionIds = await this.startingBatchUpload(
         accessToken,

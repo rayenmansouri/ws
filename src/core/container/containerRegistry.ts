@@ -6,6 +6,7 @@ import { EventDispatcher } from "../domainEvents/EventDispatcher";
 import { HandlerSubscriber } from "../domainEvents/HandlerSubscriber";
 import { FileManager } from "../../shared/domain/FileManager";
 import { CounterRepo } from "../../feature/counter/domain/Counter.repo";
+import { RoleRepo } from "../../feature/authorization/domain/Role.repo";
 
 export type containerRegistry = {
   FileManager: FileManager;
@@ -17,4 +18,5 @@ export type containerRegistry = {
   MasterConnection: Connection;
   AdminRepo: AdminRepo;
   CounterRepo: CounterRepo;
+  RoleRepo: RoleRepo;
 };
