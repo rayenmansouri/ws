@@ -16,5 +16,5 @@ export const getTenantConnection = asyncHandlerForMiddleware(
     const connection = await getNewTenantConnection(schoolSubdomain);
     req.DBConnection = connection;
     next();
-  },
+  }
 );

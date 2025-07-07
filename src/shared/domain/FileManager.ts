@@ -28,11 +28,6 @@ export type VideoDetails = FileDetails & {
 
 @injectable()
 export abstract class FileManager {
-  /**
-   * List subdirectories of a given path.
-   * @param path The directory path to list subdirectories from.
-   * @returns Promise<string[]> Array of subdirectory names
-   */
   abstract listSubDirectories(path: string): Promise<string[]>;
 
   private tenantName: string;

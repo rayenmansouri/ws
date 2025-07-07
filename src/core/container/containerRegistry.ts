@@ -7,6 +7,7 @@ import { HandlerSubscriber } from "../domainEvents/HandlerSubscriber";
 import { FileManager } from "../../shared/domain/FileManager";
 import { CounterRepo } from "../../feature/counter/domain/Counter.repo";
 import { RoleRepo } from "../../feature/authorization/domain/Role.repo";
+import { CountryRepo } from "../../feature/masters/domain/Country.repo";
 
 export type containerRegistry = {
   FileManager: FileManager;
@@ -19,4 +20,5 @@ export type containerRegistry = {
   AdminRepo: AdminRepo;
   CounterRepo: CounterRepo;
   RoleRepo: RoleRepo;
+  CountryRepo: CountryRepo;
 };
