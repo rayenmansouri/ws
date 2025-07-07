@@ -5,10 +5,6 @@ import { default as Logger, default as logger } from "../../core/Logger";
 import "../../core/sentry";
 import { globalErrorHandlerMiddleware } from "./../../core/express/middlewares/errorHandler";
 // import routes from "./index.routes";
-import "./Routes.routes";
-import dotenvSafe from "dotenv-safe";
-
-dotenvSafe.config();
 
 process.on("uncaughtException", (e) => {
   Logger.error(e);

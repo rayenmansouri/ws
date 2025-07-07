@@ -1,3 +1,4 @@
+import { ConfigService } from "./../config/ConfigService";
 import { injectable } from "inversify";
 import path from "path";
 import { BadRequestError, InternalError } from "../../core/ApplicationErrors";
@@ -33,6 +34,7 @@ export abstract class FileManager {
   private tenantName: string;
 
   constructor(
+    private conf: ConfigService,
     @inject("School") school: School,
     @inject("RandomUtils") private randomUtils: typeof RandomUtils
   ) {
@@ -55,6 +57,7 @@ export abstract class FileManager {
     filePayload: FileUploadPayload,
     filePath: string
   ): Promise<FileDetails> {
+    this.conf.
     const pathFileName = this.formatFileName(filePayload.name);
 
     const fullFilePath = this.generateFullFilePath(filePath, pathFileName);
