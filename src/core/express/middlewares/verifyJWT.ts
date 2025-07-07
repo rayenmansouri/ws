@@ -1,10 +1,8 @@
+import { BaseUser } from "./../../../shared/domain/baseUser.entity";
 import { NextFunction, Response } from "express";
 import { END_USER_ENUM, TEndUserEnum } from "../../../constants/globalEnums";
-import { BaseUser } from "../../../feature/users/domain/baseUser.entity";
+
 import { MongoAdminRepo } from "../../../database/mongo/repositories/MongoAdmin.repo";
-import { MongoParentRepo } from "../../../database/mongo/repositories/MongoParent.repo";
-import { MongoStudentRepo } from "../../../database/mongo/repositories/MongoStudent.repo";
-import { MongoTeacherRepo } from "../../../database/mongo/repositories/MongoTeacher.repo";
 import { OmitFromEnum } from "../../../types/utils/enums.util";
 import { AuthFailureError } from "../../ApplicationErrors";
 import { Middleware, TypedRequest } from "../types";
@@ -20,49 +18,51 @@ export const verifyJWT = (
       let user: Omit<BaseUser, "roles"> & { roles: Role[] };
       const connection = req.DBConnection;
 
-      switch (entity) {
-        case END_USER_ENUM.ADMIN: {
-          const adminRepo = new MongoAdminRepo(connection, null);
-          const roleRepo = container.get("RoleRepo");
+      switch (
+        entity
+        // case END_USER_ENUM.ADMIN: {
+        //   const adminRepo = new MongoAdminRepo(connection, null);
+        //   const roleRepo = container.get("RoleRepo");
 
-          const admin = await adminRepo.findOneById(req.userId);
-          if (!admin) throw new AuthFailureError();
+        //   const admin = await adminRepo.findOneById(req.user.id);
+        //   if (!admin) throw new AuthFailureError();
 
-          const roles = await roleRepo.findManyByIds(admin.roles);
+        //   const roles = await roleRepo.findManyByIds(admin.roles);
 
-          user = { ...admin, roles };
-          break;
-        }
-        case END_USER_ENUM.TEACHER: {
-          const teacherRepo = new MongoTeacherRepo(connection, null);
-          const roleRepo = container.get("RoleRepo");
+        //   user = { ...admin, roles };
+        //   break;
+        // }
+        // case END_USER_ENUM.TEACHER: {
+        //   const teacherRepo = new MongoTeacherRepo(connection, null);
+        //   const roleRepo = container.get("RoleRepo");
 
-          const teacher = await teacherRepo.findOneById(req.userId);
-          if (!teacher) throw new AuthFailureError();
+        //   const teacher = await teacherRepo.findOneById(req.userId);
+        //   if (!teacher) throw new AuthFailureError();
 
-          const roles = await roleRepo.findManyByIds(teacher.roles);
+        //   const roles = await roleRepo.findManyByIds(teacher.roles);
 
-          user = { ...teacher, roles };
-          break;
-        }
-        case END_USER_ENUM.PARENT: {
-          const parentRepo = new MongoParentRepo(connection, null);
+        //   user = { ...teacher, roles };
+        //   break;
+        // }
+        // case END_USER_ENUM.PARENT: {
+        //   const parentRepo = new MongoParentRepo(connection, null);
 
-          const parent = await parentRepo.findOneById(req.userId);
-          if (!parent) throw new AuthFailureError();
+        //   const parent = await parentRepo.findOneById(req.userId);
+        //   if (!parent) throw new AuthFailureError();
 
-          user = { ...parent, roles: [] };
-          break;
-        }
-        case END_USER_ENUM.STUDENT: {
-          const studentRepo = new MongoStudentRepo(connection, null);
+        //   user = { ...parent, roles: [] };
+        //   break;
+        // }
+        // case END_USER_ENUM.STUDENT: {
+        //   const studentRepo = new MongoStudentRepo(connection, null);
 
-          const student = await studentRepo.findOneById(req.userId);
-          if (!student) throw new AuthFailureError();
+        //   const student = await studentRepo.findOneById(req.userId);
+        //   if (!student) throw new AuthFailureError();
 
-          user = { ...student, roles: [] };
-          break;
-        }
+        //   user = { ...student, roles: [] };
+        //   break;
+        // }
+      ) {
       }
       if (!user.isActive)
         throw new AuthFailureError("authentication.invalidCredentials", {

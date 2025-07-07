@@ -7,6 +7,7 @@ import logger from "../../core/Logger";
 import { allMongoSchemas } from "../../database/mongo/allmongoSchema";
 import { StringUtils } from "../utils/StringUtils";
 import { School } from "./baseUser.entity";
+import { RandomUtils } from "../utils/RandomUtils";
 
 export type FileUploadPayload = {
   name: string;
@@ -34,7 +35,6 @@ export abstract class FileManager {
   private tenantName: string;
 
   constructor(
-    private conf: ConfigService,
     @inject("School") school: School,
     @inject("RandomUtils") private randomUtils: typeof RandomUtils
   ) {
@@ -57,7 +57,6 @@ export abstract class FileManager {
     filePayload: FileUploadPayload,
     filePath: string
   ): Promise<FileDetails> {
-    this.conf.
     const pathFileName = this.formatFileName(filePayload.name);
 
     const fullFilePath = this.generateFullFilePath(filePath, pathFileName);
@@ -77,7 +76,9 @@ export abstract class FileManager {
   }
 
   private generateFullFilePath(filePath: string, pathFileName: string): string {
-    return `/${environment}/${this.tenantName}/${filePath}/${pathFileName}`;
+    return `/${ConfigService.get("environment")}/${
+      this.tenantName
+    }/${filePath}/${pathFileName}`;
   }
 
   async uploadFiles(
@@ -251,7 +252,9 @@ export abstract class FileManager {
     )}_${randomSuffix}.${extension}`;
 
     const path = StringUtils.deleteSpaces(
-      `/${environment}/${schoolSubdomain}/${folderName}/${newNameWithExtension}`
+      `/${ConfigService.get(
+        "environment"
+      )}/${schoolSubdomain}/${folderName}/${newNameWithExtension}`
     );
 
     return path;
