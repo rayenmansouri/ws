@@ -3,7 +3,8 @@ import { TypedRequest } from "../types";
 import { asyncHandlerForMiddleware } from "./asyncHandler";
 import { AuthFailureError } from "../../ApplicationErrors";
 import { schoolDocStore } from "../../subdomainStore";
-import { getNewTenantConnection } from "../../../database/connectionDB/tenantPoolConnection";
+import { container } from "../../core/container/container";
+import { DatabaseManager } from "../../core/database/DatabaseManager";
 
 export const getTenantConnection = asyncHandlerForMiddleware(
   async (req: TypedRequest, _: Response, next: NextFunction) => {
@@ -13,8 +14,10 @@ export const getTenantConnection = asyncHandlerForMiddleware(
 
     if (!schoolSubdomain) throw new AuthFailureError();
 
-    const connection = await getNewTenantConnection(schoolSubdomain);
+    const dbManager = container.get(DatabaseManager);
+    const connection = await dbManager.getTenantConnection(schoolSubdomain);
     req.DBConnection = connection;
     next();
   }
 );
+

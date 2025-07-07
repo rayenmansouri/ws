@@ -1,3 +1,4 @@
+import { MongoDatabaseManager } from "./../database/MongoDatabaseConnection";
 import "reflect-metadata";
 import { ClientSession, Connection } from "mongoose";
 import { AdminRepo } from "../../feature/admins/domain/Admin.repo";
@@ -21,4 +22,5 @@ export type containerRegistry = {
   CounterRepo: CounterRepo;
   RoleRepo: RoleRepo;
   CountryRepo: CountryRepo;
+  IDatabaseManager: MongoDatabaseManager;
 };
