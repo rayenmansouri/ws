@@ -16,10 +16,10 @@ export class SubdomainVo {
    * [a-z0-9-]{3,63} : Allowed characters and length
    * (?<!-)$  : Must not end with a hyphen
    */
-  private static readonly SUBDOMAIN_REGEX =
+  public static readonly SUBDOMAIN_REGEX =
     /^(?!-)(?!.*--)[a-z0-9-]{3,63}(?<!-)$/i;
-  private static readonly MIN_LENGTH = 3;
-  private static readonly MAX_LENGTH = 63;
+  public static readonly MIN_LENGTH = 3;
+  public static readonly MAX_LENGTH = 63;
 
   private constructor(public readonly value: string) {
     this.validate(value);
