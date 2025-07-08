@@ -5,11 +5,14 @@ import { AuthFailureError } from "../../ApplicationErrors";
 import { schoolDocStore } from "../../subdomainStore";
 import { container } from "../../core/container/container";
 import { DatabaseManager } from "../../core/database/DatabaseManager";
+import { ConnectionStore } from "../../database/connectionStore";
 
 export const getTenantConnection = asyncHandlerForMiddleware(
   async (req: TypedRequest, _: Response, next: NextFunction) => {
     const tenantId = req.tenantId;
-    const schoolSubdomain = schoolDocStore[tenantId]?.subdomain;
+    const schoolSubdomain = ConnectionStore.instance.getTenantConnectionOrThrow(
+      tenantId.toString()
+    );
     req.school = schoolSubdomain;
 
     if (!schoolSubdomain) throw new AuthFailureError();
@@ -20,4 +23,3 @@ export const getTenantConnection = asyncHandlerForMiddleware(
     next();
   }
 );
-

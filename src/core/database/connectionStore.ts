@@ -1,9 +1,10 @@
+import { Guard } from "./../../shared/utils/Guards";
 import { Connection } from "mongoose";
 
-//singleton pattern
 export class ConnectionStore {
   private static _instance: ConnectionStore | null = null;
   private validTenants: Set<string> = new Set();
+  // key : subdomain , value : connection
   private connectionStore: Map<string, Connection> = new Map();
 
   private constructor() {}
@@ -16,26 +17,32 @@ export class ConnectionStore {
   }
 
   addTenant(subdomain: string): void {
+    Guard.againstEmptyString(subdomain, "subdomain");
     this.validTenants.add(subdomain);
   }
 
   removeTenant(subdomain: string): void {
+    Guard.againstEmptyString(subdomain, "subdomain");
     this.validTenants.delete(subdomain);
     this.connectionStore.delete(subdomain);
   }
 
   hasTenant(subdomain: string): boolean {
+    Guard.againstEmptyString(subdomain, "subdomain");
     return this.validTenants.has(subdomain);
   }
 
   setTenantConnection(subdomain: string, connection: Connection): void {
+    Guard.againstEmptyString(subdomain, "subdomain");
     this.connectionStore.set(subdomain, connection);
   }
 
   getTenantConnection(subdomain: string): Connection | undefined {
+    Guard.againstEmptyString(subdomain, "subdomain");
     return this.connectionStore.get(subdomain);
   }
   getTenantConnectionOrThrow(subdomain: string): Connection {
+    Guard.againstEmptyString(subdomain, "subdomain");
     const connection = this.connectionStore.get(subdomain);
     if (!connection) {
       throw new Error("Tenant connection not found");
@@ -44,6 +51,7 @@ export class ConnectionStore {
   }
 
   removeTenantConnection(subdomain: string): void {
+    Guard.againstEmptyString(subdomain, "subdomain");
     this.connectionStore.delete(subdomain);
   }
 

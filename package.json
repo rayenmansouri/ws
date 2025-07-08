@@ -13,7 +13,7 @@
     "serve": "node --trace-warnings dist/apps/main/server.js",
     "serve:sc": "node dist/apps/smart-calendar/server.js",
     "serve:backup": "node dist/apps/backup/server.js",
-    "build": "npm run clean && npm run buildRoutes && npm run build-ts",
+    "build": "./dotenvcrab --strict --json && npm run clean && npm run buildRoutes && npm run build-ts",
     "clean": "rm -rf ./dist",
     "build-ts": "tsc -p tsconfig.json",
     "eslint": "eslint",
