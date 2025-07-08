@@ -1,9 +1,5 @@
 import dotenv from "dotenv";
 import { TEnvironmentEnum, ENVIRONMENT_ENUM } from "./../enum";
-import dotenvSafe from "dotenv-safe";
-
-// verify and delete the dotenv package
-dotenvSafe.config();
 
 export class ConfigService {
   private static _instance: ConfigService | null = null;
