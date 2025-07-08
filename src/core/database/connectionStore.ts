@@ -1,3 +1,4 @@
+import { SubdomainVo } from "./../../shared/value-objects/Subdomain.vo";
 import { Guard } from "./../../shared/utils/Guards";
 import { Connection } from "mongoose";
 
@@ -16,43 +17,43 @@ export class ConnectionStore {
     return ConnectionStore._instance;
   }
 
-  addTenant(subdomain: string): void {
-    Guard.againstEmptyString(subdomain, "subdomain");
-    this.validTenants.add(subdomain);
+  addTenant(subdomain: SubdomainVo): void {
+    Guard.againstEmptyString(subdomain.toString(), "subdomain");
+    this.validTenants.add(subdomain.toString());
   }
 
-  removeTenant(subdomain: string): void {
-    Guard.againstEmptyString(subdomain, "subdomain");
-    this.validTenants.delete(subdomain);
-    this.connectionStore.delete(subdomain);
+  removeTenant(subdomain: SubdomainVo): void {
+    Guard.againstEmptyString(subdomain.toString(), "subdomain");
+    this.validTenants.delete(subdomain.toString());
+    this.connectionStore.delete(subdomain.toString());
   }
 
-  hasTenant(subdomain: string): boolean {
-    Guard.againstEmptyString(subdomain, "subdomain");
-    return this.validTenants.has(subdomain);
+  hasTenant(subdomain: SubdomainVo): boolean {
+    Guard.againstEmptyString(subdomain.toString(), "subdomain");
+    return this.validTenants.has(subdomain.toString());
   }
 
-  setTenantConnection(subdomain: string, connection: Connection): void {
-    Guard.againstEmptyString(subdomain, "subdomain");
-    this.connectionStore.set(subdomain, connection);
+  setTenantConnection(subdomain: SubdomainVo, connection: Connection): void {
+    Guard.againstEmptyString(subdomain.toString(), "subdomain");
+    this.connectionStore.set(subdomain.toString(), connection);
   }
 
-  getTenantConnection(subdomain: string): Connection | undefined {
-    Guard.againstEmptyString(subdomain, "subdomain");
-    return this.connectionStore.get(subdomain);
+  getTenantConnection(subdomain: SubdomainVo): Connection | undefined {
+    Guard.againstEmptyString(subdomain.toString(), "subdomain");
+    return this.connectionStore.get(subdomain.toString());
   }
-  getTenantConnectionOrThrow(subdomain: string): Connection {
-    Guard.againstEmptyString(subdomain, "subdomain");
-    const connection = this.connectionStore.get(subdomain);
+  getTenantConnectionOrThrow(subdomain: SubdomainVo): Connection {
+    Guard.againstEmptyString(subdomain.toString(), "subdomain");
+    const connection = this.connectionStore.get(subdomain.toString());
     if (!connection) {
       throw new Error("Tenant connection not found");
     }
     return connection;
   }
 
-  removeTenantConnection(subdomain: string): void {
-    Guard.againstEmptyString(subdomain, "subdomain");
-    this.connectionStore.delete(subdomain);
+  removeTenantConnection(subdomain: SubdomainVo): void {
+    Guard.againstEmptyString(subdomain.toString(), "subdomain");
+    this.connectionStore.delete(subdomain.toString());
   }
 
   clearTenants(): void {
@@ -60,7 +61,9 @@ export class ConnectionStore {
     this.connectionStore.clear();
   }
 
-  getAllTenants(): string[] {
-    return Array.from(this.validTenants);
+  getAllTenants(): SubdomainVo[] {
+    return Array.from(this.validTenants).map((subdomain) =>
+      SubdomainVo.create(subdomain)
+    );
   }
 }

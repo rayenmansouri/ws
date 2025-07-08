@@ -45,4 +45,7 @@ export class SubdomainVo {
       );
     }
   }
+  toString(): string {
+    return this.value;
+  }
 }
