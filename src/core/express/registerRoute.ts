@@ -1,3 +1,4 @@
+import { multiTenantAuthMiddleware } from "./middleware/multiTenantAuthMiddleware";
 import { ID } from "./../../shared/value-objects/ID.vo";
 // import * as Sentry from "@sentry/node";
 import { NextFunction, Response, Router } from "express";
@@ -175,7 +176,7 @@ export const registerRoute =
     const router = getRouter(routeConfig.platform, routeConfig.endUser);
 
     //@ts-expect-error - This is needed because the TypedRequest type is not compatible with the express Request type
-    router[routeConfig.method](routeConfig.path, ...middlewares);
+    router[routeConfig.method](routeConfig.path, ...multiTenantAuthMiddleware);
   };
 
 const getRouter = (

@@ -7,6 +7,8 @@ export class BaseUser extends BaseEntity {
   protected _lastName: string;
   protected _email: string;
   protected _avatar: FileUploadPayload;
+  protected _isActive: boolean;
+  protected _passwordChangedAt: Date | null;
 
   constructor(props: {
     id: ID;
@@ -14,12 +16,16 @@ export class BaseUser extends BaseEntity {
     lastName: string;
     email: string;
     avatar: FileUploadPayload;
+    isActive: boolean;
+    passwordChangedAt: Date | null;
   }) {
     super({ id: props.id, newId: props.firstName });
     this._firstName = props.firstName;
     this._lastName = props.lastName;
     this._email = props.email;
     this._avatar = props.avatar;
+    this._isActive = props.isActive;
+    this._passwordChangedAt = props.passwordChangedAt ?? null;
   }
 
   get firstName(): string {
@@ -54,5 +60,21 @@ export class BaseUser extends BaseEntity {
 
   set email(value: string) {
     this._email = value;
+  }
+
+  get isActive(): boolean {
+    return this._isActive;
+  }
+
+  set isActive(value: boolean) {
+    this._isActive = value;
+  }
+
+  get passwordChangedAt(): Date | null {
+    return this._passwordChangedAt;
+  }
+
+  set passwordChangedAt(value: Date | null) {
+    this._passwordChangedAt = value;
   }
 }

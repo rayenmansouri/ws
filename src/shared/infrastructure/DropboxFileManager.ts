@@ -1,13 +1,6 @@
 import { ENVIRONMENT_ENUM } from "../enum";
 import axios, { AxiosError } from "axios";
 import { injectable } from "inversify";
-import {
-  dropboxAppKey,
-  dropboxAppSecret,
-  dropboxBaseUri,
-  dropboxRefreshToken,
-  dropboxShareUri,
-} from "../../config";
 
 import { InternalError } from "../../core/ApplicationErrors";
 import {
@@ -15,13 +8,14 @@ import {
   FileUploadPayload,
   FileDetails,
 } from "../domain/FileManager";
+import { ConfigService } from "../config/ConfigService";
 
 @injectable()
 export class DropboxFileManager extends FileManager {
   async listSubDirectories(path: string): Promise<string[]> {
     const accessToken = await this.refreshAccessToken();
     const res = await axios.post(
-      `${dropboxShareUri}/2/files/list_folder`,
+      `${ConfigService.get("dropboxShareUri")}/2/files/list_folder`,
       {
         include_deleted: false,
         include_has_explicit_shared_members: false,
@@ -52,7 +46,7 @@ export class DropboxFileManager extends FileManager {
     const entries = filePath.map((publicId) => ({ path: publicId }));
 
     await axios.post(
-      `${dropboxShareUri}/2/files/delete_batch`,
+      `${ConfigService.get("dropboxShareUri")}/2/files/delete_batch`,
       { entries },
       {
         headers: {
@@ -67,7 +61,7 @@ export class DropboxFileManager extends FileManager {
     if (process.env.NODE_ENV === ENVIRONMENT_ENUM.TEST) return;
     const accessToken = await this.refreshAccessToken();
     await axios.post(
-      `${dropboxShareUri}/2/files/delete_v2`,
+      `${ConfigService.get("dropboxShareUri")}/2/files/delete_v2`,
       { path: folderPath },
       {
         headers: {
@@ -85,7 +79,7 @@ export class DropboxFileManager extends FileManager {
     const accessToken = await this.refreshAccessToken();
 
     await axios.post<{ path_lower: string; id: string; path_display: string }>(
-      `${dropboxBaseUri}/2/files/upload`,
+      `${ConfigService.get("dropboxBaseUri")}/2/files/upload`,
       filePayload.buffer,
       {
         headers: {
@@ -103,7 +97,9 @@ export class DropboxFileManager extends FileManager {
 
     const link: string = (
       await axios.post<{ url: string }>(
-        `${dropboxShareUri}/2/sharing/create_shared_link_with_settings`,
+        `${ConfigService.get(
+          "dropboxShareUri"
+        )}/2/sharing/create_shared_link_with_settings`,
         {
           path: filePath,
           settings: {
@@ -128,10 +124,16 @@ export class DropboxFileManager extends FileManager {
 
   private async refreshAccessToken(): Promise<string> {
     const accessToken = Buffer.from(
-      `${dropboxAppKey}:${dropboxAppSecret}`
+      `${ConfigService.get("dropboxAppKey")}:${ConfigService.get(
+        "dropboxAppSecret"
+      )}`
     ).toString("base64");
     const response = await axios.post<{ access_token: string }>(
-      `${dropboxShareUri}/oauth2/token?grant_type=refresh_token&refresh_token=${dropboxRefreshToken}`,
+      `${ConfigService.get(
+        "dropboxShareUri"
+      )}/oauth2/token?grant_type=refresh_token&refresh_token=${ConfigService.get(
+        "dropboxRefreshToken"
+      )}`,
       null,
       {
         headers: {
@@ -205,7 +207,9 @@ export class DropboxFileManager extends FileManager {
     sessionNumber: number
   ): Promise<string[]> {
     const startBatch = await axios.post<{ session_ids: string[] }>(
-      `${dropboxShareUri}/2/files/upload_session/start_batch`,
+      `${ConfigService.get(
+        "dropboxShareUri"
+      )}/2/files/upload_session/start_batch`,
       { num_sessions: sessionNumber, session_type: "concurrent" },
       {
         headers: {
@@ -224,7 +228,7 @@ export class DropboxFileManager extends FileManager {
     sessionId: string
   ): Promise<void> {
     await axios.post(
-      `${dropboxBaseUri}/2/files/upload_session/append_v2`,
+      `${ConfigService.get("dropboxBaseUri")}/2/files/upload_session/append_v2`,
       buffer,
       {
         headers: {
@@ -249,7 +253,9 @@ export class DropboxFileManager extends FileManager {
     const batchEntries = await axios.post<{
       entries: { path_lower: string; id: string }[];
     }>(
-      `${dropboxShareUri}/2/files/upload_session/finish_batch_v2`,
+      `${ConfigService.get(
+        "dropboxShareUri"
+      )}/2/files/upload_session/finish_batch_v2`,
       { entries },
       {
         headers: {
@@ -267,7 +273,9 @@ export class DropboxFileManager extends FileManager {
     path: string
   ): Promise<string> {
     const response = await axios.post<{ url: string }>(
-      `${dropboxShareUri}/2/sharing/create_shared_link_with_settings`,
+      `${ConfigService.get(
+        "dropboxShareUri"
+      )}/2/sharing/create_shared_link_with_settings`,
       {
         path,
         settings: {

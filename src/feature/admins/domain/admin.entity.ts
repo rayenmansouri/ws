@@ -4,33 +4,32 @@ import { GenerateMetaData } from "../../../core/populateTypes";
 import { FileUploadPayload } from "../../../shared/domain/FileManager";
 
 export class Admin extends BaseUser {
-  private _isImpersonation: boolean;
-
   constructor({
+    id,
     firstName,
     lastName,
-    isImpersonation,
     avatar,
     email,
+    isActive,
+    passwordChangedAt,
   }: {
+    id: ID;
     firstName: string;
     lastName: string;
-    isImpersonation: boolean;
+    isActive: boolean;
     avatar: FileUploadPayload;
     email: string;
+    passwordChangedAt: Date | null;
   }) {
     super({
-      id: ID.create(""),
+      id,
       firstName,
       lastName,
       email,
       avatar,
+      isActive,
+      passwordChangedAt,
     });
-    this._isImpersonation = isImpersonation;
-  }
-
-  get isImpersonation(): boolean {
-    return this._isImpersonation;
   }
 
   get firstName(): string {

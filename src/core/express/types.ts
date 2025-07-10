@@ -1,21 +1,21 @@
-import { BaseUser } from "./../../shared/domain/baseUser.entity";
-import { ID } from "./../../shared/value-objects/ID.vo";
+import { NextFunction, Request, Response } from "express";
 import { Connection } from "mongoose";
+import { ZodObject, ZodTypeAny } from "zod";
 import { TActionsEnum, TResourcesEnum } from "../../constants/ActionsResource";
 import { TEndUserEnum } from "../../constants/globalEnums";
-import { TypedContainer } from "../container/TypedContainer";
-import { UploadOptions } from "./middlewares/upload";
 import { TLanguageEnum } from "../../translation/constants";
 import { FilesInRequest } from "../../types/app-request";
 import { OmitFromEnum, PickFromEnum } from "../../types/utils/enums.util";
+import { TypedContainer } from "../container/TypedContainer";
+import { BaseUser } from "./../../shared/domain/baseUser.entity";
+import { ID } from "./../../shared/value-objects/ID.vo";
 import { BaseController } from "./controllers/BaseController";
-import { NextFunction, Request, Response } from "express";
-import { ZodObject, ZodTypeAny } from "zod";
+import { UploadOptions } from "./middlewares/upload";
 
 // import { Role } from "../../feature/authorization/domain/role.entity";
 
 export type Middleware = (
-  req: TypedRequest<TypedRequestOptions>,
+  req: TypedRequest,
   res: Response,
   next: NextFunction
 ) => Promise<void> | void;
@@ -122,3 +122,12 @@ export type RouteConfiguration<
           options?: UploadOptions;
         };
       });
+
+export const VALIDATION_SOURCE = {
+  BODY: "body",
+  HEADER: "headers",
+  QUERY: "query",
+  PARAM: "params",
+} as const;
+export type TValidationSourceEnum =
+  (typeof VALIDATION_SOURCE)[keyof typeof VALIDATION_SOURCE];

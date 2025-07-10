@@ -2,8 +2,9 @@ import {
   BadRequestError,
   payloadToLargeError,
 } from "../../core/ApplicationErrors";
-import { MAX_FILE_SIZE_IN_MB } from "../../core/express/middlewares/upload";
 import { APIErrorResponse } from "../../core/responseAPI/APIErrorResponse";
+
+export const MAX_FILE_SIZE_IN_MB = 2;
 
 export interface ErrorExtended extends Error {
   code?: number;

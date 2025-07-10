@@ -7,7 +7,7 @@ import { BadRequestError } from "../../core/ApplicationErrors";
 import {
   TValidationSourceEnum,
   VALIDATION_SOURCE,
-} from "../../core/express/middlewares/validateSchema";
+} from "../../core/express/types";
 import Logger from "../../core/Logger";
 import { ID } from "../value-objects/ID.vo";
 

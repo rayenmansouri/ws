@@ -8,6 +8,7 @@ import { allMongoSchemas } from "../../database/mongo/allmongoSchema";
 import { StringUtils } from "../utils/StringUtils";
 import { School } from "./baseUser.entity";
 import { RandomUtils } from "../utils/RandomUtils";
+import { SubdomainVo } from "../value-objects/Subdomain.vo";
 
 export type FileUploadPayload = {
   name: string;
@@ -35,10 +36,10 @@ export abstract class FileManager {
   private tenantName: string;
 
   constructor(
-    @inject("School") school: School,
+    @inject("Country") country: Country,
     @inject("RandomUtils") private randomUtils: typeof RandomUtils
   ) {
-    this.tenantName = school.subdomain;
+    this.tenantName = country.subdomain;
   }
 
   protected abstract deleteDirectory(folderPath: string): Promise<void>;
@@ -110,7 +111,7 @@ export abstract class FileManager {
   async uploadVideosFile(
     filePayload: FileUploadPayload[],
     filePath: keyof typeof allMongoSchemas,
-    tenantId: string
+    subdomain: SubdomainVo
   ): Promise<VideoDetails[]> {
     const isEveryFileVideo = filePayload.every((file) =>
       FileManager.isVideoFile(file.mimetype)
@@ -120,7 +121,7 @@ export abstract class FileManager {
 
     const filePaths = FileManager.generateFilePaths(
       filePayload,
-      tenantId,
+      subdomain,
       filePath
     );
     const uploadedVideo = await this.uploadFiles(filePayload, filePaths);
@@ -219,7 +220,7 @@ export abstract class FileManager {
 
   static generateFilePaths(
     files: FileUploadPayload[],
-    tenantId: string,
+    subdomain: SubdomainVo,
     folderName: string
   ): string[] {
     const paths: string[] = [];
@@ -227,7 +228,7 @@ export abstract class FileManager {
     files.forEach((file) => {
       const uniquePath = this.generateUniquePath(
         file.name,
-        tenantId,
+        subdomain,
         folderName
       );
       paths.push(uniquePath);
@@ -238,10 +239,10 @@ export abstract class FileManager {
 
   static generateUniquePath = (
     fileName: string,
-    tenantId: string,
+    subdomain: SubdomainVo,
     folderName: string
   ): string => {
-    const schoolSubdomain = this.sc;
+    const schoolSubdomain = subdomain.value;
     const originalname = StringUtils.removeArabicLetters(fileName);
     const extension = originalname.split(".").pop();
     const randomSuffix = `${new Date().getTime()}${Math.random() * 10000}`;

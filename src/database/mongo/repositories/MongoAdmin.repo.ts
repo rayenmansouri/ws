@@ -1,16 +1,25 @@
-import { ID } from "./../../../shared/value-objects/ID.vo";
 import { ClientSession, Connection, FilterQuery } from "mongoose";
 import { inject } from "../../../core/container/TypedContainer";
-import { AdminMetaData } from "../../../feature/admins/domain/admin.entity";
-import { AdminRepo } from "../../../feature/admins/domain/Admin.repo";
+import {
+  Admin,
+  AdminMetaData,
+} from "../../../feature/admins/domain/admin.entity";
+import {
+  AdminMapper,
+  AdminPersistence,
+} from "../../../feature/admins/mappers/Admin.mapper";
 import { ListOptions } from "../../../types/types";
 import { ResponseWithPagination } from "../types";
+import { ID } from "./../../../shared/value-objects/ID.vo";
 import { MongoBaseRepo } from "./MongoBase.repo";
 
-export class MongoAdminRepo
-  extends MongoBaseRepo<AdminMetaData>
-  implements AdminRepo
-{
+export class MongoAdminRepo extends MongoBaseRepo<
+  Admin,
+  AdminPersistence,
+  AdminMetaData
+> {
+  protected toDomain = AdminMapper.toDomain;
+
   constructor(
     @inject("Connection") connection: Connection,
     @inject("Session") session: ClientSession | null
@@ -21,9 +30,9 @@ export class MongoAdminRepo
   async listAdmins(
     filter: { search?: string; isArchived?: boolean },
     options: ListOptions
-  ): Promise<ResponseWithPagination<AdminMetaData["entity"]>> {
-    const filterQuery: FilterQuery<AdminMetaData["entity"]> = {
-      isImpersonation: false,
+  ): Promise<ResponseWithPagination<Admin>> {
+    const filterQuery: FilterQuery<AdminPersistence> = {
+      isActive: true,
     };
 
     if (filter.search) {
@@ -42,6 +51,7 @@ export class MongoAdminRepo
       { ...filterQuery, isArchived: filter.isArchived === true ? true : false },
       options
     );
+    response.docs = response.docs.map((doc) => this.toDomain(doc));
 
     return response;
   }
@@ -49,12 +59,11 @@ export class MongoAdminRepo
   async findManyByFullNameAndIds(
     fullName: string,
     ids: ID[]
-  ): Promise<AdminMetaData["entity"][]> {
+  ): Promise<Admin[]> {
     const admins = await this.model.find({
       _id: { $in: ids },
       fullName: { $regex: fullName, $options: "i" },
-      isArchived: false,
-      isImpersonation: false,
+      isActive: true,
     });
     return admins;
   }
@@ -68,17 +77,16 @@ export class MongoAdminRepo
   }
 
   async findImpersonatedAdmin(): Promise<AdminMetaData["entity"] | null> {
-    return await this.model.findOne({ isImpersonation: true });
+    return await this.model.findOne({ isActive: true });
   }
 
   async getAdminsCountExcludingArchivedAndImpersonated(): Promise<number> {
-    return this.model.count({ isArchived: false, isImpersonation: false });
+    return this.model.count({ isActive: true });
   }
   async findManyByRoleIds(roleIds: ID[]): Promise<AdminMetaData["entity"][]> {
     return this.model.find({
       roles: { $in: roleIds },
-      isImpersonation: false,
-      isArchived: false,
+      isActive: true,
     });
   }
 }

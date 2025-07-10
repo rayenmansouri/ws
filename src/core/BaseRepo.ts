@@ -1,3 +1,4 @@
+import { BasePersistence } from "./../shared/domain/basePersistence";
 import { injectable, unmanaged } from "inversify";
 import { TranslationPaths } from "../translation/translationKeys";
 import { RemoveNull } from "../types/utils";
@@ -9,7 +10,11 @@ import { Populate } from "./populateTypes";
 import { CounterRepo } from "../feature/counter/domain/Counter.repo";
 
 @injectable()
-export abstract class BaseRepo<MetaData extends EntityMetaData<BaseEntity>> {
+export abstract class BaseRepo<
+  TDomain extends BaseEntity,
+  TPersistence extends BasePersistence,
+  MetaData extends EntityMetaData<TDomain>
+> {
   constructor(@unmanaged() private counterRepo: CounterRepo) {}
 
   abstract findOneByNewId<
@@ -116,13 +121,9 @@ export abstract class BaseRepo<MetaData extends EntityMetaData<BaseEntity>> {
     populate?: FieldsToPopulate[];
   }): Promise<Populate<MetaData, FieldsToPopulate>[]>;
 
-  protected abstract baseAddOne(
-    payload: MetaData["entity"]
-  ): Promise<MetaData["entity"]>;
+  protected abstract baseAddOne(payload: TPersistence): Promise<TDomain>;
 
-  async addOne(
-    payload: Omit<MetaData["entity"], keyof BaseEntity>
-  ): Promise<MetaData["entity"]> {
+  async addOne(payload: TPersistence): Promise<TDomain> {
     const newId = await this.counterRepo.incrementAndGet();
 
     const currentTime = new Date();
@@ -136,7 +137,7 @@ export abstract class BaseRepo<MetaData extends EntityMetaData<BaseEntity>> {
     const entity = await this.baseAddOne({
       ...payload,
       ...baseEntity,
-    } as MetaData["entity"]);
+    });
 
     return entity;
   }

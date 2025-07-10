@@ -1,9 +1,12 @@
+import { TypedRequest } from "./../types";
 import { NextFunction, Response } from "express";
-import { Middleware, TypedRequest } from "../types";
+import { Middleware } from "../types";
 import { ApplicationError } from "../../ApplicationErrors";
 import { APIErrorResponse } from "../../responseAPI/APIErrorResponse";
 
-export const asyncHandlerForMiddleware = (middleware: Middleware): Middleware => {
+export const asyncHandlerForMiddleware = (
+  middleware: Middleware
+): Middleware => {
   return async (req: TypedRequest, res: Response, next: NextFunction) => {
     try {
       await middleware(req, res, next);

@@ -3,6 +3,9 @@ import { Connection } from "mongoose";
 import { TLanguageEnum } from "../translation/constants";
 import { BaseUser } from "./../shared/domain/baseUser.entity";
 import { ID } from "./../shared/value-objects/ID.vo";
+import { SubdomainVo } from "../shared/value-objects/Subdomain.vo";
+import { OmitFromEnum } from "./../types/utils/enums.util";
+import { TEndUserEnum } from "./../constants/globalEnums";
 
 export interface File {
   fieldname: string;
@@ -26,17 +29,21 @@ export interface ProtectedRequestOptions {
   files?: FilesInRequest<string>;
 }
 
+export interface JwtPayload {
+  tenantId: string;
+  countrySubdomain: string;
+  userType: OmitFromEnum<TEndUserEnum, "master">;
+  iat: number;
+}
+
 export interface BaseProtectedRequest extends Request {
   user: Omit<BaseUser, "roles"> /*& { roles: Role[] };*/;
+  userType: OmitFromEnum<TEndUserEnum, "master">;
   conn: Connection;
-  newConnection: Connection;
   tenantId: ID;
-  schoolTimeZone: string;
-  userId: string;
+  countrySubdomain: SubdomainVo;
   tokenExpires: number;
-  id: string;
   language: TLanguageEnum;
-  school: string;
 }
 
 export type DefaultRequestOptions = {

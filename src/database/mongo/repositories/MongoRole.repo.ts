@@ -1,3 +1,5 @@
+import { RoleMapper } from "./../../../feature/authorization/mappers/Role.mapper";
+import { mongoRoleModel } from "./../schemas/role.schema";
 import { ClientSession, Connection, FilterQuery } from "mongoose";
 import {
   TActionsEnum,
@@ -6,24 +8,26 @@ import {
 import { END_USER_ENUM, TEndUserEnum } from "../../../constants/globalEnums";
 import { InternalError, NotFoundError } from "../../../core/ApplicationErrors";
 import { inject } from "../../../core/container/TypedContainer";
-import {
-  Role,
-  RoleMetaData,
-  SUPER_ADMIN_ROLE,
-} from "../../../feature/authorization/domain/role.entity";
+import { SUPER_ADMIN_ROLE } from "../../../feature/authorization/domain/role.entity";
 import { RoleRepo } from "../../../feature/authorization/domain/Role.repo";
 import { RoleService } from "../../../feature/authorization/domain/Role.service";
 import { ID } from "../../../shared/value-objects/ID.vo";
 import { TLanguageEnum } from "../../../translation/constants";
 import { ListOptions } from "../../../types/types";
 import { ResponseWithPagination } from "../types";
-import { mongoRoleModel } from "./../schemas/role.schema";
+import {
+  Role,
+  RoleMetaData,
+} from "./../../../feature/authorization/domain/role.entity";
 import { MongoMasterBaseRepo } from "./MongoMasterBase.repo";
+import { RolePersistence } from "../../../feature/authorization/mappers/Role.mapper";
 
 export class MongoRoleRepo
-  extends MongoMasterBaseRepo<RoleMetaData>
+  extends MongoMasterBaseRepo<Role, RolePersistence, RoleMetaData>
   implements RoleRepo
 {
+  protected toDomain = RoleMapper.toDomain;
+
   constructor(
     @inject("MasterConnection") connection: Connection,
     @inject("Session") session: ClientSession | null

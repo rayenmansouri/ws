@@ -1,5 +1,3 @@
-import { ID } from "../value-objects/ID.vo";
-
 export class Guard {
   static againstNullOrUndefined(value: unknown, argumentName: string): void {
     if (value === null || value === undefined) {
@@ -13,11 +11,6 @@ export class Guard {
     }
   }
 
-  static againstInvalidObjectId(value: string, argumentName: string): void {
-    if (!ID.isValid(value)) {
-      throw new Error(`${argumentName} is not a valid MongoDB ObjectId`);
-    }
-  }
   static againstEmptyArray(value: unknown[], argumentName: string): void {
     if (value.length === 0) {
       throw new Error(`${argumentName} is empty`);

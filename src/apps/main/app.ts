@@ -3,7 +3,7 @@ import express from "express";
 import { NotFoundError } from "../../core/ApplicationErrors";
 import { default as Logger, default as logger } from "../../core/Logger";
 import "../../core/sentry";
-import { globalErrorHandlerMiddleware } from "./../../core/express/middlewares/errorHandler";
+import { ErrorHandlerMiddleware } from "../../core/express/middlewares/errorHandler";
 // import routes from "./index.routes";
 
 process.on("uncaughtException", (e) => {
@@ -25,6 +25,6 @@ app.use((req, _, next) => {
   next(new NotFoundError("Path not found"));
 });
 
-app.use(globalErrorHandlerMiddleware);
+app.use(ErrorHandlerMiddleware.handle);
 
 export default app;

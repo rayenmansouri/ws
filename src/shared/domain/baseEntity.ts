@@ -13,7 +13,6 @@ export abstract class BaseEntity {
     createdAt?: Date;
     updatedAt?: Date;
   }) {
-    Guard.againstInvalidObjectId(props.id.toString(), "Invalid id");
     Guard.againstEmptyString(props.newId, "Invalid newId");
     if (props.createdAt)
       Guard.againstInvalidDate(props.createdAt, "Invalid createdAt");

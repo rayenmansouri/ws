@@ -1,3 +1,4 @@
+import { BasePersistence } from "./../../../shared/domain/basePersistence";
 import { ID } from "./../../../shared/value-objects/ID.vo";
 import { EntityMetaData } from "./../../../shared/domain/EntityMetadata.type";
 import { injectable, unmanaged } from "inversify";
@@ -20,16 +21,20 @@ import { BaseEntity } from "../../../shared/domain/baseEntity";
 
 @injectable()
 export abstract class MongoBaseRepo<
-  MetaData extends EntityMetaData<BaseEntity>
-> extends BaseRepo<MetaData> {
-  protected model: Model<MetaData["entity"]>;
+  TDomain extends BaseEntity,
+  TPersistence extends BasePersistence,
+  MetaData extends EntityMetaData<TDomain>
+> extends BaseRepo<TDomain, TPersistence, MetaData> {
+  protected model: Model<TPersistence>;
+
+  protected abstract toDomain: (document: TPersistence) => TDomain;
 
   constructor(
     @unmanaged() connection: Connection,
     @unmanaged() entityName: keyof typeof allMongoSchemas,
     @unmanaged() protected session: ClientSession | null
   ) {
-    const model = connection.model(entityName) as Model<MetaData["entity"]>;
+    const model = connection.model<TPersistence>(entityName);
     const counterRepo = new MongoCounterRepo(connection, model.collection.name);
     super(counterRepo);
     this.model = model;
@@ -125,14 +130,14 @@ export abstract class MongoBaseRepo<
     return entity as Populate<MetaData, FieldsToPopulate>[];
   }
 
-  protected async baseAddOne(
-    payload: MetaData["entity"]
-  ): Promise<MetaData["entity"]> {
+  protected async baseAddOne(payload: TPersistence): Promise<TDomain> {
     const entity = (
-      await this.model.create([payload], { session: this.session || undefined })
+      await this.model.create([payload], {
+        session: this.session || undefined,
+      })
     )[0].toObject();
 
-    return entity;
+    return this.toDomain(entity);
   }
 
   protected async baseAddMany(payload: MetaData["entity"][]): Promise<void> {
@@ -151,22 +156,24 @@ export abstract class MongoBaseRepo<
 
     const entity = await query;
 
-    return entity;
+    return entity ? this.toDomain(entity) : null;
   }
 
   protected async baseUpdateOneById(
     id: ID,
-    payload: Partial<MetaData["entity"]>
-  ): Promise<MetaData["entity"] | null> {
-    return await this.model.findOneAndUpdate({ _id: id }, payload, {
+    payload: Partial<TPersistence>
+  ): Promise<TDomain> {
+    const entity = await this.model.findOneAndUpdate({ _id: id }, payload, {
       session: this.session || undefined,
       new: true,
     });
+
+    return this.toDomain(entity as TPersistence);
   }
 
   protected async baseUpdateOneByNewId(
     newId: string,
-    payload: Partial<MetaData["entity"]>
+    payload: Partial<TPersistence>
   ): Promise<void> {
     await this.model.findOneAndUpdate({ newId }, payload, {
       session: this.session || undefined,
