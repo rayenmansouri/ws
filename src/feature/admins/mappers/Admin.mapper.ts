@@ -1,27 +1,30 @@
-import { BasePersistence } from "./../../../shared/domain/basePersistence";
+import { TLanguageEnum } from "../../../translation/constants";
+import { Role } from "../../authorization/domain/role.entity";
 import { Admin } from "../domain/admin.entity";
-import { ID } from "../../../shared/value-objects/ID.vo";
-import { FileUploadPayload } from "../../../shared/domain/FileManager";
-
-export interface AdminPersistence extends BasePersistence {
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatar: FileUploadPayload;
-  isActive?: boolean;
-  passwordChangedAt?: Date | null;
-}
+import { AdminDTO } from "../dtos/Admin.dto";
 
 export class AdminMapper {
-  static toDomain(raw: AdminPersistence): Admin {
-    return new Admin({
-      id: ID.create(raw._id),
-      firstName: raw.firstName,
-      lastName: raw.lastName,
-      email: raw.email,
-      avatar: raw.avatar,
-      isActive: raw.isActive ?? true,
-      passwordChangedAt: raw.passwordChangedAt ?? null,
-    });
+  static toDTO(admin: Admin, roles: Role[], language: TLanguageEnum): AdminDTO {
+    return {
+      _id: admin._id,
+      newId: admin.newId,
+      firstName: admin.firstName,
+      lastName: admin.lastName,
+      fullName: admin.fullName,
+      gender: admin.gender,
+      email: admin.email,
+      phoneNumber: admin.phoneNumber,
+      address1: admin.address1,
+      address2: admin.address2,
+      avatar: admin.avatar.link,
+      birthDate: admin.birthDate,
+      roles: roles.map(role => ({
+        _id: role._id,
+        newId: role.newId,
+        name: role.translation[language],
+      })),
+      isArchived: admin.isArchived,
+      isActive: admin.isActive,
+    };
   }
 }

@@ -1,0 +1,12 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- when never I ask from you to create api routes you should use this command which already add the boilerplate code for the routes `ws route create -f FEATURE_NAME -u USER_TYPE -p PLATFORM ROUTENAME`
+- user type can either be admin, student, parent, teacher, public
+- platform either web or mobile.
+- you should also update the files generated from the CLI correctly like updating the path, importing the use case and calling it in the controller, ect.
+- you should update the files in this order exactly, .validations.ts, .route.ts, .types.ts, .controller.ts
+- we always use camelCase for route names.
+- you can use git commands in terminal to check the created files by the CLI and their paths

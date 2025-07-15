@@ -162,6 +162,7 @@ export const arabicTranslation: TranslationObject = {
     cannotTeacherThisSubjectType: "المعلم لا يمكنه تدريس هذا النوع من المواد",
     cannotTeachInThisLevel: "المعلم لا يمكنه التدريس في هذا المستوى",
     teacherAlreadyAssigned: "المعلم معين بالفعل",
+    salary: "راتب المعلمين",
     notAssignedToSubject: "المعلم غير معين لهذه المادة",
     cannotTeacherThisGroupType: "المعلم لا يمكنه تدريس هذا النوع من المجموعة",
   },
@@ -181,6 +182,8 @@ export const arabicTranslation: TranslationObject = {
   },
   services: {
     isUsed: "لا يمكن حذف الخدمة لأنها مستخدمة في الفواتير المدفوعة",
+    doesNotHaveAmount: "الخدمة لا تحتوي على مبلغ",
+    maxDefaultServicesReached: "تم الوصول إلى الحد الأقصى للخدمات الافتراضية",
   },
   supplier: {
     addedSuccessfully: "تمت إضافة المورد بنجاح",
@@ -281,6 +284,7 @@ export const arabicTranslation: TranslationObject = {
     alreadyPublished: "الفصل منشور بالفعل",
     notPublished: "الفصل غير منشور",
     annual: "السنوي",
+    previousTermsNeedToBeUncompleted: "يجب إلغاء الفصول السابقة قبل إلغاء هذا الفصل",
   },
   invalid: {
     classType: "نوع الصف غير صالح",
@@ -417,6 +421,15 @@ export const arabicTranslation: TranslationObject = {
       "لا يمكن دفع فاتورة مدمجة في فاتورة أخرى بشكل منفصل.",
     transactionReferenceAlreadyExists: "مرجع المعاملة موجود بالفعل",
     salaryCannotBeNegative: "لا يمكن أن يكون الراتب سالبًا.",
+    cannotBePrinted: "لا يمكن طباعة الفاتورة.",
+    cannotBeMerged: "لا يمكن دمج الفاتورة.",
+    cannotBeUnMerged: "لا يمكن إلغاء دمج الفاتورة.",
+    cannotBeUnPaid: "لا يمكن إلغاء دفع الفاتورة.",
+    cannotDeleteAllSplitWithExistingPaidSplits:
+      "لا يمكن حذف جميع الدفعات مع وجود دفعات مدفوعة بالفعل.",
+    cannotBeUpdated: "لا يمكن تحديث الفاتورة.",
+    splitsAmountNotValid: "مجموع الدفعات غير صالح.",
+    splitsCountNotValid: "عدد الدفعات غير صالح.",
   },
   missing: {
     avatar: "الصورة الرمزية مفقودة",
@@ -498,5 +511,13 @@ export const arabicTranslation: TranslationObject = {
   signatures: {
     addedSuccessfully: "تمت إضافة التوقيع بنجاح",
     deletedSuccessfully: "تم حذف التوقيع بنجاح",
+  },
+  post: {
+    addedSuccessfully: "تمت إضافة المنشور بنجاح",
+    updatedSuccessfully: "تم تحديث المنشور بنجاح",
+    commentsNotAllowed: "لا يمكنك إضافة تعليق على هذا المنشور",
+    commentAddedSuccessfully: "تمت إضافة التعليق بنجاح",
+    maximumPinnedPostsReached: "لقد وصلت إلى عدد المنشورات المثقفة الأقصى",
+    deletedSuccessfully: "تم حذف المنشور بنجاح",
   },
 };

@@ -149,6 +149,7 @@ export const englishTranslation: TranslationObject = {
     updatedSuccessfully: "Parent updated successfully",
   },
   teacher: {
+    salary: "Teacher salary",
     cannotTeacherThisSubjectType: "Teacher cannot teach this subject type",
     cannotTeachInThisLevel: "Teacher cannot teach in this level",
     teacherAlreadyAssigned: "Teacher already assigned to this class",
@@ -183,6 +184,8 @@ export const englishTranslation: TranslationObject = {
   },
   services: {
     isUsed: "Service can't be deleted because it is used in paid invoices",
+    doesNotHaveAmount: "Service does not have amount",
+    maxDefaultServicesReached: "You have reached the maximum number of default services",
   },
   supplier: {
     addedSuccessfully: "Supplier added successfully",
@@ -286,6 +289,8 @@ export const englishTranslation: TranslationObject = {
     alreadyPublished: "Term is already published",
     notPublished: "Term is not published",
     annual: "Annual",
+    previousTermsNeedToBeUncompleted:
+      "Previous terms need to be uncompleted before completing this term",
   },
   invalid: {
     teacher: "Teacher is invalid",
@@ -423,6 +428,15 @@ export const englishTranslation: TranslationObject = {
       "Cannot pay an invoice that is merged into another invoice individually.",
     transactionReferenceAlreadyExists: "Transaction reference already exists",
     salaryCannotBeNegative: "Salary cannot be negative.",
+    cannotBePrinted: "Invoice cannot be printed.",
+    cannotBeMerged: "Invoice cannot be merged.",
+    cannotBeUnMerged: "Invoice cannot be unmerged.",
+    cannotBeUnPaid: "Invoice cannot be unpaid.",
+    cannotDeleteAllSplitWithExistingPaidSplits:
+      "Cannot delete all splits with existing paid splits.",
+    cannotBeUpdated: "Invoice cannot be updated.",
+    splitsAmountNotValid: "Splits amount is not valid.",
+    splitsCountNotValid: "Splits count is not valid.",
   },
   missing: {
     avatar: "Avatar is missing",
@@ -501,5 +515,13 @@ export const englishTranslation: TranslationObject = {
   signatures: {
     addedSuccessfully: "Signature added successfully",
     deletedSuccessfully: "Signature deleted successfully",
+  },
+  post: {
+    addedSuccessfully: "Post added successfully",
+    updatedSuccessfully: "Post updated successfully",
+    commentsNotAllowed: "You cannot add a comment to this post",
+    commentAddedSuccessfully: "Comment added successfully",
+    maximumPinnedPostsReached: "You have reached the maximum number of pinned posts",
+    deletedSuccessfully: "Post deleted successfully",
   },
 };

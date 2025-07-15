@@ -1,0 +1,8 @@
+coverage/
+keys/
+logs/
+node_modules/
+*.md
+**/container.ts
+registerUseCases.ts
+registerUseRepos.ts

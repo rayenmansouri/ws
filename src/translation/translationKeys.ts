@@ -28,7 +28,6 @@ export type TranslationObject = {
   classGroup: {
     notBelongToThisClass: string;
   };
-
   chapter: {
     classTypeOrTopicWithGroupTypeRequired: string;
   };
@@ -202,6 +201,7 @@ export type TranslationObject = {
     cannotRemoveLevelWithClasses: string;
     alreadyPaid: string;
     notPaid: string;
+    salary: string;
     notAssignedToSubject: string;
   };
   admin: {
@@ -258,6 +258,8 @@ export type TranslationObject = {
   };
   services: {
     isUsed: string;
+    doesNotHaveAmount: string;
+    maxDefaultServicesReached: string;
   };
   diploma: {
     addedSuccessfully: string;
@@ -302,6 +304,7 @@ export type TranslationObject = {
     alreadyPublished: string;
     notPublished: string;
     annual: string;
+    previousTermsNeedToBeUncompleted: string;
   };
   invalid: {
     teacher: string;
@@ -421,10 +424,18 @@ export type TranslationObject = {
     paymentSplitIndexOutOfRange: string;
     invalidPaymentMethodForSplitPayment: string;
     invoiceAlreadyPaid: string;
+    cannotDeleteAllSplitWithExistingPaidSplits: string;
+    cannotBePrinted: string;
     splitAlreadyPaid: string;
     cannotPayInvoiceThatIsMergedIntoAnotherInvoice: string;
     transactionReferenceAlreadyExists: string;
     salaryCannotBeNegative: string;
+    cannotBeMerged: string;
+    cannotBeUnMerged: string;
+    cannotBeUnPaid: string;
+    cannotBeUpdated: string;
+    splitsAmountNotValid: string;
+    splitsCountNotValid: string;
   };
   missing: {
     avatar: string;
@@ -464,7 +475,6 @@ export type TranslationObject = {
     deletePreRegistrationSuccess: string;
     preRegistrationDeletionPolicy: string;
   };
-
   smartCalendar: {
     activityAddedSuccessfully: string;
     activityUpdatedSuccessfully: string;
@@ -491,6 +501,14 @@ export type TranslationObject = {
   };
   signatures: {
     addedSuccessfully: string;
+    deletedSuccessfully: string;
+  };
+  post: {
+    addedSuccessfully: string;
+    updatedSuccessfully: string;
+    commentsNotAllowed: string;
+    commentAddedSuccessfully: string;
+    maximumPinnedPostsReached: string;
     deletedSuccessfully: string;
   };
 };

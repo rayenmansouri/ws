@@ -1,15 +1,8 @@
-import { ENVIRONMENT_ENUM, TEnvironmentEnum } from "./../shared/enum";
 import pino from "pino";
+import { ENVIRONMENT_ENUM, TEnvironmentEnum } from "../helpers/constants";
 import { environment } from "../config";
 
-type logLevels =
-  | "trace"
-  | "debug"
-  | "info"
-  | "warn"
-  | "error"
-  | "fatal"
-  | "silent";
+type logLevels = "trace" | "debug" | "info" | "warn" | "error" | "fatal" | "silent";
 
 const environmentLogLevels: Record<TEnvironmentEnum, logLevels> = {
   [ENVIRONMENT_ENUM.LOCAL]: "trace",
@@ -44,12 +37,10 @@ const logger = pino(
   {
     base: undefined,
     timestamp: () =>
-      `, "time" : "${new Date().toLocaleString("en-GB", {
-        timeZone: "Africa/Tunis",
-      })}"`,
+      `, "time" : "${new Date().toLocaleString("en-GB", { timeZone: "Africa/Tunis" })}"`,
     level: environmentLogLevels[environment],
   },
-  transports
+  transports,
 );
 
 export default logger;

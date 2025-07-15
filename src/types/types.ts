@@ -1,6 +1,7 @@
 export type ListOptions = {
-  limit: number | undefined;
-  page: number | undefined;
+  limit?: number;
+  page?: number;
+  skipPagination?: true;
 };
 
 export type OnlyOne<T> = {

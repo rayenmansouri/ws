@@ -1,0 +1,7 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+You should add the translation of errors in the corresponding files [translationKeys.ts](mdc:src/translation/translationKeys.ts) [arabic.ts](mdc:src/translation/arabic.ts) [english.ts](mdc:src/translation/english.ts) [french.ts](mdc:src/translation/french.ts)
+Only add the translation of the keys you've added, don't edit/delete already existing keys. NEVER

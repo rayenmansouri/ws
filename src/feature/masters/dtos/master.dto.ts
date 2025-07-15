@@ -1,4 +1,4 @@
-import { ID } from "../../../shared/value-objects/ID.vo";
+import { ID } from "../../../types/BaseEntity";
 
 export type MasterDTO = {
   _id: ID;

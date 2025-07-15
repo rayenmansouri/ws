@@ -1,11 +1,17 @@
 import { Request } from "express";
+import * as core from "express-serve-static-core";
 import { Connection } from "mongoose";
 import { TLanguageEnum } from "../translation/constants";
-import { BaseUser } from "./../shared/domain/baseUser.entity";
-import { ID } from "./../shared/value-objects/ID.vo";
-import { SubdomainVo } from "../shared/value-objects/Subdomain.vo";
-import { OmitFromEnum } from "./../types/utils/enums.util";
-import { TEndUserEnum } from "./../constants/globalEnums";
+import { IUser } from "./entities";
+import { BaseUser } from "../feature/users/domain/baseUser.entity";
+import { ID } from "./BaseEntity";
+import { Role } from "../feature/authorization/domain/role.entity";
+
+export interface PublicRequest<T = unknown> extends Request<core.ParamsDictionary, unknown, T> {
+  user: IUser;
+  conn: Connection;
+  tenantId: string;
+}
 
 export interface File {
   fieldname: string;
@@ -29,21 +35,17 @@ export interface ProtectedRequestOptions {
   files?: FilesInRequest<string>;
 }
 
-export interface JwtPayload {
-  tenantId: string;
-  countrySubdomain: string;
-  userType: OmitFromEnum<TEndUserEnum, "master">;
-  iat: number;
-}
-
 export interface BaseProtectedRequest extends Request {
-  user: Omit<BaseUser, "roles"> /*& { roles: Role[] };*/;
-  userType: OmitFromEnum<TEndUserEnum, "master">;
+  user: Omit<BaseUser, "roles"> & { roles: Role[] };
   conn: Connection;
+  newConnection: Connection;
   tenantId: ID;
-  countrySubdomain: SubdomainVo;
+  schoolTimeZone: string;
+  userId: string;
   tokenExpires: number;
+  id: string;
   language: TLanguageEnum;
+  school: string;
 }
 
 export type DefaultRequestOptions = {
@@ -53,6 +55,5 @@ export type DefaultRequestOptions = {
   files: never;
 };
 
-export type ProtectedRequest<
-  Options extends ProtectedRequestOptions = DefaultRequestOptions
-> = Omit<BaseProtectedRequest, "body" | "params" | "query" | "files"> & Options;
+export type ProtectedRequest<Options extends ProtectedRequestOptions = DefaultRequestOptions> =
+  Omit<BaseProtectedRequest, "body" | "params" | "query" | "files"> & Options;

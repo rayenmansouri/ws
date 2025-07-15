@@ -1,5 +1,7 @@
-import { PickFromEnum } from "../types/utils/enums.util";
 import { omit } from "lodash";
+import { PickFromEnum } from "../types/utils/enums.util";
+
+export const NO_SPACE_REGEX = /^\S+$/;
 
 export const END_USER_ENUM = {
   ADMIN: "admin",
@@ -15,7 +17,4 @@ export type TEndUserWithoutMasterEnums =
 
 export type TEndUserEnum = (typeof END_USER_ENUM)[keyof typeof END_USER_ENUM];
 
-export type TEndAdministrationUserEnums = PickFromEnum<
-  TEndUserEnum,
-  "teacher" | "admin"
->;
+export type TEndAdministrationUserEnums = PickFromEnum<TEndUserEnum, "teacher" | "admin">;

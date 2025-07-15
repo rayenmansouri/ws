@@ -1,0 +1,4 @@
+export const enum SendNotificationToUsersTranslationKeysEnum {
+  SEND_NOTIFICATION_TO_USERS_RESPONSE = "SEND_NOTIFICATION_TO_USERS_RESPONSE",
+  USER_NOT_FOUND = "USER_NOT_FOUND",
+}

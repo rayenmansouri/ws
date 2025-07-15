@@ -1,0 +1,14 @@
+duplicates=$(sort src/core/container/registerUseCases.ts | uniq -d)
+if [ -n "$duplicates" ]; then
+  echo "Error: Found duplicate lines in registerUseCases.ts:"
+  echo "$duplicates \n"
+  exit 1
+else
+  echo "No duplicates found in registerUseCases.ts"
+fi
+
+npm run build-ts
+
+cd webschool-types
+npm run build
+# npm run test

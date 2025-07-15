@@ -1,39 +1,28 @@
-import { BasePersistence } from "./../shared/domain/basePersistence";
 import { injectable, unmanaged } from "inversify";
+import { CounterRepo } from "../feature/counter/counter.repo";
 import { TranslationPaths } from "../translation/translationKeys";
-import { RemoveNull } from "../types/utils";
-import { BaseEntity } from "./../shared/domain/baseEntity";
-import { EntityMetaData } from "./../shared/domain/EntityMetadata.type";
-import { ID } from "./../shared/value-objects/ID.vo";
-import { BadRequestError, NotFoundError } from "./ApplicationErrors";
 import { Populate } from "./populateTypes";
-import { CounterRepo } from "../feature/counter/domain/Counter.repo";
+import { BadRequestError, NotFoundError } from "./ApplicationErrors";
+import { BaseEntity, EntityMetaData, ID } from "../types/BaseEntity";
+import { RemoveNull } from "../types/utils";
 
 @injectable()
-export abstract class BaseRepo<
-  TDomain extends BaseEntity,
-  TPersistence extends BasePersistence,
-  MetaData extends EntityMetaData<TDomain>
-> {
+export abstract class BaseRepo<MetaData extends EntityMetaData> {
   constructor(@unmanaged() private counterRepo: CounterRepo) {}
-
-  abstract findOneByNewId<
-    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
-  >(
+  abstract getRandomId(): ID;
+  abstract findOneByNewId<FieldsToPopulate extends keyof MetaData["populatedFields"] = never>(
     newId: string,
     options?: {
       populate?: FieldsToPopulate[];
-    }
+    },
   ): Promise<Populate<MetaData, FieldsToPopulate> | null>;
 
-  async findOneByNewIdOrThrow<
-    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
-  >(
+  async findOneByNewIdOrThrow<FieldsToPopulate extends keyof MetaData["populatedFields"] = never>(
     newId: string,
     message: TranslationPaths,
     options?: {
       populate?: FieldsToPopulate[];
-    }
+    },
   ): Promise<Populate<MetaData, FieldsToPopulate>> {
     const entity = await this.findOneByNewId(newId, options);
 
@@ -42,23 +31,19 @@ export abstract class BaseRepo<
     return entity;
   }
 
-  abstract findOneById<
-    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
-  >(
+  abstract findOneById<FieldsToPopulate extends keyof MetaData["populatedFields"] = never>(
     id: ID,
     options?: {
       populate?: FieldsToPopulate[];
-    }
+    },
   ): Promise<Populate<MetaData, FieldsToPopulate> | null>;
 
-  async findOneByIdOrThrow<
-    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
-  >(
+  async findOneByIdOrThrow<FieldsToPopulate extends keyof MetaData["populatedFields"] = never>(
     id: ID,
     message: TranslationPaths,
     options?: {
       populate?: FieldsToPopulate[];
-    }
+    },
   ): Promise<Populate<MetaData, FieldsToPopulate>> {
     const entity = await this.findOneById(id, options);
 
@@ -67,23 +52,19 @@ export abstract class BaseRepo<
     return entity;
   }
 
-  abstract findManyByNewIds<
-    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
-  >(
+  abstract findManyByNewIds<FieldsToPopulate extends keyof MetaData["populatedFields"] = never>(
     newIds: string[],
     options?: {
       populate?: FieldsToPopulate[];
-    }
+    },
   ): Promise<Populate<MetaData, FieldsToPopulate>[]>;
 
-  async findManyByNewIdsOrThrow<
-    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
-  >(
+  async findManyByNewIdsOrThrow<FieldsToPopulate extends keyof MetaData["populatedFields"] = never>(
     newIds: string[],
     message: TranslationPaths,
     options?: {
       populate?: FieldsToPopulate[];
-    }
+    },
   ): Promise<Populate<MetaData, FieldsToPopulate>[]> {
     const entities = await this.findManyByNewIds(newIds, options);
 
@@ -92,21 +73,17 @@ export abstract class BaseRepo<
     return entities;
   }
 
-  abstract findManyByIds<
-    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
-  >(
+  abstract findManyByIds<FieldsToPopulate extends keyof MetaData["populatedFields"] = never>(
     ids: ID[],
     options?: {
       populate?: FieldsToPopulate[];
-    }
+    },
   ): Promise<Populate<MetaData, FieldsToPopulate>[]>;
 
-  async findManyByIdsOrThrow<
-    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
-  >(
+  async findManyByIdsOrThrow<FieldsToPopulate extends keyof MetaData["populatedFields"] = never>(
     ids: ID[],
     message: TranslationPaths,
-    options?: { populate?: FieldsToPopulate[] }
+    options?: { populate?: FieldsToPopulate[] },
   ): Promise<Populate<MetaData, FieldsToPopulate>[]> {
     const entities = await this.findManyByIds(ids, options);
 
@@ -115,20 +92,18 @@ export abstract class BaseRepo<
     return entities;
   }
 
-  abstract findAll<
-    FieldsToPopulate extends keyof MetaData["populatedFields"] = never
-  >(options?: {
+  abstract findAll<FieldsToPopulate extends keyof MetaData["populatedFields"] = never>(options?: {
     populate?: FieldsToPopulate[];
   }): Promise<Populate<MetaData, FieldsToPopulate>[]>;
 
-  protected abstract baseAddOne(payload: TPersistence): Promise<TDomain>;
+  protected abstract baseAddOne(payload: MetaData["entity"]): Promise<MetaData["entity"]>;
 
-  async addOne(payload: TPersistence): Promise<TDomain> {
+  async addOne(payload: Omit<MetaData["entity"], keyof BaseEntity>): Promise<MetaData["entity"]> {
     const newId = await this.counterRepo.incrementAndGet();
 
     const currentTime = new Date();
 
-    const baseEntity: Omit<BaseEntity, "id"> = {
+    const baseEntity: Omit<BaseEntity, "_id"> = {
       newId: this.counterRepo.formatNewId(newId),
       updatedAt: currentTime,
       createdAt: currentTime,
@@ -137,21 +112,19 @@ export abstract class BaseRepo<
     const entity = await this.baseAddOne({
       ...payload,
       ...baseEntity,
-    });
+    } as MetaData["entity"]);
 
     return entity;
   }
 
   protected abstract baseAddMany(payload: MetaData["entity"][]): Promise<void>;
 
-  async addMany(
-    payload: Omit<MetaData["entity"], keyof BaseEntity>[]
-  ): Promise<void> {
+  async addMany(payload: Omit<MetaData["entity"], keyof BaseEntity>[]): Promise<void> {
     const currentTime = new Date();
 
     const currentCount = await this.counterRepo.getCurrentCount();
 
-    const baseEntities: Omit<BaseEntity, "id" | "newId"> = {
+    const baseEntities: Omit<BaseEntity, "_id" | "newId"> = {
       updatedAt: currentTime,
       createdAt: currentTime,
     };
@@ -163,8 +136,8 @@ export abstract class BaseRepo<
             ...entity,
             ...baseEntities,
             newId: this.counterRepo.formatNewId(currentCount + index + 1),
-          } as MetaData["entity"])
-      )
+          } as MetaData["entity"]),
+      ),
     );
 
     await this.counterRepo.incrementByValue(payload.length);
@@ -172,70 +145,52 @@ export abstract class BaseRepo<
 
   protected abstract baseUpdateOneById(
     id: ID,
-    payload: Partial<MetaData["entity"]>
+    payload: Partial<MetaData["entity"]>,
   ): Promise<MetaData["entity"] | null>;
 
   async updateOneById(
     id: ID,
-    payload: Partial<MetaData["entity"]>
+    payload: Partial<MetaData["entity"]>,
   ): Promise<MetaData["entity"] | null> {
-    return await this.baseUpdateOneById(id, {
-      ...payload,
-      updatedAt: new Date(),
-    });
+    return await this.baseUpdateOneById(id, { ...payload, updatedAt: new Date() });
   }
 
   protected abstract baseUpdateOneByNewId(
     newId: string,
-    payload: Partial<MetaData["entity"]>
+    payload: Partial<MetaData["entity"]>,
   ): Promise<void>;
 
-  async updateOneByNewId(
-    newId: string,
-    payload: Partial<MetaData["entity"]>
-  ): Promise<void> {
-    await this.baseUpdateOneByNewId(newId, {
-      ...payload,
-      updatedAt: new Date(),
-    });
+  async updateOneByNewId(newId: string, payload: Partial<MetaData["entity"]>): Promise<void> {
+    await this.baseUpdateOneByNewId(newId, { ...payload, updatedAt: new Date() });
   }
 
   protected abstract baseUpdateManyByNewIds(
     newId: string[],
-    payload: Partial<MetaData["entity"]>
+    payload: Partial<MetaData["entity"]>,
   ): Promise<void>;
 
-  async updateManyByNewId(
-    newId: string[],
-    payload: Partial<MetaData["entity"]>
-  ): Promise<void> {
-    await this.baseUpdateManyByNewIds(newId, {
-      ...payload,
-      updatedAt: new Date(),
-    });
+  async updateManyByNewId(newId: string[], payload: Partial<MetaData["entity"]>): Promise<void> {
+    await this.baseUpdateManyByNewIds(newId, { ...payload, updatedAt: new Date() });
   }
 
   protected abstract baseUpdateManyByIds(
     ids: ID[],
-    payload: Partial<MetaData["entity"]>
+    payload: Partial<MetaData["entity"]>,
   ): Promise<void>;
 
-  async updateManyByIds(
-    ids: ID[],
-    payload: Partial<MetaData["entity"]>
-  ): Promise<void> {
+  async updateManyByIds(ids: ID[], payload: Partial<MetaData["entity"]>): Promise<void> {
     await this.baseUpdateManyByIds(ids, { ...payload, updatedAt: new Date() });
   }
 
   protected abstract findOneByField<T extends keyof MetaData["entity"]>(
     field: T,
-    value: MetaData["entity"][T]
+    value: MetaData["entity"][T],
   ): Promise<MetaData["entity"] | null>;
 
   async ensureFieldUniqueness<T extends keyof MetaData["entity"]>(
     field: T,
     value: RemoveNull<MetaData["entity"][T]>,
-    message: TranslationPaths
+    message: TranslationPaths,
   ): Promise<void> {
     const entity = await this.findOneByField(field, value);
 
@@ -246,7 +201,7 @@ export abstract class BaseRepo<
 
   abstract deleteManyByIds(ids: ID[]): Promise<void>;
 
-  abstract deleteOneByNewId(newId: ID): Promise<void>;
+  abstract deleteOneByNewId(newId: string): Promise<void>;
 
-  abstract deleteManyByNewIds(newIds: ID[]): Promise<void>;
+  abstract deleteManyByNewIds(newIds: string[]): Promise<void>;
 }

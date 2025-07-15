@@ -1,8 +1,6 @@
-import { ResponseWithPagination } from "../database/mongo/types";
+import { ResponseWithPagination } from "../newDatabase/mongo/types";
 
-export const EMPTY_RESPONSE_WITH_PAGINATION = <
-  T
->(): ResponseWithPagination<T> => ({
+export const EMPTY_RESPONSE_WITH_PAGINATION = <T>(): ResponseWithPagination<T> => ({
   docs: [],
   meta: {
     hasMore: false,

@@ -155,6 +155,7 @@ export const frenchTranslation: TranslationObject = {
     updatedSuccessfully: "Parent mis à jour avec succès",
   },
   teacher: {
+    salary: "Salaire de l'enseignant",
     teacherAlreadyAssigned: "L'enseignant est déjà affecté à cette classe",
     cannotTeacherThisSubjectType: "L'enseignant ne peut pas enseigner ce type de matière",
     cannotTeachInThisLevel: "L'enseignant ne peut pas enseigner dans ce niveau",
@@ -191,6 +192,8 @@ export const frenchTranslation: TranslationObject = {
   },
   services: {
     isUsed: "Le service ne peut pas être supprimé car il est utilisé dans des factures payées",
+    doesNotHaveAmount: "Le service n'a pas de montant",
+    maxDefaultServicesReached: "Le nombre maximum de services par défaut a été atteint",
   },
   supplier: {
     addedSuccessfully: "Fournisseur ajouté avec succès",
@@ -277,6 +280,8 @@ export const frenchTranslation: TranslationObject = {
     alreadyPublished: "Le terme est déjà publié",
     notPublished: "Le terme n'est pas publié",
     annual: "Annuel",
+    previousTermsNeedToBeUncompleted:
+      "Les termes précédents doivent être annulés avant d'annuler ce terme",
   },
   invalid: {
     teacher: "L'enseignant est invalide",
@@ -441,6 +446,15 @@ export const frenchTranslation: TranslationObject = {
       "Impossible de payer une facture fusionnée avec une autre individuellement.",
     transactionReferenceAlreadyExists: "La référence de la transaction existe déjà",
     salaryCannotBeNegative: "Le salaire ne peut pas être négatif.",
+    cannotBePrinted: "La facture ne peut pas être imprimée.",
+    cannotBeMerged: "La facture ne peut pas être fusionnée.",
+    cannotBeUnMerged: "La facture ne peut pas être annulée.",
+    cannotBeUnPaid: "La facture ne peut pas être annulée.",
+    cannotDeleteAllSplitWithExistingPaidSplits:
+      "Impossible de supprimer toutes les répartitions avec des répartitions payées existantes.",
+    cannotBeUpdated: "La facture ne peut pas être mise à jour.",
+    splitsAmountNotValid: "Le montant des répartitions n'est pas valide.",
+    splitsCountNotValid: "Le nombre de répartitions n'est pas valide.",
   },
   missing: {
     avatar: "L'avatar est manquant",
@@ -521,5 +535,13 @@ export const frenchTranslation: TranslationObject = {
   signatures: {
     addedSuccessfully: "Signature ajoutée avec succès",
     deletedSuccessfully: "Signature supprimée avec succès",
+  },
+  post: {
+    addedSuccessfully: "Post ajouté avec succès",
+    updatedSuccessfully: "Post mis à jour avec succès",
+    commentsNotAllowed: "Vous ne pouvez pas ajouter de commentaire à ce post",
+    commentAddedSuccessfully: "Commentaire ajouté avec succès",
+    maximumPinnedPostsReached: "Vous avez atteint le nombre maximum de posts épinglés",
+    deletedSuccessfully: "Post supprimé avec succès",
   },
 };

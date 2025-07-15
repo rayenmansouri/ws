@@ -22,5 +22,5 @@ export const getTenantConnectionForPublicRoutes = asyncHandlerForMiddleware(
     req.DBConnection = connection;
 
     next();
-  }
+  },
 );

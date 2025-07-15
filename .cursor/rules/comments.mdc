@@ -1,0 +1,8 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- Don't write a comment that tells exactly what the code is doing
+- Comments should only be used when dealing with a lot of complexity and when the code can't express itself.
+- Comments should tell why not how

@@ -1,0 +1,9 @@
+node_modules/
+src/
+.husky/
+.gitlab-ci.yml
+autoIncrement.sh
+
+.DS_Store
+tsconfig.json
+tsup.config.ts

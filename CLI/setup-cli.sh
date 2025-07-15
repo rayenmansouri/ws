@@ -1,6 +1,6 @@
 #!/bin/bash
 current_directory=$(pwd)
-suffix="iecd-backend/CLI"
+suffix="web-school/CLI"
 
 if [[ $current_directory != *"$suffix" ]]; then
   echo "Setup script should be executed only from its own directory"

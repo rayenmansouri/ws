@@ -1,0 +1,9 @@
+k8s/
+dist/
+node_modules/
+README.md
+**/logs/
+backups/
+nginx/logs
+fetFiles/
+fetResults/
