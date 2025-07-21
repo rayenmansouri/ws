@@ -29,7 +29,7 @@
     //   "*": ["node_modules/*", "src/types/*"]
     // }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "seeders/**/*.ts"],
   "exclude": [
     ".templates",
     "src/__tests__/**/*",

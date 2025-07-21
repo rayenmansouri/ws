@@ -6,7 +6,7 @@ import { defaultAvatar, TGenderEnum } from "../../users/domain/baseUser.entity";
 import { ID } from "../../../types/BaseEntity";
 import { RoleRepo } from "../../authorization/domain/Role.repo";
 
-type AddMasterUseCaseRequest = {
+export type AddMasterUseCaseRequest = {
   firstName: string;
   lastName: string;
   gender: TGenderEnum;
