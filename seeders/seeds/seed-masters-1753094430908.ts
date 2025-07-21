@@ -1,4 +1,5 @@
 import { SUPER_ADMIN_ROLE } from "../../src/feature/authorization/domain/role.entity";
+import { HashingHelper } from "../../src/helpers/HashUtils";
 import { mongoMasterModel } from "../../src/newDatabase/mongo/schemas/master.schema";
 import { mongoRoleModel } from "../../src/newDatabase/mongo/schemas/role.schema";
 import { ISeeder } from "../interface";
@@ -22,6 +23,7 @@ export default class SeedMasters implements ISeeder {
     async seed(): Promise<void> {
         console.log("seeding masters");
         for (const master of this.masters) {
+            const hashedPassword = await HashingHelper.generateHash(master.password);
             const role = await mongoRoleModel.findOne({
                 name:SUPER_ADMIN_ROLE
             });
@@ -30,6 +32,7 @@ export default class SeedMasters implements ISeeder {
             }
             await mongoMasterModel.create({
                 ...master,
+                password:hashedPassword,
                 roles:[role._id]
             });
         }

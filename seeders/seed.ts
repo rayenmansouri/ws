@@ -44,4 +44,5 @@ async function seedAll(){
 
 connectToMasterDatabase().then(async () => {
     await seedAll();
+    process.exit(0);
 }).catch(console.error);
