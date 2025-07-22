@@ -2,6 +2,7 @@ import { GenerateMetaData } from "../../../core/populateTypes";
 import { BaseEntity } from "../../../types/BaseEntity";
 import { IFile } from "../../sessionManagement/domain/session.entity";
 import { TFeatureFlagsEnum } from "../constants/featureFlags";
+import { SchoolSystemEnum } from "../enums";
 
 export type School = {
   name: string;
@@ -38,6 +39,7 @@ export type School = {
     days: number[];
   };
   totalSmsSold: number;
+  schoolSystem: SchoolSystemEnum;
 } & BaseEntity;
 
 export const EDUCATION_DEPARTMENT_ENUM = {

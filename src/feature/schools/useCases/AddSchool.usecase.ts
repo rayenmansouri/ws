@@ -18,6 +18,8 @@ import {
 } from "../domain/school.entity";
 import { SchoolRepo } from "../domain/School.repo";
 import { container } from "../../../core/container/container";
+import { SchoolSystemEnum } from "../enums";
+import { schoolFactory } from "../school-factory/school-factory";
 
 export const DEFAULT_SCHOOL_COVER =
   "https://www.dropbox.com/scl/fi/g5546zpfg8henqyubvknc/school_cover.jpg?rlkey=dshwm08ga8uyjhwr1p8c41x8u&st=53g103mq&dl=0&raw=1";
@@ -38,6 +40,7 @@ type AddSchoolUseCaseRequest = {
   enableEmail: boolean;
   educationDepartment: TEducationDepartmentEnum;
   instanceType: TInstanceTypeEnum;
+  schoolSystem: SchoolSystemEnum;
 };
 
 @injectable()
@@ -51,6 +54,8 @@ export class AddSchoolUseCase {
       payload.subdomain,
       "alreadyUsed.subdomain",
     );
+
+    const schoolSystem = schoolFactory(payload.schoolSystem);
 
     const school = await this.schoolRepo.addOne({
       name: payload.name,
@@ -69,11 +74,10 @@ export class AddSchoolUseCase {
       instanceType: payload.instanceType,
       gradeBookTheme: payload.gradeBookTheme,
       cover: DEFAULT_SCHOOL_COVER,
-      currency: "TND",
       forceCloseSessionDelayInMin: 30,
       openSessionAdvanceInMin: 30,
       openSessionDelayInMin: 30,
-      timeZone: "Africa/Tunis",
+      ...schoolSystem.getPayload(), //it should be fine 
       featureFlags: {
         [FEATURE_FLAGS_ENUM.MESSAGES]: true,
         [FEATURE_FLAGS_ENUM.ANNOUNCEMENTS]: true,
@@ -93,6 +97,7 @@ export class AddSchoolUseCase {
       },
       totalSmsSold: 0,
       notAvailableTimes: [],
+      schoolSystem: payload.schoolSystem,
     });
 
     addSchoolToGlobalStore(school);

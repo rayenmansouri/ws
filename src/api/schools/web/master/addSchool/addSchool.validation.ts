@@ -5,6 +5,7 @@ import {
   GRADE_REPORT_THEM_ENUM,
   INSTANCE_TYPE_ENUM,
 } from "../../../../../feature/schools/domain/school.entity";
+import { SchoolSystemEnum } from "../../../../../feature/schools/enums";
 
 const body = z.object({
   name: z.string(),
@@ -22,6 +23,7 @@ const body = z.object({
   enableEmail: z.boolean(),
   educationDepartment: z.nativeEnum(EDUCATION_DEPARTMENT_ENUM),
   instanceType: z.nativeEnum(INSTANCE_TYPE_ENUM),
+  schoolSystem: z.nativeEnum(SchoolSystemEnum),
 });
 type TBody = z.infer<typeof body>;
 
