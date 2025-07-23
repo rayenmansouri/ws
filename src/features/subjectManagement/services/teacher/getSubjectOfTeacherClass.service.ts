@@ -4,10 +4,7 @@ import { crudRepo } from "../../../../database/repositories/crud.repo";
 import { ITeacherProfile } from "../../../../database/schema/pedagogy/Profile/teacherProfile.schema";
 import { IClass } from "../../../../database/schema/pedagogy/class/class.schema";
 import { populateInterface } from "../../../../database/types";
-import {
-  TOPIC_TYPE_ENUM,
-  TTopicTypeEnum,
-} from "../../../../feature/examGrade/domain/tunisian/ExamGrade.entity";
+import { TOPIC_TYPE_ENUM, TTopicTypeEnum } from "../../../../helpers/constants";
 import { Group } from "../../../../feature/groupManagement/domains/group.entity";
 import { isIdsEqual } from "../../../../helpers/functionsUtils";
 import { PickFromEnum } from "../../../../types/utils/enums.util";

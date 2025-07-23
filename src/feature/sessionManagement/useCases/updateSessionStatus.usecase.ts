@@ -1,11 +1,9 @@
 import { injectable } from "inversify";
+import { BadRequestError } from "../../../core/ApplicationErrors";
 import { inject } from "../../../core/container/TypedContainer";
 import { getCurrentTimeOfSchool } from "../../../core/getCurrentTimeOfSchool";
-import { BadRequestError } from "../../../core/ApplicationErrors";
 import { TSessionStatusEnum } from "../../../database/schema/pedagogy/session/session.schema";
-import { HOMEWORK_STATUS_ENUM } from "../../../features/homework/constants/shared/addHomework.constants";
 import { ID } from "../../../types/BaseEntity";
-import { HomeworkRepo } from "../../homeworks/domain/Homework.repo";
 import { SessionRepo } from "../domain/Session.repo";
 import { SessionService } from "../domain/Session.service";
 import { StartSessionUseCase } from "./startSession.usecase";
@@ -26,7 +24,6 @@ export type UpdateSessionStatusUseCaseResponse = {
 export class UpdateSessionStatusUseCase {
   constructor(
     @inject("SessionRepo") private readonly sessionRepo: SessionRepo,
-    @inject("HomeworkRepo") private readonly homeworkRepo: HomeworkRepo,
     @inject("StartSessionUseCase") private readonly startSessionUseCase: StartSessionUseCase,
   ) {}
 
@@ -74,11 +71,6 @@ export class UpdateSessionStatusUseCase {
           attendence: attendance,
           closeTime: getCurrentTimeOfSchool(dto.tenantId),
         });
-
-        await this.homeworkRepo.updateManyByIds(
-          [...session.homeworkGiven, ...session.homeworkToDo],
-          { status: HOMEWORK_STATUS_ENUM.DONE },
-        );
       }
     }
 

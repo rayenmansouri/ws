@@ -18,8 +18,6 @@ export const mongoSessionSchema = createMongoSchema<Session>({
   files: [fileSchema],
   notes: [{ title: String, text: String }],
   sessionSummary: String,
-  homeworkGiven: [{ type: Types.ObjectId, ref: "homework" }],
-  homeworkToDo: [{ type: Types.ObjectId, ref: "homework" }],
   status: { type: String },
   launchTime: Date,
   closeTime: Date,

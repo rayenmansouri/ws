@@ -10,7 +10,6 @@ import { ClassRepo } from "../../classes/domain/Class.repo";
 import { ClassroomRepo } from "../../classrooms/domains/classroom.repo";
 import { EntityMapper } from "../../entity/mapper/entity.mapper";
 import { SchoolYearRepo } from "../../schoolYears/domain/SchoolYear.repo";
-import { TeacherPaymentConfigurationRepo } from "../../teacherPayment/domain/TeacherPaymentConfiguration.repo";
 import { TeacherRepo } from "../domain/Teacher.repo";
 import { TeacherProfileRepo } from "../domain/TeacherProfile.repo";
 import { TeacherProfileDTO } from "../dtos/TeacherProfile.dto";
@@ -26,8 +25,6 @@ export type getTeacherProfileRequestDto = {
 export class GetTeacherProfileUsecase {
   constructor(
     @inject("TeacherRepo") private teacherRepo: TeacherRepo,
-    @inject("TeacherPaymentConfigurationRepo")
-    private teacherPaymentConfigurationRepo: TeacherPaymentConfigurationRepo,
     @inject("TeacherProfileRepo") private teacherProfileRepo: TeacherProfileRepo,
     @inject("ClassRepo") private classRepo: ClassRepo,
     @inject("Language") private language: TLanguageEnum,
@@ -64,9 +61,7 @@ export class GetTeacherProfileUsecase {
       const schoolYear = await this.schoolYearRepo.findOneByIdOrThrow(
         dto.schoolYearId,
         "notFound.schoolYear",
-        {
-          populate: ["level"],
-        },
+        { populate: ["level"] },
       );
 
       selectedSchoolYear = SchoolYearMapper.toSchoolYearDto(schoolYear);
@@ -78,9 +73,6 @@ export class GetTeacherProfileUsecase {
       teacher._id,
       schoolYearIds,
     );
-
-    const teacherPaymentConfiguration =
-      await this.teacherPaymentConfigurationRepo.findOneByTeacherId(teacher._id);
 
     const classIds = teacherProfiles.flatMap(profile => profile.classes);
 
@@ -119,7 +111,7 @@ export class GetTeacherProfileUsecase {
       classes: classes.map(classDoc => ClassMapper.toClassDto(classDoc)),
       subjectTypes: teacher.subjectTypes.map(subjectType => EntityMapper.toEntityDto(subjectType)),
       groupTypes: teacher.groupTypes.map(groupType => EntityMapper.toEntityDto(groupType)),
-      isPaymentConfigured: !!teacherPaymentConfiguration,
+      isPaymentConfigured: true,
       topics: [...teacher.subjectTypes, ...teacher.groupTypes].map(topic =>
         EntityMapper.toEntityDto(topic),
       ),

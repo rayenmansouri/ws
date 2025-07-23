@@ -9,7 +9,7 @@ import { OmitFromEnum } from "../../../types/utils/enums.util";
 import { ClassRepo } from "../../classes/domain/Class.repo";
 import { ClassGroupRepo } from "../../classes/domain/classGroup.repo";
 import { ClassroomRepo } from "../../classrooms/domains/classroom.repo";
-import { TOPIC_TYPE_ENUM, TTopicTypeEnum } from "../../examGrade/domain/tunisian/ExamGrade.entity";
+import { TOPIC_TYPE_ENUM, TTopicTypeEnum } from "../../../helpers/constants";
 import { School } from "../../schools/domain/school.entity";
 import { SessionTypeRepo } from "../../sessionTypes/repos/SessionType.repo";
 import { SubSubjectTypesRepo } from "../../subSubjectTypes/repos/SubSubjectTypes.repo";
@@ -119,8 +119,6 @@ export class AddSessionForClassUseCase {
       attendence: {},
       notes: [],
       sessionSummary: null,
-      homeworkGiven: [],
-      homeworkToDo: [],
       launchTime: null,
       closeTime: null,
       week: null,

@@ -3,7 +3,6 @@ import { ClientSession, Connection, FilterQuery, PipelineStage } from "mongoose"
 import { inject } from "../../../core/container/TypedContainer";
 import { getCurrentTimeOfSchool } from "../../../core/getCurrentTimeOfSchool";
 import { Populate } from "../../../core/populateTypes";
-import { TTopicTypeEnum } from "../../../feature/examGrade/domain/tunisian/ExamGrade.entity";
 import {
   Session,
   SessionMetaData,
@@ -15,7 +14,7 @@ import {
   SessionRepo,
 } from "../../../feature/sessionManagement/domain/Session.repo";
 import { SessionType } from "../../../feature/sessionTypes/domains/sessionType.entity";
-import { TScheduleEntityEnum } from "../../../helpers/constants";
+import { TScheduleEntityEnum, TTopicTypeEnum } from "../../../helpers/constants";
 import { ListOptions } from "../../../types/types";
 import { ResponseWithPagination } from "../types";
 import {
@@ -291,7 +290,7 @@ export class MongoSessionRepo extends MongoBaseRepo<SessionMetaData> implements 
       | { topicId: ID; topicType: TTopicTypeEnum }
       | { topicId?: undefined; topicType?: undefined }
     ),
-  ): Promise<Populate<SessionMetaData, "homeworkGiven" | "homeworkToDo">[]> {
+  ): Promise<Populate<SessionMetaData>[]> {
     const { classIds, topicId, topicType, status } = filter;
 
     const query: FilterQuery<Session> = {};
@@ -300,7 +299,7 @@ export class MongoSessionRepo extends MongoBaseRepo<SessionMetaData> implements 
     if (topicId && topicType) query[topicType] = topicId;
     if (status) query.status = status;
 
-    return this.model.find(query).populate("homeworkGiven homeworkToDo").lean();
+    return this.model.find(query).lean();
   }
 
   async listTeacherSessions(

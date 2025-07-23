@@ -1,5 +1,5 @@
 import { TEndUserEnum } from "../../../constants/globalEnums";
-import { TReactionTypeEnum } from "../../../feature/announcements/domain/reaction.entity";
+import { TMessageReactionTypeEnum } from "../../../feature/messages/domain/message.entity";
 import { ID } from "../../../types/BaseEntity";
 
 export type FacetPipelineStage =
@@ -43,7 +43,7 @@ export type ReactionAddOperation = {
     reactions: {
       $each: Array<{
         user: ID;
-        reactionType: TReactionTypeEnum;
+        reactionType: TMessageReactionTypeEnum;
         userType: TEndUserEnum;
         reactedAt: Date;
       }>;
@@ -62,7 +62,7 @@ export type ReactionRemoveOperation = {
 
 export type ReactionUpdateOperation = {
   $set: {
-    "reactions.$.reactionType": TReactionTypeEnum;
+    "reactions.$.reactionType": TMessageReactionTypeEnum;
   };
 };
 

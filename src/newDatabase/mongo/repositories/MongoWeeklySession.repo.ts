@@ -1,7 +1,7 @@
 /* eslint-disable max-params-no-constructor/max-params-no-constructor */
 import { ClientSession, Connection, FilterQuery } from "mongoose";
 import { inject } from "../../../core/container/TypedContainer";
-import { TTopicTypeEnum } from "../../../feature/examGrade/domain/tunisian/ExamGrade.entity";
+
 import {
   WeeklySession,
   WeeklySessionMetaData,
@@ -12,6 +12,7 @@ import {
 } from "../../../feature/weeklySessions/repos/WeeklySession.repo";
 import { ID } from "../../../types/BaseEntity";
 import { MongoBaseRepo } from "./MongoBase.repo";
+import { TTopicTypeEnum } from "../../../helpers/constants";
 
 export class MongoWeeklySessionRepo
   extends MongoBaseRepo<WeeklySessionMetaData>

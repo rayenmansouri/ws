@@ -2,7 +2,6 @@ import { PipelineStage } from "mongoose";
 import { stringsToObjectIds } from "../../../helpers/stringToObjectId";
 import { TEndUserEnum } from "./../../../constants/globalEnums";
 import { getCurrentTimeOfSchool } from "./../../../core/getCurrentTimeOfSchool";
-import { TReactionTypeEnum } from "../../../feature/announcements/domain/reaction.entity";
 import { ID } from "./../../../types/BaseEntity";
 import {
   MessageTypeCondition,
@@ -11,11 +10,12 @@ import {
   ReactionUpdateOperation,
   SenderLookupOperation,
 } from "../types/MessageAggregation.types";
+import { TMessageReactionTypeEnum } from "../../../feature/messages/domain/message.entity";
 
 export class MessageAggregationBuilder {
   static buildReactionAddOperation(
     userId: ID,
-    reactionType: TReactionTypeEnum,
+    reactionType: TMessageReactionTypeEnum,
     userType: TEndUserEnum,
     tenantId: string,
   ): ReactionAddOperation {
@@ -44,7 +44,9 @@ export class MessageAggregationBuilder {
     };
   }
 
-  static buildReactionUpdateOperation(reactionType: TReactionTypeEnum): ReactionUpdateOperation {
+  static buildReactionUpdateOperation(
+    reactionType: TMessageReactionTypeEnum,
+  ): ReactionUpdateOperation {
     return {
       $set: { "reactions.$.reactionType": reactionType },
     };

@@ -8,7 +8,6 @@ import { ListOptions } from "../../../types/types";
 import { ResponseWithPagination } from "../types";
 import { ID } from "../../../types/BaseEntity";
 import { SchoolYear } from "../../../feature/schoolYears/domain/schoolYear.entity";
-import { Term } from "../../../feature/terms/domains/term.entity";
 
 @injectable()
 export class MongoLevelRepo extends MongoBaseRepo<LevelMetaData> implements LevelRepo {
@@ -22,19 +21,6 @@ export class MongoLevelRepo extends MongoBaseRepo<LevelMetaData> implements Leve
   async updateSchoolYear(schoolYearId: ID, data: SchoolYear): Promise<void> {
     await this.model
       .updateMany({ "currentSchoolYear._id": schoolYearId }, { currentSchoolYear: data })
-      .session(this.session);
-  }
-
-  async updateTerm(termId: ID, term: Partial<Term>): Promise<void> {
-    const updateFields: Record<string, unknown> = {};
-
-    // Build dynamic update object for specific fields
-    Object.keys(term).forEach(key => {
-      updateFields[`currentSchoolYear.terms.$.${key}`] = term[key as keyof Term];
-    });
-
-    await this.model
-      .updateMany({ "currentSchoolYear.terms._id": termId }, { $set: updateFields })
       .session(this.session);
   }
 

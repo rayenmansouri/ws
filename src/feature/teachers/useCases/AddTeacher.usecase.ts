@@ -4,7 +4,6 @@ import { inject } from "../../../core/container/TypedContainer";
 import { EventDispatcher } from "../../../core/domainEvents/EventDispatcher";
 import { FileManager } from "../../../core/fileManager/FileManager";
 import { BaseEntity, ID } from "../../../types/BaseEntity";
-import { UserPostFeedRepo } from "../../announcements/repos/UserPostFeed.repo";
 import { RoleRepo } from "../../authorization/domain/Role.repo";
 import { GroupTypeRepo } from "../../groupManagement/repos/GroupType.repo";
 import { LevelRepo } from "../../levels/repos/Level.repo";
@@ -37,7 +36,6 @@ export class AddTeacherUseCase extends BaseAddUserUseCase<AddTeacherRequest, Tea
     @inject("NotificationSettingsService")
     notificationSettingsService: NotificationSettingsService,
     @inject("CentralUserRepo") centralUserRepo: CentralUserRepo,
-    @inject("UserPostFeedRepo") userPostFeedRepo: UserPostFeedRepo,
     @inject("RoleRepo") protected roleRepo: RoleRepo,
     @inject("EventDispatcher") eventDispatcher: EventDispatcher,
   ) {
@@ -47,7 +45,6 @@ export class AddTeacherUseCase extends BaseAddUserUseCase<AddTeacherRequest, Tea
       school,
       notificationSettingsService,
       centralUserRepo,
-      userPostFeedRepo,
       roleRepo,
       eventDispatcher,
     );

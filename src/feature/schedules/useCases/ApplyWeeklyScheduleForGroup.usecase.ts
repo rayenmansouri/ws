@@ -5,7 +5,6 @@ import { inject } from "../../../core/container/TypedContainer";
 import { getCurrentTimeOfSchool } from "../../../core/getCurrentTimeOfSchool";
 import { BaseEntity } from "../../../types/BaseEntity";
 import { GroupRepo } from "../../groupManagement/repos/Group.repo";
-import { HolidayRepo } from "../../holidays/domain/Holiday.repo";
 import { School } from "../../schools/domain/school.entity";
 import { Session } from "../../sessionManagement/domain/session.entity";
 import { SessionRepo } from "../../sessionManagement/domain/Session.repo";
@@ -20,7 +19,6 @@ export class ApplyWeeklyScheduleForGroupUseCase {
     @inject("School") private school: School,
     @inject("WeeklySessionRepo") private weeklySessionRepo: WeeklySessionRepo,
     @inject("SessionRepo") private sessionRepo: SessionRepo,
-    @inject("HolidayRepo") private holidayRepo: HolidayRepo,
     @inject("SessionTypeRepo") private sessionTypeRepo: SessionTypeRepo,
   ) {}
 
@@ -48,7 +46,6 @@ export class ApplyWeeklyScheduleForGroupUseCase {
 
     await this.sessionRepo.deleteWaitingSessionsOfGroup(groupDoc._id);
 
-    const holidays = await this.holidayRepo.findAll();
     const sessionTypes = await this.sessionTypeRepo.findAll();
 
     const schoolYears = groupDoc.schoolYears;
@@ -62,7 +59,7 @@ export class ApplyWeeklyScheduleForGroupUseCase {
         weeklySessionToBePublished,
         sessionTypes,
         schoolYear: groupDoc.schoolYears[0],
-        holidays,
+        holidays: [], // Assuming holidays are not needed here
         currentTimeOfSchool,
         firstSundayOfSchoolYear,
       });

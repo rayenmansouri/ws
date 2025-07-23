@@ -4,7 +4,11 @@ import { inject } from "../../../core/container/TypedContainer";
 import { SCHEDULE_ENTITY_ENUM } from "../../../helpers/constants";
 import { ID } from "../../../types/BaseEntity";
 import { Role } from "../../authorization/domain/role.entity";
-import { ObservationRepo } from "../../observations/domain/Observation.repo";
+import {
+  AttendanceTable,
+  ObservationGivenTable,
+  SessionCanceledTable,
+} from "../../dashboards/dtos/AdminDashboard.dto";
 import { Parent } from "../../parents/domain/parent.entity";
 import { StudentProfileRepo } from "../../students/domain/StudentProfile.repo";
 import { BaseUser } from "../../users/domain/baseUser.entity";
@@ -12,11 +16,6 @@ import { SessionRepo } from "../domain/Session.repo";
 import { SessionService } from "../domain/Session.service";
 import { TLanguageEnum } from "./../../../translation/constants";
 import { translate } from "./../../../translation/helper/translate";
-import {
-  AttendanceTable,
-  ObservationGivenTable,
-  SessionCanceledTable,
-} from "../../dashboards/dtos/AdminDashboard.dto";
 import { UserMapper } from "./../../users/mappers/User.mapper";
 
 export type AttendanceDashboardStats = {
@@ -42,7 +41,6 @@ export class SessionApplicationService {
   constructor(
     @inject("StudentProfileRepo") private studentProfileRepo: StudentProfileRepo,
     @inject("SessionRepo") private sessionRepo: SessionRepo,
-    @inject("ObservationRepo") private observationRepo: ObservationRepo,
   ) {}
 
   async isUserAllowedToViewSession(
@@ -213,10 +211,7 @@ export class SessionApplicationService {
   async getDashboardObservationStats(
     classesIds: ID[],
     language: TLanguageEnum,
-    dateInterval?: {
-      from?: Date;
-      to?: Date;
-    },
+    dateInterval?: { from?: Date; to?: Date },
   ): Promise<ObservationDashboardStats> {
     const punishmentTableResponse: ObservationDashboardStats = {
       tabName: "observationGiven",
@@ -224,33 +219,7 @@ export class SessionApplicationService {
       tableData: [],
     };
 
-    const chartDataPromise = this.observationRepo.getObservationsUrgencyStatsOfClasses(
-      classesIds,
-      dateInterval,
-    );
-    const tableDataPromise = this.observationRepo.getObservationsByClassInRange(
-      classesIds,
-      dateInterval,
-    );
-
-    const [chartData, tableData] = await Promise.all([chartDataPromise, tableDataPromise]);
-
-    punishmentTableResponse.tableData = tableData.map(data => {
-      const issuerDto = data.issuer ? UserMapper.toUserProfileDTO(data.issuer) : null;
-      return {
-        _id: data._id,
-        newId: data.newId,
-        reason: data.reason,
-        students: data.students.map(student => UserMapper.toUserProfileDTO(student)),
-        issuerFullName: issuerDto?.fullName || null,
-        issuerAvatar: issuerDto?.avatar || null,
-        urgency: translate(`urgencies.${data.urgency}`, language)!,
-      };
-    });
-    punishmentTableResponse.chartData = chartData.map(data => {
-      return { ...data, tag: translate(`urgencies.${data.tag}`, language)! };
-    });
-
+    //TODO REMOVE THIS TAB FROM THE DASHBOARD
     return punishmentTableResponse;
   }
 

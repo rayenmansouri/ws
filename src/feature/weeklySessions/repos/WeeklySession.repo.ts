@@ -1,7 +1,7 @@
 import { BaseRepo } from "../../../core/BaseRepo";
 import { Populate } from "../../../core/populateTypes";
 import { ID } from "../../../types/BaseEntity";
-import { TTopicTypeEnum } from "../../examGrade/domain/tunisian/ExamGrade.entity";
+import { TTopicTypeEnum } from "../../../helpers/constants";
 import { WeeklySession, WeeklySessionMetaData } from "../domains/weeklySession.entity";
 
 export type enrichedWeeklySessionData = Populate<

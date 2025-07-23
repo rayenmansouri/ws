@@ -5,7 +5,7 @@ import { TScheduleEntityEnum } from "../../../helpers/constants";
 import { ResponseWithPagination } from "../../../newDatabase/mongo/types";
 import { ID } from "../../../types/BaseEntity";
 import { ListOptions } from "../../../types/types";
-import { TTopicTypeEnum } from "../../examGrade/domain/tunisian/ExamGrade.entity";
+import { TTopicTypeEnum } from "../../../helpers/constants";
 import { SessionType } from "../../sessionTypes/domains/sessionType.entity";
 import { TAttendanceEnum } from "./../../../database/schema/pedagogy/session/session.schema";
 import { TAttendanceStatusEnum } from "./../../../features/notification/constants/constants";
@@ -89,7 +89,7 @@ export abstract class SessionRepo extends BaseRepo<SessionMetaData> {
     topicId?: ID;
     topicType?: TTopicTypeEnum;
     status?: TSessionStatusEnum;
-  }): Promise<Populate<SessionMetaData, "homeworkGiven" | "homeworkToDo">[]>;
+  }): Promise<Populate<SessionMetaData>[]>;
 
   abstract getLastStudentsAttendanceOfSession(
     session: { _id: ID; startTime: Date },

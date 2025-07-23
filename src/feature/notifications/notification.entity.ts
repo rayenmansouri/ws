@@ -5,7 +5,7 @@ import {
   TNotificationTypesEnum,
 } from "../../features/notification/constants/constants";
 import { BaseEntity } from "../../types/BaseEntity";
-import { TReactionTypeEnum } from "../announcements/domain/reaction.entity";
+import { TMessageReactionTypeEnum } from "../messages/domain/message.entity";
 
 export type CheckNotificationEnumsMapped<
   T extends { [K in TNotificationTypesEnum]: { topic: K } },
@@ -172,7 +172,7 @@ type newReactionOnMessage = {
     userFullName: string;
     messageNewId: string;
     conversationNewId: string;
-    reactionType: TReactionTypeEnum;
+    reactionType: TMessageReactionTypeEnum;
   };
 };
 

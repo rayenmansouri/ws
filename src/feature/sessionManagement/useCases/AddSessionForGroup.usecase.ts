@@ -93,8 +93,7 @@ export class AddSessionForGroupUseCase {
       attendence: {},
       notes: [],
       sessionSummary: null,
-      homeworkGiven: [],
-      homeworkToDo: [],
+
       launchTime: null,
       closeTime: null,
       week: null,

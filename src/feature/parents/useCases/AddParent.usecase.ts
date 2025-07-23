@@ -4,7 +4,6 @@ import { inject } from "../../../core/container/TypedContainer";
 import { EventDispatcher } from "../../../core/domainEvents/EventDispatcher";
 import { FileManager } from "../../../core/fileManager/FileManager";
 import { BaseEntity, ID } from "../../../types/BaseEntity";
-import { UserPostFeedRepo } from "../../announcements/repos/UserPostFeed.repo";
 import { RoleRepo } from "../../authorization/domain/Role.repo";
 import { NotificationSettingsService } from "../../notifications/NotificationSettings.service";
 import { School } from "../../schools/domain/school.entity";
@@ -33,7 +32,6 @@ export class AddParentUseCase extends BaseAddUserUseCase<AddParentRequest, Paren
     @inject("NotificationSettingsService")
     notificationSettingsService: NotificationSettingsService,
     @inject("CentralUserRepo") centralUserRepo: CentralUserRepo,
-    @inject("UserPostFeedRepo") userPostFeedRepo: UserPostFeedRepo,
     @inject("RoleRepo") roleRepo: RoleRepo,
     @inject("EventDispatcher") eventDispatcher: EventDispatcher,
   ) {
@@ -43,7 +41,6 @@ export class AddParentUseCase extends BaseAddUserUseCase<AddParentRequest, Paren
       school,
       notificationSettingsService,
       centralUserRepo,
-      userPostFeedRepo,
       roleRepo,
       eventDispatcher,
     );

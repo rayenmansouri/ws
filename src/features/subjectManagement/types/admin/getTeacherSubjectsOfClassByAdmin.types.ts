@@ -1,4 +1,4 @@
-import { TTopicTypeEnum } from "../../../../feature/examGrade/domain/tunisian/ExamGrade.entity";
+import { TTopicTypeEnum } from "../../../../helpers/constants";
 import { TGetSubjectsOfClassByAdminValidation } from "../../validations/admin/getSubjectsOfClassByAdmin.validation";
 
 export type TGetTeacherSubjectsOfClassByAdminRouteConfig = TGetSubjectsOfClassByAdminValidation;

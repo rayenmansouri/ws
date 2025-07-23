@@ -2,7 +2,6 @@ import moment from "moment";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { SESSION_STATUS_ENUM } from "../../../database/schema/pedagogy/session/session.schema";
 import { BaseEntity } from "../../../types/BaseEntity";
-import { Holiday } from "../../holidays/domain/holiday.entity";
 import { Session } from "../../sessionManagement/domain/session.entity";
 import { SessionType } from "../../sessionTypes/domains/sessionType.entity";
 import { WeeklySession } from "../../weeklySessions/domains/weeklySession.entity";
@@ -65,7 +64,7 @@ export class WeeklyScheduleService {
     weeklySessionToBePublished: Omit<WeeklySession, keyof BaseEntity>[];
     sessionTypes: SessionType[];
     schoolYear: SchoolYear;
-    holidays: Holiday[];
+    holidays: [];
     currentTimeOfSchool: Date;
     firstSundayOfSchoolYear: Date;
   }): Omit<Session, keyof BaseEntity>[] {
@@ -119,8 +118,6 @@ export class WeeklyScheduleService {
           files: [],
           notes: [],
           sessionSummary: null,
-          homeworkGiven: [],
-          homeworkToDo: [],
           status: SESSION_STATUS_ENUM.WAITING,
           launchTime: null,
           closeTime: null,

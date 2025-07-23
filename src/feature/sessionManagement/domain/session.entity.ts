@@ -8,7 +8,6 @@ import { Admin } from "../../admins/domain/admin.entity";
 import { Class } from "../../classes/domain/class.entity";
 import { ClassGroup } from "../../classes/domain/classGroup.entity";
 import { Classroom } from "../../classrooms/domains/classroom.entity";
-import { Homework } from "../../homeworks/domain/homework.entity";
 import { Group } from "../../groupManagement/domains/group.entity";
 import { SessionType } from "../../sessionTypes/domains/sessionType.entity";
 import { SubjectType } from "../../subjectTypes/domains/subjectType.entity";
@@ -58,8 +57,6 @@ export type Session = {
   files: IFile[];
   notes: { title: string; text: string }[];
   sessionSummary: string | null;
-  homeworkGiven: ID[];
-  homeworkToDo: ID[];
   status: TSessionStatusEnum;
   launchTime: Date | null;
   closeTime: Date | null;
@@ -82,8 +79,6 @@ export type SessionMetaData = GenerateMetaData<
     class: Class;
     classroom: Classroom;
     group: Group;
-    homeworkGiven: Homework[];
-    homeworkToDo: Homework[];
     classGroup: ClassGroup;
     canceledBy: Admin;
   }

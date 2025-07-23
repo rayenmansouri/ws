@@ -8,7 +8,7 @@ import { MessageRepo } from "../domain/Message.repo";
 import { ConversationDTO } from "../dtos/Conversation.dto";
 import { TEndUserEnum } from "./../../../constants/globalEnums";
 import { BadRequestError } from "../../../core/ApplicationErrors";
-import { PopulatedConversation } from "./../../../newDatabase/mongo/types/MongoConversation.types";
+import { PopulatedConversation } from "../../../newDatabase/mongo/types/MongoConversation.types";
 import { LastMessageDTO } from "./../dtos/Conversation.dto";
 import { lastMessageOfConversation } from "./../dtos/Message.dto";
 import { ConversationMapper } from "./../mappers/ConversationMapper";

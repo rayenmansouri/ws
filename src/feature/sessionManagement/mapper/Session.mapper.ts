@@ -2,9 +2,7 @@ import { END_USER_ENUM, TEndUserEnum } from "../../../constants/globalEnums";
 import { Populate } from "../../../core/populateTypes";
 import { Role } from "../../authorization/domain/role.entity";
 import { EntityMapper } from "../../entity/mapper/entity.mapper";
-import { HomeworkDTO } from "../../homeworks/dtos/homework.dto";
 import { Parent } from "../../parents/domain/parent.entity";
-import { ObservationDTO } from "../../observations/dtos/observation.dto";
 import { Student } from "../../students/domain/student.entity";
 import { BaseUser } from "../../users/domain/baseUser.entity";
 import { UserMapper } from "../../users/mappers/User.mapper";
@@ -21,9 +19,6 @@ type ToSessionDetailsDTOParams = {
     SessionMetaData,
     "teacher" | "classGroup" | "classroom" | "class" | "group" | "subjectType" | "subSubjectType"
   >;
-  homeworkToDo: HomeworkDTO[];
-  homeworkGiven: HomeworkDTO[];
-  observations: ObservationDTO[];
   sessionAttendance: SessionAttendanceDTO;
   currentTimeOfSchool: Date;
 };
@@ -31,9 +26,6 @@ type ToSessionDetailsDTOParams = {
 export class SessionMapper {
   static toSessionDetailsDTO({
     session,
-    homeworkToDo,
-    homeworkGiven,
-    observations,
     currentTimeOfSchool,
     sessionAttendance,
   }: ToSessionDetailsDTOParams): SessionDetailsDTO {
@@ -66,9 +58,6 @@ export class SessionMapper {
         : null,
       teacher: session.teacher ? UserMapper.toUserProfileDTO(session.teacher) : null,
       sessionSummary: session.sessionSummary,
-      homeworkToDo,
-      homeworkGiven,
-      observations: observations,
       files: session.files.map(file => ({
         public_id: file.public_id,
         name: file.name,

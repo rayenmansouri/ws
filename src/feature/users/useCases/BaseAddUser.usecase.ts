@@ -5,7 +5,6 @@ import { EventDispatcher } from "../../../core/domainEvents/EventDispatcher";
 import { FileDetails, FileManager, FileUploadPayload } from "../../../core/fileManager/FileManager";
 import { HashingHelper } from "../../../helpers/HashUtils";
 import { BaseEntity, ID } from "../../../types/BaseEntity";
-import { UserPostFeedRepo } from "../../announcements/repos/UserPostFeed.repo";
 import { RoleRepo } from "../../authorization/domain/Role.repo";
 import { NotificationSettingsService } from "../../notifications/NotificationSettings.service";
 import { School } from "../../schools/domain/school.entity";
@@ -39,7 +38,6 @@ export abstract class BaseAddUserUseCase<
     @unmanaged() private school: School,
     @unmanaged() private notificationSettingsService: NotificationSettingsService,
     @unmanaged() private centralUserRepo: CentralUserRepo,
-    @unmanaged() private userPostFeedRepo: UserPostFeedRepo,
     @unmanaged() protected roleRepo: RoleRepo,
     @unmanaged() private eventDispatcher: EventDispatcher,
   ) {}
@@ -109,13 +107,6 @@ export abstract class BaseAddUserUseCase<
     );
 
     await this.notificationSettingsService.addNotificationSettings(user._id);
-
-    await this.userPostFeedRepo.addOne({
-      user: user._id,
-      userType: this.userType,
-      posts: [],
-      unseenPosts: [],
-    });
 
     const newUserAddedEvent = new NewUserAddedEvent({
       user,

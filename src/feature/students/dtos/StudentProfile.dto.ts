@@ -1,5 +1,4 @@
 import { EntityDto } from "../../entity/dto/entity.dto";
-import { GradeReportTemplateDTO } from "../../gradeReportTemplate/dtos/gradeReportTemplate.dto";
 import { UserProfileDTO } from "../../users/dtos/userProfile.dto";
 import { SchoolYearDto } from "./../../schoolYears/dtos/schoolYear.dto";
 
@@ -25,15 +24,6 @@ export type StudentProfileDTO = {
   groups: (EntityDto & {
     groupTypeName: string;
   })[];
-  terms: {
-    newId: string;
-    _id: string;
-    name: string;
-    isLocked: boolean;
-  }[];
-  currentTermNewId: string | null;
-  examGradeSystem: string | null;
-  gradeReportTemplates: GradeReportTemplateDTO[];
   schoolYears: SchoolYearDto[];
   selectedSchoolYear: SchoolYearDto;
 };
