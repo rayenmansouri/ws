@@ -4,7 +4,10 @@ import { BaseController } from "../../../../../core/express/controllers/BaseCont
 import { TypedRequest } from "../../../../../core/express/types";
 import { APIResponse } from "../../../../../core/responseAPI/APIResponse";
 import { SuccessResponse } from "../../../../../core/responseAPI/APISuccessResponse";
-import { AddSessionForClassUseCase } from "../../../../../feature/sessionManagement/useCases/AddSessionForClass.usecase";
+import {
+  AddSessionForClassDtoRequest,
+  AddSessionForClassUseCase,
+} from "../../../../../feature/sessionManagement/useCases/AddSessionForClass.usecase";
 import {
   AddSessionForClassRouteConfig,
   AddSessionForClassResponse,
@@ -20,7 +23,10 @@ export class AddSessionForClassController extends BaseController<AddSessionForCl
   }
 
   async main(req: TypedRequest<AddSessionForClassRouteConfig>): Promise<void | APIResponse> {
-    const response = await this.addSessionForClassUseCase.execute(req.body);
+    const data: AddSessionForClassDtoRequest = {
+      ...req.body,
+    };
+    const response = await this.addSessionForClassUseCase.execute(data);
     return new SuccessResponse<AddSessionForClassResponse>("global.success", response);
   }
 }

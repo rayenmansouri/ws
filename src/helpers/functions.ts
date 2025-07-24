@@ -1,9 +1,6 @@
-import { IAttendance } from "../feature/sessionManagement/domain/session.entity";
 import mongoose, { ObjectId } from "mongoose";
-import { IClass } from "./../database/schema/pedagogy/class/class.schema";
-import { ITerm } from "./../database/schema/pedagogy/structure/term.schema";
+import { IAttendance } from "../feature/sessionManagement/domain/session.entity";
 import { DAY_TO_MILLISECOND } from "./constants";
-import { isIdsEqual } from "./functionsUtils";
 
 export const getWeekOfDate = (firstSunday: Date, currentDate: Date) => {
   const differenceInDays = Math.floor(
@@ -64,29 +61,9 @@ export const stringToObjectId = (id: string) => {
 export const removeDuplicateStringInArray = (array: (ObjectId | string | null)[]): string[] => {
   const auxArray: string[] = [];
   for (const item of array) {
-    if (item) auxArray.push(item.toString());
+    if (item != null) auxArray.push(String(item));
   }
   const uniqueSet = new Set(auxArray);
 
   return Array.from(uniqueSet);
-};
-export const getCurrentTermOfClass = (
-  gradeBookReportsOfClass: IClass["gradeReports"],
-  sortedTerms: ITerm[],
-): ITerm => {
-  const lastTermGenerated = gradeBookReportsOfClass[gradeBookReportsOfClass.length - 1] as
-    | { term: ObjectId }
-    | undefined;
-
-  if (!lastTermGenerated) {
-    return sortedTerms[0];
-  }
-  const lastTermIndex = sortedTerms.findIndex(term => isIdsEqual(term._id, lastTermGenerated.term));
-
-  const currentTerm = sortedTerms[lastTermIndex + 1] as ITerm | undefined;
-
-  if (!currentTerm) {
-    return sortedTerms[sortedTerms.length - 1];
-  }
-  return currentTerm;
 };

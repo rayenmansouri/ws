@@ -22,8 +22,6 @@ export type CurrentUserDTO = {
   }[];
   unseenNotification: number;
   unseenConversations: number;
-  unseenAnnouncements: number;
-  unseenParentDemands: number | null;
   schoolId: string;
   schoolLogo: string | null;
   schoolCover: string;

@@ -1,15 +1,7 @@
 import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { addSchoolToGlobalStore } from "../../../core/subdomainStore";
-import {
-  getNewTenantConnection,
-  getTenantCon,
-} from "../../../database/connectionDB/tenantPoolConnection";
-import {
-  applySchoolConfig,
-  getSchoolConfig,
-  validateSchoolConfig,
-} from "../../../features/schools/services/master/schoolConfig.service";
+import { getNewTenantConnection } from "../../../database/connectionDB/tenantPoolConnection";
 import { FEATURE_FLAGS_ENUM } from "../constants/featureFlags";
 import {
   TEducationDepartmentEnum,
@@ -17,7 +9,6 @@ import {
   TInstanceTypeEnum,
 } from "../domain/school.entity";
 import { SchoolRepo } from "../domain/School.repo";
-import { container } from "../../../core/container/container";
 
 export const DEFAULT_SCHOOL_COVER =
   "https://www.dropbox.com/scl/fi/g5546zpfg8henqyubvknc/school_cover.jpg?rlkey=dshwm08ga8uyjhwr1p8c41x8u&st=53g103mq&dl=0&raw=1";
@@ -99,23 +90,10 @@ export class AddSchoolUseCase {
 
     if (!payload.configName) return;
 
-    const schoolConfig = await getSchoolConfig(payload.configName);
-    validateSchoolConfig(schoolConfig);
+    //    const schoolConfig = await getSchoolConfig(payload.configName);
+    //  validateSchoolConfig(schoolConfig);
 
-    const connection = await getTenantCon(school.subdomain);
-    await applySchoolConfig(connection, schoolConfig);
-
-    const newConnection = await getNewTenantConnection(school.subdomain);
-    const childContainer = container.createChild();
-    childContainer.bind("Connection").toConstantValue(newConnection);
-
-    const gradeReportTemplate = childContainer.get("GradeReportTemplateRepo");
-    await gradeReportTemplate.addOne({
-      name: "Main",
-      classTypes: [],
-      subjectTypes: [],
-      isBuiltIn: true,
-      isDefault: true,
-    });
+    const connection = await getNewTenantConnection(school.subdomain);
+    //await applySchoolConfig(connection, schoolConfig);
   }
 }

@@ -5,10 +5,10 @@ import { StudentRepo } from "../../students/domain/Student.repo";
 import { SessionRepo } from "../domain/Session.repo";
 import { getCurrentTimeOfSchool } from "./../../../core/getCurrentTimeOfSchool";
 import { BadRequestError } from "../../../core/ApplicationErrors";
-import { TAttendanceEnum } from "./../../../database/schema/pedagogy/session/session.schema";
 import { sendNotificationsToParentsBasedOnAttendance } from "./../../../features/notification/services/helpers.service";
 import { ID } from "./../../../types/BaseEntity";
 import { SessionService } from "./../domain/Session.service";
+import { TAttendanceEnum } from "../domain/session.entity";
 
 export type ConfirmAttendanceRequestDTO = {
   sessionNewId: string;

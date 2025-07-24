@@ -1,12 +1,10 @@
 import { injectable } from "inversify";
 import { Connection } from "mongoose";
 import { inject } from "../../../core/container/TypedContainer";
-import { Session } from "../domain/session.entity";
+import { Session, SESSION_STATUS_ENUM } from "../domain/session.entity";
 import { SessionRepo } from "../domain/Session.repo";
 import { getCurrentTimeOfSchool } from "./../../../core/getCurrentTimeOfSchool";
 import { schoolDocStore } from "./../../../core/subdomainStore";
-import { forceCloseSessionsJob } from "./../../../crons/session.jobs";
-import { SESSION_STATUS_ENUM } from "./../../../database/schema/pedagogy/session/session.schema";
 import { MINUTES_TO_MILLISECOND } from "./../../../helpers/constants";
 import { convertDateToServerTime } from "./../../../helpers/ConvertDate";
 import { ID } from "./../../../types/BaseEntity";
@@ -79,10 +77,11 @@ export class StartSessionUseCase {
       });
     }
 
-    const closeAt = new Date(
-      convertDateToServerTime(new Date(session.endTime), dto.tenantId).getTime() +
-        schoolDocStore[dto.tenantId].forceCloseSessionDelayInMin * MINUTES_TO_MILLISECOND,
-    );
-    forceCloseSessionsJob(this.connection, session._id, closeAt, dto.tenantId);
+    // const closeAt = new Date(
+    //   convertDateToServerTime(new Date(session.endTime), dto.tenantId).getTime() +
+    //     schoolDocStore[dto.tenantId].forceCloseSessionDelayInMin * MINUTES_TO_MILLISECOND,
+    // );
+    // need to implement force close session logic with cron
+    //forceCloseSessionsJob(this.connection, session._id, closeAt, dto.tenantId);
   }
 }

@@ -1,3 +1,4 @@
+import { FileMapper } from "../../../core/fileManager/file.mapper";
 import { School } from "../domain/school.entity";
 import { SchoolDTO } from "../dtos/School.dto";
 
@@ -21,8 +22,12 @@ export class SchoolMapper {
       instanceType: school.instanceType,
       gradeBookTheme: school.gradeBookTheme,
       featureFlags: school.featureFlags,
-      financeSignature: school.financeSignature,
-      academicSignature: school.academicSignature,
+      financeSignature: school.financeSignature
+        ? FileMapper.toFileDTO(school.financeSignature)
+        : null,
+      academicSignature: school.academicSignature
+        ? FileMapper.toFileDTO(school.academicSignature)
+        : null,
       schedule: {
         startHour: school.schedule.startHour,
         endHour: school.schedule.endHour,

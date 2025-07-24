@@ -3,6 +3,7 @@ import { ID } from "../../../types/BaseEntity";
 import { IFile } from "../../sessionManagement/domain/session.entity";
 import { TFeatureFlagsEnum } from "../constants/featureFlags";
 import { TInstanceTypeEnum } from "../domain/school.entity";
+import { FileDTO } from "../../../core/valueObjects/File.vo";
 
 export type SchoolDTO = {
   _id: ID;
@@ -22,8 +23,8 @@ export type SchoolDTO = {
   instanceType: TInstanceTypeEnum;
   gradeBookTheme: TGradeReportThemEnum;
   featureFlags: Record<TFeatureFlagsEnum, boolean>;
-  financeSignature: IFile | null;
-  academicSignature: IFile | null;
+  financeSignature: FileDTO | null;
+  academicSignature: FileDTO | null;
   directorName: string | null;
   schedule: {
     startHour: number;

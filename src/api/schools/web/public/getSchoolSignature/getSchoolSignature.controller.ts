@@ -28,15 +28,8 @@ export class GetSchoolSignatureController extends BaseController<GetSchoolSignat
 
     const connection = await getNewTenantConnection(school.subdomain);
     childContainer.bind("Connection").toConstantValue(connection);
-    const signatureRepo = childContainer.get("SignatureRepo");
 
-    let signatureUrl = school.financeSignature?.url;
-
-    if (req.query.classTypeId) {
-      const signature = await signatureRepo.findByClassType(req.query.classTypeId);
-      if (signature) signatureUrl = signature.image.url;
-      else signatureUrl = school.academicSignature?.url;
-    }
+    const signatureUrl = school.financeSignature?.link;
 
     if (!signatureUrl) {
       res.sendStatus(404);

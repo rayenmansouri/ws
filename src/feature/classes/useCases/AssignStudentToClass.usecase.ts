@@ -3,8 +3,6 @@ import _ from "lodash";
 import { InternalError } from "../../../core/ApplicationErrors";
 import { inject } from "../../../core/container/TypedContainer";
 import { ID } from "../../../types/BaseEntity";
-import { ExamGradeRepo } from "../../examGrade/domain/tunisian/ExamGrade.repo";
-import { GradeBookObservationRepo } from "../../gradeBookObservation/GradeBookObservation.repo";
 import { Student } from "../../students/domain/student.entity";
 import { StudentRepo } from "../../students/domain/Student.repo";
 import { StudentProfileRepo } from "../../students/domain/StudentProfile.repo";
@@ -25,8 +23,6 @@ export class AssignStudentToClassUseCase {
     @inject("StudentRepo") private studentRepo: StudentRepo,
     @inject("StudentProfileRepo") private studentProfileRepo: StudentProfileRepo,
     @inject("ClassGroupRepo") private classGroupRepo: ClassGroupRepo,
-    @inject("ExamGradeRepo") private examGradeRepo: ExamGradeRepo,
-    @inject("GradeBookObservationRepo") private gradeBookObservationRepo: GradeBookObservationRepo,
     @inject("SubLevelRepo") private subLevelRepo: SubLevelRepo,
   ) {}
 
@@ -95,34 +91,6 @@ export class AssignStudentToClassUseCase {
     await this.classRepo.updateOneById(classDoc._id, {
       students: classDoc.students.concat(studentIds),
     });
-
-    const subLevel = await this.subLevelRepo.findOneByIdOrThrow(
-      classDoc.classType.subLevel,
-      "global.internalError",
-    );
-
-    const terms = subLevel.level.currentSchoolYear.terms;
-
-    const generatedClassTerm = classDoc.gradeReports.map(gradeReport => gradeReport.term);
-
-    const ongoingTermIds = terms
-      .filter(term => !generatedClassTerm.includes(term._id))
-      .map(term => term._id);
-
-    await this.examGradeRepo.addStudentsToExamGradeOfClass(
-      { classId: classDoc._id, termIds: ongoingTermIds },
-      studentIds,
-    );
-
-    await this.examGradeRepo.markStudentExamDegreeAsDispensedForClass(
-      { classId: classDoc._id, termIds: generatedClassTerm },
-      studentIds,
-    );
-
-    await this.gradeBookObservationRepo.addStudentsToGradeBookObservationOfClass(
-      classDoc._id,
-      studentIds,
-    );
 
     return;
   }

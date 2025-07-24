@@ -4,7 +4,6 @@ import { Populate } from "../../../core/populateTypes";
 import { BadRequestError, NotFoundError } from "../../../core/ApplicationErrors";
 import { ID } from "../../../types/BaseEntity";
 import { ClassRepo } from "../../classes/domain/Class.repo";
-import { SectionRepo } from "../../sections/repos/Section.repo";
 import { SubLevel } from "../../subLevels/domains/subLevel.entity";
 import { SubLevelRepo } from "../../subLevels/domains/SubLevel.repo";
 import { ClassTypeMetaData } from "../repo/classType.entity";
@@ -16,7 +15,6 @@ export class UpdateClassTypeUseCase {
     @inject("ClassRepo") private classRepo: ClassRepo,
     @inject("ClassTypeRepo") private classTypeRepo: ClassTypeRepo,
     @inject("SubLevelRepo") private subLevelRepo: SubLevelRepo,
-    @inject("SectionRepo") private sectionRepo: SectionRepo,
   ) {}
 
   async execute(
@@ -70,18 +68,7 @@ export class UpdateClassTypeUseCase {
       nextClassTypeIds = nextClassTypes.map(nextClassType => nextClassType._id);
     }
 
-    let sectionId: ID | null = null;
-    if (data.sectionNewId) {
-      const section = await this.sectionRepo.findOneByNewIdOrThrow(
-        data.sectionNewId,
-        "notFound.section",
-      );
-
-      sectionId = section._id;
-    }
-
     const dataToUpdate = {
-      section: sectionId || undefined,
       subLevel: newSubLevel?._id || undefined,
       nextClassTypes: nextClassTypeIds,
       name: data.name,

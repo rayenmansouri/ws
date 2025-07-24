@@ -7,7 +7,6 @@ import { FileManager } from "../../../core/fileManager/FileManager";
 import { END_USER_ENUM } from "../../../constants/globalEnums";
 import { NotificationSettingsService } from "../../notifications/NotificationSettings.service";
 import { CentralUserRepo } from "../../users/domain/CentralUser.repo";
-import { UserPostFeedRepo } from "../../announcements/repos/UserPostFeed.repo";
 import { RoleRepo } from "../../authorization/domain/Role.repo";
 import { AdminRepo } from "../domain/Admin.repo";
 import { BaseUser } from "../../users/domain/baseUser.entity";
@@ -27,7 +26,6 @@ export class AddAdminUseCase extends BaseAddUserUseCase<AddAdminRequest, Admin> 
     @inject("NotificationSettingsService")
     notificationSettingsService: NotificationSettingsService,
     @inject("CentralUserRepo") centralUserRepo: CentralUserRepo,
-    @inject("UserPostFeedRepo") userPostFeedRepo: UserPostFeedRepo,
     @inject("RoleRepo") roleRepo: RoleRepo,
     @inject("EventDispatcher") eventDispatcher: EventDispatcher,
   ) {
@@ -37,7 +35,6 @@ export class AddAdminUseCase extends BaseAddUserUseCase<AddAdminRequest, Admin> 
       school,
       notificationSettingsService,
       centralUserRepo,
-      userPostFeedRepo,
       roleRepo,
       eventDispatcher,
     );

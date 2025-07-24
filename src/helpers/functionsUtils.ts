@@ -1,15 +1,10 @@
-import { schoolDocStore } from "./../core/subdomainStore";
-import { BadRequestError } from "../core/ApplicationErrors";
-import { removeDuplicateStringInArray } from "./functions";
-import { crudRepo } from "./../database/repositories/crud.repo";
-import { IClass } from "./../database/schema/pedagogy/class/class.schema";
 import axios from "axios";
-import mongoose, { Connection, ObjectId } from "mongoose";
-import { IStudent } from "../database/schema/users/student.schema";
+import mongoose, { ObjectId } from "mongoose";
 import logger from "../core/Logger";
-import { ID } from "../types/BaseEntity";
+import { Student } from "../feature/students/domain/student.entity";
+import { schoolDocStore } from "./../core/subdomainStore";
 
-export const sortStudentByFullName = (students: IStudent[]): IStudent[] => {
+export const sortStudentByFullName = (students: Student[]): Student[] => {
   return students.sort((a, b) => {
     if (a.fullName < b.fullName) {
       return -1;
@@ -71,11 +66,11 @@ export const sendPhoneMessage = async (message: string, receiver: string, tenant
 };
 
 export const objectIdArrayToString = (arr: ObjectId[] | string[]): string[] => {
-  return arr.map(id => id.toString());
+  return arr.map(id => String(id));
 };
 
 export const isIncludeArrayIds = (arr: ObjectId[] | string[], id: ObjectId | string): boolean => {
-  return objectIdArrayToString(arr).includes(id.toString());
+  return objectIdArrayToString(arr).includes(String(id));
 };
 
 export function areAllElementsIncluded(referenceArray: string[], arrayToCheck: string[]): boolean {
@@ -83,7 +78,7 @@ export function areAllElementsIncluded(referenceArray: string[], arrayToCheck: s
 }
 
 export const objectIdsToStrings = (values: ObjectId[]): string[] =>
-  values.map(value => value.toString());
+  values.map(value => String(value));
 export const stringToObjectId = (id: string): ObjectId => {
   return new mongoose.Types.ObjectId(id) as unknown as mongoose.Schema.Types.ObjectId;
 };
@@ -93,26 +88,4 @@ export const isIdsEqual = (
   id2: ObjectId | string | undefined | null,
 ): boolean => {
   return id1?.toString() === id2?.toString();
-};
-
-export const findClassesOfStudentProfiles = async (
-  connection: Connection,
-  groupId: ID,
-  schoolYearId: ObjectId,
-): Promise<IClass[]> => {
-  const studentProfileOfGroup = await crudRepo(connection, "studentProfile").findMany({
-    groups: groupId,
-    schoolYear: schoolYearId,
-  });
-
-  let classesIds = studentProfileOfGroup.map(studentProfileDoc => {
-    if (!studentProfileDoc.class) throw new BadRequestError("student.notAssignedToClass");
-    return String(studentProfileDoc.class);
-  });
-  classesIds = removeDuplicateStringInArray(classesIds);
-
-  const classesDocs = await crudRepo(connection, "class").findMany({
-    _id: { $in: classesIds },
-  });
-  return classesDocs;
 };

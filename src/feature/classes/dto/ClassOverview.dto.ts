@@ -1,7 +1,5 @@
-import { ID } from "./../../../types/BaseEntity";
-import { GradeReportTemplateDTO } from "../../gradeReportTemplate/dtos/gradeReportTemplate.dto";
-import { GroupDto } from "./Group.dto";
 import { EntityDto } from "../../entity/dto/entity.dto";
+import { ID } from "./../../../types/BaseEntity";
 
 export type ClassOverviewDTO = {
   classNewId: string;
@@ -9,17 +7,7 @@ export type ClassOverviewDTO = {
   className: string;
   levelId: string;
   schoolYearId: string;
-  terms: {
-    newId: string;
-    _id: string;
-    name: string;
-    isLocked: boolean;
-    isCompleted: boolean;
-    isPublished: boolean;
-  }[];
-  currentTermNewId: string;
   examGradeSystem: string | null;
-  gradeReportTemplates: GradeReportTemplateDTO[];
   notAvailableTimes: { day: number; hours: number[] }[];
   maxHoursPerDay: number | null;
   maxGapsPerDay: number | null;

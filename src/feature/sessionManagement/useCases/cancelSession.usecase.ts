@@ -2,13 +2,11 @@ import { injectable } from "inversify";
 import { ClientSession, Connection } from "mongoose";
 import { inject } from "../../../core/container/TypedContainer";
 import { FileManager } from "../../../core/fileManager/FileManager";
-import { deleteNotificationsByTopic } from "../../../features/notification/shared/deleteNotificationByTopic";
 import { StudentRepo } from "../../students/domain/Student.repo";
 import { SessionRepo } from "../domain/Session.repo";
 import { END_USER_ENUM, END_USER_WITHOUT_MASTER_ENUM } from "./../../../constants/globalEnums";
 import { getCurrentTimeOfSchool } from "./../../../core/getCurrentTimeOfSchool";
 import { BadRequestError } from "../../../core/ApplicationErrors";
-import { SESSION_STATUS_ENUM } from "./../../../database/schema/pedagogy/session/session.schema";
 import {
   NOTIFICATION_STATUS_ENUM,
   NOTIFICATION_TYPES_ENUM,
@@ -21,6 +19,7 @@ import {
 import { ID } from "./../../../types/BaseEntity";
 import { IBaseNotification } from "./../../notifications/notification.entity";
 import { SessionService } from "./../domain/Session.service";
+import { SESSION_STATUS_ENUM } from "../domain/session.entity";
 
 export type CancelSessionRequestDTO = {
   sessionNewId: string;

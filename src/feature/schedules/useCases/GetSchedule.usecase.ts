@@ -5,8 +5,8 @@ import { enrichedSessionData } from "../../sessionManagement/domain/Session.repo
 import { SessionDTO } from "../../sessionManagement/dtos/Session.dto";
 import { SessionMapper } from "../../sessionManagement/mapper/Session.mapper";
 import { ScheduleApplicationService } from "../applications/Schedule.application.service";
-import { TAttendanceEnum } from "../../../database/schema/pedagogy/session/session.schema";
 import { BadRequestError } from "../../../core/ApplicationErrors";
+import { TAttendanceEnum } from "../../sessionManagement/domain/session.entity";
 
 type GetScheduleRequestDto = {
   entity: TScheduleEntityEnum;

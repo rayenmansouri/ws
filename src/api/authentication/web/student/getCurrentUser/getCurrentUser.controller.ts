@@ -9,14 +9,12 @@ import { ConversationRepo } from "../../../../../feature/messages/domain/Convers
 import { NotificationRepo } from "../../../../../feature/notifications/Notification.repo";
 import { UserMapper } from "../../../../../feature/users/mappers/User.mapper";
 import { GetCurrentUserRouteConfig, GetCurrentUserResponse } from "./getCurrentUser.types";
-import { UserPostFeedRepo } from "../../../../../feature/announcements/repos/UserPostFeed.repo";
 
 @Controller()
 export class GetCurrentUserController extends BaseController<GetCurrentUserRouteConfig> {
   constructor(
     @inject("NotificationRepo") private notificationRepo: NotificationRepo,
     @inject("ConversationRepo") private conversationRepo: ConversationRepo,
-    @inject("UserPostFeedRepo") private userPostFeedRepo: UserPostFeedRepo,
   ) {
     super();
   }
@@ -24,21 +22,17 @@ export class GetCurrentUserController extends BaseController<GetCurrentUserRoute
   async main(req: TypedRequest<GetCurrentUserRouteConfig>): Promise<void | APIResponse> {
     const school = schoolDocStore[req.tenantId];
 
-    const [unseenNotificationsNumber, unseenConversationsNumber, unseenAnnouncementsNumber] =
-      await Promise.all([
-        this.notificationRepo.getUnseenNotificationsNumberOfUser(req.user._id),
-        this.conversationRepo.getUnseenConversationNumberForUser(req.user._id),
-        this.userPostFeedRepo.getUnseenPostsNumberForUser(req.user._id),
-      ]);
+    const [unseenNotificationsNumber, unseenConversationsNumber] = await Promise.all([
+      this.notificationRepo.getUnseenNotificationsNumberOfUser(req.user._id),
+      this.conversationRepo.getUnseenConversationNumberForUser(req.user._id),
+    ]);
 
     const res = UserMapper.toCurrentUserDTO({
       user: req.user,
       school,
       unseenNotification: unseenNotificationsNumber,
       unseenConversations: unseenConversationsNumber,
-      unseenAnnouncements: unseenAnnouncementsNumber,
       language: req.language,
-      unseenParentDemands: null,
     });
 
     return new SuccessResponse<GetCurrentUserResponse>("global.success", res);

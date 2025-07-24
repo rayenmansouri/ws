@@ -2,7 +2,6 @@ import { injectable } from "inversify/lib/inversify";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { inject } from "../../../core/container/TypedContainer";
 import { getCurrentTimeOfSchool } from "../../../core/getCurrentTimeOfSchool";
-import { SESSION_STATUS_ENUM } from "../../../database/schema/pedagogy/session/session.schema";
 import { TLanguageEnum } from "../../../translation/constants";
 import { ID } from "../../../types/BaseEntity";
 import { OmitFromEnum } from "../../../types/utils/enums.util";
@@ -17,8 +16,9 @@ import { SubjectTypeRepo } from "../../subjectTypes/domains/SubjectType.repo";
 import { SessionApplicationService } from "../applicationServices/Session.application.service";
 import { SessionRepo } from "../domain/Session.repo";
 import { SessionService } from "../domain/Session.service";
+import { SESSION_STATUS_ENUM } from "../domain/session.entity";
 
-type AddSessionForClassDtoRequest = {
+export type AddSessionForClassDtoRequest = {
   topicType: OmitFromEnum<TTopicTypeEnum, "group">;
   topicNewId: string;
   sessionTypeNewId: string;

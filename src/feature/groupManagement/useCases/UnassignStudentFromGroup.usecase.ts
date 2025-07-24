@@ -44,11 +44,6 @@ export class UnassignStudentFromGroupUseCase {
 
     await this.groupRepo.updateOneById(group._id, { students: remainingStudents });
 
-    await this.groupApplicationService.removeStudentsFromGroupExamGradeAndGradeBookObservation(
-      students,
-      group,
-    );
-
     return;
   }
 }

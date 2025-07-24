@@ -12,7 +12,6 @@ import { ClassType } from "../../classTypes/repo/classType.entity";
 import { BadRequestError, NotFoundError } from "../../../core/ApplicationErrors";
 import { StudentProfile } from "../../students/domain/studentProfile.entity";
 import { ID } from "../../../types/BaseEntity";
-import { Term } from "../../terms/domains/term.entity";
 
 @injectable()
 export class ClassService {
@@ -190,13 +189,5 @@ export class ClassService {
     if (teacherId === null) throw new NotFoundError("class.noTeacherAssigned");
 
     return teacherId;
-  }
-
-  static findPublishedTerm(terms: Term[], classDoc: Pick<Class, "gradeReports">): Term | null {
-    const publishedTerm = classDoc.gradeReports.find(report => report.isPublished)?.term;
-    if (!publishedTerm) return null;
-    const term = terms.find(term => term._id === publishedTerm);
-    if (!term) return null;
-    return term;
   }
 }

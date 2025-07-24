@@ -17,7 +17,6 @@ import { SessionRepo } from "../domain/Session.repo";
 import { SessionService } from "../domain/Session.service";
 import { SessionDetailsDTO } from "../dtos/sessionDetails.dto";
 import { GetSessionDetailsUseCase } from "./getSessionDetails.usecase";
-import { IFile } from "../domain/session.entity";
 
 export type UpdateSessionDetailsRequestDTO = {
   sessionNewId: string;
@@ -57,14 +56,7 @@ export class UpdateSessionDetailsUseCase {
       )
         throw new BadRequestError("session.sessionDoesNotBelongsToThisTeacher");
 
-    const formatSessionFiles: FileDetails[] = session.files.map(file => ({
-      path: file.public_id,
-      name: file.name,
-      uploadedAt: file.date,
-      link: file.url,
-      size: file.size,
-      mimeType: file.mimeType,
-    }));
+    const formatSessionFiles: FileDetails[] = session.files;
     const newFiles = await this.fileManager.handelEditFile({
       currentFiles: formatSessionFiles,
       filePath: "session",
@@ -72,19 +64,10 @@ export class UpdateSessionDetailsUseCase {
       newFiles: dto.files,
     });
 
-    const formatNewFiles: IFile[] = newFiles.map(file => ({
-      public_id: file.path,
-      name: file.name,
-      url: file.link,
-      date: file.uploadedAt,
-      size: file.size,
-      mimeType: file.mimeType,
-    }));
-
-    const updatedSession = await this.sessionRepo.updateOneById(session._id, {
+    await this.sessionRepo.updateOneById(session._id, {
       notes: dto.notes,
       sessionSummary: dto.sessionSummary,
-      files: formatNewFiles,
+      files: newFiles,
     });
 
     const topicName = SessionService.extractTopicName(

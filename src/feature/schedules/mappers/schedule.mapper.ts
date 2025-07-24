@@ -1,4 +1,4 @@
-import { TAttendanceEnum } from "../../../database/schema/pedagogy/session/session.schema";
+import { TAttendanceEnum } from "../../sessionManagement/domain/session.entity";
 import { ScheduleDTO } from "../dtos/schedule.dto";
 
 export class ScheduleMapper {

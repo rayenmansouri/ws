@@ -1,4 +1,4 @@
 import { TUpdateNotificationStatusValidation } from "./../validations/updateNotificationStatus.validation";
-import { INotification } from "./../../../database/schema/notification/notification.schema";
-export type TUpdateNotificationStatusResponse = INotification[];
+
+export type TUpdateNotificationStatusResponse = Notification[];
 export type TUpdateNotificationStatusRouteConfig = TUpdateNotificationStatusValidation;

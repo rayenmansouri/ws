@@ -1,11 +1,9 @@
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { Populate } from "../../../core/populateTypes";
-import { ClassTypeMetaData, SubjectOfClassType } from "../repo/classType.entity";
 import { ID } from "../../../types/BaseEntity";
 import { Class } from "../../classes/domain/class.entity";
-import { ClassType } from "../repo/classType.entity";
-import { ExamType } from "../../examTypes/domains/examType.entity";
 import { SubSubjectType } from "../../subSubjectTypes/domains/subSubjectType.entity";
+import { ClassType, ClassTypeMetaData } from "../repo/classType.entity";
 
 export class ClassTypeService {
   static reorderArray<T>(array: T[], fromIndex: number, toIndex: number): T[] {
@@ -107,32 +105,6 @@ export class ClassTypeService {
     if (isTeacherAssignedToSubSubjectType) {
       throw new BadRequestError("class.teacherAlreadyAssigned");
     }
-  }
-
-  static identifyRemovedExamTypeIds(
-    oldExams: SubjectOfClassType["exams"],
-    newExamTypeIds: ID[],
-  ): ID[] {
-    const oldExamTypeIds = oldExams.map(exam => exam.examType);
-
-    const removedExamTypeIds = oldExamTypeIds.filter(
-      oldExamTypeId => !newExamTypeIds.includes(oldExamTypeId),
-    );
-
-    return removedExamTypeIds;
-  }
-
-  static identifyAddedExamTypes(
-    oldExams: SubjectOfClassType["exams"],
-    newExamType: ExamType[],
-  ): ExamType[] {
-    const oldExamTypeIds = oldExams.map(exam => exam.examType);
-
-    const addedExamTypeIds = newExamType.filter(
-      newExamType => !oldExamTypeIds.includes(newExamType._id),
-    );
-
-    return addedExamTypeIds;
   }
 
   static getSubjectTypeIdFromClassTypeBySubSubjectType(

@@ -65,33 +65,17 @@ export class UpdateSchoolUseCase {
     }
 
     if (dto.financeSignature) {
-      const uploadedSignature = await this.fileManger.uploadFile(
+      financeSignature = await this.fileManger.uploadFile(
         dto.financeSignature,
         "schools/signature",
       );
-      financeSignature = {
-        name: uploadedSignature.name,
-        url: uploadedSignature.link,
-        public_id: uploadedSignature.path,
-        date: uploadedSignature.uploadedAt,
-        size: uploadedSignature.size,
-        mimeType: uploadedSignature.mimeType,
-      };
     }
 
     if (dto.academicSignature) {
-      const uploadedSignature = await this.fileManger.uploadFile(
+      academicSignature = await this.fileManger.uploadFile(
         dto.academicSignature,
         "schools/signature",
       );
-      academicSignature = {
-        name: uploadedSignature.name,
-        url: uploadedSignature.link,
-        public_id: uploadedSignature.path,
-        date: uploadedSignature.uploadedAt,
-        size: uploadedSignature.size,
-        mimeType: uploadedSignature.mimeType,
-      };
     }
 
     const schoolPayload: Partial<School> = {

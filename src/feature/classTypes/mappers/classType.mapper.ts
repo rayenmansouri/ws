@@ -1,25 +1,22 @@
 import { Populate } from "../../../core/populateTypes";
-import { ClassTypeService } from "../domains/ClassType.service";
-import { ClassTypeDto, FieldOfClassTypeDTO } from "../dtos/classType.dto";
-import { ExamDTO, SubjectOfClassTypeDTO, SubSubjectOfClassTypeDTO } from "../dtos/classType.dto";
+import {
+  ClassTypeDto,
+  FieldOfClassTypeDTO,
+  SubjectOfClassTypeDTO,
+  SubSubjectOfClassTypeDTO,
+} from "../dtos/classType.dto";
 import { ClassType, ClassTypeMetaData } from "../repo/classType.entity";
 
 type ToSubjectOfClassTypeDTO = Pick<
-  Populate<
-    ClassTypeMetaData,
-    | "subjects.exams.examType"
-    | "subjects.subSubjects.exams.examType"
-    | "subjects.subSubjects.subSubjectType"
-    | "subjects.subjectType"
-  >,
+  Populate<ClassTypeMetaData, "subjects.subSubjects.subSubjectType" | "subjects.subjectType">,
   "subjects"
 >["subjects"][0] & { rank: number };
 
 export class ClassTypeMapper {
   static toClassTypeDto(
     classType: Pick<
-      Populate<ClassTypeMetaData, "subLevel" | "section">,
-      "subLevel" | "section" | "name" | "capacity" | "newId" | "isTerminal" | "_id"
+      Populate<ClassTypeMetaData, "subLevel">,
+      "subLevel" | "name" | "capacity" | "newId" | "isTerminal" | "_id"
     > & { nextClassTypes: Pick<ClassType, "name" | "newId">[] | null },
   ): ClassTypeDto {
     return {
@@ -29,9 +26,6 @@ export class ClassTypeMapper {
       capacity: classType.capacity,
       level: { name: classType.subLevel.level.name, newId: classType.subLevel.level.newId },
       subLevel: { name: classType.subLevel.name, newId: classType.subLevel.newId },
-      section: classType.section
-        ? { name: classType.section.name, newId: classType.section.newId }
-        : null,
       isTerminal: classType.isTerminal,
       nextClassTypes:
         classType.nextClassTypes?.map(nextClassType => ({
@@ -51,12 +45,10 @@ export class ClassTypeMapper {
       },
       rank: subject.rank,
       coefficient: subject.coefficient,
-      isIncludedInGradeBook: ClassTypeService.checkSubjectIncludedInGradeBook(subject),
       hasSubSubjects,
       subSubjects: subject.subSubjects.map((subSubject, i) =>
         this.toSubSubjectOfClassTypeDTO(subSubject, i),
       ),
-      exams: subject.exams.map(exam => this.toExamDTO(exam)),
     };
   }
 
@@ -71,20 +63,8 @@ export class ClassTypeMapper {
         name: subSubject.subSubjectType.name,
       },
       rank,
-      isIncludedInGradeBook: ClassTypeService.checkSubSubjectIncludedInGradeBook(subSubject),
       name: subSubject.subSubjectType.name,
       coefficient: subSubject.coefficient,
-      exams: subSubject.exams.map(exam => this.toExamDTO(exam)),
-    };
-  }
-
-  private static toExamDTO(
-    exam: Populate<ClassTypeMetaData, "subjects.exams.examType">["subjects"][0]["exams"][0],
-  ): ExamDTO {
-    return {
-      name: exam.examType.name,
-      examTypeNewId: exam.examType.newId,
-      coefficient: exam.coefficient,
     };
   }
 

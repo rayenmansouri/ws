@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { validateNewId } from "../../../../../core/validator";
-import { TOPIC_TYPE_ENUM } from "../../../../../feature/examGrade/domain/tunisian/ExamGrade.entity";
+import { TOPIC_TYPE_ENUM } from "../../../../../helpers/constants";
 
 const validateTime = z.object({
   day: z.number().min(0).max(6),

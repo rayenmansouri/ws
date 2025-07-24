@@ -1,14 +1,11 @@
 import { injectable } from "inversify/lib/inversify";
 import { inject } from "../../../core/container/TypedContainer";
-import { ClassRepo } from "../domain/Class.repo";
-import { StudentProfileRepo } from "../../students/domain/StudentProfile.repo";
-import { StudentRepo } from "../../students/domain/Student.repo";
 import { ID } from "../../../types/BaseEntity";
+import { StudentRepo } from "../../students/domain/Student.repo";
+import { StudentProfileRepo } from "../../students/domain/StudentProfile.repo";
+import { ClassRepo } from "../domain/Class.repo";
 import { ClassService } from "../domain/Class.service";
-import { ClassTypeRepo } from "../../classTypes/repo/ClassType.repo";
 import { ClassGroupRepo } from "../domain/classGroup.repo";
-import { ExamGradeRepo } from "../../examGrade/domain/tunisian/ExamGrade.repo";
-import { GradeBookObservationRepo } from "../../gradeBookObservation/GradeBookObservation.repo";
 
 type UnassignStudentFromClassInput = {
   classNewId: string;
@@ -21,10 +18,7 @@ export class UnassignStudentFromClassUseCase {
     @inject("ClassRepo") private classRepo: ClassRepo,
     @inject("StudentProfileRepo") private studentProfileRepo: StudentProfileRepo,
     @inject("StudentRepo") private studentRepo: StudentRepo,
-    @inject("ClassTypeRepo") private classTypeRepo: ClassTypeRepo,
     @inject("ClassGroupRepo") private classGroupRepo: ClassGroupRepo,
-    @inject("ExamGradeRepo") private examGradeRepo: ExamGradeRepo,
-    @inject("GradeBookObservationRepo") private gradeBookObservationRepo: GradeBookObservationRepo,
   ) {}
 
   async execute(params: UnassignStudentFromClassInput): Promise<void> {
@@ -53,12 +47,6 @@ export class UnassignStudentFromClassUseCase {
       studentToRemoveIds,
       classDoc.schoolYear,
       { classGroup: null, class: null },
-    );
-
-    await this.examGradeRepo.removeStudentsFromExamGradeOfClass(classDoc._id, studentToRemoveIds);
-    await this.gradeBookObservationRepo.removeStudentsFromGradeBookObservationOfClass(
-      classDoc._id,
-      studentToRemoveIds,
     );
 
     return;

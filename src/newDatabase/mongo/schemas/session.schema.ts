@@ -2,7 +2,7 @@ import mongoose, { Types } from "mongoose";
 import { createMongoSchema } from "../createSchema";
 import { mongoSessionTypeSchema } from "./sessionType.schema";
 import { Session } from "../../../feature/sessionManagement/domain/session.entity";
-import { fileSchema } from "../../../database/schema/announcement/comment.schema";
+import { newfileSchema } from "../../../types/entities";
 
 export const mongoSessionSchema = createMongoSchema<Session>({
   sessionType: mongoSessionTypeSchema,
@@ -15,7 +15,7 @@ export const mongoSessionSchema = createMongoSchema<Session>({
   classroom: { type: Types.ObjectId, ref: "classroom" },
   attendence: { type: mongoose.Schema.Types.Mixed },
   group: { type: Types.ObjectId, ref: "group" },
-  files: [fileSchema],
+  files: [newfileSchema],
   notes: [{ title: String, text: String }],
   sessionSummary: String,
   status: { type: String },

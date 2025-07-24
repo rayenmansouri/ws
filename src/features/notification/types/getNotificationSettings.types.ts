@@ -1,9 +1,10 @@
-import { ObjectId } from "mongoose";
-import { IPreferences } from "./interfaces";
+import { ID } from "../../../types/BaseEntity";
 import { TGetAllNotificationSettingsValidation } from "./../validations/getNotificationSettings.validation";
+import { IPreferences } from "./interfaces";
+
 export type TGetNotificationSettingsRouteConfig = TGetAllNotificationSettingsValidation;
 export type TGetNotificationSettingsResponse = {
-  userId: ObjectId;
+  userId: ID;
   isPushNotificationEnabled: boolean;
   preferences: IPreferences;
 };

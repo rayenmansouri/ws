@@ -2,7 +2,6 @@ import { injectable } from "inversify";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { inject } from "../../../core/container/TypedContainer";
 import { getCurrentTimeOfSchool } from "../../../core/getCurrentTimeOfSchool";
-import { SESSION_STATUS_ENUM } from "../../../database/schema/pedagogy/session/session.schema";
 import { TLanguageEnum } from "../../../translation/constants";
 import { Classroom } from "../../classrooms/domains/classroom.entity";
 import { ClassroomRepo } from "../../classrooms/domains/classroom.repo";
@@ -14,6 +13,7 @@ import { SessionApplicationService } from "../applicationServices/Session.applic
 import { SessionRepo } from "../domain/Session.repo";
 import { SessionService } from "../domain/Session.service";
 import { SessionTypeRepo } from "../../sessionTypes/repos/SessionType.repo";
+import { SESSION_STATUS_ENUM } from "../domain/session.entity";
 
 type AddSessionForGroupDtoRequest = {
   sessionTypeNewId: string;

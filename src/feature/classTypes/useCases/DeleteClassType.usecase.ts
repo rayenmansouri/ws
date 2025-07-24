@@ -4,7 +4,6 @@ import { ClassRepo } from "../../classes/domain/Class.repo";
 import { ClassTypeRepo } from "../repo/ClassType.repo";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { StudentRepo } from "../../students/domain/Student.repo";
-import { PreRegistrationRepo } from "../../preRegistration/domains/PreRegistration.repo";
 
 @injectable()
 export class DeleteClassTypeUseCase {
@@ -12,7 +11,6 @@ export class DeleteClassTypeUseCase {
     @inject("ClassRepo") private classRepo: ClassRepo,
     @inject("ClassTypeRepo") private classTypeRepo: ClassTypeRepo,
     @inject("StudentRepo") private studentRepo: StudentRepo,
-    @inject("PreRegistrationRepo") private preRegistrationRepo: PreRegistrationRepo,
   ) {}
 
   async execute(classTypeNewId: string): Promise<void> {
@@ -32,11 +30,6 @@ export class DeleteClassTypeUseCase {
     const students = [...studentEnrolledWithClassType, ...studentEnrolledToNextClassType];
 
     if (students.length > 0) throw new BadRequestError("classType.linkedWithSomeStudents");
-
-    const preRegistrations = await this.preRegistrationRepo.findManyByClassType(classType._id);
-
-    if (preRegistrations.length > 0)
-      throw new BadRequestError("classType.linkedWithSomePreRegistrations");
 
     const classTypeLinkedWithNextClassType = await this.classTypeRepo.findManyByNextClassType(
       classType._id,

@@ -2,10 +2,7 @@ import { NextFunction, Response } from "express";
 import { AsyncHandlerForMiddleware } from "../core/AsyncHandler";
 import { AuthFailureError } from "../core/ApplicationErrors";
 import { schoolDocStore } from "../core/subdomainStore";
-import {
-  getNewTenantConnection,
-  getTenantCon,
-} from "../database/connectionDB/tenantPoolConnection";
+import { getNewTenantConnection } from "../database/connectionDB/tenantPoolConnection";
 import { ProtectedRequest } from "../types/app-request";
 
 export const getTenantConnection = AsyncHandlerForMiddleware(
@@ -16,9 +13,8 @@ export const getTenantConnection = AsyncHandlerForMiddleware(
 
     if (!schoolSubdomain) throw new AuthFailureError("Invalid Token");
 
-    const connection = await getTenantCon(schoolSubdomain);
     const newConnection = await getNewTenantConnection(schoolSubdomain);
-    req.conn = connection;
+    req.conn = newConnection;
     req.newConnection = newConnection;
     next();
   },

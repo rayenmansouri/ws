@@ -1,7 +1,6 @@
 import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { LevelRepo } from "../../levels/repos/Level.repo";
-import { SectionRepo } from "../../sections/repos/Section.repo";
 import { SubLevelRepo } from "../../subLevels/domains/SubLevel.repo";
 import { ClassTypeRepo } from "../repo/ClassType.repo";
 import { ClassTypeDto } from "../dtos/classType.dto";
@@ -16,7 +15,6 @@ export class ListClassTypeUseCase {
     @inject("LevelRepo") private levelRepo: LevelRepo,
     @inject("SubLevelRepo") private subLevelRepo: SubLevelRepo,
     @inject("ClassTypeRepo") private classTypeRepo: ClassTypeRepo,
-    @inject("SectionRepo") private sectionRepo: SectionRepo,
   ) {}
 
   async execute(
@@ -46,16 +44,9 @@ export class ListClassTypeUseCase {
     const subLevelIds =
       subLevels?.map(subLevel => subLevel._id) || subLevelsFromLevel?.map(subLevel => subLevel._id);
 
-    const sections = queries.sectionNewIds
-      ? await this.sectionRepo.findManyByNewIds(queries.sectionNewIds)
-      : null;
-
-    const sectionIds = sections?.map(section => section._id);
-
     const classTypes = await this.classTypeRepo.listClassTypes(
       {
         subLevelIds,
-        sectionsIds: sectionIds,
         search: queries.search || undefined,
         classTypeIds: queries.classTypesIds,
       },

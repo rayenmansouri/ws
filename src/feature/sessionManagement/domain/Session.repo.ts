@@ -1,17 +1,21 @@
 import { BaseRepo } from "../../../core/BaseRepo";
 import { Populate } from "../../../core/populateTypes";
-import { TSessionStatusEnum } from "../../../database/schema/pedagogy/session/session.schema";
 import { TScheduleEntityEnum } from "../../../helpers/constants";
 import { ResponseWithPagination } from "../../../newDatabase/mongo/types";
 import { ID } from "../../../types/BaseEntity";
 import { ListOptions } from "../../../types/types";
 import { TTopicTypeEnum } from "../../../helpers/constants";
 import { SessionType } from "../../sessionTypes/domains/sessionType.entity";
-import { TAttendanceEnum } from "./../../../database/schema/pedagogy/session/session.schema";
 import { TAttendanceStatusEnum } from "./../../../features/notification/constants/constants";
 import { Student } from "./../../students/domain/student.entity";
 import { Teacher } from "./../../teachers/domain/teacher.entity";
-import { Session, SessionMetaData, TeacherAttendanceStatusEnum } from "./session.entity";
+import {
+  Session,
+  SessionMetaData,
+  TAttendanceEnum,
+  TeacherAttendanceStatusEnum,
+  TSessionStatusEnum,
+} from "./session.entity";
 
 export type enrichedSessionData = Populate<
   SessionMetaData,

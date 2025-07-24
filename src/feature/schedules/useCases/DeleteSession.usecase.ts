@@ -1,8 +1,8 @@
 import { injectable } from "inversify/lib/inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { BadRequestError } from "../../../core/ApplicationErrors";
-import { SESSION_STATUS_ENUM } from "../../../database/schema/pedagogy/session/session.schema";
 import { SessionRepo } from "../../sessionManagement/domain/Session.repo";
+import { SESSION_STATUS_ENUM } from "../../sessionManagement/domain/session.entity";
 
 @injectable()
 export class DeleteSessionUseCase {

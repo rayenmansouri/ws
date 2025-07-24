@@ -10,12 +10,9 @@ import { BaseUser } from "../../users/domain/baseUser.entity";
 import { SessionApplicationService } from "../applicationServices/Session.application.service";
 import { SessionRepo } from "../domain/Session.repo";
 import { SessionMapper } from "../mapper/Session.mapper";
-import {
-  SESSION_STATUS_ENUM,
-  TAttendanceEnum,
-} from "./../../../database/schema/pedagogy/session/session.schema";
 import { SessionService } from "./../domain/Session.service";
 import { SessionDetailsDTO } from "./../dtos/sessionDetails.dto";
+import { SESSION_STATUS_ENUM, TAttendanceEnum } from "../domain/session.entity";
 
 export type GetSessionDetailsRequestDTO = {
   userDetails: { user: Omit<BaseUser, "roles"> & { roles: Role[] }; type: TEndUserEnum };

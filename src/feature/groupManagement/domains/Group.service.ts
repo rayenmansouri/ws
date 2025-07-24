@@ -57,17 +57,7 @@ export class GroupService {
     }
   }
 
-  static isIncludedInGradeBook(group: { groupType: Pick<GroupType, "exams"> }): boolean {
-    return group.groupType.exams.length > 0;
-  }
-
   static getGroupTypeCoefficient(group: Pick<Group, "groupType">): number {
-    const includeInGradeBook = this.isIncludedInGradeBook(group);
-
-    if (!includeInGradeBook) {
-      throw new BadRequestError("groupRules.groupTypeNotIncludeInGradeBook");
-    }
-
     const coefficient = group.groupType.coefficient;
 
     if (coefficient === null || coefficient === undefined) {
@@ -75,16 +65,6 @@ export class GroupService {
     }
 
     return coefficient;
-  }
-
-  static ensureGroupHasOneLevelWhenIncludeInGradeBook(
-    group: Pick<Group, "groupType" | "levels">,
-  ): void {
-    const isIncludeInGradeBook = this.isIncludedInGradeBook(group);
-
-    if (isIncludeInGradeBook && group.levels.length > 1) {
-      throw new BadRequestError("groupRules.groupIncludeInGradeBookCannotHaveMultipleLevels");
-    }
   }
 
   static ensureSingleLevelForExamsOfGroup(data: {

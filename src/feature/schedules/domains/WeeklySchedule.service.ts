@@ -1,8 +1,7 @@
 import moment from "moment";
 import { BadRequestError } from "../../../core/ApplicationErrors";
-import { SESSION_STATUS_ENUM } from "../../../database/schema/pedagogy/session/session.schema";
 import { BaseEntity } from "../../../types/BaseEntity";
-import { Session } from "../../sessionManagement/domain/session.entity";
+import { Session, SESSION_STATUS_ENUM } from "../../sessionManagement/domain/session.entity";
 import { SessionType } from "../../sessionTypes/domains/sessionType.entity";
 import { WeeklySession } from "../../weeklySessions/domains/weeklySession.entity";
 import { SchoolYear } from "../../schoolYears/domain/schoolYear.entity";

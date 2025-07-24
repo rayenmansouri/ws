@@ -2,9 +2,9 @@ import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { SessionRepo } from "../domain/Session.repo";
 import { getCurrentTimeOfSchool } from "./../../../core/getCurrentTimeOfSchool";
-import { SESSION_STATUS_ENUM } from "./../../../database/schema/pedagogy/session/session.schema";
 import { ID } from "./../../../types/BaseEntity";
 import { SessionService } from "./../domain/Session.service";
+import { SESSION_STATUS_ENUM } from "../domain/session.entity";
 
 export type CloseSessionRequestDTO = {
   sessionNewId: string;

@@ -26,7 +26,7 @@ connectToMasterDatabase()
 
     await initializeCrons();
 
-    // initializeFCM();
+    initializeFCM();
 
     container.get("HandlerSubscriber").subscribeHandlers();
 

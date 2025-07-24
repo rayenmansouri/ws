@@ -1,7 +1,6 @@
 import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { SchoolYear } from "../../schoolYears/domain/schoolYear.entity";
-import { TermRepo } from "../../terms/repos/Term.repo";
 import {
   EXAM_GRADE_SYSTEM_ENUM,
   Level,
@@ -17,7 +16,6 @@ import { BadRequestError } from "../../../core/ApplicationErrors";
 export class AddLevelUseCase {
   constructor(
     @inject("LevelRepo") private levelRepo: LevelRepo,
-    @inject("TermRepo") private termRepo: TermRepo,
     @inject("AddSchoolYearUseCase") private addSchoolYearUseCase: AddSchoolYearUseCase,
     @inject("School") private school: School,
   ) {}

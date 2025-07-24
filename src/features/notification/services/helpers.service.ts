@@ -1,57 +1,39 @@
-import { IAttendance } from "../../../feature/sessionManagement/domain/session.entity";
 import { BatchResponse } from "firebase-admin/lib/messaging/messaging-api";
 import { ClientSession, Connection } from "mongoose";
+import { NotFoundError } from "../../../core/ApplicationErrors";
 import {
-  INotification,
+  IBaseNotification,
   notificationTopicWithDetails,
-} from "../../../database/schema/notification/notification.schema";
+} from "../../../feature/notifications/notification.entity";
+import { NotificationSettings } from "../../../feature/notifications/NotificationSettings.entity";
+import { IAttendance, Session } from "../../../feature/sessionManagement/domain/session.entity";
+import { RandomUtils } from "../../../helpers/RandomUtils";
 import {
   FCM_TOKEN_LIMIT,
   NOTIFICATION_STATUS_ENUM,
   NOTIFICATION_TYPES_ENUM,
 } from "../constants/constants";
 import { INotificationBase, INotificationPayload } from "../types/interfaces";
-import { END_USER_ENUM } from "./../../../constants/globalEnums";
+import { END_USER_ENUM, END_USER_WITHOUT_MASTER_ENUM } from "./../../../constants/globalEnums";
 import { getCurrentTimeOfSchool } from "./../../../core/getCurrentTimeOfSchool";
-import { NotFoundError } from "../../../core/ApplicationErrors";
-import { crudRepo } from "./../../../database/repositories/crud.repo";
-import { IBaseNotification } from "./../../../database/schema/notification/notification.schema";
-import { INotificationSettings } from "./../../../database/schema/notification/notificationSettings.schema";
-import { IParent } from "./../../../database/schema/users/parent.schema";
-import { IStudent } from "./../../../database/schema/users/student.schema";
 import { populateInterface } from "./../../../database/types";
 import { FCM } from "./../../../firebase";
 import {
   categorizeStudentsByAttendance,
   removeDuplicateStringInArray,
 } from "./../../../helpers/functions";
-import { END_USER_WITHOUT_MASTER_ENUM } from "./../../../constants/globalEnums";
-import { RandomUtils } from "../../../helpers/RandomUtils";
+import { Class } from "../../../feature/classes/domain/class.entity";
+import { Student, StudentMetaData } from "../../../feature/students/domain/student.entity";
+import { Populate } from "../../../core/populateTypes";
+import { ClassGroup } from "../../../feature/classes/domain/classGroup.entity";
 
-export const getNotificationSettingsDocs = async (
-  connection: Connection,
-  usersIds: string[],
-): Promise<INotificationSettings[]> => {
-  const notificationSettingsDocs = await crudRepo(connection, "notificationSettings").findMany({
-    userId: { $in: usersIds },
-  });
-
-  return notificationSettingsDocs;
-};
-
-export const saveNotification = async (
-  connection: Connection,
-  notificationData: IBaseNotification,
-  session?: ClientSession,
-): Promise<INotification> => {
-  return await crudRepo(connection, "notification").addOne(notificationData, session);
-};
 export const saveManyNotifications = async (
   connection: Connection,
-  notificationData: (IBaseNotification & { broadcastId: string })[],
+  notificationData: unknown[], // Adjust type as needed
   session?: ClientSession,
 ): Promise<void> => {
-  return await crudRepo(connection, "notification").addMany(notificationData, session);
+  await connection.model("notification").create(notificationData, { session });
+  return;
 };
 
 export const handleFailedRegistrationToken = async (
@@ -74,14 +56,14 @@ export const handleFailedRegistrationToken = async (
           registrationTokens: { token: { $in: failedTokens } },
         },
       };
-      await crudRepo(connection, "notificationSettings").updateMany(filterQuery, updateQuery);
+      await connection.model("notificationSettings").updateMany(filterQuery, updateQuery);
     }
   }
 };
 export const sendNotifications = async (
   payload: INotificationPayload,
   data: { [key: string]: string; broadcastId: string },
-  notificationTopicWithDetails: notificationTopicWithDetails,
+  notificationTopicWithDetails: { topic: string; details: unknown },
 ): Promise<BatchResponse[]> => {
   const batchResponses = await sendFCMInBatches(payload, {
     ...data,
@@ -118,7 +100,10 @@ export const sendNotificationsToUsers = async (
   session?: ClientSession,
   notificationSettings?: INotificationBase,
 ): Promise<void> => {
-  const notificationsSettingsDocs = await getNotificationSettingsDocs(connection, usersIds);
+  const notificationsSettingsDocs = await connection
+    .model<NotificationSettings>("notificationSettings")
+    .find({ userId: { $in: usersIds } })
+    .lean();
 
   const tokens: string[] = notificationsSettingsDocs.flatMap(notificationSettings =>
     notificationSettings.registrationTokens.map(registration => registration.token),
@@ -151,9 +136,9 @@ export const sendNotificationToStudentsOfClass = async (
   session: ClientSession,
   notificationSettings?: INotificationBase,
 ): Promise<void> => {
-  const classDoc = await crudRepo(connection, "class").findOne({ _id: classId });
+  const classDoc = await connection.model<Class>("class").findOne({ _id: classId }).lean();
   if (!classDoc) throw new NotFoundError("notification cant be send because class is not found");
-  const studentsIds = classDoc.students.map(id => id.toString());
+  const studentsIds = classDoc.students.map(id => String(id));
   const notificationData = {
     userId: "",
     userType: END_USER_WITHOUT_MASTER_ENUM.STUDENT,
@@ -181,10 +166,17 @@ export const sendNotificationToParentsOfStudent = async (
   session?: ClientSession,
   notificationSettings?: INotificationBase,
 ): Promise<void> => {
-  const studentsDocs = (await crudRepo(connection, "student").findOne(
-    { _id: studentId },
-    { populate: ["parents"] },
-  )) as unknown as populateInterface<IStudent, { parents: IParent[] }>;
+  const studentsDocs = (await connection
+    .model<Student>("student")
+    .findOne({ _id: studentId }, { populate: ["parents"] })
+    .lean()) as unknown as Populate<StudentMetaData, "parents"> | null;
+  // (await crudRepo(connection, "student").findOne(
+  //   { _id: studentId },
+  //   { populate: ["parents"] },
+  // )) as unknown as populateInterface<IStudent, { parents: IParent[] }>;
+  if (!studentsDocs) {
+    throw new NotFoundError("notification cant be send because student or parents are not found");
+  }
   const parentsIds = studentsDocs.parents.map(parent => parent._id.toString());
 
   const notificationData: IBaseNotification = {
@@ -219,7 +211,12 @@ export const sendNotificationToStudentsOfClassGroup = async (
   session: ClientSession,
   notificationSettings?: INotificationBase,
 ): Promise<void> => {
-  const groupDoc = await crudRepo(connection, "classGroup").findOne({ _id: groupeId });
+  const groupDoc = await connection
+    .model<ClassGroup>("classGroup")
+    .findOne({ _id: groupeId })
+    .lean();
+  // const
+  //await crudRepo(connection, "classGroup").findOne({ _id: groupeId });
   if (!groupDoc) throw new NotFoundError("notifications cant be send because group is not found");
   const studentsIdsOfGroup = groupDoc.students.map(id => id.toString());
   const notificationData: IBaseNotification = {
@@ -299,10 +296,10 @@ export const sendNotificationsToParentsBasedOnAttendance = async (
       expelledStudentIds = categorizedStudentsByAttendance["attendance_expelled"];
 
     if (absentStudentIds.length > 0) {
-      const absentStudentsDocs = await crudRepo(connection, "student").findMany({
-        _id: { $in: absentStudentIds },
-        isArchived: false,
-      });
+      const absentStudentsDocs = await connection
+        .model<Student>("student")
+        .find({ _id: { $in: absentStudentIds }, isArchived: false })
+        .lean();
 
       for (const studentDoc of absentStudentsDocs) {
         notificationPromises.push(
@@ -321,10 +318,10 @@ export const sendNotificationsToParentsBasedOnAttendance = async (
     }
 
     if (lateStudentIds.length > 0) {
-      const lateStudentsDocs = await crudRepo(connection, "student").findMany({
-        _id: { $in: lateStudentIds },
-        isArchived: false,
-      });
+      const lateStudentsDocs = await connection
+        .model<Student>("student")
+        .find({ _id: { $in: lateStudentIds }, isArchived: false })
+        .lean();
 
       for (const studentDoc of lateStudentsDocs) {
         notificationPromises.push(
@@ -343,10 +340,11 @@ export const sendNotificationsToParentsBasedOnAttendance = async (
     }
 
     if (expelledStudentIds.length > 0) {
-      const expelledStudentsDocs = await crudRepo(connection, "student").findMany({
-        _id: { $in: expelledStudentIds },
-        isArchived: false,
-      });
+      const expelledStudentsDocs = await connection
+        .model<Student>("student")
+        .find({ _id: { $in: expelledStudentIds }, isArchived: false })
+        .lean();
+
       for (const studentDoc of expelledStudentsDocs) {
         notificationPromises.push(
           sendNotificationToParentsOfStudent(
@@ -368,25 +366,27 @@ export const sendNotificationsToParentsBasedOnAttendance = async (
 export const sendNotificationToTeachersOfSession = async (
   connection: Connection,
   sessionId: string,
-  notificationType: notificationTopicWithDetails,
+  notificationType: { topic: string; details: unknown }, // Adjust type as needed
   dynamicFieldValues: { [key: string]: string },
   schoolId: string,
   session: ClientSession,
   notificationSettings?: INotificationBase,
 ): Promise<void> => {
-  const sessionDoc = await crudRepo(connection, "session").findOne({ _id: sessionId });
+  const sessionDoc = await connection.model<Session>("session").findOne({ _id: sessionId }).lean();
   if (!sessionDoc)
     throw new NotFoundError("notification cant be send because session is not found");
-  const teachersIds = [sessionDoc.teacher.toString()];
+  const teachersIds = [String(sessionDoc.teacher)];
+
   const notificationData = {
     userId: "",
-    userType: END_USER_WITHOUT_MASTER_ENUM.TEACHER,
+    userType: END_USER_ENUM.TEACHER,
     message: notificationSettings?.body || "",
     status: NOTIFICATION_STATUS_ENUM.UNSEEN,
     date: getCurrentTimeOfSchool(schoolId),
     dynamicFieldValues,
     ...notificationType,
-  };
+  } as IBaseNotification;
+
   await sendNotificationsToUsers(
     connection,
     teachersIds,

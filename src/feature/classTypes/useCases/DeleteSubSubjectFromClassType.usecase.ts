@@ -1,18 +1,14 @@
 import { injectable } from "inversify";
+import { BadRequestError, InternalError } from "../../../core/ApplicationErrors";
 import { inject } from "../../../core/container/TypedContainer";
 import { FileManager } from "../../../core/fileManager/FileManager";
-import { BadRequestError, InternalError } from "../../../core/ApplicationErrors";
-import { TOPIC_TYPE_ENUM } from "../../examGrade/domain/tunisian/ExamGrade.entity";
+import { TOPIC_TYPE_ENUM } from "../../../helpers/constants";
 import { ClassRepo } from "../../classes/domain/Class.repo";
-import { ExamGradeRepo } from "../../examGrade/domain/tunisian/ExamGrade.repo";
-import { HomeworkRepo } from "../../homeworks/domain/Homework.repo";
 import { SessionRepo } from "../../sessionManagement/domain/Session.repo";
+import { SubSubjectTypesRepo } from "../../subSubjectTypes/repos/SubSubjectTypes.repo";
 import { WeeklySessionRepo } from "../../weeklySessions/repos/WeeklySession.repo";
 import { ClassTypeRepo } from "../repo/ClassType.repo";
-import { GradeBookObservationRepo } from "../../gradeBookObservation/GradeBookObservation.repo";
-import { uniq } from "lodash";
-import { SESSION_STATUS_ENUM } from "../../../database/schema/pedagogy/session/session.schema";
-import { SubSubjectTypesRepo } from "../../subSubjectTypes/repos/SubSubjectTypes.repo";
+import { SESSION_STATUS_ENUM } from "../../sessionManagement/domain/session.entity";
 
 @injectable()
 export class DeleteSubSubjectFromClassTypeUseCase {
@@ -22,10 +18,7 @@ export class DeleteSubSubjectFromClassTypeUseCase {
     @inject("SubSubjectTypeRepo") private subSubjectTypeRepo: SubSubjectTypesRepo,
     @inject("SessionRepo") private sessionRepo: SessionRepo,
     @inject("FileManager") private fileManager: FileManager,
-    @inject("HomeworkRepo") private homeworkRepo: HomeworkRepo,
     @inject("WeeklySessionRepo") private weeklySessionRepo: WeeklySessionRepo,
-    @inject("ExamGradeRepo") private examGradeRepo: ExamGradeRepo,
-    @inject("GradeBookObservationRepo") private gradeBookObservationRepo: GradeBookObservationRepo,
   ) {}
 
   async execute(classTypeNewId: string, subSubjectTypeNewId: string): Promise<void> {
@@ -98,37 +91,5 @@ export class DeleteSubSubjectFromClassTypeUseCase {
     );
 
     if (!subSubject) throw new InternalError("SubSubject Not Found");
-
-    await this.examGradeRepo.deleteManyBySubSubject({
-      classIds,
-      subSubjectTypeId: subSubjectType._id,
-      examTypeIds: subSubject.exams.map(exam => exam.examType),
-    });
-
-    await this.gradeBookObservationRepo.deleteManyByClassAndTopic(
-      classIds,
-      subSubjectType._id,
-      TOPIC_TYPE_ENUM.SUB_SUBJECT_TYPE,
-    );
-
-    const sessionHomeworks = sessions.flatMap(session =>
-      session.homeworkGiven.concat(session.homeworkToDo),
-    );
-
-    const homeworkDocs = await this.homeworkRepo.findManyByClassesAndTopic(
-      classIds,
-      subSubjectType._id,
-      TOPIC_TYPE_ENUM.SUB_SUBJECT_TYPE,
-    );
-
-    const publicIds = sessionHomeworks
-      .flatMap(homework => homework.files.map(file => file.public_id))
-      .concat(homeworkDocs.flatMap(homework => homework.files.map(file => file.public_id)));
-
-    await this.fileManager.deleteFiles(uniq(publicIds));
-
-    const homeworkIds = homeworkDocs.map(homework => homework._id);
-
-    await this.homeworkRepo.deleteManyByIds(homeworkIds);
   }
 }

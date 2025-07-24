@@ -1,28 +1,25 @@
-import { tenantSchemas } from "./../../core/initializeModels";
 import * as mongoose from "mongoose";
 import { auth_db, database_secret } from "../../config";
-import { initializeModels } from "../../core/initializeModels";
-import { initializeNewID } from "../../core/newId/addNewId";
 import { schoolDocStore } from "../../core/subdomainStore";
-import { allMongoSchemas } from "../../newDatabase/mongo/schemas/allMongoSchemas";
 import { School } from "../../feature/schools/domain/school.entity";
+import { allMongoSchemas } from "../../newDatabase/mongo/schemas/allMongoSchemas";
 
 export const connectionPools: { [subdomain: string]: mongoose.Connection } = {};
 export const newConnectionPools: { [subdomain: string]: mongoose.Connection } = {};
 
-export async function getTenantCon(subdomain: string): Promise<mongoose.Connection> {
-  const connection = connectionPools[subdomain];
+// export async function getTenantCon(subdomain: string): Promise<mongoose.Connection> {
+//   const connection = connectionPools[subdomain];
 
-  if (connection) {
-    return connection;
-  }
-  connectionPools[subdomain] = mongoose.createConnection(
-    `${database_secret}/${subdomain}?${auth_db}`,
-  );
-  initializeModels(connectionPools[subdomain], tenantSchemas);
-  await initializeNewID(connectionPools[subdomain]);
-  return connectionPools[subdomain];
-}
+//   if (connection) {
+//     return connection;
+//   }
+//   connectionPools[subdomain] = mongoose.createConnection(
+//     `${database_secret}/${subdomain}?${auth_db}`,
+//   );
+//   //initializeModels(connectionPools[subdomain], tenantSchemas);
+//   await initializeNewID(connectionPools[subdomain]);
+//   return connectionPools[subdomain];
+// }
 
 export const getNewTenantConnection = async (subdomain: string): Promise<mongoose.Connection> => {
   const connection = newConnectionPools[subdomain];

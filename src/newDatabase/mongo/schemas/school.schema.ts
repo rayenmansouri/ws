@@ -1,8 +1,8 @@
 import * as moongoose from "mongoose";
 import { Schema } from "mongoose";
-import { fileSchema } from "../../../database/schema/announcement/comment.schema";
 import { School } from "../../../feature/schools/domain/school.entity";
 import { createMongoSchema } from "../createSchema";
+import { newfileSchema } from "../../../types/entities";
 
 const mongoSchoolSchema = createMongoSchema<School>({
   name: String,
@@ -39,9 +39,9 @@ const mongoSchoolSchema = createMongoSchema<School>({
     days: [{ type: Number }],
     step: Number,
   },
-  signature: { type: fileSchema },
-  financeSignature: { type: fileSchema },
-  academicSignature: { type: fileSchema },
+  signature: { type: newfileSchema },
+  financeSignature: { type: newfileSchema },
+  academicSignature: { type: newfileSchema },
   totalSmsSold: Number,
 });
 

@@ -2,11 +2,11 @@ import { injectable } from "inversify";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { inject } from "../../../core/container/TypedContainer";
 import { getCurrentTimeOfSchool } from "../../../core/getCurrentTimeOfSchool";
-import { TSessionStatusEnum } from "../../../database/schema/pedagogy/session/session.schema";
 import { ID } from "../../../types/BaseEntity";
 import { SessionRepo } from "../domain/Session.repo";
 import { SessionService } from "../domain/Session.service";
 import { StartSessionUseCase } from "./startSession.usecase";
+import { TSessionStatusEnum } from "../domain/session.entity";
 
 export type UpdateSessionStatusRequestDTO = {
   sessionNewId: string;
