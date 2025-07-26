@@ -43,6 +43,7 @@ const mongoSchoolSchema = createMongoSchema<School>({
   financeSignature: { type: fileSchema },
   academicSignature: { type: fileSchema },
   totalSmsSold: Number,
+  schoolSystem: String,
 });
 
 export const mongoSchoolModel = moongoose.model<School>("schools", mongoSchoolSchema);
