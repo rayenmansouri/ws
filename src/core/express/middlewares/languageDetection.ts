@@ -1,7 +1,8 @@
 import { NextFunction, Response } from "express";
 import { DEFAULT_LANGUAGE, LANGUAGE_ENUM, TLanguageEnum } from "../../../translation/constants";
 import { BadRequestError } from "../../ApplicationErrors";
-import { TypedRequest } from "../types";
+import { Middleware, TypedRequest } from "../types";
+import { IMiddlewareFunction } from "./interface";
 
 export const languageDetectionMiddleware = (
   req: TypedRequest,
@@ -23,3 +24,14 @@ export const languageDetectionMiddleware = (
 
   next();
 };
+
+export class LanguageDetectionMiddleware implements IMiddlewareFunction {
+  canActivate(): boolean {
+    return true;
+  }
+
+  getMiddleware(): Middleware[] {
+    return [languageDetectionMiddleware];
+  }
+}
+

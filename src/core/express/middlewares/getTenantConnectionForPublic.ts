@@ -3,8 +3,9 @@ import {
   getNewTenantConnection,
   getSchoolFromSubdomain,
 } from "../../../database/connectionDB/tenantPoolConnection";
-import { TypedRequest } from "../types";
+import { Middleware, RouteConfiguration, TypedRequest, TypedRequestOptions } from "../types";
 import { asyncHandlerForMiddleware } from "./asyncHandler";
+import { IMiddlewareFunction } from "./interface";
 
 export const getTenantConnectionForPublicRoutes = asyncHandlerForMiddleware(
   async (req: TypedRequest, _: Response, next: NextFunction) => {
@@ -24,3 +25,16 @@ export const getTenantConnectionForPublicRoutes = asyncHandlerForMiddleware(
     next();
   },
 );
+
+export class GetTenantConnectionForPublicRoutesMiddleware implements IMiddlewareFunction {
+  constructor(
+    private routeConfig: RouteConfiguration<TypedRequestOptions, string> 
+  ){}
+  canActivate(): boolean {
+    return this.routeConfig.isPublic === true;
+  }
+
+  getMiddleware(): Middleware[] {
+    return [getTenantConnectionForPublicRoutes];
+  }
+}

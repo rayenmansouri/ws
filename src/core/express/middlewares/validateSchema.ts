@@ -3,7 +3,9 @@ import { ZodTypeAny } from "zod";
 import { fromZodError } from "zod-validation-error";
 import Logger from "../../Logger";
 import { BadRequestError } from "../../ApplicationErrors";
-import { TypedRequest } from "../types";
+import { Middleware, RouteConfiguration, TypedRequest, TypedRequestOptions } from "../types";
+import { IMiddlewareFunction } from "./interface";
+import { parseQuery } from "./queryValidation";
 
 export const VALIDATION_SOURCE = {
   BODY: "body",
@@ -34,3 +36,26 @@ export const validateSchema =
 
     next();
   };
+
+export class ValidateSchemaMiddleware implements IMiddlewareFunction {
+  constructor(
+    private routeConfig: RouteConfiguration<TypedRequestOptions, string> 
+  ) {}
+
+  canActivate(): boolean {
+    return this.routeConfig.bodySchema !== undefined || this.routeConfig.querySchema !== undefined || this.routeConfig.paramSchema !== undefined;
+  }
+
+  getMiddleware(): Middleware[] {
+    if(this.routeConfig.bodySchema !== undefined){
+      return [validateSchema(this.routeConfig.bodySchema, VALIDATION_SOURCE.BODY)];
+    }
+    if(this.routeConfig.querySchema !== undefined){
+      return [parseQuery,validateSchema(this.routeConfig.querySchema, VALIDATION_SOURCE.QUERY)];
+    }
+    if(this.routeConfig.paramSchema !== undefined){
+      return [parseQuery,validateSchema(this.routeConfig.paramSchema, VALIDATION_SOURCE.PARAM)];   
+     }
+     return [];
+  }
+}

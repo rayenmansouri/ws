@@ -5,8 +5,10 @@ import { tokenMasterSecret } from "../../../config";
 import { ID } from "../../../types/BaseEntity";
 import { container } from "../../container/container";
 import { AuthFailureError } from "../../ApplicationErrors";
-import { TypedRequest } from "../types";
+import { Middleware, RouteConfiguration, TypedRequest, TypedRequestOptions } from "../types";
 import { asyncHandlerForMiddleware } from "./asyncHandler";
+import { IMiddlewareFunction } from "./interface";
+import { END_USER_ENUM } from "../../../constants/globalEnums";
 
 export const masterAuthentication = asyncHandlerForMiddleware(
   async (req: TypedRequest, _: Response, next: NextFunction) => {
@@ -45,3 +47,17 @@ export const masterAuthentication = asyncHandlerForMiddleware(
     next();
   },
 );
+
+
+export class MasterAuthenticationMiddleware implements IMiddlewareFunction {
+  constructor(
+    private routeConfig: RouteConfiguration<TypedRequestOptions, string> 
+  ){}
+  canActivate(): boolean {
+    return this.routeConfig.isPublic !== true && this.routeConfig.endUser === END_USER_ENUM.MASTER;
+  }
+
+  getMiddleware(): Middleware[] {
+    return [masterAuthentication];
+  }
+}
