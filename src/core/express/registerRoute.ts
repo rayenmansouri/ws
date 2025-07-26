@@ -1,22 +1,9 @@
 import * as Sentry from "@sentry/node";
-import { NextFunction, Response, Router } from "express";
+import { NextFunction, Response } from "express";
 import mongoose, { ClientSession } from "mongoose";
 import { Field } from "multer";
-import {
-  internalRouter,
-  mobileAdminRouter,
-  mobileParentRouter,
-  mobilePublicRouter,
-  mobileStudentRouter,
-  mobileTeacherRouter,
-  webAdminRouter,
-  webMasterRouter,
-  webParentRouter,
-  webPublicRouter,
-  webStudentRouter,
-  webTeacherRouter,
-} from "../../apps/main/index.routes";
-import { END_USER_ENUM, TEndUserEnum } from "../../constants/globalEnums";
+import { webMasterRouter } from "../../apps/main/index.routes";
+import { END_USER_ENUM } from "../../constants/globalEnums";
 import { School } from "../../feature/schools/domain/school.entity";
 import { ID } from "../../types/BaseEntity";
 import { container } from "../container/container";
@@ -138,56 +125,6 @@ export const registerRoute =
         }
       },
     );
-
-    const router = getRouter(routeConfig.platform, routeConfig.endUser);
-
     //@ts-expect-error - This is needed because the TypedRequest type is not compatible with the express Request type
-    router[routeConfig.method](routeConfig.path, ...middlewares);
+    webMasterRouter[routeConfig.method](routeConfig.path, ...middlewares);
   };
-
-const getRouter = (platform: TPlatformEnum, endUser: TEndUserEnum | undefined): Router => {
-  let router: Router;
-
-  if (platform === "web") {
-    switch (endUser) {
-      case END_USER_ENUM.MASTER:
-        router = webMasterRouter;
-        break;
-      case END_USER_ENUM.ADMIN:
-        router = webAdminRouter;
-        break;
-      case END_USER_ENUM.TEACHER:
-        router = webTeacherRouter;
-        break;
-      case END_USER_ENUM.STUDENT:
-        router = webStudentRouter;
-        break;
-      case END_USER_ENUM.PARENT:
-        router = webParentRouter;
-        break;
-      default:
-        router = webPublicRouter;
-    }
-  } else if (platform === "mobile") {
-    switch (endUser) {
-      case END_USER_ENUM.ADMIN:
-        router = mobileAdminRouter;
-        break;
-      case END_USER_ENUM.TEACHER:
-        router = mobileTeacherRouter;
-        break;
-      case END_USER_ENUM.STUDENT:
-        router = mobileStudentRouter;
-        break;
-      case END_USER_ENUM.PARENT:
-        router = mobileParentRouter;
-        break;
-      default:
-        router = mobilePublicRouter;
-    }
-  } else {
-    router = internalRouter;
-  }
-
-  return router;
-};
