@@ -8,6 +8,7 @@ import { logRequest } from "../../middlewares/logRequest";
 import routes from "./index.routes";
 import * as Sentry from "@sentry/node";
 import "./Routes.routes";
+import { registerCoreMiddlewares } from "../../core/express/middlewares/registerCoreMiddlewares";
 
 process.on("uncaughtException", e => {
   Logger.error(e);
@@ -19,6 +20,9 @@ app.use(express.json());
 app.use(cors());
 
 app.use(logRequest);
+
+// Register core middleware before routes
+registerCoreMiddlewares();
 
 app.use("/api/v1", routes);
 
