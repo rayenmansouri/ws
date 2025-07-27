@@ -6,6 +6,7 @@ import { BadRequestError } from "../../ApplicationErrors";
 import { Middleware, RouteConfiguration, TypedRequest, TypedRequestOptions } from "../types";
 import { IMiddlewareFunction } from "./interface";
 import { parseQuery } from "./queryValidation";
+import { IncomingHttpHeaders } from "http";
 
 export const VALIDATION_SOURCE = {
   BODY: "body",
@@ -32,8 +33,9 @@ export const validateSchema =
       next(new BadRequestError(error));
       return;
     }
-    req[source] = result.data;
-
+   
+    req[source] = result.data; 
+    
     next();
   };
 

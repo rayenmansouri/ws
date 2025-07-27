@@ -8,7 +8,6 @@ import { logRequest } from "../../middlewares/logRequest";
 import routes from "./index.routes";
 import * as Sentry from "@sentry/node";
 import "./Routes.routes";
-import { APIErrorResponse } from "../../core/responseAPI/APIErrorResponse";
 
 process.on("uncaughtException", e => {
   Logger.error(e);

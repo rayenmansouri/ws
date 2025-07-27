@@ -14,6 +14,6 @@ export const internalRouter = Router();
 router.use(webPublicRouter);
 router.use("/master", webMasterRouter);
 
-importAllRoutes(path.join(__dirname, "../../api"));
+importAllRoutes(path.join(__dirname, "../../api/schools")); //only import schools for now
 
 export default router;

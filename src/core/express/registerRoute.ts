@@ -1,17 +1,8 @@
-import { NextFunction, RequestHandler, Response } from "express";
-import mongoose, { ClientSession } from "mongoose";
+import { RequestHandler } from "express";
 import { webMasterRouter } from "../../apps/main/index.routes";
-import { School } from "../../feature/schools/domain/school.entity";
-import { ID } from "../../types/BaseEntity";
-import { container } from "../container/container";
-import { containerRegistry } from "../container/containerRegistry";
-import { APIResponse } from "../responseAPI/APIResponse";
-import { schoolDocStore } from "../subdomainStore";
-import { BaseController } from "./controllers/BaseController"
 import {
   Middleware,
   RouteConfiguration,
-  TypedRequest,
   TypedRequestOptions,
 } from "./types";
 import { allMiddlewares } from "./middlewares";
