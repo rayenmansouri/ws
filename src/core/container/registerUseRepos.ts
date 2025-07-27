@@ -42,7 +42,6 @@ import { MongoPostRepo } from "../../newDatabase/mongo/repositories/MongoPost.re
 import { MongoPreRegistrationRepo } from "../../newDatabase/mongo/repositories/MongoPreRegistration.repo";
 import { MongoReactionRepo } from "../../newDatabase/mongo/repositories/MongoReaction.repo";
 import { MongoRoleRepo } from "../../newDatabase/mongo/repositories/MongoRole.repo";
-import { MongoSchoolRepo } from "../../newDatabase/mongo/repositories/MongoSchool.repo";
 import { MongoSchoolYearRepo } from "../../newDatabase/mongo/repositories/MongoSchoolYear.repo";
 import { MongoSectionRepo } from "../../newDatabase/mongo/repositories/MongoSection.repo";
 import { MongoServiceRepo } from "../../newDatabase/mongo/repositories/MongoService.repo";
@@ -77,9 +76,7 @@ import { MongoSignatureRepo } from "../../newDatabase/mongo/repositories/MongoSi
 import { MongoChapterAttachmentRepo } from "../../newDatabase/mongo/repositories/MongoChapterAttachment.repo";
 import { MongoChapterRepo } from "../../newDatabase/mongo/repositories/MongoChapter.repo";
 
-
-  
-  export const registerUseRepos = (): void => {  
+export const registerUseRepos = (): void => {  
   container.bind("SignatureRepo").to(MongoSignatureRepo);  
   container.bind("ChapterRepo").to(MongoChapterRepo);  
   container.bind("ChapterAttachmentRepo").to(MongoChapterAttachmentRepo);
@@ -135,7 +132,7 @@ import { MongoChapterRepo } from "../../newDatabase/mongo/repositories/MongoChap
   container.bind("UserPostFeedRepo").to(MongoUserPostFeedRepo);
   container.bind("SubjectTypeRepo").to(MongoSubjectTypeRepo);
   container.bind("TeacherProfileRepo").to(MongoTeacherProfileRepo);
-  container.bind("SchoolRepo").to(MongoSchoolRepo);
+  // SchoolRepo is now handled in the modular approach - removed from here
   container.bind("BankCheckRepo").to(MongoBankCheckRepo);
   container.bind("ClassroomRepo").to(MongoClassroomRepo);
   container.bind("SessionTypeRepo").to(MongoSessionTypeRepo);
