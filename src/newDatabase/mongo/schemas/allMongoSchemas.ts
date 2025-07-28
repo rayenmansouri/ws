@@ -22,6 +22,10 @@ import { mongoClassTypeSchema } from "./classType.schema";
 import { CounterSchema } from "./../../../core/newId/CounterModel";
 import { mongoAdminSchema } from "./admin.schema";
 import { mongoTeacherProfileSchema } from "./teacherProfile.schema";
+import { mongoMessageLinksSchema } from "./MessageLinks.schema";
+import { mongoMessageSchema } from "./message.schema";
+import { mongoMessageAttachmentSchema } from "./messageAttachment.schema";
+import { mongoConversationSchema } from "./conversation.schema";
 
 export const allMongoSchemas = {
   classType: mongoClassTypeSchema,
@@ -48,4 +52,8 @@ export const allMongoSchemas = {
   classGroup: mongoClassGroupSchema,
   counter: CounterSchema,
   verificationCode: mongoVerificationCodeSchema,
+  messageLinks: mongoMessageLinksSchema,
+  message: mongoMessageSchema,
+  messageAttachment: mongoMessageAttachmentSchema,
+  conversation: mongoConversationSchema,
 } as const;

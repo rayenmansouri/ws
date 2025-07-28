@@ -24,8 +24,11 @@ import { MongoTeacherRepo } from "../../newDatabase/mongo/repositories/MongoTeac
 import { MongoTeacherProfileRepo } from "../../newDatabase/mongo/repositories/MongoTeacherProfile.repo";
 import { MongoVerificationCodeRepo } from "../../newDatabase/mongo/repositories/MongoVerificationCode.repo";
 import { MongoMessageLinksRepo } from "../../newDatabase/mongo/repositories/MongoMessageLink.repo";
+import { MongoMessageRepo } from "../../newDatabase/mongo/repositories/MongoMessage.repo";
 import { MongoWeeklySessionRepo } from "../../newDatabase/mongo/repositories/MongoWeeklySession.repo";
 import { MongoClassroomRepo } from "./../../newDatabase/mongo/repositories/MongoClassroom.repo";
+import { MongoConversationRepo } from "../../newDatabase/mongo/repositories/MongoConversation.repo";
+import { MongoMessageAttachmentRepo } from "../../newDatabase/mongo/repositories/MessageAttachment.repo";
 import { MongoUsersRepo } from "./../../newDatabase/mongo/repositories/MongoUsers.repo";
 import { container } from "./container";
 
