@@ -1,7 +1,7 @@
 {
-  "name": "@Softylines-Alternance/webschool-types",
-  "version": "1.4.116",
-  "description": "Webschool types package",
+  "name": "@Softylines-Alternance/iecd-types",
+  "version": "1.0.0",
+  "description": "iecd types package",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

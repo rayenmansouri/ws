@@ -85,7 +85,7 @@ export default [
       "coverage/",
       "jestGlobalSetup.js",
       "jestGlobalTeardown.js",
-      "webschool-types/",
+      "iecd-types/",
       "**/*.mjs",
       "**/*.js",
     ],

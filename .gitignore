@@ -62,8 +62,8 @@ createTranslation.sh
 fetResults/
 fetFiles/
 
-webschool-types/src/autoExport
-webschool-types/package-lock.json
+iecd-types/src/autoExport
+iecd-types/package-lock.json
 
 src/apps/main/Routes.routes.ts
 
