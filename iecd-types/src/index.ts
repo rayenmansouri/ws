@@ -33,7 +33,6 @@ export {
   TEducationDepartmentEnum,
   TGradeReportThemEnum,
 } from "../../src/feature/schools/domain/school.entity";
-
 export * from "./autoExport/index";
 export type ID = string & { _isID: true };
 
