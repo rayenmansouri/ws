@@ -1,0 +1,30 @@
+stages:
+  - deploy
+
+deploy-iecd-types:
+  stage: deploy
+  image: node:lts-slim
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
+  before_script:
+    - TXT_RED="\e[31m"
+  script:
+    - start=$(date +%s) && npm install
+    - end=$(date +%s) && duration=$((end - start)) && echo -e "${TXT_RED}Installed node_modules in $duration seconds"
+    - cd iecd-types/
+    - npm install
+    - npm run build
+    - npm run autoIncrement
+    - apt-get update && apt-get install -y git
+    - git config --global user.email "ci@gitlab.com"
+    - git config --global user.name "Gitlab CI"
+    - ./autoIncrement.sh
+    - echo "@iecd:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - cat .npmrc
+    - npm publish
+    - git push -o ci.skip https://iecd-backend:$WRITE_TOKEN@gitlab.com/iecd/iecd-backend.git/ HEAD:cleanup
+  only:
+    - cleanup
