@@ -1,6 +1,6 @@
 {
   "name": "@Softylines-Alternance/iecd-types",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "iecd types package",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
