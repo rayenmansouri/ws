@@ -2,10 +2,8 @@ import { injectable, unmanaged } from "inversify/lib/inversify";
 import { TEndUserWithoutMasterEnums } from "../../../constants/globalEnums";
 import { FileDetails, FileManager, FileUploadPayload } from "../../../core/fileManager/FileManager";
 import { ID } from "../../../types/BaseEntity";
-import { TGenderEnum } from "../domain/baseUser.entity";
 import { School } from "../../schools/domain/school.entity";
-import { BaseUser } from "../domain/baseUser.entity";
-import { CentralUserRepo } from "../domain/CentralUser.repo";
+import { BaseUser, TGenderEnum } from "../domain/baseUser.entity";
 import { UserService } from "../domain/User.service";
 
 export type UpdateBaseUserRequest = {
@@ -30,7 +28,6 @@ export abstract class BaseUpdateUserUseCase<
     @unmanaged() private fileManager: FileManager,
     @unmanaged() private userType: TEndUserWithoutMasterEnums,
     @unmanaged() private school: School,
-    @unmanaged() private centralUserRepo: CentralUserRepo,
   ) {}
 
   async execute(newId: string, userDetails: UpdateUserRequest): Promise<void> {
@@ -44,20 +41,6 @@ export abstract class BaseUpdateUserUseCase<
   }
 
   protected async updateUser(user: User, userDetails: UpdateUserRequest): Promise<User> {
-    if (userDetails.email && userDetails.email !== user.email)
-      await this.centralUserRepo.ensureEmailUniquenessOnUpdate(
-        userDetails.email,
-        user._id,
-        this.userType,
-      );
-
-    if (userDetails.phoneNumber && userDetails.phoneNumber !== user.phoneNumber)
-      await this.centralUserRepo.ensurePhoneUniquenessOnUpdate(
-        userDetails.phoneNumber,
-        user._id,
-        this.userType,
-      );
-
     let avatar: FileDetails | undefined;
     if (userDetails.avatar)
       avatar = await this.fileManager.uploadFile(userDetails.avatar, "users/avatar");
@@ -76,17 +59,6 @@ export abstract class BaseUpdateUserUseCase<
     };
 
     const updatedUser = await this.updateUserInDB(user, updatePayload);
-
-    if (userDetails.email !== undefined || userDetails.phoneNumber !== undefined)
-      await this.centralUserRepo.updateOne(
-        {
-          email: userDetails.email,
-          phoneNumber: userDetails.phoneNumber,
-          userId: user._id,
-          tenantId: this.school._id,
-        },
-        this.userType,
-      );
 
     return updatedUser;
   }

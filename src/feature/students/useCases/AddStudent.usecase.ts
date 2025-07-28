@@ -6,7 +6,6 @@ import { BaseEntity, ID } from "../../../types/BaseEntity";
 import { NotificationSettingsService } from "../../notifications/NotificationSettings.service";
 import { School } from "../../schools/domain/school.entity";
 import { BaseUser } from "../../users/domain/baseUser.entity";
-import { CentralUserRepo } from "../../users/domain/CentralUser.repo";
 import { AddBaseUserRequest, BaseAddUserUseCase } from "../../users/useCases/BaseAddUser.usecase";
 import { Student } from "../domain/student.entity";
 import { StudentRepo } from "../domain/Student.repo";
@@ -40,7 +39,6 @@ export class AddStudentUseCase extends BaseAddUserUseCase<AddStudentRequest, Stu
     @inject("FileManager") fileManager: FileManager,
     @inject("School") school: School,
     @inject("NotificationSettingsService") notificationSettingsService: NotificationSettingsService,
-    @inject("CentralUserRepo") centralUserRepo: CentralUserRepo,
     @inject("RoleRepo") roleRepo: RoleRepo,
     @inject("EventDispatcher") eventDispatcher: EventDispatcher,
   ) {
@@ -49,7 +47,6 @@ export class AddStudentUseCase extends BaseAddUserUseCase<AddStudentRequest, Stu
       END_USER_ENUM.STUDENT,
       school,
       notificationSettingsService,
-      centralUserRepo,
       roleRepo,
       eventDispatcher,
     );

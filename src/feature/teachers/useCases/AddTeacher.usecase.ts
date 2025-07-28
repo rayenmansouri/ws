@@ -11,7 +11,6 @@ import { NotificationSettingsService } from "../../notifications/NotificationSet
 import { School } from "../../schools/domain/school.entity";
 import { SubjectTypeRepo } from "../../subjectTypes/domains/SubjectType.repo";
 import { BaseUser } from "../../users/domain/baseUser.entity";
-import { CentralUserRepo } from "../../users/domain/CentralUser.repo";
 import { AddBaseUserRequest, BaseAddUserUseCase } from "../../users/useCases/BaseAddUser.usecase";
 import { Teacher } from "../domain/teacher.entity";
 import { TeacherRepo } from "../domain/Teacher.repo";
@@ -35,7 +34,6 @@ export class AddTeacherUseCase extends BaseAddUserUseCase<AddTeacherRequest, Tea
     @inject("School") school: School,
     @inject("NotificationSettingsService")
     notificationSettingsService: NotificationSettingsService,
-    @inject("CentralUserRepo") centralUserRepo: CentralUserRepo,
     @inject("RoleRepo") protected roleRepo: RoleRepo,
     @inject("EventDispatcher") eventDispatcher: EventDispatcher,
   ) {
@@ -44,7 +42,6 @@ export class AddTeacherUseCase extends BaseAddUserUseCase<AddTeacherRequest, Tea
       END_USER_ENUM.TEACHER,
       school,
       notificationSettingsService,
-      centralUserRepo,
       roleRepo,
       eventDispatcher,
     );

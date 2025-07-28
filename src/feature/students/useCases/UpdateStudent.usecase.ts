@@ -8,7 +8,6 @@ import { ClassTypeRepo } from "../../classTypes/repo/ClassType.repo";
 import { LevelRepo } from "../../levels/repos/Level.repo";
 import { ParentRepo } from "../../parents/domain/Parent.repo";
 import { School } from "../../schools/domain/school.entity";
-import { CentralUserRepo } from "../../users/domain/CentralUser.repo";
 import {
   BaseUpdateUserUseCase,
   UpdateBaseUserRequest,
@@ -38,9 +37,8 @@ export class UpdateStudentUseCase extends BaseUpdateUserUseCase<UpdateStudentReq
     @inject("StudentProfileRepo") private studentProfileRepo: StudentProfileRepo,
     @inject("FileManager") fileManager: FileManager,
     @inject("School") school: School,
-    @inject("CentralUserRepo") centralUserRepo: CentralUserRepo,
   ) {
-    super(fileManager, END_USER_ENUM.STUDENT, school, centralUserRepo);
+    super(fileManager, END_USER_ENUM.STUDENT, school);
   }
 
   protected async findUserByNewId(newId: string): Promise<Student> {

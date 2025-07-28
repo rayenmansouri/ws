@@ -3,13 +3,13 @@ import { TEndUserEnum } from "../../../constants/globalEnums";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { AuthenticationHelper } from "../../../core/auth.helper";
 import { inject } from "../../../core/container/TypedContainer";
-import { CentralUser } from "../../users/domain/centralUser.entity";
+import { BaseUser } from "../../users/domain/baseUser.entity";
 import { VerificationCode } from "../domain/verificationCode.entity";
 import { VerificationCodeRepo } from "../domain/VerificationCode.repo";
 
 type VerifyCodeUseCaseData = {
   code: string;
-  user: CentralUser;
+  user: BaseUser;
   userType: TEndUserEnum;
 };
 
@@ -20,9 +20,7 @@ export class VerifyCodeUseCase {
   async execute(data: VerifyCodeUseCaseData): Promise<VerificationCode> {
     const { code, user, userType } = data;
 
-    const userId = user.userId;
-
-    const verificationCodeDoc = await this.verificationCodeRepo.findByUser(userId, userType);
+    const verificationCodeDoc = await this.verificationCodeRepo.findByUser(user._id, userType);
 
     if (!verificationCodeDoc) throw new BadRequestError("invalid.code");
 

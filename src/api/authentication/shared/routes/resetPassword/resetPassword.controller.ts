@@ -1,38 +1,29 @@
 import { END_USER_ENUM } from "../../../../../constants/globalEnums";
 import { BadRequestError } from "../../../../../core/ApplicationErrors";
 import { Controller } from "../../../../../core/container/decorators/Controller.decorator";
-import { inject } from "../../../../../core/container/TypedContainer";
 import { BaseController } from "../../../../../core/express/controllers/BaseController";
 import { TypedRequest } from "../../../../../core/express/types";
 import { APIResponse } from "../../../../../core/responseAPI/APIResponse";
 import { SuccessResponse } from "../../../../../core/responseAPI/APISuccessResponse";
-import { schoolDocStore } from "../../../../../core/subdomainStore";
-import { getNewTenantConnection } from "../../../../../database/connectionDB/tenantPoolConnection";
-import { CentralUserRepo } from "../../../../../feature/users/domain/CentralUser.repo";
-import { ResetPasswordRouteConfig, ResetPasswordResponse } from "./resetPassword.types";
+import {
+  getNewTenantConnection,
+  getSchoolFromSubdomain,
+} from "../../../../../database/connectionDB/tenantPoolConnection";
+import { ResetPasswordResponse, ResetPasswordRouteConfig } from "./resetPassword.types";
 
 @Controller()
 export class ResetPasswordController extends BaseController<ResetPasswordRouteConfig> {
-  constructor(@inject("CentralUserRepo") private centralUserRepo: CentralUserRepo) {
+  constructor() {
     super();
   }
 
   async main(req: TypedRequest<ResetPasswordRouteConfig>): Promise<void | APIResponse> {
-    const credential = req.body.credential;
     const userType = req.userType;
 
     if (!userType || userType === END_USER_ENUM.MASTER)
       throw new BadRequestError("userType is required and should not be master");
-
-    const isEmail = credential.includes("@");
-
-    const centralUser = isEmail
-      ? await this.centralUserRepo.findOneByEmail(credential, userType)
-      : await this.centralUserRepo.findOneByPhoneNumber(credential, userType);
-
-    if (!centralUser) throw new BadRequestError("notFound.user");
-
-    const school = schoolDocStore[centralUser.tenantId];
+    const school = getSchoolFromSubdomain(req.body.subdomain);
+    if (!school) throw new BadRequestError("notFound.school");
 
     const connection = await getNewTenantConnection(school.subdomain);
 
@@ -41,7 +32,7 @@ export class ResetPasswordController extends BaseController<ResetPasswordRouteCo
 
     const response = await resetPasswordUseCase.execute({
       code: req.body.confirmationCode,
-      user: centralUser,
+      credential: req.body.credential,
       userType,
       newPassword: req.body.newPassword,
     });

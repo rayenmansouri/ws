@@ -5,19 +5,18 @@ import { TEndUserEnum } from "../../../constants/globalEnums";
 import { BadRequestError, InternalError } from "../../../core/ApplicationErrors";
 import { AuthenticationHelper } from "../../../core/auth.helper";
 import { inject } from "../../../core/container/TypedContainer";
+import { RandomUtils } from "../../../helpers/RandomUtils";
 import { EmailManager } from "../../emailManager/domain/EmailManager";
 import { ForgetPasswordEmail } from "../../emailManager/emails/ForgetPasswordEmail";
-import { RandomUtils } from "../../../helpers/RandomUtils";
 import { School } from "../../schools/domain/school.entity";
-import { CentralUser } from "../../users/domain/centralUser.entity";
-import { VerificationCodeRepo } from "../domain/VerificationCode.repo";
 import { SmsManager } from "../../smsManager/domain/SmsManager";
 import { ForgetPasswordSms } from "../../smsManager/sms/FogetPasswordSms";
+import { UsersRepo } from "../../users/domain/user.repo";
+import { VerificationCodeRepo } from "../domain/VerificationCode.repo";
 
 type ForgetPasswordRequest = {
   credential: string;
   userType: TEndUserEnum;
-  user: CentralUser;
 };
 
 @injectable()
@@ -27,12 +26,13 @@ export class ForgetPasswordUseCase {
     @inject("EmailManager") private emailManager: EmailManager,
     @inject("SmsManager") private smsManager: SmsManager,
     @inject("School") private school: School,
+    @inject("UsersRepo") private usersRepo: UsersRepo,
   ) {}
 
   async execute(request: ForgetPasswordRequest): Promise<{ email: string }> {
     const verificationCode = RandomUtils.generateRandomNumber(4).toString();
 
-    const { credential, userType, user } = request;
+    const { credential, userType } = request;
 
     if (userType === "master") throw new BadRequestError("master user type is not allowed");
 
@@ -40,12 +40,13 @@ export class ForgetPasswordUseCase {
 
     const hashedVerificationCode = await AuthenticationHelper.hashString(verificationCode);
     const verificationCodeExpiresAt = moment().add(smsExpiresIn, "minutes").toDate();
+    const user = await this.usersRepo.findByIdentifierOrThrow(credential, userType);
 
     const payload = {
       verificationCode: hashedVerificationCode,
       verificationCodeExpiresAt,
       isUsed: false,
-      user: user.userId,
+      user: user._id,
       userType,
     };
 

@@ -15,6 +15,15 @@ import { UsersAggregationBuilder } from "./../aggregations/UsersAggregation";
 
 @injectable()
 export class MongoUsersRepo extends UsersRepo {
+  async findByIdentifierOrThrow(credential: string, userType: TEndUserEnum): Promise<BaseUser> {
+    const user = await this.connection
+      .model<BaseUser>(userType)
+      .findOne({ $or: [{ email: credential }, { phoneNumber: credential }, { newId: credential }] })
+      .lean();
+
+    if (!user) throw new NotFoundError("notFound.user");
+    return user;
+  }
   constructor(
     @inject("Connection") private connection: Connection,
     @inject("Session") private session: ClientSession,

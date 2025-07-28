@@ -9,7 +9,6 @@ import { RoleRepo } from "../../authorization/domain/Role.repo";
 import { NotificationSettingsService } from "../../notifications/NotificationSettings.service";
 import { School } from "../../schools/domain/school.entity";
 import { BaseUser, TGenderEnum } from "../domain/baseUser.entity";
-import { CentralUserRepo } from "../domain/CentralUser.repo";
 import { NewUserAddedEvent } from "../domain/NewUserAdded.event";
 import { UserService } from "../domain/User.service";
 
@@ -37,7 +36,6 @@ export abstract class BaseAddUserUseCase<
     @unmanaged() private userType: TEndUserWithoutMasterEnums,
     @unmanaged() private school: School,
     @unmanaged() private notificationSettingsService: NotificationSettingsService,
-    @unmanaged() private centralUserRepo: CentralUserRepo,
     @unmanaged() protected roleRepo: RoleRepo,
     @unmanaged() private eventDispatcher: EventDispatcher,
   ) {}
@@ -53,12 +51,6 @@ export abstract class BaseAddUserUseCase<
   }
 
   protected async addUser(userDetails: AddUserRequest): Promise<User> {
-    if (userDetails.email)
-      await this.centralUserRepo.ensureEmailUniquenessOnAdd(userDetails.email, this.userType);
-
-    if (userDetails.phoneNumber)
-      await this.centralUserRepo.ensurePhoneUniquenessOnAdd(userDetails.phoneNumber, this.userType);
-
     let avatar: FileDetails | null = null;
     if (userDetails.avatar)
       avatar = await this.fileManager.uploadFile(userDetails.avatar, "users/avatar");
@@ -94,17 +86,6 @@ export abstract class BaseAddUserUseCase<
     };
 
     const user = await this.addUserToDB(userDetails, baseUserPayload);
-
-    await this.centralUserRepo.addOne(
-      {
-        tenantId: this.school._id,
-        newId: `${this.school.newId}.${user.newId}`,
-        userId: user._id,
-        email: userDetails.email || undefined,
-        phoneNumber: userDetails.phoneNumber || undefined,
-      },
-      this.userType,
-    );
 
     await this.notificationSettingsService.addNotificationSettings(user._id);
 

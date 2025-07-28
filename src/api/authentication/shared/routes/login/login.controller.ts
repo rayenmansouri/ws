@@ -1,23 +1,21 @@
 import { END_USER_ENUM } from "../../../../../constants/globalEnums";
 import { BadRequestError } from "../../../../../core/ApplicationErrors";
+import { container } from "../../../../../core/container/container";
 import { Controller } from "../../../../../core/container/decorators/Controller.decorator";
-import { inject } from "../../../../../core/container/TypedContainer";
 import { BaseController } from "../../../../../core/express/controllers/BaseController";
 import { TypedRequest } from "../../../../../core/express/types";
 import { APIResponse } from "../../../../../core/responseAPI/APIResponse";
 import { SuccessResponse } from "../../../../../core/responseAPI/APISuccessResponse";
-import { schoolDocStore } from "../../../../../core/subdomainStore";
-import { getNewTenantConnection } from "../../../../../database/connectionDB/tenantPoolConnection";
-import { School } from "../../../../../feature/schools/domain/school.entity";
+import {
+  getNewTenantConnection,
+  getSchoolFromSubdomain,
+} from "../../../../../database/connectionDB/tenantPoolConnection";
 import { SchoolMapper } from "../../../../../feature/schools/mappers/School.mapper";
-import { CentralUserRepo } from "../../../../../feature/users/domain/CentralUser.repo";
-import { LoginRouteConfig, LoginResponse } from "./login.types";
+import { LoginResponse, LoginRouteConfig } from "./login.types";
 
 @Controller()
 export class LoginController extends BaseController<LoginRouteConfig> {
-  constructor(
-    @inject("CentralUserRepo") private centralUserRepo: CentralUserRepo, // Replace with actual type
-  ) {
+  constructor() {
     super();
   }
 
@@ -28,11 +26,10 @@ export class LoginController extends BaseController<LoginRouteConfig> {
       throw new BadRequestError("userType is required and cannot be master");
     }
 
-    const user = await this.centralUserRepo.findByAnyIdentifier(credential, userType);
-    if (!user) throw new BadRequestError("notFound.user");
+    const school = getSchoolFromSubdomain(req.body.subdomain);
 
-    const school = schoolDocStore[user.tenantId] as School | undefined;
     if (!school) throw new BadRequestError("notFound.school");
+    container.rebind("School").toConstantValue(school);
 
     const connection = await getNewTenantConnection(school.subdomain);
 
@@ -40,9 +37,9 @@ export class LoginController extends BaseController<LoginRouteConfig> {
     const loginUseCase = req.container.get("LoginUseCase");
 
     const response = await loginUseCase.execute({
-      user,
       password,
       userType,
+      credential,
     });
 
     const data = {

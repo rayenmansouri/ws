@@ -193,7 +193,6 @@ import { GetTeacherProfileUsecase } from "../../feature/teachers/useCases/GetTea
 import { GetTeachersOfStudentUseCase } from "../../feature/teachers/useCases/GetTeachersOfStudent.usecase";
 import { ListTeachersUseCase } from "../../feature/teachers/useCases/ListTeachers.usecase";
 import { UpdateTeacherUseCase } from "../../feature/teachers/useCases/UpdateTeacher.usecase";
-import { CentralUserRepo } from "../../feature/users/domain/CentralUser.repo";
 import { UsersRepo } from "../../feature/users/domain/user.repo";
 import { UploadAvatarUseCase } from "../../feature/users/useCases/UploadAvatar.usecase";
 import { WeeklyScheduleApplicationService } from "../../feature/weeklySchedule/applications/WeeklySchedule.application.service";
@@ -496,7 +495,6 @@ export type containerRegistry = {
   StudentProfileRepo: StudentProfileRepo;
   TeacherRepo: TeacherRepo;
   ClassTypeRepo: ClassTypeRepo;
-  CentralUserRepo: CentralUserRepo;
   SubjectTypesRepo: SubjectTypeRepo;
   GroupTypeRepo: GroupTypeRepo;
   SubjectTypeRepo: SubjectTypeRepo;

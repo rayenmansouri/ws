@@ -6,7 +6,6 @@ import { ID } from "../../../types/BaseEntity";
 import { School } from "../../schools/domain/school.entity";
 import { StudentApplicationService } from "../../students/application/Student.application.service";
 import { StudentRepo } from "../../students/domain/Student.repo";
-import { CentralUserRepo } from "../../users/domain/CentralUser.repo";
 import {
   BaseUpdateUserUseCase,
   UpdateBaseUserRequest,
@@ -28,10 +27,8 @@ export class UpdateParentUseCase extends BaseUpdateUserUseCase<UpdateParentReque
     private studentApplicationService: StudentApplicationService,
     @inject("FileManager") fileManager: FileManager,
     @inject("School") school: School,
-    @inject("CentralUserRepo")
-    centralUserRepo: CentralUserRepo,
   ) {
-    super(fileManager, END_USER_ENUM.PARENT, school, centralUserRepo);
+    super(fileManager, END_USER_ENUM.PARENT, school);
   }
 
   protected async findUserByNewId(newId: string): Promise<Parent> {

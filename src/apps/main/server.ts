@@ -6,7 +6,6 @@ import { initializeSubdomains } from "../../core/subdomainStore";
 import { initializeCrons } from "../../crons/globalCron";
 import { connectToMasterDatabase } from "../../database/connectionDB/masterDBConnection";
 import { SocketManager } from "./../../core/socket/socketManager";
-import { connectToCentralDatabase } from "./../../database/connectionDB/centralDBConnection";
 import app from "./app";
 import { initializeFCM } from "../../firebase";
 import { internalApp } from "./internalApp";
@@ -16,8 +15,6 @@ import { registerAllDependencies } from "../../core/container/registerAllDepende
 connectToMasterDatabase()
   .then(async () => {
     registerAllDependencies();
-
-    await connectToCentralDatabase();
 
     await initializeSubdomains();
 

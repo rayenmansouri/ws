@@ -53,4 +53,6 @@ export abstract class UsersRepo {
       }
     >
   >;
+
+  abstract findByIdentifierOrThrow(credential: string, userType: TEndUserEnum): Promise<BaseUser>;
 }

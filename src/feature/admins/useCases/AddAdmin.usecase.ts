@@ -6,7 +6,6 @@ import { inject } from "../../../core/container/TypedContainer";
 import { FileManager } from "../../../core/fileManager/FileManager";
 import { END_USER_ENUM } from "../../../constants/globalEnums";
 import { NotificationSettingsService } from "../../notifications/NotificationSettings.service";
-import { CentralUserRepo } from "../../users/domain/CentralUser.repo";
 import { RoleRepo } from "../../authorization/domain/Role.repo";
 import { AdminRepo } from "../domain/Admin.repo";
 import { BaseUser } from "../../users/domain/baseUser.entity";
@@ -25,7 +24,6 @@ export class AddAdminUseCase extends BaseAddUserUseCase<AddAdminRequest, Admin> 
     @inject("School") school: School,
     @inject("NotificationSettingsService")
     notificationSettingsService: NotificationSettingsService,
-    @inject("CentralUserRepo") centralUserRepo: CentralUserRepo,
     @inject("RoleRepo") roleRepo: RoleRepo,
     @inject("EventDispatcher") eventDispatcher: EventDispatcher,
   ) {
@@ -34,7 +32,6 @@ export class AddAdminUseCase extends BaseAddUserUseCase<AddAdminRequest, Admin> 
       END_USER_ENUM.ADMIN,
       school,
       notificationSettingsService,
-      centralUserRepo,
       roleRepo,
       eventDispatcher,
     );

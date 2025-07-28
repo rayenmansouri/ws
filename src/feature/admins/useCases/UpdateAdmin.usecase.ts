@@ -4,7 +4,6 @@ import { inject } from "../../../core/container/TypedContainer";
 import { FileManager } from "../../../core/fileManager/FileManager";
 import { RoleRepo } from "../../authorization/domain/Role.repo";
 import { School } from "../../schools/domain/school.entity";
-import { CentralUserRepo } from "../../users/domain/CentralUser.repo";
 import {
   BaseUpdateUserUseCase,
   UpdateBaseUserRequest,
@@ -20,10 +19,9 @@ export class UpdateAdminUseCase extends BaseUpdateUserUseCase<UpdateAdminRequest
     @inject("AdminRepo") private adminRepo: AdminRepo,
     @inject("FileManager") fileManager: FileManager,
     @inject("School") school: School,
-    @inject("CentralUserRepo") centralUserRepo: CentralUserRepo,
     @inject("RoleRepo") private roleRepo: RoleRepo,
   ) {
-    super(fileManager, END_USER_ENUM.ADMIN, school, centralUserRepo);
+    super(fileManager, END_USER_ENUM.ADMIN, school);
   }
 
   protected async findUserByNewId(newId: string): Promise<Admin> {

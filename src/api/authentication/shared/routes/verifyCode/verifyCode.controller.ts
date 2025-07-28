@@ -6,33 +6,29 @@ import { BaseController } from "../../../../../core/express/controllers/BaseCont
 import { TypedRequest } from "../../../../../core/express/types";
 import { APIResponse } from "../../../../../core/responseAPI/APIResponse";
 import { SuccessResponse } from "../../../../../core/responseAPI/APISuccessResponse";
-import { schoolDocStore } from "../../../../../core/subdomainStore";
-import { getNewTenantConnection } from "../../../../../database/connectionDB/tenantPoolConnection";
-import { CentralUserRepo } from "../../../../../feature/users/domain/CentralUser.repo";
-import { VerifyCodeRouteConfig, VerifyCodeResponse } from "./verifyCode.types";
+import {
+  getNewTenantConnection,
+  getSchoolFromSubdomain,
+} from "../../../../../database/connectionDB/tenantPoolConnection";
+import { UsersRepo } from "../../../../../feature/users/domain/user.repo";
+import { VerifyCodeResponse, VerifyCodeRouteConfig } from "./verifyCode.types";
 
 @Controller()
 export class VerifyCodeController extends BaseController<VerifyCodeRouteConfig> {
-  constructor(@inject("CentralUserRepo") private centralUserRepo: CentralUserRepo) {
+  constructor(@inject("UsersRepo") private usersRepo: UsersRepo) {
     super();
   }
 
   async main(req: TypedRequest<VerifyCodeRouteConfig>): Promise<void | APIResponse> {
-    const { confirmationCode, credential } = req.body;
+    const { confirmationCode, credential, subdomain } = req.body;
     const userType = req.userType;
     if (!userType || userType === END_USER_ENUM.MASTER) {
       throw new InternalError("User type is not defined or is master");
     }
+    const user = await this.usersRepo.findByIdentifierOrThrow(credential, userType);
 
-    const isEmail = credential.includes("@");
-
-    const user = isEmail
-      ? await this.centralUserRepo.findOneByEmail(credential, userType)
-      : await this.centralUserRepo.findOneByPhoneNumber(credential, userType);
-
-    if (!user) throw new NotFoundError("notFound.user");
-
-    const school = schoolDocStore[user.tenantId];
+    const school = getSchoolFromSubdomain(subdomain);
+    if (!school) throw new NotFoundError("School not found");
 
     const connection = await getNewTenantConnection(school.subdomain);
 
