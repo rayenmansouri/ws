@@ -21,9 +21,9 @@ connectToMasterDatabase()
     const server = createServer(app);
     SocketManager.initialize(server);
 
-    await initializeCrons();
+    // await initializeCrons();
 
-    initializeFCM();
+    // initializeFCM();
 
     container.get("HandlerSubscriber").subscribeHandlers();
 
