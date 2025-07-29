@@ -52,3 +52,11 @@ export const SCHEDULE_ENTITY_ENUM = {
 export type TScheduleEntityEnum = (typeof SCHEDULE_ENTITY_ENUM)[keyof typeof SCHEDULE_ENTITY_ENUM];
 
 export const ALLOWED_VIDEO_EXTENSIONS = ["mp4", "avi", "mov", "wmv", "mkv", "flv", "webm"];
+
+export const TOPIC_TYPE_ENUM = {
+  SUBJECT_TYPE: "subjectType",
+  SUB_SUBJECT_TYPE: "subSubjectType",
+  GROUP: "group",
+  FIELD: "field",
+} as const;
+export type TTopicTypeEnum = (typeof TOPIC_TYPE_ENUM)[keyof typeof TOPIC_TYPE_ENUM];

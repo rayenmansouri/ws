@@ -11,7 +11,6 @@ import { SubLevel } from "./../../../feature/subLevels/domains/subLevel.entity";
 import { ListOptions } from "./../../../types/types";
 import { MongoBaseRepo } from "./MongoBase.repo";
 import { SchoolYear } from "../../../feature/schoolYears/domain/schoolYear.entity";
-import { Term } from "../../../feature/terms/domains/term.entity";
 
 @injectable()
 export class MongoSubLevelRepo extends MongoBaseRepo<SubLevelMetaData> implements SubLevelRepo {
@@ -28,18 +27,6 @@ export class MongoSubLevelRepo extends MongoBaseRepo<SubLevelMetaData> implement
         { "level.currentSchoolYear._id": schoolYearId },
         { "level.currentSchoolYear": data },
       )
-      .session(this.session);
-  }
-
-  async updateTerm(termId: ID, term: Partial<Term>): Promise<void> {
-    const updateFields: Record<string, unknown> = {};
-
-    Object.keys(term).forEach(key => {
-      updateFields[`level.currentSchoolYear.terms.$.${key}`] = term[key as keyof Term];
-    });
-
-    await this.model
-      .updateMany({ "level.currentSchoolYear.terms._id": termId }, { $set: updateFields })
       .session(this.session);
   }
 

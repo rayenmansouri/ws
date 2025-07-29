@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { validateNewId } from "./../../../../../core/validator";
-import { SESSION_STATUS_ENUM } from "./../../../../../database/schema/pedagogy/session/session.schema";
+import { SESSION_STATUS_ENUM } from "../../../../../feature/sessionManagement/domain/session.entity";
 
 const body = z.object({
   newStatus: z.nativeEnum(SESSION_STATUS_ENUM),

@@ -1,15 +1,10 @@
 import { injectable } from "inversify";
-import { inject } from "../../../core/container/TypedContainer";
-import { ClassTypeRepo } from "../repo/ClassType.repo";
-import { ClassRepo } from "../../classes/domain/Class.repo";
 import { BadRequestError } from "../../../core/ApplicationErrors";
+import { inject } from "../../../core/container/TypedContainer";
+import { ClassRepo } from "../../classes/domain/Class.repo";
 import { SubjectTypeRepo } from "../../subjectTypes/domains/SubjectType.repo";
-import { ExamTypeRepo } from "../../examTypes/repos/examType.repo";
 import { SubSubjectTypesRepo } from "../../subSubjectTypes/repos/SubSubjectTypes.repo";
-import { ExamGradeRepo } from "../../examGrade/domain/tunisian/ExamGrade.repo";
-import { GradeBookObservationRepo } from "../../gradeBookObservation/GradeBookObservation.repo";
-import { ID } from "../../../types/BaseEntity";
-import { TOPIC_TYPE_ENUM } from "../../examGrade/domain/tunisian/ExamGrade.entity";
+import { ClassTypeRepo } from "../repo/ClassType.repo";
 
 @injectable()
 export class AddSubSubjectToClassTypeUseCase {
@@ -18,9 +13,6 @@ export class AddSubSubjectToClassTypeUseCase {
     @inject("ClassRepo") private classRepo: ClassRepo,
     @inject("SubjectTypeRepo") private subjectTypesRepo: SubjectTypeRepo,
     @inject("SubSubjectTypeRepo") private subSubjectTypeRepo: SubSubjectTypesRepo,
-    @inject("ExamTypeRepo") private examTypeRepo: ExamTypeRepo,
-    @inject("ExamGradeRepo") private examGradeRepo: ExamGradeRepo,
-    @inject("GradeBookObservationRepo") private gradeBookObservationRepo: GradeBookObservationRepo,
   ) {}
 
   async execute(
@@ -70,7 +62,6 @@ export class AddSubSubjectToClassTypeUseCase {
     const subSubjectToClassTypeToAdd: (typeof classType.subjects)[0]["subSubjects"][0] = {
       subSubjectType: subSubjectType._id,
       coefficient: data.coefficient,
-      exams: [],
     };
 
     if (data.exams.length === 0) {
@@ -82,59 +73,8 @@ export class AddSubSubjectToClassTypeUseCase {
       return;
     }
 
-    const examTypeNewIds = data.exams.map(exam => exam.examTypeNewId);
-    const examTypes = await this.examTypeRepo.findManyByNewIdsOrThrow(
-      examTypeNewIds,
-      "notFound.examType",
-    );
-
-    const exams = data.exams.map(exam => {
-      const examType = examTypes.find(examType => examType.newId === exam.examTypeNewId)!;
-      return { examType: examType._id, coefficient: exam.coefficient };
-    });
-
-    const termIds = classType.subLevel.level.currentSchoolYear.terms.map(term => term._id);
-    const examTypeIds = exams.map(exam => exam.examType);
-    await this.addExamGradeAndGradeBookObservation({
-      termsIds: termIds,
-      classTypeId: classType._id,
-      schoolYearId: classType.subLevel.level.currentSchoolYear._id,
-      subSubjectTypeId: subSubjectType._id,
-      examTypeIds,
-    });
-
     await this.classTypeRepo.addSubSubjectToClassType(classType._id, subject.subjectType, {
       ...subSubjectToClassTypeToAdd,
-      exams,
-    });
-  }
-
-  private async addExamGradeAndGradeBookObservation(data: {
-    termsIds: ID[];
-    classTypeId: ID;
-    schoolYearId: ID;
-    subSubjectTypeId: ID;
-    examTypeIds: ID[];
-  }): Promise<void> {
-    const { classTypeId, termsIds, schoolYearId, subSubjectTypeId, examTypeIds } = data;
-    const classDocs = await this.classRepo.findManyByClassTypeInSchoolYear(
-      classTypeId,
-      schoolYearId,
-    );
-
-    await this.examGradeRepo.addManyByClasses({
-      topicId: subSubjectTypeId,
-      topicType: TOPIC_TYPE_ENUM.SUB_SUBJECT_TYPE,
-      examTypesIds: examTypeIds,
-      classDocs,
-      termsIds,
-    });
-
-    await this.gradeBookObservationRepo.addManyByClasses({
-      topicId: subSubjectTypeId,
-      topicType: TOPIC_TYPE_ENUM.SUB_SUBJECT_TYPE,
-      classDocs,
-      termsIds,
     });
   }
 }

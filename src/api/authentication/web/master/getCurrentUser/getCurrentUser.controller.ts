@@ -27,8 +27,6 @@ export class GetCurrentUserController extends BaseController<GetCurrentUserRoute
       school: FAKE_SCHOOL,
       unseenNotification: 0,
       unseenConversations: 0,
-      unseenAnnouncements: 0,
-      unseenParentDemands: null,
       language: req.language,
     });
     return new SuccessResponse<GetCurrentUserResponse>("global.success", response);

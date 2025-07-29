@@ -9,6 +9,6 @@ fi
 
 npm run build-ts
 
-cd webschool-types
+cd iecd-types
 npm run build
 # npm run test

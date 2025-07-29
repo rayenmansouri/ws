@@ -1,6 +1,5 @@
 import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
-import { TAttendanceEnum } from "../../../database/schema/pedagogy/session/session.schema";
 import { ClassRepo } from "../../classes/domain/Class.repo";
 import { ClassroomRepo } from "../../classrooms/domains/classroom.repo";
 import { GroupRepo } from "../../groupManagement/repos/Group.repo";
@@ -10,6 +9,7 @@ import { StudentApplicationService } from "../../students/application/Student.ap
 import { StudentRepo } from "../../students/domain/Student.repo";
 import { TeacherRepo } from "../../teachers/domain/Teacher.repo";
 import { ScheduleMapper } from "../mappers/schedule.mapper";
+import { TAttendanceEnum } from "../../sessionManagement/domain/session.entity";
 
 type sessionDetailsAttendance = enrichedSessionData & {
   attendance: TAttendanceEnum | null;

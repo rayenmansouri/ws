@@ -1,5 +1,7 @@
 import { ClientSession, Connection } from "mongoose";
-import { INotification } from "../../../database/schema/notification/notification.schema";
+import { NotFoundError } from "../../../core/ApplicationErrors";
+import { NotificationSettings } from "../../../feature/notifications/NotificationSettings.entity";
+import { BaseUser } from "../../../feature/users/domain/baseUser.entity";
 import { RandomUtils } from "../../../helpers/RandomUtils";
 import { NOTIFICATION_STATUS_ENUM, NOTIFICATION_TYPES_ENUM } from "../constants/constants";
 import { SendNotificationToUsersTranslationKeysEnum } from "../constants/sendNotificationToUsers.constants";
@@ -7,13 +9,8 @@ import { INotificationBase } from "../types/interfaces";
 import { TSendNotificationToUsersResponse } from "../types/sendNotificationToUsers.types";
 import { TEndUserWithoutMasterEnums } from "./../../../constants/globalEnums";
 import { getCurrentTimeOfSchool } from "./../../../core/getCurrentTimeOfSchool";
-import { NotFoundError } from "../../../core/ApplicationErrors";
-import { crudRepo } from "./../../../database/repositories/crud.repo";
-import {
-  getNotificationSettingsDocs,
-  handleFailedRegistrationToken,
-  sendNotifications,
-} from "./helpers.service";
+import { handleFailedRegistrationToken, sendNotifications } from "./helpers.service";
+import { Notification } from "../../../feature/notifications/notification.entity";
 
 export const sendNotificationToUsersService = async (
   connection: Connection,
@@ -24,7 +21,10 @@ export const sendNotificationToUsersService = async (
   session: ClientSession,
   alertContent: string | null,
 ): Promise<TSendNotificationToUsersResponse> => {
-  const usersDoc = await crudRepo(connection, userType).findMany({ _id: { $in: usersIds } });
+  const usersDoc = await connection
+    .model<BaseUser>(userType)
+    .find({ _id: { $in: usersIds } })
+    .lean();
 
   if (usersDoc.length === 0)
     throw new NotFoundError(SendNotificationToUsersTranslationKeysEnum.USER_NOT_FOUND);
@@ -35,7 +35,11 @@ export const sendNotificationToUsersService = async (
     topic: NOTIFICATION_TYPES_ENUM.ALERT,
   };
 
-  const notificationsSettingsDocs = await getNotificationSettingsDocs(connection, usersIds);
+  const notificationsSettingsDocs = await connection
+    .model<NotificationSettings>("notificationSettings")
+    .find({ userId: { $in: usersIds } })
+    .lean();
+  //await getNotificationSettingsDocs(connection, usersIds);
 
   const tokens = notificationsSettingsDocs.flatMap(doc =>
     doc.registrationTokens.map(doc => doc.token),
@@ -47,16 +51,15 @@ export const sendNotificationToUsersService = async (
   };
   const broadcastId = RandomUtils.generateUUID();
 
-  const notificationsPayload: Partial<INotification>[] = usersIds.map(userId => {
-    return {
+  const notificationsPayload: Partial<Notification>[] = usersIds.map<Partial<Notification>>(
+    userId => ({
       ...notificationData,
       message: payload.notification.body,
       userId,
       broadcastId,
-    };
-  });
-
-  await crudRepo(connection, "notification").addMany(notificationsPayload, session);
+    }),
+  );
+  await connection.model<Notification>("notification").create(notificationsPayload, { session });
 
   const result = await sendNotifications(
     payload,

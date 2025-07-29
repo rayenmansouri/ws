@@ -8,13 +8,6 @@ export class GroupTypeMapper {
     return {
       ...EntityMapper.toEntityDto(groupType),
       coefficient: groupType.coefficient,
-      exams: groupType.exams.map(exam => {
-        return {
-          name: exam.examType.name,
-          coefficient: exam.coefficient,
-          examTypeNewId: exam.examType.newId,
-        };
-      }),
       illustration: groupType.illustration,
     };
   }

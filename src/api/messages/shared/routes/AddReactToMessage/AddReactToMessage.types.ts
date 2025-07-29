@@ -1,4 +1,4 @@
-import { TReactionTypeEnum } from "../../../../../feature/announcements/domain/reaction.entity";
+import { TMessageReactionTypeEnum } from "../../../../../feature/messages/domain/message.entity";
 import { TEndUserEnum } from "./../../../../../constants/globalEnums";
 import { ID } from "./../../../../../types/BaseEntity";
 
@@ -11,7 +11,7 @@ export type SendNotificationsParams = {
   senderType: TEndUserEnum;
   userFullName: string;
   tenantId: string;
-  reactionType: TReactionTypeEnum;
+  reactionType: TMessageReactionTypeEnum;
   messageNewId: string;
   conversationNewId: string;
 };

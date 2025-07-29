@@ -23,17 +23,8 @@ export class GroupMapper {
   }
 
   static toGroupOverviewDto(group: Populate<GroupMetaData, "schoolYears">): GroupOverviewDTO {
-    const terms = group.schoolYears.length === 1 ? group.schoolYears[0].terms : null;
     return {
       ...EntityMapper.toEntityDto(group),
-      terms:
-        terms?.map(term => ({
-          ...EntityMapper.toEntityDto(term),
-          isLocked: false,
-          isCompleted: false,
-        })) || [],
-      isIncludeInGradeBook: !!terms,
-      currentTermNewId: terms?.at(0)?.newId || null,
     };
   }
 }

@@ -1,9 +1,6 @@
-import {
-  TAttendanceEnum,
-  TSessionStatusEnum,
-} from "../../../database/schema/pedagogy/session/session.schema";
 import { ID } from "../../../types/BaseEntity";
 import { EntityDto } from "../../entity/dto/entity.dto";
+import { TAttendanceEnum, TSessionStatusEnum } from "../domain/session.entity";
 
 export type SessionDTO = {
   _id: ID;

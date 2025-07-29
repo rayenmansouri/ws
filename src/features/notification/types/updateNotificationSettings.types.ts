@@ -1,4 +1,5 @@
+import { NotificationSettings } from "../../../feature/notifications/NotificationSettings.entity";
 import { TUpdateNotificationSettingsValidation } from "./../validations/updateNotificationSettings.validation";
-import { INotificationSettings } from "./../../../database/schema/notification/notificationSettings.schema";
-export type TUpdateNotificationSettingsResponse = INotificationSettings;
+
+export type TUpdateNotificationSettingsResponse = NotificationSettings;
 export type TUpdateNotificationSettingsRouteConfig = TUpdateNotificationSettingsValidation;

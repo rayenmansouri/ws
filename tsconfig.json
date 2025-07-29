@@ -34,7 +34,7 @@
     ".templates",
     "src/__tests__/**/*",
     "node_module/**",
-    "webschool-types/**",
-    "**/webschool-types/**"
+    "iecd-types/**",
+    "**/iecd-types/**"
   ]
 }

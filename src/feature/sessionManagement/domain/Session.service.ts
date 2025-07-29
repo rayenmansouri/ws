@@ -1,24 +1,25 @@
 import { injectable } from "inversify";
 import moment from "moment";
 import { BadRequestError, InternalError } from "../../../core/ApplicationErrors";
-import {
-  ATTENDANCE_ENUM,
-  TAttendanceEnum,
-  TSessionStatusEnum,
-} from "../../../database/schema/pedagogy/session/session.schema";
 import { ID } from "../../../types/BaseEntity";
 import { ClassGroup } from "../../classes/domain/classGroup.entity";
 import { Group } from "../../groupManagement/domains/group.entity";
 import { StudentProfile } from "../../students/domain/studentProfile.entity";
 import { getCurrentTimeOfSchool } from "./../../../core/getCurrentTimeOfSchool";
 import { schoolDocStore } from "./../../../core/subdomainStore";
-import { SESSION_STATUS_ENUM } from "./../../../database/schema/pedagogy/session/session.schema";
 import { MINUTES_TO_MILLISECOND } from "./../../../helpers/constants";
 import { Class } from "./../../classes/domain/class.entity";
 import { SubSubjectType } from "./../../subSubjectTypes/domains/subSubjectType.entity";
 import { SubjectType } from "./../../subjectTypes/domains/subjectType.entity";
 import { CONFIRMATION_ATTENDANCE_DELAY_IN_MINUTES } from "./../constants/session.constants";
-import { IAttendance, Session } from "./session.entity";
+import {
+  ATTENDANCE_ENUM,
+  IAttendance,
+  Session,
+  SESSION_STATUS_ENUM,
+  TAttendanceEnum,
+  TSessionStatusEnum,
+} from "./session.entity";
 import { translate } from "../../../translation/helper/translate";
 import { TLanguageEnum } from "../../../translation/constants";
 

@@ -4,7 +4,6 @@ import { TranslationPaths } from "../../../translation/translationKeys";
 import { ID } from "../../../types/BaseEntity";
 import { ListOptions } from "../../../types/types";
 import { SchoolYear } from "../../schoolYears/domain/schoolYear.entity";
-import { Term } from "../../terms/domains/term.entity";
 import { SubLevel, SubLevelMetaData } from "./subLevel.entity";
 
 export abstract class SubLevelRepo extends BaseRepo<SubLevelMetaData> {
@@ -23,7 +22,6 @@ export abstract class SubLevelRepo extends BaseRepo<SubLevelMetaData> {
   abstract updateManyByLevel(levelId: ID, data: Partial<SubLevel>): Promise<void>;
   abstract findManyByLevel(levelId: ID): Promise<SubLevel[]>;
   abstract count(): Promise<number>;
-  abstract updateTerm(termId: ID, data: Partial<Term>): Promise<void>;
   abstract updateSchoolYear(schoolYearId: ID, data: SchoolYear): Promise<void>;
   abstract findSubLevelsByLevelIdsOrderedByRank(
     levelsIds: ID[],

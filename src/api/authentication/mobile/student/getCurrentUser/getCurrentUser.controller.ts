@@ -13,7 +13,6 @@ import { StudentApplicationService } from "../../../../../feature/students/appli
 import { UserMapper } from "../../../../../feature/users/mappers/User.mapper";
 import { Student } from "./../../../../../feature/students/domain/student.entity";
 import { GetCurrentUserResponse, GetCurrentUserRouteConfig } from "./getCurrentUser.types";
-import { UserPostFeedRepo } from "../../../../../feature/announcements/repos/UserPostFeed.repo";
 
 @Controller()
 export class GetCurrentUserController extends BaseController<GetCurrentUserRouteConfig> {
@@ -23,18 +22,15 @@ export class GetCurrentUserController extends BaseController<GetCurrentUserRoute
     @inject("ConversationRepo") private conversationRepo: ConversationRepo,
     @inject("StudentApplicationService")
     private studentApplicationService: StudentApplicationService,
-    @inject("UserPostFeedRepo") private userPostFeedRepo: UserPostFeedRepo,
   ) {
     super();
   }
 
   async main(req: TypedRequest<GetCurrentUserRouteConfig>): Promise<void | APIResponse> {
-    const [unseenNotificationsNumber, unseenConversationsNumber, unseenAnnouncementsNumber] =
-      await Promise.all([
-        this.notificationRepo.getUnseenNotificationsNumberOfUser(req.user._id),
-        this.conversationRepo.getUnseenConversationNumberForUser(req.user._id),
-        this.userPostFeedRepo.getUnseenPostsNumberForUser(req.user._id),
-      ]);
+    const [unseenNotificationsNumber, unseenConversationsNumber] = await Promise.all([
+      this.notificationRepo.getUnseenNotificationsNumberOfUser(req.user._id),
+      this.conversationRepo.getUnseenConversationNumberForUser(req.user._id),
+    ]);
 
     const school = schoolDocStore[req.tenantId];
 
@@ -43,9 +39,7 @@ export class GetCurrentUserController extends BaseController<GetCurrentUserRoute
       school,
       unseenNotification: unseenNotificationsNumber,
       unseenConversations: unseenConversationsNumber,
-      unseenAnnouncements: unseenAnnouncementsNumber,
       language: req.language,
-      unseenParentDemands: null,
     });
 
     const { classId, groupIds } = await this.studentApplicationService.getCurrentAcademicDetails(

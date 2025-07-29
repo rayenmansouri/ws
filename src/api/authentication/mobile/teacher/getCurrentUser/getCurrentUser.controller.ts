@@ -6,22 +6,18 @@ import { APIResponse } from "../../../../../core/responseAPI/APIResponse";
 import { SuccessResponse } from "../../../../../core/responseAPI/APISuccessResponse";
 import { schoolDocStore } from "../../../../../core/subdomainStore";
 import { ConversationRepo } from "../../../../../feature/messages/domain/Conversation.repo";
-import { IssueRepo } from "../../../../../feature/issues/domain/Issue.repo";
 import { NotificationRepo } from "../../../../../feature/notifications/Notification.repo";
 import { SessionRepo } from "../../../../../feature/sessionManagement/domain/Session.repo";
 import { SessionMapper } from "../../../../../feature/sessionManagement/mapper/Session.mapper";
 import { UserMapper } from "../../../../../feature/users/mappers/User.mapper";
-import { GetCurrentUserRouteConfig, GetCurrentUserResponse } from "./getCurrentUser.types";
-import { UserPostFeedRepo } from "../../../../../feature/announcements/repos/UserPostFeed.repo";
+import { GetCurrentUserResponse, GetCurrentUserRouteConfig } from "./getCurrentUser.types";
 
 @Controller()
 export class GetCurrentUserController extends BaseController<GetCurrentUserRouteConfig> {
   constructor(
     @inject("NotificationRepo") private notificationRepo: NotificationRepo,
     @inject("SessionRepo") private sessionRepo: SessionRepo,
-    @inject("IssueRepo") private issueRepo: IssueRepo,
     @inject("ConversationRepo") private conversationRepo: ConversationRepo,
-    @inject("UserPostFeedRepo") private userPostFeedRepo: UserPostFeedRepo,
   ) {
     super();
   }
@@ -29,16 +25,9 @@ export class GetCurrentUserController extends BaseController<GetCurrentUserRoute
   async main(req: TypedRequest<GetCurrentUserRouteConfig>): Promise<void | APIResponse> {
     const school = schoolDocStore[req.tenantId];
 
-    const [
-      unseenNotificationsNumber,
-      unseenConversationsNumber,
-      unseenParentDemands,
-      unseenAnnouncementsNumber,
-    ] = await Promise.all([
+    const [unseenNotificationsNumber, unseenConversationsNumber] = await Promise.all([
       this.notificationRepo.getUnseenNotificationsNumberOfUser(req.user._id),
       this.conversationRepo.getUnseenConversationNumberForUser(req.user._id),
-      this.issueRepo.getUnseenIssuesNumberForTeacher(req.user._id),
-      this.userPostFeedRepo.getUnseenPostsNumberForUser(req.user._id),
     ]);
 
     const currentUserDTO = UserMapper.toCurrentUserDTO({
@@ -46,8 +35,6 @@ export class GetCurrentUserController extends BaseController<GetCurrentUserRoute
       school,
       unseenNotification: unseenNotificationsNumber,
       unseenConversations: unseenConversationsNumber,
-      unseenAnnouncements: unseenAnnouncementsNumber,
-      unseenParentDemands,
       language: req.language,
     });
 

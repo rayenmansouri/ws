@@ -3,9 +3,12 @@ import { Populate } from "./../../../core/populateTypes";
 import { BaseRepo } from "../../../core/BaseRepo";
 import { TEndUserEnum } from "./../../../constants/globalEnums";
 import { ResponseWithPagination } from "./../../../newDatabase/mongo/types";
-import { TReactionTypeEnum } from "../../announcements/domain/reaction.entity";
 import { ID } from "./../../../types/BaseEntity";
-import { MessageMetaData, PopulatedMessageMetaData } from "./message.entity";
+import {
+  MessageMetaData,
+  PopulatedMessageMetaData,
+  TMessageReactionTypeEnum,
+} from "./message.entity";
 import { ListOptions } from "../../../types/types";
 
 export abstract class MessageRepo extends BaseRepo<MessageMetaData> {
@@ -13,14 +16,14 @@ export abstract class MessageRepo extends BaseRepo<MessageMetaData> {
     messageId: ID,
     userType: TEndUserEnum,
     userId: ID,
-    reactionType: TReactionTypeEnum,
+    reactionType: TMessageReactionTypeEnum,
     tenantId: string,
   ): Promise<void>;
 
   abstract updateMessageReactionOfUser(
     messageId: ID,
     userId: ID,
-    reactionType: TReactionTypeEnum,
+    reactionType: TMessageReactionTypeEnum,
   ): Promise<void>;
 
   abstract deleteMessageReactionOfUser(messageId: ID, userId: ID): Promise<void>;

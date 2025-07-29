@@ -3,11 +3,9 @@ import { END_USER_ENUM } from "../../../constants/globalEnums";
 import { inject } from "../../../core/container/TypedContainer";
 import { FileManager } from "../../../core/fileManager/FileManager";
 import { BaseEntity, ID } from "../../../types/BaseEntity";
-import { UserPostFeedRepo } from "../../announcements/repos/UserPostFeed.repo";
 import { NotificationSettingsService } from "../../notifications/NotificationSettings.service";
 import { School } from "../../schools/domain/school.entity";
 import { BaseUser } from "../../users/domain/baseUser.entity";
-import { CentralUserRepo } from "../../users/domain/CentralUser.repo";
 import { AddBaseUserRequest, BaseAddUserUseCase } from "../../users/useCases/BaseAddUser.usecase";
 import { Student } from "../domain/student.entity";
 import { StudentRepo } from "../domain/Student.repo";
@@ -15,7 +13,6 @@ import { ClassTypeRules } from "../../classTypes/ClassType.rules";
 import { LevelRepo } from "../../levels/repos/Level.repo";
 import { ClassTypeRepo } from "../../classTypes/repo/ClassType.repo";
 import { ParentRepo } from "../../parents/domain/Parent.repo";
-import { StudentPaymentConfigurationRepo } from "../../studentPayments/domain/StudentPaymentConfiguration.repo";
 import { StudentProfileRepo } from "../domain/StudentProfile.repo";
 import { StudentApplicationService } from "../application/Student.application.service";
 import { RoleRepo } from "../../authorization/domain/Role.repo";
@@ -36,16 +33,12 @@ export class AddStudentUseCase extends BaseAddUserUseCase<AddStudentRequest, Stu
     @inject("LevelRepo") private levelRepo: LevelRepo,
     @inject("ClassTypeRepo") private classTypeRepo: ClassTypeRepo,
     @inject("ParentRepo") private parentRepo: ParentRepo,
-    @inject("StudentPaymentConfigurationRepo")
-    private studentPaymentConfigurationRepo: StudentPaymentConfigurationRepo,
     @inject("StudentApplicationService")
     private studentApplicationService: StudentApplicationService,
     @inject("StudentProfileRepo") private studentProfileRepo: StudentProfileRepo,
     @inject("FileManager") fileManager: FileManager,
     @inject("School") school: School,
     @inject("NotificationSettingsService") notificationSettingsService: NotificationSettingsService,
-    @inject("CentralUserRepo") centralUserRepo: CentralUserRepo,
-    @inject("UserPostFeedRepo") userPostFeedRepo: UserPostFeedRepo,
     @inject("RoleRepo") roleRepo: RoleRepo,
     @inject("EventDispatcher") eventDispatcher: EventDispatcher,
   ) {
@@ -54,8 +47,6 @@ export class AddStudentUseCase extends BaseAddUserUseCase<AddStudentRequest, Stu
       END_USER_ENUM.STUDENT,
       school,
       notificationSettingsService,
-      centralUserRepo,
-      userPostFeedRepo,
       roleRepo,
       eventDispatcher,
     );
@@ -96,17 +87,6 @@ export class AddStudentUseCase extends BaseAddUserUseCase<AddStudentRequest, Stu
       schoolYear: level.currentSchoolYear._id,
       student: student._id,
       isExceptionallyPromoted: false,
-    });
-
-    await this.studentPaymentConfigurationRepo.addOne({
-      student: student._id,
-      services: [],
-      discount: 0,
-      totalAmount: 0,
-      email: null,
-      phoneNumber: null,
-      emailReminder: false,
-      smsReminder: false,
     });
 
     const parents = await this.parentRepo.findManyByIdsOrThrow(

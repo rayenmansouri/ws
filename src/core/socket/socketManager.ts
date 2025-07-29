@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import { Server } from "socket.io";
 import { environment, tokenSecret } from "../../config";
 import { END_USER_ENUM, TEndUserEnum } from "../../constants/globalEnums";
-import { getTenantCon } from "../../database/connectionDB/tenantPoolConnection";
 import { BaseUser } from "../../feature/users/domain/baseUser.entity";
 import { ENVIRONMENT_ENUM } from "../../helpers/constants";
 import { parseDate } from "../../helpers/parseDate";
@@ -12,6 +11,7 @@ import { schoolDocStore } from "../subdomainStore";
 import { logCompilationErrorAndExitProcess } from "./../logErrorAndExitProcess";
 import { ErrorSocketEnum } from "./constants/errorSocket.constants";
 import { middlewareWS, nextWS, protectsSocket } from "./index.types";
+import { getNewTenantConnection } from "../../database/connectionDB/tenantPoolConnection";
 
 const authError = (msg: ErrorSocketEnum): Error => new Error(msg);
 
@@ -142,7 +142,7 @@ export class SocketManager {
       throw authError(ErrorSocketEnum.SUBDOMAIN_NOT_FOUND);
     }
 
-    const connection = await getTenantCon(schoolSubdomain);
+    const connection = await getNewTenantConnection(schoolSubdomain);
     socket.connection = connection;
   };
 

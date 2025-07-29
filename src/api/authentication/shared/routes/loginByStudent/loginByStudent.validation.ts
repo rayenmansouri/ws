@@ -11,6 +11,7 @@ const validateCentralNewId = z.string().refine(value => {
 const body = z.object({
   credential: z.union([emailValidation(), validatePhoneNumber(), validateCentralNewId]),
   password: z.string().min(8),
+  subdomain: z.string(),
 });
 type TBody = z.infer<typeof body>;
 

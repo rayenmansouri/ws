@@ -2,14 +2,11 @@ import { injectable } from "inversify";
 import { ClientSession, Connection } from "mongoose";
 import { inject } from "../../../core/container/TypedContainer";
 import { FileManager } from "../../../core/fileManager/FileManager";
-import { deleteNotificationsByTopic } from "../../../features/notification/shared/deleteNotificationByTopic";
-import { HomeworkRepo } from "../../homeworks/domain/Homework.repo";
 import { StudentRepo } from "../../students/domain/Student.repo";
 import { SessionRepo } from "../domain/Session.repo";
 import { END_USER_ENUM, END_USER_WITHOUT_MASTER_ENUM } from "./../../../constants/globalEnums";
 import { getCurrentTimeOfSchool } from "./../../../core/getCurrentTimeOfSchool";
 import { BadRequestError } from "../../../core/ApplicationErrors";
-import { SESSION_STATUS_ENUM } from "./../../../database/schema/pedagogy/session/session.schema";
 import {
   NOTIFICATION_STATUS_ENUM,
   NOTIFICATION_TYPES_ENUM,
@@ -22,6 +19,7 @@ import {
 import { ID } from "./../../../types/BaseEntity";
 import { IBaseNotification } from "./../../notifications/notification.entity";
 import { SessionService } from "./../domain/Session.service";
+import { SESSION_STATUS_ENUM } from "../domain/session.entity";
 
 export type CancelSessionRequestDTO = {
   sessionNewId: string;
@@ -38,7 +36,6 @@ export class CancelSessionUseCase {
     @inject("SessionRepo")
     private readonly sessionRepo: SessionRepo,
     @inject("StudentRepo") private readonly studentRepo: StudentRepo,
-    @inject("HomeworkRepo") private readonly homeworkRepo: HomeworkRepo,
     @inject("FileManager") private readonly fileManager: FileManager,
   ) {}
 
@@ -47,16 +44,7 @@ export class CancelSessionUseCase {
       dto.sessionNewId,
       "notFound.session",
       {
-        populate: [
-          "class",
-          "classGroup",
-          "group",
-          "teacher",
-          "subjectType",
-          "subSubjectType",
-          "homeworkGiven",
-          "homeworkToDo",
-        ],
+        populate: ["class", "classGroup", "group", "teacher", "subjectType", "subSubjectType"],
       },
     );
 
@@ -72,8 +60,6 @@ export class CancelSessionUseCase {
       status: SESSION_STATUS_ENUM.CANCELED,
       reasonForCanceling: dto.reasonForCanceling,
       canceledBy: dto.userId,
-      homeworkGiven: [],
-      homeworkToDo: [],
     });
 
     const studentsIds: ID[] = SessionService.extractStudentIdsFromSession(
@@ -258,39 +244,6 @@ export class CancelSessionUseCase {
       }
     }
 
-    const homeworks = session.homeworkGiven.concat(session.homeworkToDo);
-
-    const homeworksPublicIds = homeworks.flatMap(homework =>
-      homework.files.map(file => file.public_id),
-    );
-
-    const homeworkToBeDeletedIds = homeworks.map(homework => homework._id);
-
-    const homeworkToBeDeletedNewIds = homeworks.map(homework => homework.newId);
-
-    const deleteHomeworksPromise = this.homeworkRepo.deleteManyByIds(homeworkToBeDeletedIds);
-
-    const deleteParentHomeworkNotificationsPromise = deleteNotificationsByTopic(
-      this.connection,
-      "parent_homework",
-      { homeworkNewId: homeworkToBeDeletedNewIds },
-      this.clientSession,
-    );
-
-    const deleteStudentHomeworkNotificationsPromise = deleteNotificationsByTopic(
-      this.connection,
-      "student_homework",
-      { homeworkNewId: homeworkToBeDeletedNewIds },
-      this.clientSession,
-    );
-
-    await Promise.all([
-      cancelSessionPromise,
-      ...notificationPromises,
-      this.fileManager.deleteFiles(homeworksPublicIds),
-      deleteHomeworksPromise,
-      deleteParentHomeworkNotificationsPromise,
-      deleteStudentHomeworkNotificationsPromise,
-    ]);
+    await Promise.all([cancelSessionPromise, ...notificationPromises]);
   }
 }

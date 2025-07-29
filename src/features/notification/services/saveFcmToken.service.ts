@@ -1,10 +1,9 @@
 import { Connection } from "mongoose";
-import { InternalError } from "../../../core/ApplicationErrors";
-import { crudRepo } from "../../../database/repositories/crud.repo";
+import { BadRequestError, InternalError } from "../../../core/ApplicationErrors";
+import { NotificationSettings } from "../../../feature/notifications/NotificationSettings.entity";
 import { MAX_TOKEN_PER_USER } from "../constants/constants";
 import { SaveFcmTokenTranslationKeysEnum } from "../constants/saveFcmToken.constants";
 import { TSaveFcmTokenResponse } from "../types/saveFcmToken.types";
-import { BadRequestError } from "../../../core/ApplicationErrors";
 
 export const saveFcmTokenService = async (
   connection: Connection,
@@ -14,9 +13,12 @@ export const saveFcmTokenService = async (
 ): Promise<TSaveFcmTokenResponse> => {
   if (!userAgent)
     throw new BadRequestError(SaveFcmTokenTranslationKeysEnum.USER_AGENT_MUST_BE_TRUTHY);
-  let notificationSettingsDoc = await crudRepo(connection, "notificationSettings").findOne({
-    userId,
-  });
+  let notificationSettingsDoc = await connection
+    .model<NotificationSettings>("notificationSettings")
+    .findOne({
+      userId,
+    });
+
   if (!notificationSettingsDoc)
     throw new InternalError(SaveFcmTokenTranslationKeysEnum.NOTIFICATION_SETTING_NOT_FOUND);
 
@@ -35,12 +37,15 @@ export const saveFcmTokenService = async (
     notificationSettingsDoc.registrationTokens.push({ userAgent, token: registrationToken });
   }
 
-  notificationSettingsDoc = await crudRepo(connection, "notificationSettings").updateOne(
-    { _id: notificationSettingsDoc._id.toString() },
-    { $set: { registrationTokens: notificationSettingsDoc.registrationTokens } },
-  );
+  notificationSettingsDoc = await connection
+    .model<NotificationSettings>("notificationSettings")
+    .findOneAndUpdate(
+      { userId },
+      { registrationTokens: notificationSettingsDoc.registrationTokens },
+      { new: true },
+    );
   return {
-    userId: notificationSettingsDoc.userId,
+    userId: String(notificationSettingsDoc?.userId),
     registrationToken,
   };
 };

@@ -1,5 +1,5 @@
-import { TAttendanceEnum } from "../../../database/schema/pedagogy/session/session.schema";
 import { UserProfileDTO } from "../../users/dtos/userProfile.dto";
+import { TAttendanceEnum } from "../domain/session.entity";
 
 export type SessionAttendanceDTO = {
   student: UserProfileDTO;

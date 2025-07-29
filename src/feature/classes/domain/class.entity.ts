@@ -4,7 +4,6 @@ import { Classroom } from "../../classrooms/domains/classroom.entity";
 import { ClassType } from "../../classTypes/repo/classType.entity";
 import { SchoolYear } from "../../schoolYears/domain/schoolYear.entity";
 import { Student } from "../../students/domain/student.entity";
-import { Term } from "../../terms/domains/term.entity";
 import { ClassGroup } from "./classGroup.entity";
 
 type teacherId = ID;
@@ -25,7 +24,6 @@ export type Class = {
   maxGapsPerDay: number | null;
   maxContinuousHours: number | null;
   preferredClassroom: ID | null;
-  gradeReports: { term: ID; isPublished: boolean }[];
 } & BaseEntity;
 
 export type ClassMetaData = GenerateMetaData<
@@ -36,6 +34,5 @@ export type ClassMetaData = GenerateMetaData<
     schoolYear: SchoolYear;
     classGroups: ClassGroup[];
     preferredClassroom: Classroom;
-    "gradeReports.term": Term;
   }
 >;

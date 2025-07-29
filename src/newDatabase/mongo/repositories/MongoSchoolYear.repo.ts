@@ -10,7 +10,6 @@ import { MongoBaseRepo } from "./MongoBase.repo";
 import { ListOptions } from "../../../types/types";
 import { ResponseWithPagination } from "../types";
 import { ID } from "../../../types/BaseEntity";
-import { Term } from "../../../feature/terms/domains/term.entity";
 
 export class MongoSchoolYearRepo
   extends MongoBaseRepo<SchoolYearMetaData>
@@ -39,19 +38,6 @@ export class MongoSchoolYearRepo
   }
   async findOneByTerm(termId: ID): Promise<SchoolYear | null> {
     return this.model.findOne({ "terms._id": termId });
-  }
-
-  async updateTerm(termId: ID, term: Partial<Term>): Promise<void> {
-    const updateFields: Record<string, unknown> = {};
-
-    // Build dynamic update object for specific fields
-    Object.keys(term).forEach(key => {
-      updateFields[`terms.$.${key}`] = term[key as keyof Term];
-    });
-
-    await this.model
-      .updateMany({ "terms._id": termId }, { $set: updateFields })
-      .session(this.session);
   }
 
   async list(

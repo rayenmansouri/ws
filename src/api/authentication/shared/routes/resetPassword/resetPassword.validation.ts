@@ -10,6 +10,7 @@ const body = z.object({
     .max(9999)
     .min(1000)
     .transform(n => n.toString()),
+  subdomain: z.string(),
 });
 type TBody = z.infer<typeof body>;
 

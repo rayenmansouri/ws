@@ -21,5 +21,4 @@ export const mongoClassSchema = createMongoSchema<Class>({
   maxContinuousHours: { type: Number },
   preferredClassroom: { type: Types.ObjectId, ref: "classroom" },
   classGroups: [{ type: Types.ObjectId, ref: "classGroup" }],
-  gradeReports: [{ term: { type: Types.ObjectId, ref: "term" }, isPublished: Boolean }],
 });

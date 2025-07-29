@@ -1,6 +1,14 @@
 import "reflect-metadata";
 import { NodeMailerEmailManager } from "../../feature/emailManager/infra/NodeMailerEmailManager";
 import { NotificationSettingsService } from "../../feature/notifications/NotificationSettings.service";
+import { ClassService } from "../../feature/classes/domain/Class.service";
+import { GroupApplicationService } from "../../feature/groupManagement/applicationServices/Group.application.service";
+import { ScheduleApplicationService } from "../../feature/schedules/applications/Schedule.application.service";
+import { SessionApplicationService } from "../../feature/sessionManagement/applicationServices/Session.application.service";
+import { SessionService } from "../../feature/sessionManagement/domain/Session.service";
+import { StudentApplicationService } from "../../feature/students/application/Student.application.service";
+import { WeeklyScheduleApplicationService } from "../../feature/weeklySchedule/applications/WeeklySchedule.application.service";
+import { WeeklySessionApplicationService } from "../../feature/weeklySessions/applicationService/WeeklySession.application.service";
 import { RandomUtils } from "../../helpers/RandomUtils";
 import { StringUtils } from "../../helpers/StringUtils";
 import { LANGUAGE_ENUM } from "../../translation/constants";
@@ -41,4 +49,18 @@ export const registerAllDependencies = (): void => {
   // registerUserDependencies(container);
   // registerInvoiceDependencies(container);
   // etc.
+  container.bind("SessionService").to(SessionService);
+  container.bind("ClassService").to(ClassService);
+  container.bind("GroupApplicationService").to(GroupApplicationService);
+
+  // application services
+  container.bind("SessionApplicationService").to(SessionApplicationService);
+  container.bind("ScheduleApplicationService").to(ScheduleApplicationService);
+  container.bind("WeeklyScheduleApplicationService").to(WeeklyScheduleApplicationService);
+  container.bind("StudentApplicationService").to(StudentApplicationService);
+  container.bind("WeeklySessionApplicationService").to(WeeklySessionApplicationService);
+  container.bind("AdminApplicationService").to(AdminApplicationService);
+
+  registerUseCases();
+  registerUseRepos();
 };

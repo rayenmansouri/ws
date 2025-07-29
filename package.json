@@ -27,7 +27,7 @@
     "fix": "ts-node-dev src/scripts/index.ts",
     "executor": "ts-node ./src/core/scriptExecutor.ts",
     "buildRoutes": "ts-node src/apps/main/index.routes.ts",
-    "build-types": "cd webschool-types && npm run build && cd ../"
+    "build-types": "cd iecd-types && npm run build && cd ../"
   },
   "repository": {
     "type": "git",

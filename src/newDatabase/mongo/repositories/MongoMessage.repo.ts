@@ -9,9 +9,9 @@ import { ResponseWithPagination } from "../types";
 import {
   MessageMetaData,
   PopulatedMessageMetaData,
+  TMessageReactionTypeEnum,
 } from "./../../../feature/messages/domain/message.entity";
 import { LastMessageDTO } from "./../../../feature/messages/dtos/Conversation.dto";
-import { TReactionTypeEnum } from "../../../feature/announcements/domain/reaction.entity";
 import { ID } from "./../../../types/BaseEntity";
 import { MongoBaseRepo } from "./MongoBase.repo";
 
@@ -27,7 +27,7 @@ export class MongoMessageRepo extends MongoBaseRepo<MessageMetaData> implements 
     messageId: ID,
     userType: TEndUserEnum,
     userId: ID,
-    reactionType: TReactionTypeEnum,
+    reactionType: TMessageReactionTypeEnum,
     tenantId: string,
   ): Promise<void> {
     const query = { _id: messageId };
@@ -49,7 +49,7 @@ export class MongoMessageRepo extends MongoBaseRepo<MessageMetaData> implements 
   async updateMessageReactionOfUser(
     messageId: ID,
     userId: ID,
-    reactionType: TReactionTypeEnum,
+    reactionType: TMessageReactionTypeEnum,
   ): Promise<void> {
     const query = { _id: messageId, "reactions.user": userId };
     const update = MessageAggregationBuilder.buildReactionUpdateOperation(reactionType);

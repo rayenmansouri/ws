@@ -4,8 +4,6 @@ import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { ClassRepo } from "../../classes/domain/Class.repo";
 import { EntityMapper } from "../../entity/mapper/entity.mapper";
-import { GradeReportTemplateRepo } from "../../gradeReportTemplate/domain/GradeReportTemplate.repo";
-import { GradeReportTemplateMapper } from "../../gradeReportTemplate/mappers/GradeReportTemplate.mapper";
 import { GroupRepo } from "../../groupManagement/repos/Group.repo";
 import { UserMapper } from "../../users/mappers/User.mapper";
 import { StudentApplicationService } from "../application/Student.application.service";
@@ -27,7 +25,6 @@ export class GetStudentProfileUseCase {
     private studentApplicationService: StudentApplicationService,
     @inject("ClassRepo") private classRepo: ClassRepo,
     @inject("GroupRepo") private groupRepo: GroupRepo,
-    @inject("GradeReportTemplateRepo") private gradeReportTemplateRepo: GradeReportTemplateRepo,
     @inject("SchoolYearRepo") private readonly schoolYearRepo: SchoolYearRepo,
     @inject("StudentProfileRepo") private studentProfileRepo: StudentProfileRepo,
   ) {}
@@ -59,24 +56,6 @@ export class GetStudentProfileUseCase {
     const classDoc = classId
       ? await this.classRepo.findOneByIdOrThrow(classId, "notFound.class")
       : null;
-
-    const gradeReportTemplates = classDoc
-      ? await this.gradeReportTemplateRepo.findTemplatesByClassType(classDoc._id)
-      : [];
-
-    let currentTermNewId: string | null = null;
-    if (classDoc) {
-      const numberOfCompletedTerms = classDoc.gradeReports.length;
-      const numberOfTerms = level.currentSchoolYear.terms.length;
-      const currentTerm =
-        numberOfCompletedTerms === numberOfTerms
-          ? level.currentSchoolYear.terms[numberOfTerms - 1]
-          : numberOfCompletedTerms === 0
-          ? level.currentSchoolYear.terms[0]
-          : level.currentSchoolYear.terms[numberOfCompletedTerms - 1];
-
-      currentTermNewId = currentTerm.newId;
-    }
 
     const groups = await this.groupRepo.findManyByIdsOrThrow(groupIds, "notFound.group");
     const studentProfiles = await this.studentProfileRepo.getAllStudentProfileOfStudent(
@@ -111,30 +90,10 @@ export class GetStudentProfileUseCase {
       level: EntityMapper.toEntityDto(level),
       isEnrolled: !!classId,
       class: classDoc ? EntityMapper.toEntityDto(classDoc) : null,
-      terms: classDoc
-        ? level.currentSchoolYear.terms.map((term, index) => {
-            const isCompletedTerm = classDoc.gradeReports.some(
-              report => report.term.toString() === term._id.toString(),
-            );
-            const isCurrentTerm = index === classDoc.gradeReports.length;
-
-            return {
-              newId: term.newId,
-              _id: String(term._id),
-              name: term.name,
-              isLocked: !isCompletedTerm && !isCurrentTerm,
-            };
-          })
-        : [],
-      currentTermNewId,
-      examGradeSystem: level.examGradeSystem,
       groups: groups.map(group => ({
         ...EntityMapper.toEntityDto(group),
         groupTypeName: group.groupType.name,
       })),
-      gradeReportTemplates: gradeReportTemplates.map(template =>
-        GradeReportTemplateMapper.toDTO(template),
-      ),
       schoolYears: schoolYears.map(schoolYear => SchoolYearMapper.toSchoolYearDto(schoolYear)),
       selectedSchoolYear: SchoolYearMapper.toSchoolYearDto(schoolYear),
     };

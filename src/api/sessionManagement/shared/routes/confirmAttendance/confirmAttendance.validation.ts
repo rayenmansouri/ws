@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { validateID, validateNewId } from "./../../../../../core/validator";
-import { ATTENDANCE_ENUM } from "./../../../../../database/schema/pedagogy/session/session.schema";
+import { ATTENDANCE_ENUM } from "../../../../../feature/sessionManagement/domain/session.entity";
 
 const body = z.object({
   studentId: validateID(),

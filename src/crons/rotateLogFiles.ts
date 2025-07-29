@@ -1,11 +1,11 @@
-import { appendFile, readFile, readdir, rm, writeFile } from 'fs/promises';
-import { join } from 'path';
-import { logsRetentionDays } from '../config';
-import { sortArrayOfStringsAscending } from '../helpers/sortArrayByDate';
-import logger from '../core/Logger';
+import { appendFile, readFile, readdir, rm, writeFile } from "fs/promises";
+import { join } from "path";
+import { logsRetentionDays } from "../config";
+import { sortArrayOfStringsAscending } from "../helpers/sortArrayByDate";
+import logger from "../core/Logger";
 
-const LOGS_FOLDER_PATH = join(__dirname, '..', '..', 'logs');
-const LOGS_OF_TODAY_FILE_NAME = 'today.log';
+const LOGS_FOLDER_PATH = join(__dirname, "..", "..", "logs");
+const LOGS_OF_TODAY_FILE_NAME = "today.log";
 
 export const rotateLogFiles = async () => {
   const currentDate = new Date().toISOString().slice(0, 10);
@@ -20,7 +20,7 @@ export const rotateLogFiles = async () => {
 };
 
 const clearTodayLogFile = async () => {
-  await writeFile(`${LOGS_FOLDER_PATH}/${LOGS_OF_TODAY_FILE_NAME}`, '');
+  await writeFile(`${LOGS_FOLDER_PATH}/${LOGS_OF_TODAY_FILE_NAME}`, "");
 };
 
 const deleteOldLogFiles = async () => {

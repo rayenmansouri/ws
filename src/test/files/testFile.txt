@@ -1,2 +1,0 @@
-This is a text file that will be used in a test case.
-DON'T DELETE THIS FILE

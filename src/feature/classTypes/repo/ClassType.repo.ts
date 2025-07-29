@@ -9,9 +9,7 @@ export abstract class ClassTypeRepo extends BaseRepo<ClassTypeMetaData> {
   abstract listClassTypes(
     filter: { search?: string; subLevelIds?: ID[]; sectionsIds?: ID[]; classTypeIds?: ID[] },
     options: ListOptions,
-  ): Promise<
-    ResponseWithPagination<Populate<ClassTypeMetaData, "section" | "subLevel" | "nextClassTypes">>
-  >;
+  ): Promise<ResponseWithPagination<Populate<ClassTypeMetaData, "subLevel" | "nextClassTypes">>>;
 
   abstract addSubjectToClassType(classTypeId: ID, data: ClassType["subjects"][0]): Promise<void>;
   abstract findManyGroupedBySubLevel(

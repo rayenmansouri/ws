@@ -96,9 +96,7 @@ export class MongoClassTypeRepo extends MongoBaseRepo<ClassTypeMetaData> impleme
   async listClassTypes(
     filter: { search?: string; subLevelIds?: ID[]; sectionsIds?: ID[]; classTypeIds?: ID[] },
     options: ListOptions,
-  ): Promise<
-    ResponseWithPagination<Populate<ClassTypeMetaData, "section" | "subLevel" | "nextClassTypes">>
-  > {
+  ): Promise<ResponseWithPagination<Populate<ClassTypeMetaData, "subLevel" | "nextClassTypes">>> {
     const filterQuery: FilterQuery<ClassType> = {};
 
     if (filter.classTypeIds) filterQuery._id = { $in: stringsToObjectIds(filter.classTypeIds) };
@@ -110,7 +108,7 @@ export class MongoClassTypeRepo extends MongoBaseRepo<ClassTypeMetaData> impleme
 
     const data = await this.findManyWithPagination(filterQuery, {
       ...options,
-      populate: ["section", "subLevel", "nextClassTypes"],
+      populate: ["subLevel", "nextClassTypes"],
     });
 
     return data;

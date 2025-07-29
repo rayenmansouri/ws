@@ -13,12 +13,7 @@ export class GetSubjectsOfClassTypesUseCase {
       classTypeNewId,
       "notFound.classType",
       {
-        populate: [
-          "subjects.subjectType",
-          "subjects.exams.examType",
-          "subjects.subSubjects.exams.examType",
-          "subjects.subSubjects.subSubjectType",
-        ],
+        populate: ["subjects.subjectType", "subjects.subSubjects.subSubjectType"],
       },
     );
 

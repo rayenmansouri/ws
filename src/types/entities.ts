@@ -36,12 +36,6 @@ export const newfileSchema = {
   mimeType: String,
 };
 
-export const chapterAttachmentFileSchema = {
-  ...newfileSchema,
-  durationInSeconds: Number,
-  attachmentType: String,
-};
-
 export type entityWithSchedule =
   | "student"
   | "parent"

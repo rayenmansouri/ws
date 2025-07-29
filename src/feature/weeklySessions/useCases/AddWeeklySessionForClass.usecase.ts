@@ -10,7 +10,7 @@ import { ClassGroup } from "../../classes/domain/classGroup.entity";
 import { ClassGroupRepo } from "../../classes/domain/classGroup.repo";
 import { Classroom } from "../../classrooms/domains/classroom.entity";
 import { ClassroomRepo } from "../../classrooms/domains/classroom.repo";
-import { TOPIC_TYPE_ENUM, TTopicTypeEnum } from "../../examGrade/domain/tunisian/ExamGrade.entity";
+import { TOPIC_TYPE_ENUM, TTopicTypeEnum } from "../../../helpers/constants";
 import { SessionService } from "../../sessionManagement/domain/Session.service";
 import { SessionTypeRepo } from "../../sessionTypes/repos/SessionType.repo";
 import { SubSubjectTypesRepo } from "../../subSubjectTypes/repos/SubSubjectTypes.repo";

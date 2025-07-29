@@ -8,7 +8,6 @@ import { RoleRepo } from "../../authorization/domain/Role.repo";
 import { LevelRepo } from "../../levels/repos/Level.repo";
 import { School } from "../../schools/domain/school.entity";
 import { SubjectTypeRepo } from "../../subjectTypes/domains/SubjectType.repo";
-import { CentralUserRepo } from "../../users/domain/CentralUser.repo";
 import {
   BaseUpdateUserUseCase,
   UpdateBaseUserRequest,
@@ -36,10 +35,9 @@ export class UpdateTeacherUseCase extends BaseUpdateUserUseCase<UpdateTeacherReq
     @inject("TeacherRepo") private teacherRepo: TeacherRepo,
     @inject("FileManager") fileManager: FileManager,
     @inject("School") school: School,
-    @inject("CentralUserRepo") centralUserRepo: CentralUserRepo,
     @inject("RoleRepo") private roleRepo: RoleRepo,
   ) {
-    super(fileManager, END_USER_ENUM.TEACHER, school, centralUserRepo);
+    super(fileManager, END_USER_ENUM.TEACHER, school);
   }
 
   protected async findUserByNewId(newId: string): Promise<Teacher> {

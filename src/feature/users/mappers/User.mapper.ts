@@ -11,9 +11,7 @@ type ToCurrentUserDTOParams = {
   user: Omit<BaseUser, "roles"> & { roles: Role[] };
   school: School;
   unseenNotification: number;
-  unseenAnnouncements: number;
   unseenConversations: number;
-  unseenParentDemands: number | null;
   language: TLanguageEnum;
 };
 
@@ -37,9 +35,7 @@ export class UserMapper {
     user,
     school,
     unseenNotification,
-    unseenAnnouncements,
     unseenConversations,
-    unseenParentDemands,
     language,
   }: ToCurrentUserDTOParams): CurrentUserDTO {
     return {
@@ -68,9 +64,7 @@ export class UserMapper {
       schoolSubdomain: school.subdomain,
       taxRate: school.taxRate,
       unseenNotification,
-      unseenAnnouncements,
       unseenConversations,
-      unseenParentDemands,
       featureFlags: FeatureFlagService.getSchoolFeatureFlags(school),
       schedule: school.schedule,
     };

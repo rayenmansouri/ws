@@ -2,8 +2,8 @@ import { ClientSession, Connection } from "mongoose";
 import { UpdateNotificationSettingsTranslationKeysEnum } from "../constants/updateNotificationSettings.constants";
 import { TUpdateNotificationSettingsResponse } from "../types/updateNotificationSettings.types";
 import { BadRequestError } from "../../../core/ApplicationErrors";
-import { crudRepo } from "./../../../database/repositories/crud.repo";
 import { TUpdateNotificationSettingsValidation } from "./../validations/updateNotificationSettings.validation";
+import { NotificationSettingsRepo } from "../../../feature/notifications/NotificationSettings.repo";
 
 export const updateNotificationSettingsService = async (
   connection: Connection,
@@ -17,21 +17,24 @@ export const updateNotificationSettingsService = async (
       UpdateNotificationSettingsTranslationKeysEnum.USER_AGENT_MUST_BE_PROVIDED,
     );
 
-  const notificationSettingsDoc = await crudRepo(connection, "notificationSettings").findOne({
-    userId,
-  });
+  const crudRepo = (connection: Connection) => {
+    return connection.model<NotificationSettingsRepo>("notificationSettings");
+  };
+  const notificationSettingsDoc = await crudRepo(connection)
+    .findOne({
+      userId,
+    })
+    .lean();
+
+  if (!notificationSettingsDoc) throw new BadRequestError("notFound.notification");
 
   if (payload.isPushNotificationEnabled === false) {
-    return crudRepo(connection, "notificationSettings").updateOne(
-      { userId },
-      { ...payload, $pull: { registrationTokens: { userAgent } } },
-      session,
-    );
+    return crudRepo(connection)
+      .updateOne({ userId }, { ...payload, $pull: { registrationTokens: { userAgent } } }, session)
+      .lean();
   }
 
-  return await crudRepo(connection, "notificationSettings").updateOne(
-    { _id: notificationSettingsDoc._id.toString() },
-    { ...payload },
-    session,
-  );
+  return await crudRepo(connection)
+    .updateOne({ _id: notificationSettingsDoc._id.toString() }, { ...payload }, session)
+    .lean();
 };

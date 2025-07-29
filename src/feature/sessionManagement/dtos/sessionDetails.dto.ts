@@ -1,10 +1,8 @@
-import { TSessionStatusEnum } from "../../../database/schema/pedagogy/session/session.schema";
+import { FileDTO } from "../../../core/valueObjects/File.vo.js";
 import { ID } from "../../../types/BaseEntity";
 import { EntityDto } from "../../entity/dto/entity.dto";
-import { HomeworkDTO } from "../../homeworks/dtos/homework.dto";
-import { ObservationDTO } from "../../observations/dtos/observation.dto";
 import { UserProfileDTO } from "../../users/dtos/userProfile.dto";
-import { IFile, TSessionWeekEnum } from "../domain/session.entity";
+import { TSessionStatusEnum, TSessionWeekEnum } from "../domain/session.entity";
 import { SessionAttendanceDTO } from "./sessionAttendance.dto";
 
 export type SessionDetailsDTO = {
@@ -25,10 +23,7 @@ export type SessionDetailsDTO = {
   subSubjectType: EntityDto | null;
   teacher: UserProfileDTO | null;
   sessionSummary: string | null;
-  homeworkToDo: HomeworkDTO[];
-  homeworkGiven: HomeworkDTO[];
-  observations: ObservationDTO[];
-  files: IFile[];
+  files: FileDTO[];
   notes: {
     title: string;
     text: string;

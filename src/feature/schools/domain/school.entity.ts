@@ -1,3 +1,4 @@
+import { FileDetails } from "../../../core/fileManager/FileManager";
 import { GenerateMetaData } from "../../../core/populateTypes";
 import { BaseEntity } from "../../../types/BaseEntity";
 import { IFile } from "../../sessionManagement/domain/session.entity";
@@ -27,9 +28,9 @@ export type School = {
   instanceType: TInstanceTypeEnum;
   cover: string;
   // TO be removed after migration
-  signature: IFile | null;
-  financeSignature: IFile | null;
-  academicSignature: IFile | null;
+  signature: FileDetails | null;
+  financeSignature: FileDetails | null;
+  academicSignature: FileDetails | null;
   gradeBookTheme: TGradeReportThemEnum;
   featureFlags: Record<TFeatureFlagsEnum, boolean>;
   schedule: {

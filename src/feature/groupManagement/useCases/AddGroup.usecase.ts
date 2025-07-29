@@ -1,18 +1,17 @@
 import { injectable } from "inversify/lib/inversify";
+import { uniq } from "lodash";
 import { inject } from "../../../core/container/TypedContainer";
 import { GroupDto } from "../../classes/dto/Group.dto";
 import { ClassTypeRepo } from "../../classTypes/repo/ClassType.repo";
 import { StudentRepo } from "../../students/domain/Student.repo";
 import { StudentProfileRepo } from "../../students/domain/StudentProfile.repo";
 import { TeacherRepo } from "../../teachers/domain/Teacher.repo";
+import { TeacherService } from "../../teachers/domain/Teacher.service";
 import { TeacherProfileRepo } from "../../teachers/domain/TeacherProfile.repo";
 import { GroupApplicationService } from "../applicationServices/Group.application.service";
-import { GroupService } from "../domains/Group.service";
 import { GroupMapper } from "../mappers/Group.mapper";
 import { GroupRepo } from "../repos/Group.repo";
 import { GroupTypeRepo } from "../repos/GroupType.repo";
-import { uniq } from "lodash";
-import { TeacherService } from "../../teachers/domain/Teacher.service";
 
 type AddGroupUseCaseInput = {
   name: string;
@@ -59,11 +58,6 @@ export class AddGroupUseCase {
     const levels = classTypes.map(classType => classType.subLevel.level);
     const levelIds = uniq(levels.map(level => level._id));
 
-    GroupService.ensureGroupHasOneLevelWhenIncludeInGradeBook({
-      groupType,
-      levels: levelIds,
-    });
-
     TeacherService.checkTeacherGroupTypeEligibility(teacher, groupType);
 
     const schoolYearIds = levels.map(level => level.currentSchoolYear._id);
@@ -94,13 +88,6 @@ export class AddGroupUseCase {
 
     await this.studentProfileRepo.addGroup(studentProfilesIds, newGroup._id);
     await this.teacherProfileRepo.addGroup(teacherProfilesIds, newGroup._id);
-
-    const terms = levels.at(0)!.currentSchoolYear.terms;
-    await this.groupApplicationService.createGroupExamGradesAndObservations(
-      students,
-      newGroup,
-      terms,
-    );
 
     return GroupMapper.toGroupDto(newGroup);
   }

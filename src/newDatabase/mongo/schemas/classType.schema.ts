@@ -6,7 +6,6 @@ export const mongoClassTypeSchema = createMongoSchema<ClassType>({
   name: String,
   capacity: Number,
   subLevel: { type: Types.ObjectId, ref: "subLevel" },
-  section: { type: Types.ObjectId, ref: "section" },
   isTerminal: Boolean,
   nextClassTypes: [{ type: Types.ObjectId, ref: "classType" }],
   activities: [
@@ -32,22 +31,10 @@ export const mongoClassTypeSchema = createMongoSchema<ClassType>({
     {
       subjectType: { type: Types.ObjectId, ref: "subjectType" },
       coefficient: Number,
-      exams: [
-        {
-          coefficient: Number,
-          examType: { type: Types.ObjectId, ref: "examType" },
-        },
-      ],
       subSubjects: [
         {
           subSubjectType: { type: Types.ObjectId, ref: "subSubjectType" },
           coefficient: Number,
-          exams: [
-            {
-              coefficient: Number,
-              examType: { type: Types.ObjectId, ref: "examType" },
-            },
-          ],
         },
       ],
     },

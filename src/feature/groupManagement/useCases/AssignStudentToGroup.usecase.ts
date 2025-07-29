@@ -35,11 +35,6 @@ export class AssignStudentToGroupUseCase {
     GroupService.verifyStudentGroupLevelMatch(students, group);
     GroupService.ensureStudentClassTypeMatchesGroupClassType(students, group);
 
-    await this.groupApplicationService.addStudentExamGradeAndGradeBookObservationOfGroup(
-      students,
-      group,
-    );
-
     const newStudentGroup = group.students.concat(studentIds);
     const studentProfiles = await this.studentProfileRepo.getManyStudentProfilesOfSchoolYears(
       studentIds,

@@ -12,7 +12,7 @@ export const FEATURE_DIRECTORY = path.join(PROJECT_DIRECTORY, "src", "feature");
 
 export const DATABASE_DIRECTORY = path.join(PROJECT_DIRECTORY, "src", "newDatabase", "mongo");
 
-export const WEB_SCHOOL_TYPES_DIRECTORY = path.join(PROJECT_DIRECTORY, "webschool-types", "src");
+export const WEB_SCHOOL_TYPES_DIRECTORY = path.join(PROJECT_DIRECTORY, "iecd-types", "src");
 
 export const USE_CASE_CONTAINER_PATH = path.join(
   PROJECT_DIRECTORY,

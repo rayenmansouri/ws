@@ -1,18 +1,18 @@
 import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { BadRequestError } from "../../../core/ApplicationErrors";
-import { SectionRepo } from "../../sections/repos/Section.repo";
 import { SubLevelRepo } from "../../subLevels/domains/SubLevel.repo";
 import { ClassTypeDto } from "../dtos/classType.dto";
 import { ClassTypeMapper } from "../mappers/classType.mapper";
 import { ClassTypeRepo } from "../repo/ClassType.repo";
+import { ClassType } from "../repo/classType.entity";
+import { BaseEntity } from "../../../types/BaseEntity";
 
 @injectable()
 export class AddClassTypeUseCase {
   constructor(
     @inject("ClassTypeRepo") private classTypeRepo: ClassTypeRepo,
     @inject("SubLevelRepo") private subLevelRepo: SubLevelRepo,
-    @inject("SectionRepo") private sectionRepo: SectionRepo,
   ) {}
 
   async execute(data: {
@@ -29,10 +29,6 @@ export class AddClassTypeUseCase {
       data.subLevelNewId,
       "notFound.subLevel",
     );
-
-    const section = data.sectionNewId
-      ? await this.sectionRepo.findOneByNewIdOrThrow(data.sectionNewId, "notFound.section")
-      : undefined;
 
     const nextClassTypes = data.nextClassTypeNewIds
       ? await this.classTypeRepo.findManyByNewIdsOrThrow(
@@ -56,11 +52,10 @@ export class AddClassTypeUseCase {
           nextClassTypes: nextClassTypes!.map(classType => classType._id),
         };
 
-    const dataToBeAdded = {
+    const dataToBeAdded: Omit<ClassType, keyof BaseEntity> = {
       name: data.name,
       subLevel: subLevel._id,
       capacity: data.capacity,
-      section: section?._id || null,
       ...terminalClassTypeInfo,
       activities: [],
       subjects: [],
@@ -72,7 +67,6 @@ export class AddClassTypeUseCase {
     return ClassTypeMapper.toClassTypeDto({
       ...classType,
       subLevel: subLevel,
-      section: section || null,
       nextClassTypes: nextClassTypes || null,
     });
   }

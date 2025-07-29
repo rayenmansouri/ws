@@ -1,15 +1,8 @@
 import schedule from "node-schedule";
 import { environment } from "../config";
 import Logger from "../core/Logger";
-import { getTenantCon } from "../database/connectionDB/tenantPoolConnection";
 import { ENVIRONMENT_ENUM } from "../helpers/constants";
-import { handleOverdueInvoices, invoiceReminderCron } from "./callbacks";
 import { rotateLogFiles } from "./rotateLogFiles";
-import {
-  markExpiredHomeworkAsDone,
-  handleInProgressSessions,
-  handlePastSessions,
-} from "./session.jobs";
 import { container } from "../core/container/container";
 
 const scheduleCron = (hour: number, minutes: number, callback: () => Promise<void>): void => {
@@ -26,8 +19,6 @@ export const initializeCrons = async (): Promise<void> => {
 
   scheduleCron(23, 59, rotateLogFiles);
   scheduleCron(0, 0, globalCron);
-  scheduleCron(10, 0, () => invoiceReminderCron(3));
-  scheduleCron(10, 0, () => invoiceReminderCron(1));
 };
 
 export const globalCron = async (): Promise<void> => {
@@ -37,17 +28,7 @@ export const globalCron = async (): Promise<void> => {
   const allSchools = await schoolRepo.findAll();
 
   for (const school of allSchools) {
-    const connection = await getTenantCon(school.subdomain);
-
-    await handlePastSessions(connection, school._id);
-
-    await handleInProgressSessions(connection, school._id);
-
-    await markExpiredHomeworkAsDone(connection, school._id);
-
-    await handleOverdueInvoices(connection, school._id);
-
-    // await handleScheduledPosts(connection, school._id);
+    //If you need crone job for each school, uncomment implement below
   }
 
   Logger.info("GLOBAL CRON COMPLETED");

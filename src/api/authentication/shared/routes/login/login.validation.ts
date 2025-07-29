@@ -4,6 +4,7 @@ import { emailValidation, validatePhoneNumber } from "../../../../../core/valida
 const body = z.object({
   credential: z.union([emailValidation(), validatePhoneNumber()]),
   password: z.string().min(8),
+  subdomain: z.string(),
 });
 type TBody = z.infer<typeof body>;
 

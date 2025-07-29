@@ -1,4 +1,0 @@
-export const enum UpdateSessionByTeacherTranslationKeysEnum {
-  UPDATE_SESSION_BY_TEACHER_RESPONSE = "UPDATE_SESSION_BY_TEACHER_RESPONSE",
-  TEACHER_INVALID = "TEACHER_INVALID",
-}
