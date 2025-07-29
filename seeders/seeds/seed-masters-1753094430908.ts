@@ -1,4 +1,6 @@
 import { SUPER_ADMIN_ROLE } from "../../src/feature/authorization/domain/role.entity";
+import { UserTypeEnum } from "../../src/feature/user-management/factory/enums";
+import { getUserModel } from "../../src/feature/user-management/factory/models-factory";
 import { HashingHelper } from "../../src/helpers/HashUtils";
 import { mongoMasterModel } from "../../src/newDatabase/mongo/schemas/master.schema";
 import { mongoRoleModel } from "../../src/newDatabase/mongo/schemas/role.schema";
@@ -22,6 +24,7 @@ export default class SeedMasters implements ISeeder {
 
     async seed(): Promise<void> {
         console.log("seeding masters");
+        const masterModel = getUserModel(UserTypeEnum.MASTER);
         for (const master of this.masters) {
             const hashedPassword = await HashingHelper.generateHash(master.password);
             const role = await mongoRoleModel.findOne({
@@ -30,7 +33,7 @@ export default class SeedMasters implements ISeeder {
             if(!role){
                 throw new Error("Role not found");
             }
-            await mongoMasterModel.create({
+            await masterModel.create({
                 ...master,
                 password:hashedPassword,
                 roles:[role._id]
