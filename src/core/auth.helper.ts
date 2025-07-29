@@ -18,7 +18,7 @@ export class AuthenticationHelper {
     });
   }
 
-  static generateUserToken(userId: ID, tenantId: string): string {
+  static generateUserToken(userId: string, tenantId: string): string {
     return jwt.sign({ id: userId, tenantId }, tokenSecret, {
       expiresIn: tokenExpireIn,
     });

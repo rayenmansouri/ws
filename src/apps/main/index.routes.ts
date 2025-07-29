@@ -6,14 +6,11 @@ import { importAllRoutes } from "./importAllRoutes";
 const router = Router();
 
 export const webPublicRouter = Router();
-export const webMasterRouter = Router();
 
 
 export const internalRouter = Router();
 
 router.use(webPublicRouter);
-router.use("/master", webMasterRouter);
 
-importAllRoutes(path.join(__dirname, "../../api/schools")); //only import schools for now
-
+importAllRoutes(path.join(__dirname, "../../api/auth")); //only import schools for now
 export default router;

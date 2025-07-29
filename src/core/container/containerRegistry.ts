@@ -247,6 +247,7 @@ import { UpdateSessionStatusUseCase } from "./../../feature/sessionManagement/us
 import { VerifyAndFetchUsersUseCase } from "./../../feature/users/useCases/verifyUsersExistence.usecase";
 import { SwitchStudentsClassUseCase } from "../../feature/students/useCases/switchStudentsClass.usecase";
 import { ListStudentsUseCase } from "../../feature/students/useCases/ListStudents.usecase";
+import { UserRepository } from "../../feature/user-management/base-user/domain/base-user.repository";
 
 export type containerRegistry = {
   //core
@@ -512,4 +513,5 @@ export type containerRegistry = {
 
   // constants
   MasterConnection: Connection;
+  UserRepository: UserRepository;
 };

@@ -12,6 +12,7 @@ import { NextFunction, Request, Response } from "express";
 import { ZodObject, ZodTypeAny } from "zod";
 import { BaseUser } from "../../feature/users/domain/baseUser.entity";
 import { Role } from "../../feature/authorization/domain/role.entity";
+import { IMiddlewareFunction } from "./middlewares/interface";
 
 export type Middleware = (
   req: TypedRequest<TypedRequestOptions>,
@@ -63,8 +64,9 @@ export type RouteConfiguration<Options extends TypedRequestOptions, Path extends
   path: Path;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   controller: (new (...args: any[]) => BaseController<Options>) & { uuid?: string };
+  middlewaresClasses?: (new (routeConfig: RouteConfiguration<TypedRequestOptions, string>) => IMiddlewareFunction)[]
+  platform?: TPlatformEnum;
   isTransactionEnabled?: boolean;
-  platform: TPlatformEnum;
 } & (
   | {
       endUser: PickFromEnum<TEndUserEnum, "admin" | "teacher" | "master">;

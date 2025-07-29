@@ -21,6 +21,7 @@ import { container } from "./container";
 import { registerUseCases } from "./registerUseCases";
 import { registerUseRepos } from "./registerUseRepos";
 import { registerSchoolDependencies } from "./registries/registerSchoolDependencies";
+import { connection } from "mongoose";
 
 export const registerAllDependencies = (): void => {
   // Register core dependencies (keeping existing functionality)
@@ -60,7 +61,5 @@ export const registerAllDependencies = (): void => {
   container.bind("StudentApplicationService").to(StudentApplicationService);
   container.bind("WeeklySessionApplicationService").to(WeeklySessionApplicationService);
   container.bind("AdminApplicationService").to(AdminApplicationService);
-
-  registerUseCases();
-  registerUseRepos();
+  container.bind("Connection").toConstantValue(connection);
 };

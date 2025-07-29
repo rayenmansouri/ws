@@ -9,12 +9,13 @@ import { ID } from "../../../types/BaseEntity";
 import { School } from "../../../feature/schools/domain/school.entity";
 import { APIResponse } from "../../responseAPI/APIResponse";
 import { BaseController } from "../controllers/BaseController";
-import { asyncHandlerForMiddleware } from "./asyncHandler";
 
 export class HandleRequestMiddleware implements IMiddlewareFunction {
   constructor(
     private routeConfig: RouteConfiguration<TypedRequestOptions, string> 
-  ){}
+  ){
+  }
+
   canActivate(): boolean {
     return true;
   }
@@ -34,7 +35,7 @@ export class HandleRequestMiddleware implements IMiddlewareFunction {
         ...schoolDocStore[req.tenantId],
         _id: schoolDocStore[req.tenantId]?._id?.toString() as ID,
       } as School);
-      requestContainer.bind("Connection").toConstantValue(req.DBConnection);
+      //requestContainer.bind("Connection").toConstantValue(req.DBConnection);
 
       if (this.routeConfig.isTransactionEnabled !== undefined) {
         session = await mongoose.connection.startSession();
@@ -64,6 +65,6 @@ export class HandleRequestMiddleware implements IMiddlewareFunction {
   }
 
   getMiddleware(): Middleware[] {
-    return [asyncHandlerForMiddleware(this.handleRequest)];
+    return [this.handleRequest.bind(this)];
   }
 }
