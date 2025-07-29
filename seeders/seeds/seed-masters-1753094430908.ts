@@ -9,11 +9,10 @@ import { ISeeder } from "../interface";
 export default class SeedMasters implements ISeeder {
     masters = [
         {
-            firstName: "dali",
-            lastName: "aissaoui",
-            email: "dali.aissaou@gmail.com",
+            firstName: "admin",
+            lastName: "admin",
+            email: "admin@gmail.com",
             password: "password",
-            gender: "male",
             address1: "sahloul",
             address2: "tunis",
             birthDate: new Date("1990-01-01"),
