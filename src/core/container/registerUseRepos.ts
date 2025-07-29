@@ -30,11 +30,9 @@ import { MongoConversationRepo } from "../../newDatabase/mongo/repositories/Mong
 import { MongoMessageAttachmentRepo } from "../../newDatabase/mongo/repositories/MessageAttachment.repo";
 import { MongoUsersRepo } from "./../../newDatabase/mongo/repositories/MongoUsers.repo";
 import { container } from "./container";
-import { MongoSchoolRepo } from "../../newDatabase/mongo/repositories/MongoSchool.repo";
-
 
   
-  export const registerUseRepos = (): void => {  
+export const registerUseRepos = (): void => {  
 
   container.bind("GroupTypeRepo").to(MongoGroupTypeRepo);
   container.bind("VerificationCodeRepo").to(MongoVerificationCodeRepo);
@@ -61,7 +59,6 @@ import { MongoSchoolRepo } from "../../newDatabase/mongo/repositories/MongoSchoo
   container.bind("ClassTypeRepo").to(MongoClassTypeRepo);
   container.bind("SubjectTypeRepo").to(MongoSubjectTypeRepo);
   container.bind("TeacherProfileRepo").to(MongoTeacherProfileRepo);
-  container.bind("SchoolRepo").to(MongoSchoolRepo);
   container.bind("ClassroomRepo").to(MongoClassroomRepo);
   container.bind("SessionTypeRepo").to(MongoSessionTypeRepo);
   container.bind("SubSubjectTypeRepo").to(MongoSubSubjectTypeRepo);
