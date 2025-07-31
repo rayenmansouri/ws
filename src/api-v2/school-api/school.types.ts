@@ -1,0 +1,18 @@
+import { School } from "../../feature/school-management/domain/school.entity";
+import { TypedRequestOptions } from "../../core/express/types";
+
+export type CreateSchoolRouteConfig = TypedRequestOptions & {
+  body: {
+    name: string;
+    address: string;
+    phone: string;
+    email: string;
+    website: string;
+    subdomain: string;
+  };
+  params: never;
+  query: never;
+  files: never;
+};
+
+export type CreateSchoolResponse = { school: School };

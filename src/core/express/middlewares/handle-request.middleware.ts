@@ -5,8 +5,6 @@ import { container } from "../../container/container";
 import { schoolDocStore } from "../../subdomainStore";
 import { containerRegistry } from "../../container/containerRegistry";
 import mongoose, { ClientSession } from "mongoose";
-import { ID } from "../../../types/BaseEntity";
-import { School } from "../../../feature/schools/domain/school.entity";
 import { APIResponse } from "../../responseAPI/APIResponse";
 import { BaseController } from "../controllers/BaseController";
 
@@ -20,10 +18,9 @@ export class HandleRequestMiddleware implements IMiddlewareFunction {
     return true;
   }
 
-  async handleRequest(req: TypedRequest<TypedRequestOptions>, res: Response, next: NextFunction): Promise<void> {
+async handleRequest(req: TypedRequest<TypedRequestOptions>, res: Response, next: NextFunction): Promise<void> {
     let session: null | ClientSession = null;
     req.userType = this.routeConfig.endUser;
-
     try {
       const requestContainer = container.createChild({ defaultScope: "Singleton" });
       const language = req.language;
@@ -31,11 +28,10 @@ export class HandleRequestMiddleware implements IMiddlewareFunction {
         requestContainer.bind("Language").toConstantValue(language);
       }
       req.container = requestContainer;
-      requestContainer.bind("School").toConstantValue({
-        ...schoolDocStore[req.tenantId],
-        _id: schoolDocStore[req.tenantId]?._id?.toString() as ID,
-      } as School);
-      //requestContainer.bind("Connection").toConstantValue(req.DBConnection);
+      requestContainer.bind("School").toConstantValue(schoolDocStore[req.tenantId]);
+      if(req.DBConnection !== undefined){
+        requestContainer.bind("Connection").toConstantValue(req.DBConnection);
+      }
 
       if (this.routeConfig.isTransactionEnabled !== undefined) {
         session = await mongoose.connection.startSession();

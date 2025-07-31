@@ -1,6 +1,5 @@
-import { LoggingMiddleware } from "../../../../core/express/middlewares/LoggingMiddleware";
-import { MulterMiddleware } from "../../../../core/express/middlewares/upload";
-import { ValidateSchemaMiddleware } from "../../../../core/express/middlewares/validateSchema";
+
+import { getCoreMiddlewares } from "../../../../core/express/middlewares/registerCoreMiddlewares";
 import { registerRoute } from "../../../../core/express/registerRoute";
 import { LoginController } from "./login.controller";
 import { LoginRouteConfig } from "./login.types";
@@ -14,10 +13,6 @@ registerRoute<LoginRouteConfig>()(
     controller: LoginController,
     isTransactionEnabled: false,
     isPublic: true,
-    middlewaresClasses: [
-        ValidateSchemaMiddleware,
-        MulterMiddleware,
-        LoggingMiddleware,
-       ]
+    middlewaresClasses:getCoreMiddlewares()
   }
 ); 

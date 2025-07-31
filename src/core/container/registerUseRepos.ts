@@ -31,6 +31,7 @@ import { MongoMessageAttachmentRepo } from "../../newDatabase/mongo/repositories
 import { MongoUsersRepo } from "./../../newDatabase/mongo/repositories/MongoUsers.repo";
 import { container } from "./container";
 import { UserRepository } from "../../feature/user-management/base-user/domain/base-user.repository";
+import { SchoolRepository } from "../../feature/school-management/domain/school.repo";
 
   
 export const registerUseRepos = (): void => {  
@@ -66,4 +67,5 @@ export const registerUseRepos = (): void => {
   container.bind("GroupRepo").to(MongoGroupRepo);
   container.bind("UsersRepo").to(MongoUsersRepo);
   container.bind("UserRepository").to(UserRepository);
+  container.bind("SchoolRepository").to(SchoolRepository);
 }

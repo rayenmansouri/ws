@@ -8,19 +8,18 @@ import {
 import { containerRegistry } from "./containerRegistry";
 
 export class TypedContainer extends Container {
-  //@ts-expect-error - This is a valid override because the implementation is the same
   bind<K extends keyof containerRegistry>(
     serviceId: K,
   ): interfaces.BindingToSyntax<containerRegistry[K]> {
     return super.bind<containerRegistry[K]>(serviceId);
   }
 
-  //@ts-expect-error - This is a valid override because the implementation is the same
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   get<K extends keyof containerRegistry>(serviceId: K): containerRegistry[K] {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return super.get<containerRegistry[K]>(serviceId);
   }
 
-  //@ts-expect-error - This is a valid override because the implementation is the same
   createChild(containerOptions?: interfaces.ContainerOptions): TypedContainer {
     return super.createChild(containerOptions);
   }

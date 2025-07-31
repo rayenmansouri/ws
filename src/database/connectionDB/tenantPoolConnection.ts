@@ -1,8 +1,7 @@
 import * as mongoose from "mongoose";
 import { auth_db, database_secret } from "../../config";
 import { schoolDocStore } from "../../core/subdomainStore";
-import { School } from "../../feature/schools/domain/school.entity";
-import { allMongoSchemas } from "../../newDatabase/mongo/schemas/allMongoSchemas";
+import { School } from "../../feature/school-management/domain/school.entity";
 
 export const connectionPools: { [subdomain: string]: mongoose.Connection } = {};
 export const newConnectionPools: { [subdomain: string]: mongoose.Connection } = {};
@@ -23,19 +22,11 @@ export const newConnectionPools: { [subdomain: string]: mongoose.Connection } = 
 
 export const getNewTenantConnection = async (subdomain: string): Promise<mongoose.Connection> => {
   const connection = newConnectionPools[subdomain];
-
-  if (connection) {
+  if (connection !== undefined) {
     return connection;
   }
-
   const newConnection = mongoose.createConnection(`${database_secret}/${subdomain}?${auth_db}`);
-
   newConnectionPools[subdomain] = newConnection;
-
-  Object.entries(allMongoSchemas).forEach(([entityName, schema]) => {
-    newConnection.model(entityName, schema);
-  });
-
   return newConnectionPools[subdomain];
 };
 

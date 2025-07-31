@@ -1,7 +1,8 @@
 import bcrypt from "bcryptjs";
 import { saltRounds, tokenExpireIn, tokenMasterSecret, tokenSecret } from "../config";
 import { ID } from "../types/BaseEntity";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { AuthFailureError } from "./ApplicationErrors";
 
 export class AuthenticationHelper {
   static async checkStringHashMatch(str: string, hashedStr: string): Promise<boolean> {
@@ -26,5 +27,13 @@ export class AuthenticationHelper {
 
   static generateMasterToken(userId: ID): string {
     return jwt.sign({ id: userId }, tokenMasterSecret, { expiresIn: tokenExpireIn });
+  }
+
+  static verifyToken(token: string): JwtPayload {
+    try {
+      return jwt.verify(token, tokenSecret) as JwtPayload;
+    } catch  {
+      throw new AuthFailureError("canno decode jwt token");
+    }
   }
 }

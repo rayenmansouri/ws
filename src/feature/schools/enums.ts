@@ -1,8 +1,8 @@
 //FOR NOW THIS IS FOUR SCHOOL SYSTEMS
 export enum SchoolSystemEnum {
-    DNC = "DNC",
-    CAR = "CAR",
-    SESAME = "SESAME",
+    DNC = "DNC", //tunis
+    CAR = "CAR", //center africa
+    SESAME = "SESAME", //senegal
     CERES = "CERES",
-    LIBAN = "LIBAN",
-}
+    LIBAN = "JANAH",
+};

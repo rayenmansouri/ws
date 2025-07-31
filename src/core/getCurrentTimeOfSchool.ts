@@ -5,7 +5,7 @@ export const getCurrentTimeOfSchool = (schoolId: string): Date => {
 
   const timeZone = schoolDoc.timeZone;
 
-  const [hours, minutes, seconds] = new Date().toLocaleTimeString("en-GB", { timeZone }).split(":");
+  const [hours, minutes, seconds] = new Date().toLocaleTimeString("en-GB", { timeZone: timeZone ?? undefined }).split(":");
 
   const currentTime = new Date();
   currentTime.setUTCHours(+hours, +minutes, +seconds);
@@ -18,7 +18,7 @@ export const getTimeOfSchool = (schoolId: string, date: Date): Date => {
   const timeZone = schoolDoc.timeZone;
 
   const [hours, minutes, seconds] = new Date(date)
-    .toLocaleTimeString("en-GB", { timeZone })
+    .toLocaleTimeString("en-GB", { timeZone: timeZone ?? undefined })
     .slice(0, -2)
     .split(":");
 

@@ -9,6 +9,7 @@ export type BaseUser = {
   password: string;
   type: UserTypeEnum;
   tenantId: string;
+  passwordChangedAt: Date;
 };
 
 export class BaseUserEntity implements BaseUser{
@@ -20,11 +21,21 @@ export class BaseUserEntity implements BaseUser{
         public fullName: string,
         public email: string,
         public password: string,
-        public type: UserTypeEnum
+        public type: UserTypeEnum,
+        public passwordChangedAt: Date
     ){}
 
     static fromJSON(json: BaseUser): BaseUserEntity {
-        return new BaseUserEntity(json.id, json.tenantId, json.firstName, json.lastName, json.fullName, json.email, json.password, json.type);
+        return new BaseUserEntity(
+            json.id,
+            json.tenantId,
+            json.firstName,
+            json.lastName, 
+            json.fullName, 
+            json.email,
+            json.password,
+            json.type,
+            json.passwordChangedAt);
     }
 
     toJSON(): BaseUser {
@@ -36,11 +47,17 @@ export class BaseUserEntity implements BaseUser{
             fullName: this.fullName,
             email: this.email,
             password: this.password,
-            type: this.type
+            type: this.type,
+            passwordChangedAt: this.passwordChangedAt
         };
     }
 
     isMaster(): boolean {
         return this.type === UserTypeEnum.MASTER;
+    }
+
+
+    needToLoginAgain(tokenExpires: number): boolean {
+        return this.passwordChangedAt && Math.floor(this.passwordChangedAt.getTime() / 1000) > tokenExpires;
     }
 }

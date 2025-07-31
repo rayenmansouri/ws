@@ -1,14 +1,13 @@
-import { School } from "../feature/schools/domain/school.entity";
 import { container } from "./container/container";
 
 interface SchoolDocStore {
-  [key: string]: School;
+  [key: string]: any;
 }
 
 export const schoolDocStore: SchoolDocStore = {};
 
 export const initializeSubdomains = async () => {
-  const schoolRepo = container.get("SchoolRepo");
+  const schoolRepo = container.get("SchoolRepository");
 
   const schools = await schoolRepo.findAll();
 
@@ -17,13 +16,13 @@ export const initializeSubdomains = async () => {
   });
 };
 
-export const addSchoolToGlobalStore = (school: School) => {
-  schoolDocStore[school._id] = school;
+export const addSchoolToGlobalStore = (school: any) => {
+  schoolDocStore[school.id] = school;
 };
 
 export const removeSchoolFromGlobalStore = (schoolSubdomain: string) => {
   const schoolDoc = Object.values(schoolDocStore).find(
     school => school.subdomain === schoolSubdomain,
   );
-  if (schoolDoc) delete schoolDocStore[schoolDoc._id];
+  if (schoolDoc) delete schoolDocStore[schoolDoc.id];
 };

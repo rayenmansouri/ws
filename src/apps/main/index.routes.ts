@@ -12,5 +12,5 @@ export const internalRouter = Router();
 
 router.use(webPublicRouter);
 
-importAllRoutes(path.join(__dirname, "../../api/auth")); //only import schools for now
+importAllRoutes(path.join(__dirname, "../../api-v2")); //only import schools for now
 export default router;

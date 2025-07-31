@@ -24,7 +24,7 @@ type BaseTypedRequest = Request & {
   userType: TEndUserEnum | undefined;
   user: Omit<BaseUser, "roles"> & { roles: Role[] };
   DBConnection: Connection;
-  tenantId: ID;
+  tenantId: string
   schoolTimeZone: string;
   userId: string;
   tokenExpires: number;

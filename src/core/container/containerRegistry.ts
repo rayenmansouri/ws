@@ -238,7 +238,6 @@ import { RemoveParticipantsFromConversationUseCase } from "./../../feature/messa
 import { UpdateConversationNameUseCase } from "./../../feature/messages/useCases/UpdateConversationName.usecase";
 import { UpdateConversationSeenStatusUseCase } from "./../../feature/messages/useCases/UpdateConversationSeenStatus.usecase";
 import { ApplyWeeklyScheduleForGroupUseCase } from "./../../feature/schedules/useCases/ApplyWeeklyScheduleForGroup.usecase";
-import { School } from "./../../feature/schools/domain/school.entity";
 import { CancelSessionUseCase } from "./../../feature/sessionManagement/useCases/cancelSession.usecase";
 import { CloseSessionUseCase } from "./../../feature/sessionManagement/useCases/closeSession.usecase";
 import { ConfirmAttendanceUseCase } from "./../../feature/sessionManagement/useCases/confirmAttendance.usecase";
@@ -248,6 +247,8 @@ import { VerifyAndFetchUsersUseCase } from "./../../feature/users/useCases/verif
 import { SwitchStudentsClassUseCase } from "../../feature/students/useCases/switchStudentsClass.usecase";
 import { ListStudentsUseCase } from "../../feature/students/useCases/ListStudents.usecase";
 import { UserRepository } from "../../feature/user-management/base-user/domain/base-user.repository";
+import { SchoolRepository } from "../../feature/school-management/domain/school.repo";
+import { School } from "../../feature/school-management/domain/school.entity";
 
 export type containerRegistry = {
   //core
@@ -507,11 +508,12 @@ export type containerRegistry = {
   UsersRepo: UsersRepo;
 
   // request constants
-  School: School;
+  School: any;
   Connection: Connection;
   Session: ClientSession | undefined;
 
   // constants
   MasterConnection: Connection;
   UserRepository: UserRepository;
+  SchoolRepository: SchoolRepository;
 };
