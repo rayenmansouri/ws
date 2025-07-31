@@ -8,7 +8,7 @@ export type CreateUserRouteConfig = TypedRequestOptions & {
     email: string;
     password: string;
     type: string;
-    roles?: string[];
+    schoolSubdomain: string;
   };
   params: never;
   query: never;

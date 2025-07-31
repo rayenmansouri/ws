@@ -31,11 +31,3 @@ export function getTenantAuthenticatedMiddlewares(): (new (routeConfig: RouteCon
     GetTenantConnectionMiddleware,
   ]
 }
-
-export function getTenantAuthenticatedMiddlewaresFromParams(): (new (routeConfig: RouteConfiguration<TypedRequestOptions, string>) => IMiddlewareFunction)[] {
-  return [
-    ...getCoreMiddlewares(),
-    AuthMiddleware,
-    GetTenantConnectionFromParamMiddleware,
-  ]
-}

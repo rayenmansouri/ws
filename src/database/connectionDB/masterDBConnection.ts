@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { masterDBUri } from "../../config";
 import Logger from "../../core/Logger";
 import { container } from "../../core/container/container";
+import { masterDabaseUri } from "../../configs/database.config";
 
 export const connectToMasterDatabase = async (
   ...callBackFunctions: (() => Promise<void>)[]
@@ -10,7 +10,7 @@ export const connectToMasterDatabase = async (
   mongoose.set("strictPopulate", false);
 
   try {
-    await mongoose.connect(masterDBUri);
+    await mongoose.connect(masterDabaseUri);
     Logger.info(`Master db connection done ✅`);
     container.bind("MasterConnection").toConstantValue(mongoose.connection);
 

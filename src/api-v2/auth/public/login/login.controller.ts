@@ -9,6 +9,7 @@ import {  LoginResponse, LoginRouteConfig } from "./login.types";
 import { TypedRequest } from "../../../../core/express/types";
 import { BadRequestError } from "../../../../core/ApplicationErrors";
 import { AuthenticationHelper } from "../../../../core/auth.helper";
+import { MASTER_USER_TENANT_ID } from "../../../../feature/user-management/master/domain/master.entity";
 
 @Controller()
 export class LoginController extends BaseController<LoginRouteConfig> {
@@ -21,6 +22,7 @@ export class LoginController extends BaseController<LoginRouteConfig> {
 
    async main(req:TypedRequest): Promise<void | APIResponse> {
         const {credential,password} = req.body as {credential:string,password:string};
+        this.userRepository.switchConnection(MASTER_USER_TENANT_ID);
         const user = await this.userRepository.findOne({
             $or:[
                 {email:credential},
@@ -33,8 +35,8 @@ export class LoginController extends BaseController<LoginRouteConfig> {
           user.password,
         );
         if(!isPasswordValid) throw new BadRequestError("global.invalidPassword");
-        const tenantId = user.isMaster() == false ? user.tenantId : "MASTER_DATABASE"
-        const token = AuthenticationHelper.generateUserToken(user.id, tenantId);
+        const schoolSubdomain = user.isMaster() == false ? user.schoolSubdomain : MASTER_USER_TENANT_ID;
+        const token = AuthenticationHelper.generateUserToken(user.id, schoolSubdomain);
         return new SuccessResponse<LoginResponse>("global.success", {token,user:user.toJSON()});
   }
 } 

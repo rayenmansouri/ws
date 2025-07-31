@@ -3,10 +3,17 @@ import { inject } from "../../../core/container/TypedContainer";
 import { SchoolSchema } from "./school.schema";
 import { School, SchoolEntity } from "./school.entity";
 import { injectable } from "inversify";
+import { BaseRepository } from "../../../core/baseRepository";
+import { ConnectionPool } from "../../../database/connectionDB/tenantPoolConnection";
 
 @injectable()
-export class SchoolRepository{
-    constructor(@inject("Connection") private connection: Connection){}
+export class SchoolRepository extends BaseRepository{
+    constructor(
+        @inject("ConnectionPool") connectionPool: ConnectionPool,
+        @inject("MasterConnection") masterConnection: Connection,
+    ){
+        super(connectionPool, masterConnection);
+    }
 
     async findOne(query: FilterQuery<School>): Promise<School | null> {
         const SchoolModel = this.connection.model<School>("School", SchoolSchema);

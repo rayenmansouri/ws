@@ -249,6 +249,7 @@ import { ListStudentsUseCase } from "../../feature/students/useCases/ListStudent
 import { UserRepository } from "../../feature/user-management/base-user/domain/base-user.repository";
 import { SchoolRepository } from "../../feature/school-management/domain/school.repo";
 import { School } from "../../feature/school-management/domain/school.entity";
+import { ConnectionPool } from "../../database/connectionDB/tenantPoolConnection";
 
 export type containerRegistry = {
   //core
@@ -516,4 +517,5 @@ export type containerRegistry = {
   MasterConnection: Connection;
   UserRepository: UserRepository;
   SchoolRepository: SchoolRepository;
+  ConnectionPool: ConnectionPool;
 };

@@ -22,12 +22,13 @@ import { registerUseCases } from "./registerUseCases";
 import { registerUseRepos } from "./registerUseRepos";
 import { registerSchoolDependencies } from "./registries/registerSchoolDependencies";
 import { connection } from "mongoose";
+import { newConnectionPools } from "../../database/connectionDB/tenantPoolConnection";
 
 export const registerAllDependencies = (): void => {
   // Register core dependencies (keeping existing functionality)
   registerUseCases();
   registerUseRepos();
-  
+  container.bind("ConnectionPool").toConstantValue(newConnectionPools);
   // Core services - essential for basic functionality
   container.bind("EmailManager").to(NodeMailerEmailManager);
   container.bind("FileManager").to(DropboxFileManager);

@@ -2,15 +2,42 @@ import { Controller } from "../../core/container/decorators/Controller.decorator
 import { BaseController } from "../../core/express/controllers/BaseController";
 import { TypedRequest } from "../../core/express/types";
 import { APIResponse } from "../../core/responseAPI/APIResponse";
-import { CreateUserRouteConfig } from "./createUser.types";
+import { CreateUserResponse, CreateUserRouteConfig } from "./createUser.types";
+import { UserRepository } from "../../feature/user-management/base-user/domain/base-user.repository";
+import { SuccessResponse } from "../../core/responseAPI/APISuccessResponse";
+import { UserTypeEnum } from "../../feature/user-management/factory/enums";
+import { inject } from "../../core/container/TypedContainer";
+import { getNewTenantConnection } from "../../database/connectionDB/tenantPoolConnection";
 
 @Controller()
 export class CreateUserController extends BaseController<CreateUserRouteConfig> {
-  constructor() {
+  constructor(
+    @inject("UserRepository") private userRepo: UserRepository,
+  ) {
     super();
   }
 
   async main(req: TypedRequest<CreateUserRouteConfig>): Promise<void | APIResponse> {
-    // TODO: Implement create user use case
+    const { firstName, lastName, email, password, schoolSubdomain, type } = req.body;
+    const user = await this.userRepo.create({
+      firstName,
+      lastName, 
+      fullName: `${firstName} ${lastName}`,
+      email,
+      password,
+      schoolSubdomain,
+      type: type as UserTypeEnum,
+    });
+    this.userRepo.switchConnection(schoolSubdomain);
+    await this.userRepo.create({
+      firstName,
+      lastName, 
+      fullName: `${firstName} ${lastName}`,
+      email,
+      password,
+      schoolSubdomain,
+      type: type as UserTypeEnum,
+    });
+    return new SuccessResponse<CreateUserResponse>("global.success", { user });
   }
 }

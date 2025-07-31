@@ -1,21 +1,24 @@
 import { UserTypeEnum } from "../../factory/enums";
 
-export type BaseUser = {
-  id: string
+export type CreateBaseUser = {
   firstName: string;
   lastName: string;
   fullName: string;
   email: string;
   password: string;
+  schoolSubdomain: string;
   type: UserTypeEnum;
-  tenantId: string;
+};
+
+export type BaseUser = CreateBaseUser & {
+  id: string
   passwordChangedAt: Date;
 };
 
 export class BaseUserEntity implements BaseUser{
     constructor(
         public id: string,
-        public tenantId: string,
+        public schoolSubdomain: string,
         public firstName: string,
         public lastName: string,
         public fullName: string,
@@ -28,7 +31,7 @@ export class BaseUserEntity implements BaseUser{
     static fromJSON(json: BaseUser): BaseUserEntity {
         return new BaseUserEntity(
             json.id,
-            json.tenantId,
+            json.schoolSubdomain,
             json.firstName,
             json.lastName, 
             json.fullName, 
@@ -41,7 +44,7 @@ export class BaseUserEntity implements BaseUser{
     toJSON(): BaseUser {
         return {
             id: this.id,
-            tenantId: this.tenantId,
+            schoolSubdomain: this.schoolSubdomain,
             firstName: this.firstName,
             lastName: this.lastName,
             fullName: this.fullName,

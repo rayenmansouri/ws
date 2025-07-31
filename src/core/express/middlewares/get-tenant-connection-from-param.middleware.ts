@@ -17,6 +17,7 @@ const getTenantConnectionFromParam = asyncHandlerForMiddleware(
       if (!schoolSubdomain) throw new AuthFailureError();
   
       const connection = await getNewTenantConnection(schoolSubdomain);
+      console.log("created new tenant connection");
       req.DBConnection = connection;
       next();
     },
