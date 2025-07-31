@@ -31,7 +31,7 @@ import { MongoMessageAttachmentRepo } from "../../newDatabase/mongo/repositories
 import { MongoUsersRepo } from "./../../newDatabase/mongo/repositories/MongoUsers.repo";
 import { container } from "./container";
 import { UserRepository } from "../../feature/user-management/base-user/domain/base-user.repository";
-import { SchoolRepository } from "../../feature/school-management/domain/school.repo";
+import { SchoolRepository } from "../../feature/organization-magement/domain/organization.repo";
 
   
 export const registerUseRepos = (): void => {  

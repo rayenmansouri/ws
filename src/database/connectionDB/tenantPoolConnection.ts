@@ -1,8 +1,8 @@
 import * as mongoose from "mongoose";
 import { schoolDocStore } from "../../core/subdomainStore";
-import { School } from "../../feature/school-management/domain/school.entity";
+import { School } from "../../feature/organization-magement/domain/organization.entity";
 import { BaseUserSchema } from "../../feature/user-management/base-user/domain/base-user.schema";
-import { SchoolSchema } from "../../feature/school-management/domain/school.schema";
+import { SchoolSchema } from "../../feature/organization-magement/domain/organization.schema";
 import { getDatabaseUri } from "../../configs/database.config";
 
 const allSchemas = {

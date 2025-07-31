@@ -247,8 +247,8 @@ import { VerifyAndFetchUsersUseCase } from "./../../feature/users/useCases/verif
 import { SwitchStudentsClassUseCase } from "../../feature/students/useCases/switchStudentsClass.usecase";
 import { ListStudentsUseCase } from "../../feature/students/useCases/ListStudents.usecase";
 import { UserRepository } from "../../feature/user-management/base-user/domain/base-user.repository";
-import { SchoolRepository } from "../../feature/school-management/domain/school.repo";
-import { School } from "../../feature/school-management/domain/school.entity";
+import { SchoolRepository } from "../../feature/organization-magement/domain/organization.repo";
+import { School } from "../../feature/organization-magement/domain/organization.entity";
 import { ConnectionPool } from "../../database/connectionDB/tenantPoolConnection";
 
 export type containerRegistry = {

@@ -1,4 +1,4 @@
-import { School } from "../../feature/school-management/domain/school.entity";
+import { School } from "../../feature/organization-magement/domain/organization.entity";
 import { TypedRequestOptions } from "../../core/express/types";
 
 export type CreateSchoolRouteConfig = TypedRequestOptions & {

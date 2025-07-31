@@ -1,5 +1,5 @@
 import { getNewTenantConnection } from "../database/connectionDB/tenantPoolConnection";
-import { School } from "../feature/school-management/domain/school.entity";
+import { School } from "../feature/organization-magement/domain/organization.entity";
 import { container } from "./container/container";
 
 interface SchoolDocStore {

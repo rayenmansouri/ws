@@ -22,7 +22,6 @@ export class LoginController extends BaseController<LoginRouteConfig> {
 
    async main(req:TypedRequest): Promise<void | APIResponse> {
         const {credential,password} = req.body as {credential:string,password:string};
-        this.userRepository.switchConnection(MASTER_USER_TENANT_ID);
         const user = await this.userRepository.findOne({
             $or:[
                 {email:credential},

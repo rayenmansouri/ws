@@ -6,7 +6,7 @@ import { APIResponse } from "../../core/responseAPI/APIResponse";
 import { SuccessResponse } from "../../core/responseAPI/APISuccessResponse";
 import { addSchoolToGlobalStore } from "../../core/subdomainStore";
 import { getNewTenantConnection } from "../../database/connectionDB/tenantPoolConnection";
-import { SchoolRepository } from "../../feature/school-management/domain/school.repo";
+import { SchoolRepository } from "../../feature/organization-magement/domain/organization.repo";
 import { MASTER_USER_TENANT_ID } from "../../feature/user-management/master/domain/master.entity";
 import { CreateSchoolRouteConfig, CreateSchoolResponse } from "./school.types";
 
@@ -20,7 +20,6 @@ export class CreateSchoolController extends BaseController<CreateSchoolRouteConf
 
   async main(req: TypedRequest<CreateSchoolRouteConfig>): Promise<void | APIResponse> {
     // TODO: Implement create school use case
-    this.schoolRepo.switchConnection(MASTER_USER_TENANT_ID);
     const mockSchool = {
       name: req.body.name,
       address: req.body.address,
