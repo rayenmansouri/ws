@@ -7,6 +7,12 @@ const createSchool = z.object({
     email: z.string().email(),
     website: z.string().min(1),
     subdomain: z.string().min(1),
+    phoneNumber: z.string().min(1),
+    directorName: z.string().min(1),
+    configName: z.string().min(1),
+    maxStudentSeats: z.number(),
+    gradeBookTheme: z.string().min(1),
+    enableEmail: z.boolean(),
 });
 
 type TCreateSchool = z.infer<typeof createSchool>;

@@ -12,5 +12,8 @@ export function getSchema(name:string): Schema | undefined {
     return allSchemas[name];
 }
 
+export type Document<T> = T & { _id: string }
+
+
 
   

@@ -1,13 +1,13 @@
 import * as mongoose from "mongoose";
 import { schoolDocStore } from "../../core/subdomainStore";
-import { School } from "../../feature/organization-magement/domain/organization.entity";
 import { BaseUserSchema } from "../../feature/user-management/base-user/domain/base-user.schema";
-import { SchoolSchema } from "../../feature/organization-magement/domain/organization.schema";
+import { OrganizationSchema } from "../../feature/organization-magement/domain/organization.schema";
 import { getDatabaseUri } from "../../configs/database.config";
+import { Organization } from "../../feature/organization-magement/domain/organization.entity";
 
 const allSchemas = {
   BaseUser: BaseUserSchema,
-  School: SchoolSchema,
+  Organization: OrganizationSchema,
 };
 export type ConnectionPool = Record<string, mongoose.Connection>;
 export const connectionPools: { [subdomain: string]: mongoose.Connection } = {};
@@ -50,8 +50,8 @@ export const removeTenantConnectionFromPool = (subdomain: string): void => {
   delete connectionPools[subdomain];
 };
 
-export const getSchoolFromSubdomain = (subdomain: string): School | undefined => {
-  const school = Object.values(schoolDocStore).find((schoolDoc) => schoolDoc.subdomain === subdomain);
+export const getSchoolFromSubdomain = (subdomain: string): Organization | undefined => {
+  const organization = Object.values(schoolDocStore).find((organizationDoc) => organizationDoc.subdomain === subdomain);
 
-  return school as School | undefined;
+  return organization as Organization | undefined;
 };

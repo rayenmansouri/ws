@@ -1,6 +1,6 @@
 import { model } from "mongoose";
 import { Organization, GradeBookTheme } from "./organization.entity";
-import { createCompleteSchema } from "../../../core/schemas/schema";
+import { createCompleteSchema } from "../../../core/database/schema";
 
 
 export const OrganizationSchema = createCompleteSchema<Organization>("Organization",{

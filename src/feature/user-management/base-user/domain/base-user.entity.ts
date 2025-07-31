@@ -15,7 +15,8 @@ export type BaseUser = CreateBaseUser & {
   passwordChangedAt: Date;
 };
 
-export class BaseUserEntity implements BaseUser{
+export class BaseUserEntity{
+
     constructor(
         public id: string,
         public schoolSubdomain: string,
@@ -25,21 +26,8 @@ export class BaseUserEntity implements BaseUser{
         public email: string,
         public password: string,
         public type: UserTypeEnum,
-        public passwordChangedAt: Date
+        public passwordChangedAt: Date,
     ){}
-
-    static fromJSON(json: BaseUser): BaseUserEntity {
-        return new BaseUserEntity(
-            json.id,
-            json.schoolSubdomain,
-            json.firstName,
-            json.lastName, 
-            json.fullName, 
-            json.email,
-            json.password,
-            json.type,
-            json.passwordChangedAt);
-    }
 
     toJSON(): BaseUser {
         return {
@@ -61,6 +49,6 @@ export class BaseUserEntity implements BaseUser{
 
 
     needToLoginAgain(tokenExpires: number): boolean {
-        return this.passwordChangedAt && Math.floor(this.passwordChangedAt.getTime() / 1000) > tokenExpires;
+        return this.passwordChangedAt !== undefined && Math.floor(this.passwordChangedAt.getTime() / 1000) > tokenExpires;
     }
 }

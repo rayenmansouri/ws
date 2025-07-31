@@ -1,5 +1,4 @@
 import { getNewTenantConnection } from "../database/connectionDB/tenantPoolConnection";
-import { School } from "../feature/organization-magement/domain/organization.entity";
 import { container } from "./container/container";
 
 interface SchoolDocStore {
@@ -9,13 +8,13 @@ interface SchoolDocStore {
 export const schoolDocStore: SchoolDocStore = {};
 
 export const initializeSubdomains = async () => {
-  const schoolRepo = container.get("SchoolRepository");
+  const organizationRepo = container.get("OrganizationRepository");
 
-  const schools = await schoolRepo.findAll();
+  const organizations = await organizationRepo.findAll();
 
-  for(const school of schools){
-    await getNewTenantConnection(school.subdomain);
-    addSchoolToGlobalStore(school);
+  for(const organization of organizations){
+    await getNewTenantConnection(organization.subdomain);
+    addSchoolToGlobalStore(organization);
   }
 };
 

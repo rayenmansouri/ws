@@ -6,14 +6,13 @@ import { APIResponse } from "../../core/responseAPI/APIResponse";
 import { SuccessResponse } from "../../core/responseAPI/APISuccessResponse";
 import { addSchoolToGlobalStore } from "../../core/subdomainStore";
 import { getNewTenantConnection } from "../../database/connectionDB/tenantPoolConnection";
-import { SchoolRepository } from "../../feature/organization-magement/domain/organization.repo";
-import { MASTER_USER_TENANT_ID } from "../../feature/user-management/master/domain/master.entity";
+import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
 import { CreateSchoolRouteConfig, CreateSchoolResponse } from "./school.types";
 
 @Controller()
 export class CreateSchoolController extends BaseController<CreateSchoolRouteConfig> {
   constructor(
-    @inject("SchoolRepository") private schoolRepo: SchoolRepository,
+    @inject("OrganizationRepository") private organizationRepo: OrganizationRepository,
   ) {
     super();
   }
@@ -27,11 +26,17 @@ export class CreateSchoolController extends BaseController<CreateSchoolRouteConf
       email: req.body.email,
       website: req.body.website,
       subdomain: req.body.subdomain,
+      phoneNumber: req.body.phoneNumber,
+      directorName: req.body.directorName,
+      configName: req.body.configName,
+      maxStudentSeats: req.body.maxStudentSeats,
+      gradeBookTheme: req.body.gradeBookTheme,
+      enableEmail: req.body.enableEmail,
     };
 
-    const school = await this.schoolRepo.create(mockSchool);
-    addSchoolToGlobalStore(school);
-    await getNewTenantConnection(school.subdomain);
-    return new SuccessResponse<CreateSchoolResponse>("global.success", { school: school });
+    const organization = await this.organizationRepo.create(mockSchool);
+    addSchoolToGlobalStore(organization);
+    await getNewTenantConnection(organization.subdomain);
+    return new SuccessResponse<CreateSchoolResponse>("global.success", { school: organization });
   }
 }

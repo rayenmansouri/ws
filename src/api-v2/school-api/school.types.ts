@@ -1,4 +1,4 @@
-import { School } from "../../feature/organization-magement/domain/organization.entity";
+import { GradeBookTheme, School } from "../../feature/organization-magement/domain/organization.entity";
 import { TypedRequestOptions } from "../../core/express/types";
 
 export type CreateSchoolRouteConfig = TypedRequestOptions & {
@@ -9,6 +9,12 @@ export type CreateSchoolRouteConfig = TypedRequestOptions & {
     email: string;
     website: string;
     subdomain: string;
+    phoneNumber: string;
+    directorName: string;
+    configName: string;
+    maxStudentSeats: number;
+    gradeBookTheme: GradeBookTheme;
+    enableEmail: boolean;
   };
   params: never;
   query: never;

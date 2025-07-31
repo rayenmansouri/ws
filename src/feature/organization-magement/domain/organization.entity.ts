@@ -1,6 +1,4 @@
 
-
-
 export enum GradeBookTheme {
     YELLOW = "YELLOW",
     BLUE = "BLUE",
@@ -36,60 +34,30 @@ export type Organization = OrganizationInput & {
   cover: string;
 };
 
-export class OrganizationEntity implements Organization{
-    id: string;
-    name: string;
-    address: string;
-    phone: string;
-    email: string;
-    website: string;
-    subdomain: string;
-    phoneNumber: string;
-    directorName: string;
-    configName: string;
-    gradeBookTheme: GradeBookTheme;
-    timeZone: string | null;
-    logo: string | null;
-    forceCloseSessionDelayInMin: number;
-    openSessionDelayInMin: number;
-    openSessionAdvanceInMin: number;
-    maxStudentSeats: number;
-    notAvailableTimes: { day: number; hours: number[] }[];
-    enableEmail: boolean;
-    cover: string;
 
+export class OrganizationEntity{
     constructor(
-         public organization: Organization,
-    ){
-        this.id = organization.id;
-        this.name = organization.name;
-        this.address = organization.address;
-        this.phone = organization.phone;
-        this.email = organization.email;
-        this.website = organization.website;
-        this.subdomain = organization.subdomain;
-        this.phoneNumber = organization.phoneNumber;
-        this.directorName = organization.directorName;
-        this.configName = organization.configName;
-        this.gradeBookTheme = organization.gradeBookTheme;
-        this.timeZone = organization.timeZone;
-        this.logo = organization.logo;
-        this.forceCloseSessionDelayInMin = organization.forceCloseSessionDelayInMin;
-        this.openSessionDelayInMin = organization.openSessionDelayInMin;
-        this.openSessionAdvanceInMin = organization.openSessionAdvanceInMin;
-        this.maxStudentSeats = organization.maxStudentSeats;
-        this.notAvailableTimes = organization.notAvailableTimes;
-        this.enableEmail = organization.enableEmail;
-        this.cover = organization.cover;
-    }
+        public id: string,
+        public name: string,
+        public address: string,
+        public phone: string,
+        public email: string,
+        public website: string,
+        public subdomain: string,
+        public phoneNumber: string,
+        public directorName: string,
+        public configName: string,
+        public gradeBookTheme: GradeBookTheme,
+        public logo: string | null,
+        public forceCloseSessionDelayInMin: number,
+        public openSessionDelayInMin: number,
+        public openSessionAdvanceInMin: number,
+        public maxStudentSeats: number,
+        public notAvailableTimes: { day: number; hours: number[] }[],
+        public cover: string,
+        public timeZone: string | null,
+        public enableEmail: boolean,
+    ){}
 
-    static fromJSON(json: Organization): OrganizationEntity {
-        return new OrganizationEntity(
-           json
-        );
-    }
 
-    toJSON(): Organization {
-        return this.organization
-    }
 }
