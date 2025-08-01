@@ -5,9 +5,10 @@ import { Organization, OrganizationEntity, OrganizationInput } from "./organizat
 import { BaseRepository } from "../../../core/database/baseRepository";
 import { ConnectionPool } from "../../../database/connectionDB/tenantPoolConnection";
 import { Injectable } from "../../../core/container/decorators/AutoRegister.decorator";
+import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../constant";
 
 @Injectable({
-    identifier: "OrganizationRepository",
+    identifier: ORGANIZATION_REPOSITORY_IDENTIFIER,
 })
 export class OrganizationRepository extends BaseRepository<OrganizationInput, Organization>{
     dto = OrganizationEntity;

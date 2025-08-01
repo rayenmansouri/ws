@@ -1,7 +1,7 @@
-import { GradeBookTheme, School } from "../../feature/organization-magement/domain/organization.entity";
+import { GradeBookTheme, Organization } from "../../feature/organization-magement/domain/organization.entity";
 import { TypedRequestOptions } from "../../core/express/types";
 
-export type CreateSchoolRouteConfig = TypedRequestOptions & {
+export type CreateOrganizationRouteConfig = TypedRequestOptions & {
   body: {
     name: string;
     address: string;
@@ -21,4 +21,4 @@ export type CreateSchoolRouteConfig = TypedRequestOptions & {
   files: never;
 };
 
-export type CreateSchoolResponse = { school: School };
+export type CreateOrganizationResponse = { organization: Organization };

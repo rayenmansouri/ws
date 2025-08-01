@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const createSchool = z.object({
+const createOrganization = z.object({
     name: z.string().min(1),
     address: z.string().min(1),
     phone: z.string().min(1),
@@ -15,15 +15,15 @@ const createSchool = z.object({
     enableEmail: z.boolean(),
 });
 
-type TCreateSchool = z.infer<typeof createSchool>;
+type TCreateOrganization = z.infer<typeof createOrganization>;
 
-export type SchoolValidation = {
-    body: TCreateSchool;
+export type OrganizationValidation = {
+    body: TCreateOrganization;
     params: never;
     query: never;
 };
 
-export const schoolValidation = {
-    createSchool,
+export const organizationValidation = {
+    createOrganization,
 };
 

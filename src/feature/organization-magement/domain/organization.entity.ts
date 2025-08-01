@@ -55,6 +55,7 @@ export class OrganizationEntity{
     public enableEmail: boolean;
     public cover: string;
     public timeZone: string | null;
+    public address: string;
     constructor(
        json:any
     ){
@@ -77,6 +78,7 @@ export class OrganizationEntity{
         this.enableEmail = json.enableEmail;
         this.cover = json.cover;
         this.timeZone = json.timeZone;
+        this.address = json.address;
     }
 
 

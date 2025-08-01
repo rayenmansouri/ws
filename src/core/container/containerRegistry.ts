@@ -250,6 +250,7 @@ import { UserRepository } from "../../feature/user-management/base-user/domain/b
 import { OrganizationRepository, SchoolRepository } from "../../feature/organization-magement/domain/organization.repo";
 import { School } from "../../feature/organization-magement/domain/organization.entity";
 import { ConnectionPool } from "../../database/connectionDB/tenantPoolConnection";
+import { OrganizationStore } from "../../core/database/database.service";
 
 export type containerRegistry = {
   //core
@@ -261,6 +262,7 @@ export type containerRegistry = {
   Language: TLanguageEnum;
   EventDispatcher: EventDispatcher;
   HandlerSubscriber: HandlerSubscriber;
+  OrganizationStore: OrganizationStore;
 
   // use cases
 

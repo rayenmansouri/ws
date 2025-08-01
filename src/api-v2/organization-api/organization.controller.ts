@@ -1,4 +1,3 @@
-import { Controller } from "../../core/container/decorators/Controller.decorator";
 import { inject } from "../../core/container/TypedContainer";
 import { BaseController } from "../../core/express/controllers/BaseController";
 import { TypedRequest } from "../../core/express/types";
@@ -7,20 +6,22 @@ import { SuccessResponse } from "../../core/responseAPI/APISuccessResponse";
 import { addSchoolToGlobalStore } from "../../core/subdomainStore";
 import { getNewTenantConnection } from "../../database/connectionDB/tenantPoolConnection";
 import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
-import { CreateSchoolRouteConfig, CreateSchoolResponse } from "./school.types";
+import { CreateOrganizationRouteConfig, CreateOrganizationResponse } from "./organization.types";
 import { Injectable } from "../../core/container/decorators/AutoRegister.decorator";
+import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
 
 @Injectable({
   identifier: "CreateSchoolController",
 })
-export class CreateSchoolController extends BaseController<CreateSchoolRouteConfig> {
+export class CreateOrganizationController extends BaseController<CreateOrganizationRouteConfig> {
   constructor(
-    @inject("OrganizationRepository") private organizationRepo: OrganizationRepository,
+    @inject(ORGANIZATION_REPOSITORY_IDENTIFIER) private organizationRepo: OrganizationRepository,
+    
   ) {
     super();
   }
 
-  async main(req: TypedRequest<CreateSchoolRouteConfig>): Promise<void | APIResponse> {
+  async main(req: TypedRequest<CreateOrganizationRouteConfig>): Promise<void | APIResponse> {
     // TODO: Implement create school use case
     const mockSchool = {
       name: req.body.name,
@@ -39,7 +40,8 @@ export class CreateSchoolController extends BaseController<CreateSchoolRouteConf
 
     const organization = await this.organizationRepo.create(mockSchool);
     addSchoolToGlobalStore(organization);
+
     await getNewTenantConnection(organization.subdomain);
-    return new SuccessResponse<CreateSchoolResponse>("global.success", { school: organization });
+    return new SuccessResponse<CreateOrganizationResponse>("global.success", { organization: organization });
   }
 }
