@@ -9,6 +9,7 @@ import { UserTypeEnum } from "../../feature/user-management/factory/enums";
 import { inject } from "../../core/container/TypedContainer";
 import { Injectable } from "../../core/container/decorators/AutoRegister.decorator";
 import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../feature/user-management/constants";
+import { BadRequestError } from "../../core/ApplicationErrors";
 
 @Injectable({
   identifier: "CreateUserController",
@@ -22,6 +23,9 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
 
   async main(req: TypedRequest<CreateUserRouteConfig>): Promise<void | APIResponse> {
     const { firstName, lastName, email, password, schoolSubdomain, type } = req.body;
+    //check if user already exists
+    const existingUser = await this.userRepo.findOne({ email });
+    if(existingUser) throw new BadRequestError("global.userAlreadyExists");
     const user = await this.userRepo.create({
       firstName,
       lastName, 
