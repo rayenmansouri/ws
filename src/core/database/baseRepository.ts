@@ -4,6 +4,10 @@ import { Connection, FilterQuery, Model } from "mongoose";
 import { inject } from "../container/TypedContainer";
 import { MASTER_USER_TENANT_ID } from "../../feature/user-management/master/domain/master.entity";
 
+
+type PropsOnly<T> = {
+    [K in keyof T as T[K] extends Function ? never : K]: T[K]
+  };
 @injectable()
 export abstract class BaseRepository<Input,Output>{
     connection: Connection;
@@ -45,5 +49,5 @@ export abstract class BaseRepository<Input,Output>{
         return result.map(item => new this.dto(item));
     }
     
-    abstract getModel(): Model<Output>;
+    abstract getModel(): Model<PropsOnly<Output>>;
 }

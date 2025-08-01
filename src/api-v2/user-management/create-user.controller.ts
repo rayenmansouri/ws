@@ -27,6 +27,7 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
       password,
       schoolSubdomain,
       type: type as UserTypeEnum,
+      roles: []
     });
     this.userRepo.switchConnection(schoolSubdomain);
     await this.userRepo.create({
@@ -37,6 +38,7 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
       password,
       schoolSubdomain,
       type: type as UserTypeEnum,
+      roles: []
     });
     return new SuccessResponse<CreateUserResponse>("global.success", { user });
   }

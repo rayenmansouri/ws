@@ -3,12 +3,11 @@ import { BaseController } from "../../core/express/controllers/BaseController";
 import { TypedRequest } from "../../core/express/types";
 import { APIResponse } from "../../core/responseAPI/APIResponse";
 import { SuccessResponse } from "../../core/responseAPI/APISuccessResponse";
-import { addSchoolToGlobalStore } from "../../core/subdomainStore";
-import { getNewTenantConnection } from "../../database/connectionDB/tenantPoolConnection";
 import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
 import { CreateOrganizationRouteConfig, CreateOrganizationResponse } from "./organization.types";
 import { Injectable } from "../../core/container/decorators/AutoRegister.decorator";
 import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
+import { DATABASE_SERVIßE_IDENTIFIER, DatabaseService } from "../../core/database/database.service";
 
 @Injectable({
   identifier: "CreateSchoolController",
@@ -16,7 +15,8 @@ import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-m
 export class CreateOrganizationController extends BaseController<CreateOrganizationRouteConfig> {
   constructor(
     @inject(ORGANIZATION_REPOSITORY_IDENTIFIER) private organizationRepo: OrganizationRepository,
-    
+    @inject(DATABASE_SERVIßE_IDENTIFIER) private databaseService: DatabaseService,
+
   ) {
     super();
   }
@@ -39,9 +39,8 @@ export class CreateOrganizationController extends BaseController<CreateOrganizat
     };
 
     const organization = await this.organizationRepo.create(mockSchool);
-    addSchoolToGlobalStore(organization);
-
-    await getNewTenantConnection(organization.subdomain);
+    this.databaseService.addOrganization(organization);
+    this.databaseService.getNewTenantConnection(organization.subdomain);
     return new SuccessResponse<CreateOrganizationResponse>("global.success", { organization: organization });
   }
 }

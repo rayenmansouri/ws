@@ -8,6 +8,7 @@ export type CreateBaseUser = {
   password: string;
   schoolSubdomain: string;
   type: UserTypeEnum;
+  roles: string[];
 };
 
 export type BaseUser = CreateBaseUser & {
@@ -25,10 +26,11 @@ export class BaseUserEntity{
     public password: string;
     public type: UserTypeEnum;
     public passwordChangedAt: Date;
+    public roles: string[];
     constructor(
        json:any
     ){
-        this.id = json.id;
+        this.id = json._id.toString();
         this.schoolSubdomain = json.schoolSubdomain;
         this.firstName = json.firstName;
         this.lastName = json.lastName;
@@ -37,6 +39,7 @@ export class BaseUserEntity{
         this.password = json.password;
         this.type = json.type;
         this.passwordChangedAt = json.passwordChangedAt; 
+        this.roles = json.roles;
    }
     
     toJSON(): BaseUser {
@@ -49,7 +52,8 @@ export class BaseUserEntity{
             email: this.email,
             password: this.password,
             type: this.type,
-            passwordChangedAt: this.passwordChangedAt
+            passwordChangedAt: this.passwordChangedAt,
+            roles: this.roles
         };
     }
 

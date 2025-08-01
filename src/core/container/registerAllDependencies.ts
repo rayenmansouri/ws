@@ -11,13 +11,13 @@ import { AdminApplicationService } from "./../../feature/admins/application/admi
 import { TunisieSmsManager } from "../../feature/smsManager/infra/TunisieSmsManager";
 import { container } from "./container";
 import { newConnectionPools } from "../../database/connectionDB/tenantPoolConnection";
-import { DATABASE_SERVICE_IDENTIFIER, DatabaseService } from "../database/database.service";
+import { DATABASE_SERVIßE_IDENTIFIER, DatabaseService } from "../database/database.service";
 
 export const registerAllDependencies = (): void => {
   // Register core dependencies (keeping existing functionality)
  
   container.bind("ConnectionPool").toConstantValue(newConnectionPools);
-  container.bind(DATABASE_SERVICE_IDENTIFIER).to(DatabaseService).inSingletonScope();
+  container.bind(DATABASE_SERVIßE_IDENTIFIER).to(DatabaseService).inSingletonScope();
   // Core services - essential for basic functionality
   container.bind("EmailManager").to(NodeMailerEmailManager);
   container.bind("FileManager").to(DropboxFileManager);

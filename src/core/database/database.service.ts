@@ -1,13 +1,19 @@
 import { injectable } from "inversify";
 import { Organization } from "../../feature/organization-magement/domain/organization.entity";
 import mongoose, { Connection } from "mongoose";
-import { newConnectionPools } from "../../database/connectionDB/tenantPoolConnection";
+import { getNewTenantConnection, newConnectionPools } from "../../database/connectionDB/tenantPoolConnection";
 import { getDatabaseUri } from "../../configs/database.config";
 import { schemaRegistry } from "./schema";
 import logger from "../Logger";
+import { addSchoolToGlobalStore } from "../subdomainStore";
+import { container } from "../container/container";
+import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
+import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
 
-export const DATABASE_SERVICE_IDENTIFIER = "DatabaseService";
+export const DATABASE_SERVIßE_IDENTIFIER = "DatabaseService";
 
+
+//NOTE this should not be a request scoped
 @injectable()
 export class DatabaseService {
   private organizationStore: Record<string, Organization> = {};
@@ -49,5 +55,18 @@ export class DatabaseService {
   }
   
 }
+
+
+export const initializeDatabases = async () => {
+    const organizationRepo = container.get<OrganizationRepository>(ORGANIZATION_REPOSITORY_IDENTIFIER);
+    const databaseService = container.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
+    const organizations = await organizationRepo.findAll();
+  
+    for(const organization of organizations){
+      databaseService.addOrganization(organization);
+      databaseService.getNewTenantConnection(organization.subdomain);
+    }
+  };
+  
 
 

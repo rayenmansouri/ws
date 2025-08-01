@@ -14,9 +14,7 @@ export class TypedContainer extends Container {
     return super.bind(serviceId);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  get(serviceId: string): any {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  get<T>(serviceId: string): T {
     return super.get(serviceId);
   }
 
@@ -25,8 +23,8 @@ export class TypedContainer extends Container {
   }
 }
 
-export function inject<K extends keyof containerRegistry>(
-  serviceId: K,
+export function inject(
+  serviceId: string,
 ): ReturnType<typeof inversifyInject> {
   return inversifyInject(serviceId);
 }

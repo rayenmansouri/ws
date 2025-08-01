@@ -15,6 +15,7 @@ export const decodeJWT = asyncHandlerForMiddleware(
       throw new AuthFailureError("User not logged in!");
     }
     const decoded = AuthenticationHelper.verifyToken(token);
+    console.log("decoded",decoded);
     req.tenantId = decoded.tenantId as string || MASTER_USER_TENANT_ID;
     req.userId = decoded.id as string;
     req.tokenExpires = decoded.iat as number;

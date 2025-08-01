@@ -3,10 +3,11 @@ import { Organization, GradeBookTheme } from "./organization.entity";
 import { createCompleteSchema } from "../../../core/database/schema";
 
 
-export const OrganizationSchema = createCompleteSchema<Organization>("Organization",{
+export const OrganizationSchema = createCompleteSchema<Organization>({
+  name: "Organization",
+  schemaDefinition: {
   name: { type: String, required: true },
   address: { type: String, required: false, default: "" },
-  phone: { type: String, required: true },
   email: { type: String, required: true },
   website: { type: String, required: false, default: "" },
   subdomain: { type: String, required: true },
@@ -22,8 +23,14 @@ export const OrganizationSchema = createCompleteSchema<Organization>("Organizati
   openSessionAdvanceInMin: { type: Number, required: false, default: 5 },
   notAvailableTimes: { type: [{ day: Number, hours: [Number] }], required: false, default: [] },
   cover: { type: String, required: false, default: "" },
-  phoneNumber: { type: String, required: false, default: "" },
-  id: { type: String, required: false },
+    phoneNumber: { type: String, required: false, default: "" },
+    id: { type: String, required: false },
+  },
+  options: {
+    discriminatorKey: "type",
+    collection: "organizations",
+    timestamps: true,
+  },
 });
 
 export const OrganizationModel = model<Organization>("Organization", OrganizationSchema);

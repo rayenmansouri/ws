@@ -7,7 +7,6 @@ export enum GradeBookTheme {
 export type OrganizationInput = {
     name: string;
     subdomain: string;
-    phone: string;
     email: string;
     address: string
     directorName: string;
