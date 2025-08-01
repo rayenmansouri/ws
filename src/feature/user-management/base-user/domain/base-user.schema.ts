@@ -20,7 +20,7 @@ export const BaseUserSchema = createCompleteSchema<BaseUser>({
       password: { type: String, required: true },
       schoolSubdomain: { type: String, required: true },
       fullName: { type: String, required: true },
-      passwordChangedAt: { type: Date, required: true },
+      passwordChangedAt: { type: Date, required: false },
     },
     options: BaseOptions,
 });
