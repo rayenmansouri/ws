@@ -16,19 +16,29 @@ export type BaseUser = CreateBaseUser & {
 };
 
 export class BaseUserEntity{
-
+    public id: string;
+    public schoolSubdomain: string;
+    public firstName: string;
+    public lastName: string;
+    public fullName: string;
+    public email: string;
+    public password: string;
+    public type: UserTypeEnum;
+    public passwordChangedAt: Date;
     constructor(
-        public id: string,
-        public schoolSubdomain: string,
-        public firstName: string,
-        public lastName: string,
-        public fullName: string,
-        public email: string,
-        public password: string,
-        public type: UserTypeEnum,
-        public passwordChangedAt: Date,
-    ){}
-
+       json:any
+    ){
+        this.id = json.id;
+        this.schoolSubdomain = json.schoolSubdomain;
+        this.firstName = json.firstName;
+        this.lastName = json.lastName;
+        this.fullName = json.fullName;
+        this.email = json.email;
+        this.password = json.password;
+        this.type = json.type;
+        this.passwordChangedAt = json.passwordChangedAt; 
+   }
+    
     toJSON(): BaseUser {
         return {
             id: this.id,

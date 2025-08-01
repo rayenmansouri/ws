@@ -8,16 +8,16 @@ import {
 import { containerRegistry } from "./containerRegistry";
 
 export class TypedContainer extends Container {
-  bind<K extends keyof containerRegistry>(
-    serviceId: K,
-  ): interfaces.BindingToSyntax<containerRegistry[K]> {
-    return super.bind<containerRegistry[K]>(serviceId);
+  bind<T>(
+    serviceId: string,
+  ): interfaces.BindingToSyntax<T> {
+    return super.bind(serviceId);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  get<K extends keyof containerRegistry>(serviceId: K): containerRegistry[K] {
+  get(serviceId: string): any {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return super.get<containerRegistry[K]>(serviceId);
+    return super.get(serviceId);
   }
 
   createChild(containerOptions?: interfaces.ContainerOptions): TypedContainer {

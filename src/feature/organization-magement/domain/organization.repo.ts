@@ -2,11 +2,13 @@ import { Connection, Model } from "mongoose";
 import { inject } from "../../../core/container/TypedContainer";
 import { OrganizationSchema } from "./organization.schema";
 import { Organization, OrganizationEntity, OrganizationInput } from "./organization.entity";
-import { injectable } from "inversify";
 import { BaseRepository } from "../../../core/database/baseRepository";
 import { ConnectionPool } from "../../../database/connectionDB/tenantPoolConnection";
+import { Injectable } from "../../../core/container/decorators/AutoRegister.decorator";
 
-@injectable()
+@Injectable({
+    identifier: "OrganizationRepository",
+})
 export class OrganizationRepository extends BaseRepository<OrganizationInput, Organization>{
     dto = OrganizationEntity;
     constructor(

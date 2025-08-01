@@ -8,8 +8,11 @@ import { addSchoolToGlobalStore } from "../../core/subdomainStore";
 import { getNewTenantConnection } from "../../database/connectionDB/tenantPoolConnection";
 import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
 import { CreateSchoolRouteConfig, CreateSchoolResponse } from "./school.types";
+import { Injectable } from "../../core/container/decorators/AutoRegister.decorator";
 
-@Controller()
+@Injectable({
+  identifier: "CreateSchoolController",
+})
 export class CreateSchoolController extends BaseController<CreateSchoolRouteConfig> {
   constructor(
     @inject("OrganizationRepository") private organizationRepo: OrganizationRepository,

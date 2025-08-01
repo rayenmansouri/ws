@@ -63,7 +63,7 @@ export type TPlatformEnum = (typeof PLATFORM_ENUM)[keyof typeof PLATFORM_ENUM];
 export type RouteConfiguration<Options extends TypedRequestOptions, Path extends string> = {
   path: Path;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  controller: (new (...args: any[]) => BaseController<Options>) & { uuid?: string };
+  controller: (new (...args: any[]) => BaseController<Options>) & { identifier?: string };
   middlewaresClasses?: (new (routeConfig: RouteConfiguration<TypedRequestOptions, string>) => IMiddlewareFunction)[]
   platform?: TPlatformEnum;
   isTransactionEnabled?: boolean;

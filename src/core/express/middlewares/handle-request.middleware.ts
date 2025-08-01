@@ -40,7 +40,7 @@ async handleRequest(req: TypedRequest<TypedRequestOptions>, res: Response, next:
       }
 
       const controller = requestContainer.get(
-        this.routeConfig.controller.uuid as keyof containerRegistry,
+        this.routeConfig.controller.identifier as string,
       ) as unknown as BaseController<TypedRequestOptions>;
 
       const apiResponse = await controller.handle(req, res);

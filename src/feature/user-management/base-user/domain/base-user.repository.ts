@@ -1,12 +1,14 @@
 import { Connection, Model } from "mongoose";
 import { inject } from "../../../../core/container/TypedContainer";
-import { injectable } from "inversify";
 import { BaseUserSchema } from "./base-user.schema";
-import { BaseUser, BaseUserEntity, CreateBaseUser } from "./base-user.entity";
+import { BaseUserEntity, CreateBaseUser } from "./base-user.entity";
 import { BaseRepository } from "../../../../core/database/baseRepository";
 import { ConnectionPool } from "../../../../database/connectionDB/tenantPoolConnection";
+import { Injectable } from "../../../../core/container/decorators/AutoRegister.decorator";
 
-@injectable()
+@Injectable({
+    identifier: "UserRepository",
+})
 export class UserRepository extends BaseRepository<CreateBaseUser, BaseUserEntity> {
     constructor(
         @inject("ConnectionPool") connectionPool: ConnectionPool,

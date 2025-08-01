@@ -10,8 +10,11 @@ import { TypedRequest } from "../../../../core/express/types";
 import { BadRequestError } from "../../../../core/ApplicationErrors";
 import { AuthenticationHelper } from "../../../../core/auth.helper";
 import { MASTER_USER_TENANT_ID } from "../../../../feature/user-management/master/domain/master.entity";
+import { Injectable } from "../../../../core/container/decorators/AutoRegister.decorator";
 
-@Controller()
+@Injectable({
+  identifier: "LoginController",
+})
 export class LoginController extends BaseController<LoginRouteConfig> {
   constructor(
     @inject("UserRepository") private userRepository: UserRepository,
