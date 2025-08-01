@@ -8,6 +8,7 @@ import { CreateOrganizationRouteConfig, CreateOrganizationResponse } from "./org
 import { Injectable } from "../../core/container/decorators/AutoRegister.decorator";
 import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
 import { DATABASE_SERVIßE_IDENTIFIER, DatabaseService } from "../../core/database/database.service";
+import { BadRequestError } from "../../core/ApplicationErrors";
 
 @Injectable({
   identifier: "CreateSchoolController",
@@ -22,7 +23,9 @@ export class CreateOrganizationController extends BaseController<CreateOrganizat
   }
 
   async main(req: TypedRequest<CreateOrganizationRouteConfig>): Promise<void | APIResponse> {
-    // TODO: Implement create school use case
+    // check if school already exists
+    const existingSchool = await this.organizationRepo.findOne({ subdomain: req.body.subdomain });
+    if(existingSchool) throw new BadRequestError("global.schoolAlreadyExists");
     const mockSchool = {
       name: req.body.name,
       address: req.body.address,

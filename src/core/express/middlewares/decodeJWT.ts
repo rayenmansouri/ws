@@ -5,6 +5,13 @@ import { AuthFailureError } from "../../ApplicationErrors";
 import { AuthenticationHelper } from "../../auth.helper";
 import { MASTER_USER_TENANT_ID } from "../../../feature/user-management/master/domain/master.entity";
 
+
+export const validatetDecodedToken = (decoded:any) => {
+  if(!decoded.tenantId) throw new AuthFailureError("global.invalidToken");
+  if(!decoded.id) throw new AuthFailureError("global.invalidToken");
+  if(!decoded.iat) throw new AuthFailureError("global.invalidToken");
+}
+
 export const decodeJWT = asyncHandlerForMiddleware(
   async (req: TypedRequest, _: Response, next: NextFunction) => {
     let token;
@@ -15,7 +22,7 @@ export const decodeJWT = asyncHandlerForMiddleware(
       throw new AuthFailureError("User not logged in!");
     }
     const decoded = AuthenticationHelper.verifyToken(token);
-    console.log("decoded",decoded);
+    validatetDecodedToken(decoded);
     req.tenantId = decoded.tenantId as string || MASTER_USER_TENANT_ID;
     req.userId = decoded.id as string;
     req.tokenExpires = decoded.iat as number;

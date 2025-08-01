@@ -12,7 +12,6 @@ export const authMiddleware = asyncHandlerForMiddleware(
     const userId = req.userId;
     const userRepo = container.get<UserRepository>("UserRepository");
     const user = await userRepo.findOne({_id:userId});
-    console.log("userRepo",userId,user);
     if(!user) throw new AuthFailureError("user not found or deleted");
     if(user.needToLoginAgain(req.tokenExpires)) throw new AuthFailureError("You need to login again!");
     //todo check if user is active
