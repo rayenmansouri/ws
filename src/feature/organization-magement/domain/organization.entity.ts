@@ -16,7 +16,7 @@ export type OrganizationInput = {
     enableEmail: boolean;
 };
 
-export type Organization = OrganizationInput & {
+export type Organization ={
   id: string;
   website: string;
   subdomain: string;
@@ -31,7 +31,7 @@ export type Organization = OrganizationInput & {
   notAvailableTimes: { day: number; hours: number[] }[];
   enableEmail: boolean;
   cover: string;
-};
+} & OrganizationInput;
 
 
 export class OrganizationEntity{

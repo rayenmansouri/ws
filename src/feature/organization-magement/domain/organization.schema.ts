@@ -24,7 +24,6 @@ export const OrganizationSchema = createCompleteSchema<Organization>({
   notAvailableTimes: { type: [{ day: Number, hours: [Number] }], required: false, default: [] },
   cover: { type: String, required: false, default: "" },
     phoneNumber: { type: String, required: false, default: "" },
-    id: { type: String, required: false },
   },
   options: {
     discriminatorKey: "type",

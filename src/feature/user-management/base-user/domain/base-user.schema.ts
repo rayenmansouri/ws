@@ -1,4 +1,4 @@
-import { model, Types } from "mongoose";
+import { Types } from "mongoose";
 import { UserTypeEnum } from "../../factory/enums";
 import { BaseUser } from "./base-user.entity";
 import { createCompleteSchema } from "../../../../core/database/schema";
@@ -21,9 +21,6 @@ export const BaseUserSchema = createCompleteSchema<BaseUser>({
       schoolSubdomain: { type: String, required: true },
       fullName: { type: String, required: true },
       passwordChangedAt: { type: Date, required: true },
-      id: { type: String, required: true },
     },
     options: BaseOptions,
 });
-
-export const BaseUserModel = model<BaseUser>("users", BaseUserSchema);

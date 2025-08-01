@@ -7,12 +7,15 @@ import { UserRepository } from "../../feature/user-management/base-user/domain/b
 import { SuccessResponse } from "../../core/responseAPI/APISuccessResponse";
 import { UserTypeEnum } from "../../feature/user-management/factory/enums";
 import { inject } from "../../core/container/TypedContainer";
-import { getNewTenantConnection } from "../../database/connectionDB/tenantPoolConnection";
+import { Injectable } from "../../core/container/decorators/AutoRegister.decorator";
+import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../feature/user-management/constants";
 
-@Controller()
+@Injectable({
+  identifier: "CreateUserController",
+})
 export class CreateUserController extends BaseController<CreateUserRouteConfig> {
   constructor(
-    @inject("UserRepository") private userRepo: UserRepository,
+    @inject(BASE_USER_REPOSITORY_IDENTIFIER) private userRepo: UserRepository,
   ) {
     super();
   }

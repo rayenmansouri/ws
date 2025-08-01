@@ -8,7 +8,7 @@ type SchemaOptions = {
 
 type CreateSchemaParam<T> = {
     name:string,
-    schemaDefinition: Record<keyof T, unknown>,
+    schemaDefinition: Record<keyof Omit<T, "id">, unknown>,
     options:SchemaOptions,
 }
 
