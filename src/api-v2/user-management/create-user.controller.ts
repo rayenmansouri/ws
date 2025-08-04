@@ -10,6 +10,8 @@ import { inject } from "../../core/container/TypedContainer";
 import { Injectable } from "../../core/container/decorators/AutoRegister.decorator";
 import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../feature/user-management/constants";
 import { BadRequestError } from "../../core/ApplicationErrors";
+import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
+import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
 
 @Injectable({
   identifier: "CreateUserController",
@@ -17,6 +19,7 @@ import { BadRequestError } from "../../core/ApplicationErrors";
 export class CreateUserController extends BaseController<CreateUserRouteConfig> {
   constructor(
     @inject(BASE_USER_REPOSITORY_IDENTIFIER) private userRepo: UserRepository,
+    @inject(ORGANIZATION_REPOSITORY_IDENTIFIER) private schoolRepo: OrganizationRepository,
   ) {
     super();
   }
@@ -36,6 +39,9 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
       type: type as UserTypeEnum,
       roles: []
     });
+    //check if schoold subdomain exists
+    const school = await this.schoolRepo.findOne({ subdomain: schoolSubdomain });
+    if(!school) throw new BadRequestError("global.schoolNotFound");
     this.userRepo.switchConnection(schoolSubdomain);
     await this.userRepo.create({
       firstName,
