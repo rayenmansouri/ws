@@ -12,6 +12,7 @@ import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../feature/user-management/c
 import { BadRequestError } from "../../core/ApplicationErrors";
 import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
 import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
+import { AuthenticationHelper } from "../../core/auth.helper";
 
 @Injectable({
   identifier: "CreateUserController",
@@ -28,13 +29,15 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
     const { firstName, lastName, email, password, schoolSubdomain, type } = req.body;
     //check if user already exists
     const existingUser = await this.userRepo.findOne({ email });
+    const hashedPassword = await AuthenticationHelper.hashString(password);
+
     if(existingUser) throw new BadRequestError("global.userAlreadyExists");
-    const user = await this.userRepo.create({
+    await this.userRepo.create({
       firstName,
       lastName, 
       fullName: `${firstName} ${lastName}`,
       email,
-      password,
+      password:hashedPassword,
       schoolSubdomain,
       type: type as UserTypeEnum,
       roles: []
@@ -42,17 +45,18 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
     //check if schoold subdomain exists
     const school = await this.schoolRepo.findOne({ subdomain: schoolSubdomain });
     if(!school) throw new BadRequestError("global.schoolNotFound");
+    //hash password
     this.userRepo.switchConnection(schoolSubdomain);
-    await this.userRepo.create({
+    const createdUser = await this.userRepo.create({
       firstName,
       lastName, 
       fullName: `${firstName} ${lastName}`,
       email,
-      password,
+      password: hashedPassword,
       schoolSubdomain,
       type: type as UserTypeEnum,
       roles: []
     });
-    return new SuccessResponse<CreateUserResponse>("global.success", { user });
+    return new SuccessResponse<CreateUserResponse>("global.success", { user: createdUser });
   }
 }
