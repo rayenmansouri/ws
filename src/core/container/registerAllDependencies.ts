@@ -19,7 +19,8 @@ export const registerAllDependencies = (): void => {
   // Register core dependencies (keeping existing functionality)
  
   container.bind(DATABASE_SERVIßE_IDENTIFIER).to(DatabaseService).inSingletonScope();
-  container.bind(CONNECTION_POOL_IDENTIFIER).toConstantValue({});
+  const databaseService = container.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
+  container.bind(CONNECTION_POOL_IDENTIFIER).toConstantValue(databaseService.getConnectionPool());
   container.bind(CURRENT_CONNECTION_IDENTIFIER).toConstantValue(MASTER_USER_TENANT_ID);
   container.bind(MASTER_CONNECTION_IDENTIFIER).toConstantValue(mongoose.connection);
   // Core services - essential for basic functionality
