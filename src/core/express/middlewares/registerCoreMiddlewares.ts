@@ -5,10 +5,9 @@ import { RouteConfiguration, TypedRequestOptions } from "../types";
 import { IMiddlewareFunction } from "./interface";
 import { AuthMiddleware } from "./auth";
 import { GetTenantConnectionMiddleware } from "./getTenantConnection";
-import { GetTenantConnectionFromParamMiddleware } from "./get-tenant-connection-from-param.middleware";
 
 
-//order is just does matter
+//order is just does MATTER
 export function getCoreMiddlewares(): (new (routeConfig: RouteConfiguration<TypedRequestOptions, string>) => IMiddlewareFunction)[] {
    return [
     ValidateSchemaMiddleware,

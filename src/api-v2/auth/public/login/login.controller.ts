@@ -1,4 +1,3 @@
-import { Controller } from "../../../../core/container/decorators/Controller.decorator";
 import { inject } from "../../../../core/container/TypedContainer";
 import { BaseController } from "../../../../core/express/controllers/BaseController";
 import { APIResponse } from "../../../../core/responseAPI/APIResponse";
@@ -11,13 +10,14 @@ import { BadRequestError } from "../../../../core/ApplicationErrors";
 import { AuthenticationHelper } from "../../../../core/auth.helper";
 import { MASTER_USER_TENANT_ID } from "../../../../feature/user-management/master/domain/master.entity";
 import { Injectable } from "../../../../core/container/decorators/AutoRegister.decorator";
+import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../../../feature/user-management/constants";
 
 @Injectable({
   identifier: "LoginController",
 })
 export class LoginController extends BaseController<LoginRouteConfig> {
   constructor(
-    @inject("UserRepository") private userRepository: UserRepository,
+    @inject(BASE_USER_REPOSITORY_IDENTIFIER) private userRepository: UserRepository,
 
   ) {
     super();

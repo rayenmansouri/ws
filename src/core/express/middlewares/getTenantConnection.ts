@@ -6,6 +6,9 @@ import { schoolDocStore } from "../../subdomainStore";
 import { getNewTenantConnection } from "../../../database/connectionDB/tenantPoolConnection";
 import { IMiddlewareFunction } from "./interface";
 import { END_USER_ENUM } from "../../../constants/globalEnums";
+import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../../feature/user-management/constants";
+import { UserRepository } from "../../../feature/user-management/base-user/domain/base-user.repository";
+import { container } from "../../container/container";
 
 
 export const getTenantConnection = asyncHandlerForMiddleware(
@@ -18,6 +21,12 @@ export const getTenantConnection = asyncHandlerForMiddleware(
 
     const connection = await getNewTenantConnection(schoolSubdomain);
     req.DBConnection = connection;
+    req.currentConnection = schoolSubdomain as string;
+    //check if the user belongs to the tenant
+    const userRepository = container.get<UserRepository>(BASE_USER_REPOSITORY_IDENTIFIER);
+    userRepository.switchConnection(schoolSubdomain as string);
+    const user = await userRepository.findOne({_id:req.userId});
+    if(!user) throw new AuthFailureError();
     next();
   },
 );

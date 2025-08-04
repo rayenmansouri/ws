@@ -32,6 +32,7 @@ type BaseTypedRequest = Request & {
   language: TLanguageEnum;
   container: TypedContainer;
   school: string;
+  currentConnection?: string;
 };
 
 export type TypedRequestOptions = {

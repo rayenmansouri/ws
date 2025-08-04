@@ -7,6 +7,8 @@ import { containerRegistry } from "../../container/containerRegistry";
 import mongoose, { ClientSession } from "mongoose";
 import { APIResponse } from "../../responseAPI/APIResponse";
 import { BaseController } from "../controllers/BaseController";
+import { CONNECTION_POOL_IDENTIFIER, DATABASE_SERVICE_IDENTIFIER } from "../../database/constant";
+import { DatabaseService } from "../../database/database.service";
 
 export class HandleRequestMiddleware implements IMiddlewareFunction {
   constructor(
@@ -29,6 +31,9 @@ async handleRequest(req: TypedRequest<TypedRequestOptions>, res: Response, next:
       }
       req.container = requestContainer;
       requestContainer.bind("School").toConstantValue(schoolDocStore[req.tenantId]);
+      const databaseService = requestContainer.get<DatabaseService>(DATABASE_SERVICE_IDENTIFIER);
+      requestContainer.bind(CONNECTION_POOL_IDENTIFIER).toConstantValue(databaseService.getConnectionPool());
+      //todo to be removed
       if(req.DBConnection !== undefined){
         requestContainer.bind("Connection").toConstantValue(req.DBConnection);
       }
@@ -39,9 +44,9 @@ async handleRequest(req: TypedRequest<TypedRequestOptions>, res: Response, next:
         requestContainer.bind("Session").toConstantValue(session);
       }
 
-      const controller = requestContainer.get(
+      const controller = requestContainer.get<BaseController<TypedRequestOptions>>(
         this.routeConfig.controller.identifier as string,
-      ) as unknown as BaseController<TypedRequestOptions>;
+      );
 
       const apiResponse = await controller.handle(req, res);
 

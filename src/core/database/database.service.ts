@@ -1,11 +1,9 @@
 import { injectable } from "inversify";
 import { Organization } from "../../feature/organization-magement/domain/organization.entity";
 import mongoose, { Connection } from "mongoose";
-import { getNewTenantConnection, newConnectionPools } from "../../database/connectionDB/tenantPoolConnection";
 import { getDatabaseUri } from "../../configs/database.config";
 import { schemaRegistry } from "./schema";
 import logger from "../Logger";
-import { addSchoolToGlobalStore } from "../subdomainStore";
 import { container } from "../container/container";
 import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
 import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
@@ -17,7 +15,7 @@ export const DATABASE_SERVIßE_IDENTIFIER = "DatabaseService";
 @injectable()
 export class DatabaseService {
   private organizationStore: Record<string, Organization> = {};
-  private connectionPool: Record<string, Connection> = {};
+  public connectionPool: Record<string, Connection> = {};
 
   constructor() {
     logger.info("intialized database service");
@@ -50,8 +48,12 @@ export class DatabaseService {
     
     this.importTenantModels(newConnection);
     
-    newConnectionPools[subdomain] = newConnection;
-    return newConnectionPools[subdomain];
+    this.connectionPool[subdomain] = newConnection;
+    return newConnection;
+  }
+
+  getConnectionPool(): Record<string, Connection> {
+    return this.connectionPool;
   }
   
 }

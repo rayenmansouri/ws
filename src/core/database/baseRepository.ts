@@ -15,8 +15,9 @@ export abstract class BaseRepository<Input,Output>{
     constructor(
         @inject("ConnectionPool") private connectionPool: ConnectionPool,
         @inject("MasterConnection") private masterConnection: Connection,
+        @inject("currentConnection") private currentConnection: string,
     ){
-        this.connection = this.masterConnection;
+        this.connection = this.currentConnection === MASTER_USER_TENANT_ID ? this.masterConnection : this.connectionPool[this.currentConnection];
     }
 
     switchConnection(tenantId: string): void{

@@ -15,8 +15,9 @@ export class OrganizationRepository extends BaseRepository<OrganizationInput, Or
     constructor(
         @inject("ConnectionPool") connectionPool: ConnectionPool,
         @inject("MasterConnection") masterConnection: Connection,
+        @inject("currentConnection") currentConnection: string,
     ){
-        super(connectionPool, masterConnection);
+        super(connectionPool, masterConnection, currentConnection);
     }
 
     getModel(): Model<Organization> {

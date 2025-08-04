@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import Logger from "../../core/Logger";
-import { container } from "../../core/container/container";
 import { masterDabaseUri } from "../../configs/database.config";
 
 export const connectToMasterDatabase = async (
@@ -12,8 +11,6 @@ export const connectToMasterDatabase = async (
   try {
     await mongoose.connect(masterDabaseUri);
     Logger.info(`Master db connection done ✅`);
-    container.bind("MasterConnection").toConstantValue(mongoose.connection);
-
     if (callBackFunctions.length > 0) {
       for (let i = 0; i < callBackFunctions.length; i++) {
         await callBackFunctions[i]();

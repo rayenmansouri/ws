@@ -10,14 +10,18 @@ import { DropboxFileManager } from "../fileManager/DropboxFileManager";
 import { AdminApplicationService } from "./../../feature/admins/application/admin.application.service";
 import { TunisieSmsManager } from "../../feature/smsManager/infra/TunisieSmsManager";
 import { container } from "./container";
-import { newConnectionPools } from "../../database/connectionDB/tenantPoolConnection";
 import { DATABASE_SERVIßE_IDENTIFIER, DatabaseService } from "../database/database.service";
+import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIER } from "../database/constant";
+import { MASTER_USER_TENANT_ID } from "../../feature/user-management/master/domain/master.entity";
+import mongoose from "mongoose";
 
 export const registerAllDependencies = (): void => {
   // Register core dependencies (keeping existing functionality)
  
-  container.bind("ConnectionPool").toConstantValue(newConnectionPools);
   container.bind(DATABASE_SERVIßE_IDENTIFIER).to(DatabaseService).inSingletonScope();
+  container.bind(CONNECTION_POOL_IDENTIFIER).toConstantValue({});
+  container.bind(CURRENT_CONNECTION_IDENTIFIER).toConstantValue(MASTER_USER_TENANT_ID);
+  container.bind(MASTER_CONNECTION_IDENTIFIER).toConstantValue(mongoose.connection);
   // Core services - essential for basic functionality
   container.bind("EmailManager").to(NodeMailerEmailManager);
   container.bind("FileManager").to(DropboxFileManager);
