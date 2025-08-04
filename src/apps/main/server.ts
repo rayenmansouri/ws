@@ -9,10 +9,15 @@ import { registerAllDependencies } from "../../core/container/registerAllDepende
 import { initializeDatabases } from "../../core/database/database.service";
 import { HandlerSubscriber } from "../../core/domainEvents/HandlerSubscriber";
 
+
+async function bootstrap(): Promise<void> {
+  registerAllDependencies();
+  await initializeDatabases();
+}
+
 connectToMasterDatabase()
   .then(async () => {
-    registerAllDependencies();
-    await initializeDatabases();
+    await bootstrap();
     const server = createServer(app);
     //SocketManager.initialize(server);
     container.get<HandlerSubscriber>("HandlerSubscriber").subscribeHandlers();

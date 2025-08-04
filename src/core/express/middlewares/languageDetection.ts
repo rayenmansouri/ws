@@ -3,6 +3,8 @@ import { DEFAULT_LANGUAGE, LANGUAGE_ENUM, TLanguageEnum } from "../../../transla
 import { BadRequestError } from "../../ApplicationErrors";
 import { Middleware, TypedRequest } from "../types";
 import { IMiddlewareFunction } from "./interface";
+import { REQUEST_TOKEN_IDENTIFIER } from "../constant";
+import { inject } from "../../container/TypedContainer";
 
 export const languageDetectionMiddleware = (
   req: TypedRequest,
