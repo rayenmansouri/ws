@@ -1,9 +1,9 @@
 import { Schema  } from "mongoose";
 
 type SchemaOptions = {
-    discriminatorKey:string,
-    collection:string,
-    timestamps:boolean,
+    discriminatorKey?:string,
+    collection?:string,
+    timestamps?:boolean,
 }
 
 type CreateSchemaParam<T> = {

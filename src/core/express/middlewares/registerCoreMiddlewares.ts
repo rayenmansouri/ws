@@ -5,6 +5,7 @@ import { RouteConfiguration, TypedRequestOptions } from "../types";
 import { IMiddlewareFunction } from "./interface";
 import { AuthMiddleware } from "./auth";
 import { GetTenantConnectionMiddleware } from "./getTenantConnection";
+import { AuthorizeMiddleware } from "./authorize";
 
 
 //order is just does MATTER
@@ -28,5 +29,12 @@ export function getTenantAuthenticatedMiddlewares(): (new (routeConfig: RouteCon
     ...getCoreMiddlewares(),
     AuthMiddleware,
     GetTenantConnectionMiddleware,
+  ]
+}
+
+export function getAuthorizedMiddlewares(): (new (routeConfig: RouteConfiguration<TypedRequestOptions, string>) => IMiddlewareFunction)[] {
+  return [
+    ...getAuthenticatedMiddlewares(),
+    AuthorizeMiddleware,
   ]
 }

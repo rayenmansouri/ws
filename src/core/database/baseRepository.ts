@@ -35,7 +35,7 @@ export abstract class BaseRepository<Input,Output>{
 
     async findOne(query: FilterQuery<Input>): Promise<Output | null> {
         const model = this.getModel();
-        const result = await model.findOne(query).lean()
+        const result = await model.findOne(query).populate('roles').lean()
         return result ? new this.dto(result) : null;
     }
 
@@ -45,9 +45,9 @@ export abstract class BaseRepository<Input,Output>{
         return new this.dto(result);
     }
 
-    async findAll(): Promise<Output[]> {
+    async findAll(query: FilterQuery<Output> = {}): Promise<Output[]> {
         const model = this.getModel();
-        const result = await model.find().lean();
+        const result = await model.find(query).lean();
         return result.map(item => new this.dto(item));
     }
     

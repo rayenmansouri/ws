@@ -12,6 +12,8 @@ export default class SeedMasters implements ISeeder {
             firstName: "admin",
             lastName: "admin",
             email: "admin@gmail.com",
+            schoolSubdomain:"$",
+            fullName: "admin",
             password: "password",
             address1: "sahloul",
             address2: "tunis",
@@ -23,6 +25,7 @@ export default class SeedMasters implements ISeeder {
 
     async seed(): Promise<void> {
         console.log("seeding masters");
+        await mongoMasterModel.deleteMany({});
         const masterModel = getUserModel(UserTypeEnum.MASTER);
         for (const master of this.masters) {
             const hashedPassword = await HashingHelper.generateHash(master.password);

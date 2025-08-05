@@ -2,7 +2,7 @@ import { model } from "mongoose";
 import { Organization, GradeBookTheme } from "./organization.entity";
 import { createCompleteSchema } from "../../../core/database/schema";
 
-
+export const OrganizationKey = "organizations";
 export const OrganizationSchema = createCompleteSchema<Organization>({
   name: "Organization",
   schemaDefinition: {
@@ -26,10 +26,8 @@ export const OrganizationSchema = createCompleteSchema<Organization>({
     phoneNumber: { type: String, required: false, default: "" },
   },
   options: {
-    discriminatorKey: "type",
-    collection: "organizations",
     timestamps: true,
   },
 });
 
-export const OrganizationModel = model<Organization>("Organization", OrganizationSchema);
+export const OrganizationModel = model<Organization>(OrganizationKey, OrganizationSchema);

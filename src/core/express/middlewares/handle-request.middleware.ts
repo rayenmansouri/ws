@@ -2,13 +2,12 @@ import { NextFunction, Response } from "express";
 import { Middleware, RouteConfiguration, TypedRequest, TypedRequestOptions } from "../types";
 import { IMiddlewareFunction } from "./interface";
 import { container } from "../../container/container";
+import { schoolDocStore } from "../../subdomainStore";
+import mongoose, { ClientSession } from "mongoose";
 import { APIResponse } from "../../responseAPI/APIResponse";
 import { BaseController } from "../controllers/BaseController";
-import { REQUEST_TOKEN_IDENTIFIER } from "../constant";
-import { getAllInterceptors } from "../../interceptors/create-interceptor-decorator";
-import { IRquestInterceptor } from "../../interceptors/interface";
-import { getAllCustomDecorators } from "../../decorator/create-param-decorator";
-
+import { CONNECTION_POOL_IDENTIFIER, DATABASE_SERVICE_IDENTIFIER } from "../../database/constant";
+import { DatabaseService } from "../../database/database.service";
 
 export class HandleRequestMiddleware implements IMiddlewareFunction {
   constructor(
@@ -21,42 +20,48 @@ export class HandleRequestMiddleware implements IMiddlewareFunction {
   }
 
 async handleRequest(req: TypedRequest<TypedRequestOptions>, res: Response, next: NextFunction): Promise<void> {
+    let session: null | ClientSession = null;
     req.userType = this.routeConfig.endUser;
-    const interceptors = getAllInterceptors();
-    const intercepts: IRquestInterceptor[] = [];
-    for(const interceptor of interceptors){
-      const interceptorInstance = new interceptor();
-      intercepts.push(interceptorInstance);
-    }
     try {
       const requestContainer = container.createChild({ defaultScope: "Singleton" });
-      //bind requests
-      requestContainer.bind(REQUEST_TOKEN_IDENTIFIER).toConstantValue(req);
+      const language = req.language;
+      if (language) {
+        requestContainer.bind("Language").toConstantValue(language);
+      }
       req.container = requestContainer;
-      //bind decorators
-      const params = getAllCustomDecorators();
-      for(const param of params){
-        const paramInstance = param(req);
-        requestContainer.bind(param.name).toConstantValue(paramInstance);
+      requestContainer.bind("School").toConstantValue(schoolDocStore[req.tenantId]);
+      const databaseService = requestContainer.get<DatabaseService>(DATABASE_SERVICE_IDENTIFIER);
+      requestContainer.bind(CONNECTION_POOL_IDENTIFIER).toConstantValue(databaseService.getConnectionPool());
+      //todo to be removed
+      if(req.DBConnection !== undefined){
+        requestContainer.bind("Connection").toConstantValue(req.DBConnection);
       }
-      //execute interceptors
-      for(const interceptor of intercepts){
-        await interceptor.beforeExecution(req);
+
+      if (this.routeConfig.isTransactionEnabled !== undefined) {
+        session = await mongoose.connection.startSession();
+        session.startTransaction();
+        requestContainer.bind("Session").toConstantValue(session);
       }
+
       const controller = requestContainer.get<BaseController<TypedRequestOptions>>(
         this.routeConfig.controller.identifier as string,
       );
+
       const apiResponse = await controller.handle(req, res);
+
+      if (session) await session.commitTransaction();
+
       if (apiResponse instanceof APIResponse) {
         apiResponse.setLanguage(req.language);
         apiResponse.send(res);
       }
-    } catch (e: unknown) {
-      for(const interceptor of intercepts){
-        await interceptor.afterExecution(req, res, e as Error);
-      }
+    } catch (Error: unknown) {
+      if (session) await session.abortTransaction();
+
       next(Error);
-    } 
+    } finally {
+      if (session) await session.endSession();
+    }
   }
 
   getMiddleware(): Middleware[] {

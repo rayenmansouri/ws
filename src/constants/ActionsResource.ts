@@ -14,7 +14,9 @@ export const ACTION_ENUM = {
 } as const;
 export type TActionsEnum = (typeof ACTION_ENUM)[keyof typeof ACTION_ENUM];
 
+
 export const RESOURCES_ENUM = {
+  USER: "USER",
   TUTORIAL: "TUTORIAL",
   STUDENT: "STUDENT",
   TEACHER: "TEACHER",

@@ -1,11 +1,12 @@
 import { Connection, Model } from "mongoose";
 import { inject } from "../../../core/container/TypedContainer";
-import { OrganizationSchema } from "./organization.schema";
+import { OrganizationKey, OrganizationSchema } from "./organization.schema";
 import { Organization, OrganizationEntity, OrganizationInput } from "./organization.entity";
 import { BaseRepository } from "../../../core/database/baseRepository";
 import { ConnectionPool } from "../../../database/connectionDB/tenantPoolConnection";
 import { Injectable } from "../../../core/container/decorators/AutoRegister.decorator";
 import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../constant";
+import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIER } from "../../../core/database/constant";
 
 @Injectable({
     identifier: ORGANIZATION_REPOSITORY_IDENTIFIER,
@@ -13,14 +14,14 @@ import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../constant";
 export class OrganizationRepository extends BaseRepository<OrganizationInput, Organization>{
     dto = OrganizationEntity;
     constructor(
-        @inject("ConnectionPool") connectionPool: ConnectionPool,
-        @inject("MasterConnection") masterConnection: Connection,
-        @inject("currentConnection") currentConnection: string,
+        @inject(CONNECTION_POOL_IDENTIFIER) connectionPool: ConnectionPool,
+        @inject(MASTER_CONNECTION_IDENTIFIER) masterConnection: Connection,
+        @inject(CURRENT_CONNECTION_IDENTIFIER) currentConnection: string,
     ){
         super(connectionPool, masterConnection, currentConnection);
     }
 
     getModel(): Model<Organization> {
-        return this.connection.model<Organization>("Organization", OrganizationSchema);
+        return this.connection.model<Organization>(OrganizationKey, OrganizationSchema);
     }
 }

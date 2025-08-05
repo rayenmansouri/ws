@@ -1,6 +1,6 @@
 import { Connection, Model } from "mongoose";
 import { inject } from "../../../../core/container/TypedContainer";
-import { BaseUserSchema } from "./base-user.schema";
+import { BaseUserKey, BaseUserSchema } from "./base-user.schema";
 import { BaseUser, BaseUserEntity, CreateBaseUser } from "./base-user.entity";
 import { BaseRepository } from "../../../../core/database/baseRepository";
 import { ConnectionPool } from "../../../../database/connectionDB/tenantPoolConnection";
@@ -21,7 +21,7 @@ export class UserRepository extends BaseRepository<CreateBaseUser, BaseUserEntit
     }
 
     getModel(): Model<BaseUser> {
-        return this.connection.model<BaseUser>("BaseUser", BaseUserSchema);
+        return this.connection.model<BaseUser>(BaseUserKey, BaseUserSchema);
     }
 
     dto = BaseUserEntity;

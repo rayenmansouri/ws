@@ -22,7 +22,7 @@ export type Middleware = (
 
 type BaseTypedRequest = Request & {
   userType: TEndUserEnum | undefined;
-  user: Omit<BaseUser, "roles"> & { roles: Role[] };
+  user: { roles: Role[] };
   DBConnection: Connection;
   tenantId: string
   schoolTimeZone: string;
