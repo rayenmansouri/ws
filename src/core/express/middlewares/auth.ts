@@ -16,7 +16,7 @@ export const authMiddleware = asyncHandlerForMiddleware(
     if(!user) throw new AuthFailureError("user not found or deleted");
     if(user.needToLoginAgain(req.tokenExpires)) throw new AuthFailureError("You need to login again!");
     //todo check if user is active
-    req.user = user.toJSON();
+    req.currentUser = user;
     next();
   },
 );

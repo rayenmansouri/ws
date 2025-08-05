@@ -13,6 +13,7 @@ import { ZodObject, ZodTypeAny } from "zod";
 import { BaseUser } from "../../feature/users/domain/baseUser.entity";
 import { Role } from "../../feature/authorization/domain/role.entity";
 import { IMiddlewareFunction } from "./middlewares/interface";
+import { BaseUserEntity } from "../../feature/user-management/base-user/domain/base-user.entity";
 
 export type Middleware = (
   req: TypedRequest<TypedRequestOptions>,
@@ -22,7 +23,8 @@ export type Middleware = (
 
 type BaseTypedRequest = Request & {
   userType: TEndUserEnum | undefined;
-  user: { roles: Role[] };
+  user: Omit<BaseUser, "roles"> & { roles: Role[] };
+  currentUser: BaseUserEntity
   DBConnection: Connection;
   tenantId: string
   schoolTimeZone: string;
