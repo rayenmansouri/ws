@@ -6,7 +6,7 @@ export type CreateBaseUser = {
   fullName: string;
   email: string;
   password: string;
-  schoolSubdomain: string;
+  organizationSubdomain: string;
   type: UserTypeEnum;
   roles: string[];
 };
@@ -18,7 +18,7 @@ export type BaseUser = CreateBaseUser & {
 
 export class BaseUserEntity{
     public id: string;
-    public schoolSubdomain: string;
+    public organizationSubdomain: string;
     public firstName: string;
     public lastName: string;
     public fullName: string;
@@ -31,7 +31,7 @@ export class BaseUserEntity{
        json:any
     ){
         this.id = json._id.toString();
-        this.schoolSubdomain = json.schoolSubdomain;
+        this.organizationSubdomain = json.organizationSubdomain || json.schoolSubdomain; // Support both for backward compatibility
         this.firstName = json.firstName;
         this.lastName = json.lastName;
         this.fullName = json.fullName;
@@ -45,7 +45,7 @@ export class BaseUserEntity{
     toJSON(): BaseUser {
         return {
             id: this.id,
-            schoolSubdomain: this.schoolSubdomain,
+            organizationSubdomain: this.organizationSubdomain,
             firstName: this.firstName,
             lastName: this.lastName,
             fullName: this.fullName,

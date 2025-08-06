@@ -19,7 +19,7 @@ export const verifyJWT = (entity: OmitFromEnum<TEndUserEnum, "master">): Middlew
 
     switch (entity) {
       case END_USER_ENUM.ADMIN: {
-        const adminRepo = new MongoAdminRepo(connection, null);
+        const adminRepo = container.get("MongoAdminRepo");
         const roleRepo = container.get("RoleRepo");
 
         const admin = await adminRepo.findOneById(req.userId);
@@ -31,7 +31,7 @@ export const verifyJWT = (entity: OmitFromEnum<TEndUserEnum, "master">): Middlew
         break;
       }
       case END_USER_ENUM.TEACHER: {
-        const teacherRepo = new MongoTeacherRepo(connection, null);
+        const teacherRepo = container.get("MongoTeacherRepo");
         const roleRepo = container.get("RoleRepo");
 
         const teacher = await teacherRepo.findOneById(req.userId);
@@ -43,7 +43,7 @@ export const verifyJWT = (entity: OmitFromEnum<TEndUserEnum, "master">): Middlew
         break;
       }
       case END_USER_ENUM.PARENT: {
-        const parentRepo = new MongoParentRepo(connection, null);
+        const parentRepo = container.get("MongoParentRepo");
 
         const parent = await parentRepo.findOneById(req.userId);
         if (!parent) throw new AuthFailureError();
@@ -52,7 +52,7 @@ export const verifyJWT = (entity: OmitFromEnum<TEndUserEnum, "master">): Middlew
         break;
       }
       case END_USER_ENUM.STUDENT: {
-        const studentRepo = new MongoStudentRepo(connection, null);
+        const studentRepo = container.get("MongoStudentRepo");
 
         const student = await studentRepo.findOneById(req.userId);
         if (!student) throw new AuthFailureError();
@@ -61,7 +61,7 @@ export const verifyJWT = (entity: OmitFromEnum<TEndUserEnum, "master">): Middlew
         break;
       }
     }
-    if (!user.isActive)
+    if (!(user as any).isActive)
       throw new AuthFailureError("authentication.invalidCredentials", { isActive: false });
 
     if (

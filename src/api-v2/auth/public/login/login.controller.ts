@@ -37,8 +37,8 @@ export class LoginController extends BaseController<LoginRouteConfig> {
           user.password,
         );
         if(!isPasswordValid) throw new BadRequestError("global.invalidPassword");
-        const schoolSubdomain = user.isMaster() == false ? user.schoolSubdomain : MASTER_USER_TENANT_ID;
-        const token = AuthenticationHelper.generateUserToken(user.id, schoolSubdomain);
+        const organizationSubdomain = user.isMaster() == false ? user.organizationSubdomain : MASTER_USER_TENANT_ID;
+        const token = AuthenticationHelper.generateUserToken(user.id, organizationSubdomain);
         return new SuccessResponse<LoginResponse>("global.success", {token,user:user.toJSON()});
   }
 } 

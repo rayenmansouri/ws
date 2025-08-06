@@ -6,25 +6,25 @@ import { AdminDTO } from "../dtos/Admin.dto";
 export class AdminMapper {
   static toDTO(admin: Admin, roles: Role[], language: TLanguageEnum): AdminDTO {
     return {
-      _id: admin._id,
-      newId: admin.newId,
+      _id: (admin as any)._id || admin.id,
+      newId: (admin as any).newId,
       firstName: admin.firstName,
       lastName: admin.lastName,
       fullName: admin.fullName,
-      gender: admin.gender,
+      gender: (admin as any).gender,
       email: admin.email,
-      phoneNumber: admin.phoneNumber,
-      address1: admin.address1,
-      address2: admin.address2,
-      avatar: admin.avatar.link,
-      birthDate: admin.birthDate,
+      phoneNumber: (admin as any).phoneNumber,
+      address1: (admin as any).address1,
+      address2: (admin as any).address2,
+      avatar: (admin as any).avatar?.link,
+      birthDate: (admin as any).birthDate,
       roles: roles.map(role => ({
-        _id: role._id,
-        newId: role.newId,
-        name: role.translation[language],
+        _id: (role as any)._id || (role as any).id,
+        newId: (role as any).newId,
+        name: (role as any).translation?.[language] || (role as any).name,
       })),
-      isArchived: admin.isArchived,
-      isActive: admin.isActive,
+      isArchived: (admin as any).isArchived,
+      isActive: (admin as any).isActive,
     };
   }
 }

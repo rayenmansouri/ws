@@ -7,7 +7,7 @@ import { errorHandler } from "../../middlewares/errorHandler";
 import { logRequest } from "../../middlewares/logRequest";
 import routes from "./index.routes";
 import * as Sentry from "@sentry/node";
-import "./Routes.routes";
+// import "./Routes.routes"; // Commented out - file doesn't exist
 
 process.on("uncaughtException", e => {
   Logger.error(e);

@@ -11,7 +11,7 @@ import { BadRequestError } from "../../../core/ApplicationErrors";
 import { CreateOrganizationResponse, CreateOrganizationRouteConfig } from "../organization.types";
 
 @Injectable({
-  identifier: "CreateSchoolController",
+  identifier: "CreateOrganizationController",
 })
 export class CreateOrganizationController extends BaseController<CreateOrganizationRouteConfig> {
   constructor(
@@ -23,10 +23,10 @@ export class CreateOrganizationController extends BaseController<CreateOrganizat
   }
 
   async main(req: TypedRequest<CreateOrganizationRouteConfig>): Promise<void | APIResponse> {
-    // check if school already exists
-    const existingSchool = await this.organizationRepo.findOne({ subdomain: req.body.subdomain });
-    if(existingSchool) throw new BadRequestError("global.schoolAlreadyExists");
-    const mockSchool = {
+    // check if organization already exists
+    const existingOrganization = await this.organizationRepo.findOne({ subdomain: req.body.subdomain });
+    if(existingOrganization) throw new BadRequestError("global.organizationAlreadyExists");
+    const organizationData = {
       name: req.body.name,
       address: req.body.address,
       phone: req.body.phone,
@@ -42,7 +42,7 @@ export class CreateOrganizationController extends BaseController<CreateOrganizat
       organizationSystemType: req.body.organizationSystemType,
     };
 
-    const organization = await this.organizationRepo.create(mockSchool);
+    const organization = await this.organizationRepo.create(organizationData);
     this.databaseService.addOrganization(organization);
     this.databaseService.getNewTenantConnection(organization.subdomain);
     return new SuccessResponse<CreateOrganizationResponse>("global.success", { organization: organization });

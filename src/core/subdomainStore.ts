@@ -3,11 +3,13 @@ import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../feature/organization-mage
 import { OrganizationRepository } from "../feature/organization-magement/domain/organization.repo";
 import { container } from "./container/container";
 
-interface SchoolDocStore {
+interface OrganizationDocStore {
   [key: string]: any;
 }
 
-export const schoolDocStore: SchoolDocStore = {};
+export const organizationDocStore: OrganizationDocStore = {};
+// Legacy alias for backward compatibility
+export const schoolDocStore = organizationDocStore;
 
 export const initializeSubdomains = async () => {
   const organizationRepo = container.get<OrganizationRepository>(ORGANIZATION_REPOSITORY_IDENTIFIER);
@@ -16,17 +18,21 @@ export const initializeSubdomains = async () => {
 
   for(const organization of organizations){
     await getNewTenantConnection(organization.subdomain);
-    addSchoolToGlobalStore(organization);
+    addOrganizationToGlobalStore(organization);
   }
 };
 
-export const addSchoolToGlobalStore = (school: any) => {
-  schoolDocStore[school.id] = school;
+export const addOrganizationToGlobalStore = (organization: any) => {
+  organizationDocStore[organization.id] = organization;
 };
 
-export const removeSchoolFromGlobalStore = (schoolSubdomain: string) => {
-  const schoolDoc = Object.values(schoolDocStore).find(
-    school => school.subdomain === schoolSubdomain,
+export const removeOrganizationFromGlobalStore = (organizationSubdomain: string) => {
+  const organizationDoc = Object.values(organizationDocStore).find(
+    organization => organization.subdomain === organizationSubdomain,
   );
-  if (schoolDoc) delete schoolDocStore[schoolDoc.id];
+  if (organizationDoc) delete organizationDocStore[organizationDoc.id];
 };
+
+// Legacy aliases for backward compatibility
+export const addSchoolToGlobalStore = addOrganizationToGlobalStore;
+export const removeSchoolFromGlobalStore = removeOrganizationFromGlobalStore;
