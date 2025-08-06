@@ -5,9 +5,8 @@ import { RandomUtils } from "../../../helpers/RandomUtils";
 import { StringUtils } from "../../../helpers/StringUtils";
 import { TLanguageEnum } from "../../../translation/constants";
 import { EventDispatcher } from "../../../core/domainEvents/EventDispatcher";
-import { HandlerSubscriber } from "../../../core/domainEvents/HandlerSubscriber";
 import { Connection, ClientSession } from "mongoose";
-import { School } from "../../../feature/schools/domain/school.entity";
+import { Organization } from "../../../feature/organization-magement/domain/organization.entity";
 
 export type CoreRegistry = {
   // Core Services
@@ -22,10 +21,9 @@ export type CoreRegistry = {
   
   // Event System
   EventDispatcher: EventDispatcher;
-  HandlerSubscriber: HandlerSubscriber;
   
   // Request Constants
-  School: School;
+  Organization: Organization;
   Connection: Connection;
   Session: ClientSession | undefined;
   MasterConnection: Connection;

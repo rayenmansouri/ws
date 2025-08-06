@@ -6,7 +6,8 @@ import { SuccessResponse } from "../../../core/responseAPI/APISuccessResponse";
 import { OrganizationRepository } from "../../../feature/organization-magement/domain/organization.repo";
 import { Injectable } from "../../../core/container/decorators/AutoRegister.decorator";
 import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../../feature/organization-magement/constant";
-import { DATABASE_SERVIßE_IDENTIFIER, DatabaseService } from "../../../core/database/database.service";
+import { DATABASE_SERVIßE_IDENTIFIER } from "../../../core/database/constant";
+import { DatabaseService } from "../../../core/database/database.service";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { CreateOrganizationResponse, CreateOrganizationRouteConfig } from "../organization.types";
 

@@ -1,8 +1,9 @@
-import { ResponseWithPagination } from "../newDatabase/mongo/types";
+export type ResponseWithPagination<T> = {
+  docs: T[];
+  meta: PaginationMeta;
+};
 
-export const EMPTY_RESPONSE_WITH_PAGINATION = <T>(): ResponseWithPagination<T> => ({
-  docs: [],
-  meta: {
+export type PaginationMeta = {
     hasMore: false,
     hasNextPage: false,
     hasPrevPage: false,
@@ -12,5 +13,4 @@ export const EMPTY_RESPONSE_WITH_PAGINATION = <T>(): ResponseWithPagination<T> =
     prevPage: null,
     totalDocs: 0,
     totalPages: 1,
-  },
-});
+  };

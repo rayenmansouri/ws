@@ -9,8 +9,8 @@ import { DropboxFileManager } from "../fileManager/DropboxFileManager";
 import { AdminApplicationService } from "./../../feature/admins/application/admin.application.service";
 import { TunisieSmsManager } from "../../feature/smsManager/infra/TunisieSmsManager";
 import { container } from "./container";
-import { DATABASE_SERVIßE_IDENTIFIER, DatabaseService } from "../database/database.service";
-import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIER } from "../database/constant";
+import { DatabaseService } from "../database/database.service";
+import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, DATABASE_SERVIßE_IDENTIFIER, MASTER_CONNECTION_IDENTIFIR } from "../database/constant";
 import { MASTER_USER_TENANT_ID } from "../../feature/user-management/master/domain/master.entity";
 import mongoose from "mongoose";
 
@@ -21,7 +21,7 @@ export const registerAllDependencies = (): void => {
   const databaseService = container.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
   container.bind(CONNECTION_POOL_IDENTIFIER).toConstantValue(databaseService.getConnectionPool());
   container.bind(CURRENT_CONNECTION_IDENTIFIER).toConstantValue(MASTER_USER_TENANT_ID);
-  container.bind(MASTER_CONNECTION_IDENTIFIER).toConstantValue(mongoose.connection);
+  container.bind(MASTER_CONNECTION_IDENTIFIR).toConstantValue(mongoose.connection);
   // Core services - essential for basic functionality
   container.bind("EmailManager").to(NodeMailerEmailManager);
   container.bind("FileManager").to(DropboxFileManager);
