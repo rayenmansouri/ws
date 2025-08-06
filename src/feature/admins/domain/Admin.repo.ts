@@ -1,7 +1,7 @@
 import { BaseRepo } from "../../../core/BaseRepo";
-import { ResponseWithPagination } from "../../../newDatabase/mongo/types";
 import { ID } from "../../../types/BaseEntity";
 import { ListOptions } from "../../../types/types";
+import { ResponseWithPagination } from "../../authorization/domain/Role.repo";
 import { Admin, AdminMetaData } from "./admin.entity";
 
 export abstract class AdminRepo extends BaseRepo<AdminMetaData> {

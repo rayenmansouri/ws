@@ -1,9 +1,9 @@
 import { SUPER_ADMIN_ROLE } from "../../src/feature/authorization/domain/role.entity";
+import { RoleModel } from "../../src/feature/roles/role.schema";
+import { BaseUserModel } from "../../src/feature/user-management/base-user/domain/base-user.schema";
 import { UserTypeEnum } from "../../src/feature/user-management/factory/enums";
 import { getUserModel } from "../../src/feature/user-management/factory/models-factory";
 import { HashingHelper } from "../../src/helpers/HashUtils";
-import { mongoMasterModel } from "../../src/newDatabase/mongo/schemas/master.schema";
-import { mongoRoleModel } from "../../src/newDatabase/mongo/schemas/role.schema";
 import { ISeeder } from "../interface";
 
 export default class SeedMasters implements ISeeder {
@@ -25,11 +25,11 @@ export default class SeedMasters implements ISeeder {
 
     async seed(): Promise<void> {
         console.log("seeding masters");
-        await mongoMasterModel.deleteMany({});
+        await BaseUserModel.deleteMany({});
         const masterModel = getUserModel(UserTypeEnum.MASTER);
         for (const master of this.masters) {
             const hashedPassword = await HashingHelper.generateHash(master.password);
-            const role = await mongoRoleModel.findOne({
+            const role = await RoleModel.findOne({
                 name:SUPER_ADMIN_ROLE
             });
             if(!role){
@@ -45,6 +45,6 @@ export default class SeedMasters implements ISeeder {
     }
     async preSeed(): Promise<void> {
         console.log("removing all seed-masters from database");
-        await mongoMasterModel.deleteMany({});
+        await BaseUserModel.deleteMany({});
     }
 }

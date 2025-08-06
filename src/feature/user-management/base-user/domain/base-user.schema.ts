@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { UserTypeEnum } from "../../factory/enums";
 import { BaseUser } from "./base-user.entity";
 import { createCompleteSchema } from "../../../../core/database/schema";
@@ -27,3 +27,5 @@ export const BaseUserSchema = createCompleteSchema<BaseUser>({
     },
     options: BaseOptions,
 });
+
+export const BaseUserModel = mongoose.model<BaseUser>("BaseUser", BaseUserSchema);
