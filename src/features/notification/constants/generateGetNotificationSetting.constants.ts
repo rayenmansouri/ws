@@ -1,3 +1,0 @@
-export const enum GenerateGetNotificationSettingTranslationKeysEnum {
-  GENERATE_GET_NOTIFICATION_SETTING_RESPONSE = "GENERATE_GET_NOTIFICATION_SETTING_RESPONSE",
-}

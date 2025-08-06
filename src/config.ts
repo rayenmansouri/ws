@@ -22,8 +22,10 @@ export const auth_db = "authSource=admin";
 // Removed unused exports: masterDBUri, centralDBUri, defaultAvatarUrl
 export const saltRounds: number = parseInt(process.env.SALT_ROUNDS || "12");
 
+export const port = process.env.PORT;
 export const tokenSecret: string = process.env.JWT_SECRET || "";
 export const tokenExpireIn = process.env.JWT_EXPIRES_IN;
+export const tokenMasterSecret: string = process.env.JWT_MASTER_SECRET || "";
 // Removed unused exports: forgetPasswordSecret, forgetPasswordExpireIn, MasterTokenExpireIn, webschoolEmail
 
 export const emailService = {
