@@ -35,6 +35,17 @@
     "src/__tests__/**/*",
     "node_module/**",
     "iecd-types/**",
-    "**/iecd-types/**"
+    "**/iecd-types/**",
+    "src/core/container/registries/**/*",
+    "src/core/events/**/*",
+    "src/core/express/middlewares/**/*",
+    "src/core/interceptors/**/*",
+    "src/core/BaseRepo.test.ts",
+    "src/feature/**/*",
+    "src/features/**/*",
+    "src/middlewares/**/*",
+    "src/helpers/**/*",
+    "src/crons/**/*",
+    "src/constants/**/*"
   ]
 }
