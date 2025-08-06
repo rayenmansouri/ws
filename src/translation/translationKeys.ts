@@ -54,7 +54,7 @@ export type TranslationObject = {
     notification: string;
     subjectType: string;
     groupType: string;
-    school: string;
+    organization: string;
     term: string;
     service: string;
     expense: string;
@@ -81,7 +81,7 @@ export type TranslationObject = {
     osAppVersion: string;
     sessionType: string;
     classroom: string;
-    schoolYear: string;
+    academicYear: string;
     invoice: string;
     alert: string;
     bankTransfer: string;
@@ -112,7 +112,7 @@ export type TranslationObject = {
     classroom: string;
   };
   alreadyExist: {
-    schoolYear: string;
+    academicYear: string;
   };
   holiday: {
     createdSuccessfully: string;
@@ -345,7 +345,7 @@ export type TranslationObject = {
     createdSuccessfully: string;
     updatedSuccessfully: string;
     deletedSuccessfully: string;
-    hasMultipleSchoolYear: string;
+    hasMultipleAcademicYear: string;
     hasSubLevels: string;
     hasInvoices: string;
     hasTeacher: string;
@@ -354,7 +354,7 @@ export type TranslationObject = {
     hasTransactions: string;
     hasPreRegistrations: string;
     hasClassTypes: string;
-    cannotSwitchToNextSchoolYear: string;
+    cannotSwitchToNextAcademicYear: string;
     unsupportedExamGradeSystem: string;
   };
   subLevel: {
@@ -412,12 +412,12 @@ export type TranslationObject = {
     updatedSuccessfully: string;
     deletedSuccessfully: string;
   };
-  school: {
+  organization: {
     addedSuccessfully: string;
     configNotFound: string;
     updatedSuccessfully: string;
   };
-  schoolYear: {
+  academicYear: {
     hasEnded: string;
   };
   invoice: {

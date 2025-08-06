@@ -215,7 +215,7 @@ export abstract class FileManager {
 
   static generateUniquePath = (fileName: string, tenantId: string, folderName: string): string => {
     const dbService = container.get<DatabaseService>("DBService");
-    const schoolSubdomain = dbService.getOrganizationBySubdomain(tenantId)?.subdomain;
+    const organizationSubdomain = dbService.getOrganizationBySubdomain(tenantId)?.subdomain;
     const originalname = StringUtils.removeArabicLetters(fileName);
     const extension = originalname.split(".").pop();
     const randomSuffix = `${new Date().getTime()}${Math.random() * 10000}`;
@@ -226,7 +226,7 @@ export abstract class FileManager {
     )}_${randomSuffix}.${extension}`;
 
     const path = deleteSpaces(
-      `/${environment}/${schoolSubdomain}/${folderName}/${newNameWithExtension}`,
+      `/${environment}/${organizationSubdomain}/${folderName}/${newNameWithExtension}`,
     );
 
     return path;

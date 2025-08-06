@@ -1,9 +1,9 @@
 import { schoolDocStore } from "./subdomainStore";
 
-export const getCurrentTimeOfSchool = (schoolId: string): Date => {
-  const schoolDoc = schoolDocStore[schoolId];
+export const getCurrentTimeOfOrganization = (organizationId: string): Date => {
+  const organizationDoc = schoolDocStore[organizationId];
 
-  const timeZone = schoolDoc.timeZone;
+  const timeZone = organizationDoc.timeZone;
 
   const [hours, minutes, seconds] = new Date().toLocaleTimeString("en-GB", { timeZone: timeZone ?? undefined }).split(":");
 
@@ -12,10 +12,14 @@ export const getCurrentTimeOfSchool = (schoolId: string): Date => {
 
   return currentTime;
 };
-export const getTimeOfSchool = (schoolId: string, date: Date): Date => {
-  const schoolDoc = schoolDocStore[schoolId];
 
-  const timeZone = schoolDoc.timeZone;
+// Keep the old function name for backward compatibility during migration
+export const getCurrentTimeOfSchool = getCurrentTimeOfOrganization;
+
+export const getTimeOfOrganization = (organizationId: string, date: Date): Date => {
+  const organizationDoc = schoolDocStore[organizationId];
+
+  const timeZone = organizationDoc.timeZone;
 
   const [hours, minutes, seconds] = new Date(date)
     .toLocaleTimeString("en-GB", { timeZone: timeZone ?? undefined })
@@ -27,3 +31,6 @@ export const getTimeOfSchool = (schoolId: string, date: Date): Date => {
 
   return currentTime;
 };
+
+// Keep the old function name for backward compatibility during migration
+export const getTimeOfSchool = getTimeOfOrganization;

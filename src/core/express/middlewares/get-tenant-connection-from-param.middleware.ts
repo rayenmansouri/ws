@@ -11,12 +11,12 @@ const getTenantConnectionFromParam = asyncHandlerForMiddleware(
     async (req: TypedRequest, _: Response, next: NextFunction) => {
       const schoolId = (req.params as {schoolId: string}).schoolId; 
       if (!schoolId) throw new AuthFailureError();
-      const schoolSubdomain = schoolDocStore[schoolId]?.subdomain as string;
-      req.school = schoolSubdomain;
+        const organizationSubdomain = schoolDocStore[schoolId]?.subdomain as string;
+  req.organization = organizationSubdomain;
+
+  if (!organizationSubdomain) throw new AuthFailureError();
   
-      if (!schoolSubdomain) throw new AuthFailureError();
-  
-      const connection = await getNewTenantConnection(schoolSubdomain);
+      const connection = await getNewTenantConnection(organizationSubdomain);
       console.log("created new tenant connection");
       req.DBConnection = connection;
       next();

@@ -26,7 +26,7 @@ export const arabicTranslation: TranslationObject = {
     invalidPassword: "كلمة المرور غير صالحة",
   },
   alreadyExist: {
-    schoolYear: "السنة الدراسية موجودة بالفعل",
+    academicYear: "السنة الدراسية موجودة بالفعل",
   },
   authentication: {
     invalidCredentials: "بيانات اعتماد غير صالحة",
@@ -52,7 +52,7 @@ export const arabicTranslation: TranslationObject = {
   notFound: {
     chapterAttachment: "المرفق غير موجود",
     tutorial: "الدليل غير موجود",
-    schoolYear: "السنة الدراسية غير موجودة",
+    academicYear: "السنة الدراسية غير موجودة",
     classroom: "الصف غير موجود",
     teacherProfile: "الملف الشخصي للاستاذ غير موجود",
     teacher: "الاستاذ غير موجود",
@@ -316,7 +316,7 @@ export const arabicTranslation: TranslationObject = {
     updatedSuccessfully: "تم تحديث المستوى بنجاح",
     deletedSuccessfully: "تم حذف المستوى بنجاح",
     hasInvoices: "المستوى لديه فواتير",
-    hasMultipleSchoolYear: "المستوى لديه عدة سنوات دراسية",
+    hasMultipleAcademicYear: "المستوى لديه عدة سنوات دراسية",
     hasPreRegistrations: "المستوى لديه تسجيلات مسبقة",
     hasStudents: "المستوى لديه طلاب",
     hasSubLevels: "المستوى لديه مستويات فرعية",

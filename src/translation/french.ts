@@ -31,7 +31,7 @@ export const frenchTranslation: TranslationObject = {
     invalidPassword: "Mot de passe invalide",
   },
   alreadyExist: {
-    schoolYear: "L'année scolaire existe déjà",
+    academicYear: "L'année scolaire existe déjà",
   },
   authentication: {
     invalidCredentials: "Identifiants invalides",
@@ -58,7 +58,7 @@ export const frenchTranslation: TranslationObject = {
     chapterAttachment: "Pièce jointe de chapitre introuvable",
     tutorial: "Tutoriel introuvable",
     group: "Groupe non trouvé",
-    schoolYear: "Année scolaire introuvable",
+    academicYear: "Année scolaire introuvable",
     classroom: "Classe non trouvée",
     teacherProfile: "Profile de l'enseignant non trouvé",
     teacher: "Enseignant non trouvé",
@@ -332,7 +332,7 @@ export const frenchTranslation: TranslationObject = {
     createdSuccessfully: "Niveau créé avec succès",
     updatedSuccessfully: "Niveau mis à jour avec succès",
     deletedSuccessfully: "Niveau supprimé avec succès",
-    hasMultipleSchoolYear: "Le niveau a plusieurs années scolaires",
+    hasMultipleAcademicYear: "Le niveau a plusieurs années scolaires",
     hasSubLevels: "Le niveau a des sous-niveaux",
     hasInvoices: "Le niveau a des factures",
     hasTeacher: "Le niveau a un enseignant",

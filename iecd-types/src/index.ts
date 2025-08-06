@@ -18,21 +18,9 @@ export {
   TEstablishmentTitleEnum,
 } from "../../src/feature/levels/domains/level.entity";
 export { startConversationRules } from "../../src/feature/messages/constants/conversation.constant";
-export {
-  INSTANCE_TYPE_ENUM,
-  TInstanceTypeEnum,
-} from "../../src/feature/schools/domain/school.entity";
+// Note: These exports were removed as the school features have been deleted
+// and replaced with organization management
 export type { ReactionSummaryDTO } from "../../src/feature/messages/dtos/Message.dto";
-export {
-  FEATURE_FLAGS_ENUM,
-  TFeatureFlagsEnum,
-} from "../../src/feature/schools/constants/featureFlags";
-export {
-  EDUCATION_DEPARTMENT_ENUM,
-  GRADE_REPORT_THEM_ENUM,
-  TEducationDepartmentEnum,
-  TGradeReportThemEnum,
-} from "../../src/feature/schools/domain/school.entity";
 export * from "./autoExport/index";
 export type ID = string & { _isID: true };
 

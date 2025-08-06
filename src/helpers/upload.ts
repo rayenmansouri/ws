@@ -43,7 +43,7 @@ export const generateUniquePath = (
   tenantId: string,
   folderName: string,
 ): string => {
-  const schoolSubdomain = schoolDocStore[tenantId].subdomain;
+  const organizationSubdomain = schoolDocStore[tenantId].subdomain;
   const originalname = StringUtils.removeArabicLetters(file.originalname);
   const extension = originalname.split(".").pop();
   const randomSuffix = `${new Date().getTime()}${Math.random() * 10000}`;
@@ -53,7 +53,7 @@ export const generateUniquePath = (
     lastDotIndex,
   )}_${randomSuffix}.${extension}`;
 
-  const path = deleteSpaces(`/${env}/${schoolSubdomain}/${folderName}/${newNameWithExtension}`);
+  const path = deleteSpaces(`/${env}/${organizationSubdomain}/${folderName}/${newNameWithExtension}`);
 
   return path;
 };

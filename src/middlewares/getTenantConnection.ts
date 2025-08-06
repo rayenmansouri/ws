@@ -9,7 +9,7 @@ export const getTenantConnection = AsyncHandlerForMiddleware(
   async (req: ProtectedRequest, _: Response, next: NextFunction) => {
     const tenantId = req.tenantId;
     const schoolSubdomain = schoolDocStore[tenantId]?.subdomain;
-    req.school = schoolSubdomain;
+    req.organization = schoolSubdomain;
 
     if (!schoolSubdomain) throw new AuthFailureError("Invalid Token");
 

@@ -29,7 +29,7 @@ export const englishTranslation: TranslationObject = {
     invalidPassword: "Invalid password",
   },
   alreadyExist: {
-    schoolYear: "School year already exists",
+    academicYear: "Academic year already exists",
   },
   authentication: {
     invalidCredentials: "Invalid credentials",
@@ -56,7 +56,7 @@ export const englishTranslation: TranslationObject = {
     chapterAttachment: "Chapter attachment not found",
     tutorial: "Tutorial not found",
     group: "Group not found",
-    schoolYear: "School year is not found",
+    academicYear: "Academic year is not found",
     classroom: "Classroom not found",
     teacher: "Teacher not found",
     teacherProfile: "Teacher profile not found",
@@ -71,7 +71,7 @@ export const englishTranslation: TranslationObject = {
     notification: "Notification is not found",
     subjectType: "Subject type is not found",
     groupType: "Optional subject type is not found",
-    school: "School is not found",
+    organization: "Organization is not found",
     class: "Class is not found",
     term: "Term is not found",
     service: "Service is not found",
@@ -321,7 +321,7 @@ export const englishTranslation: TranslationObject = {
     createdSuccessfully: "Level created successfully",
     updatedSuccessfully: "Level updated successfully",
     deletedSuccessfully: "Level deleted successfully",
-    hasMultipleSchoolYear: "Level has multiple school years",
+    hasMultipleAcademicYear: "Level has multiple academic years",
     hasSubLevels: "Level has sub levels",
     hasInvoices: "Level has invoices",
     hasTeacher: "Level has teacher",
@@ -330,7 +330,7 @@ export const englishTranslation: TranslationObject = {
     hasTransactions: "Level has transactions",
     hasPreRegistrations: "Level has pre-registrations",
     hasClassTypes: "Level has class types",
-    cannotSwitchToNextSchoolYear: "Cannot switch to next school year",
+    cannotSwitchToNextAcademicYear: "Cannot switch to next academic year",
     unsupportedExamGradeSystem: "Exam grade system is not supported",
   },
   subLevel: {
@@ -401,10 +401,10 @@ export const englishTranslation: TranslationObject = {
     updatedSuccessfully: "Master updated successfully",
     deletedSuccessfully: "Master deleted successfully",
   },
-  school: {
-    addedSuccessfully: "School added successfully",
+  organization: {
+    addedSuccessfully: "Organization added successfully",
     configNotFound: "Config not found",
-    updatedSuccessfully: "School updated successfully",
+    updatedSuccessfully: "Organization updated successfully",
   },
   grade: {
     coefficientMustBePositive: "Coefficient must be positive",
@@ -412,8 +412,8 @@ export const englishTranslation: TranslationObject = {
     markMustBeNullIfDispensed: "Mark must be null if dispensed",
     notFound: "Grade not found",
   },
-  schoolYear: {
-    hasEnded: "School year has ended",
+  academicYear: {
+    hasEnded: "Academic year has ended",
   },
   weeklySession: {
     cannotBeUpdated: "Weekly session cannot be updated",
