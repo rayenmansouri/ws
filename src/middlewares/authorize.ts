@@ -2,10 +2,10 @@ import { NextFunction, Response } from "express";
 import { TActionsEnum, TResourcesEnum } from "../constants/ActionsResource";
 import { AsyncHandlerForMiddleware } from "../core/AsyncHandler";
 import { Middleware } from "../core/Routes/createRoutes";
-import { AuthorizationService } from "../feature/authorization/domain/Authorization.service";
-import { Role } from "../feature/authorization/domain/role.entity";
+import { Role } from "../feature/roles/role.entity";
 import { ProtectedRequest } from "../types/app-request";
 import { ForbiddenError } from "../core/ApplicationErrors";
+import { AuthorizationService } from "../core/express/middlewares/authorize";
 
 export const authorize = (action: TActionsEnum, resource: TResourcesEnum): Middleware =>
   AsyncHandlerForMiddleware(async (req: ProtectedRequest, _: Response, next: NextFunction) => {

@@ -3,7 +3,7 @@ import { ConnectionPool } from "../../database/connectionDB/tenantPoolConnection
 import { Connection, FilterQuery, Model } from "mongoose";
 import { inject } from "../container/TypedContainer";
 import { MASTER_USER_TENANT_ID } from "../../feature/user-management/master/domain/master.entity";
-import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIER } from "./constant";
+import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIR } from "./constant";
 
 
 type PropsOnly<T> = {
@@ -15,7 +15,7 @@ export abstract class BaseRepository<Input,Output>{
     abstract dto: new (...args: any[]) => Output;
     constructor(
         @inject(CONNECTION_POOL_IDENTIFIER) private connectionPool: ConnectionPool,
-        @inject(MASTER_CONNECTION_IDENTIFIER) private masterConnection: Connection,
+        @inject(MASTER_CONNECTION_IDENTIFIR) private masterConnection: Connection,
         @inject(CURRENT_CONNECTION_IDENTIFIER) private currentConnection: string,
     ){
         this.connection = this.currentConnection === MASTER_USER_TENANT_ID ? this.masterConnection : this.connectionPool[this.currentConnection];

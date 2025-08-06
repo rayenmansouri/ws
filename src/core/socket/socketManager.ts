@@ -6,12 +6,12 @@ import { END_USER_ENUM, TEndUserEnum } from "../../constants/globalEnums";
 import { BaseUser } from "../../feature/users/domain/baseUser.entity";
 import { ENVIRONMENT_ENUM } from "../../helpers/constants";
 import { parseDate } from "../../helpers/parseDate";
-import { platformType } from "../events/BaseEvent";
-import { schoolDocStore } from "../subdomainStore";
-import { logCompilationErrorAndExitProcess } from "./../logErrorAndExitProcess";
 import { ErrorSocketEnum } from "./constants/errorSocket.constants";
 import { middlewareWS, nextWS, protectsSocket } from "./index.types";
 import { getNewTenantConnection } from "../../database/connectionDB/tenantPoolConnection";
+import { container } from "../container/container";
+import { DatabaseService } from "../database/database.service";
+import { DATABASE_SERVIßE_IDENTIFIER } from "../database/constant";
 
 const authError = (msg: ErrorSocketEnum): Error => new Error(msg);
 
@@ -27,8 +27,8 @@ export class SocketManager {
   }
 
   static getInstance(): SocketManager {
-    if (!SocketManager.instance) {
-      logCompilationErrorAndExitProcess(new Error("Socket manager instance not created"));
+    if (SocketManager.instance === undefined) {
+      throw new Error("Socket manager instance not created");
     }
     return SocketManager.instance;
   }
@@ -51,7 +51,7 @@ export class SocketManager {
     tenantId: string,
     userType: TEndUserEnum,
     userId: string,
-    platform: platformType,
+    platform: string,
   ): string {
     return `${tenantId}_${platform}_${userType}_${userId}`;
   }
@@ -91,7 +91,7 @@ export class SocketManager {
       throw authError(ErrorSocketEnum.INVALID_USER_TYPE);
   }
 
-  private getPlatformType(socket: protectsSocket): platformType {
+  private getPlatformType(socket: protectsSocket): string {
     const platform: string | undefined =
       socket.handshake.auth?.platform || socket.handshake.query.platform;
 
@@ -137,7 +137,9 @@ export class SocketManager {
   };
 
   private addTenantConnectionToSocket = async (socket: protectsSocket): Promise<void> => {
-    const schoolSubdomain = schoolDocStore[socket.tenantId]?.subdomain;
+    const databaseService = container.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
+    const organization = databaseService.getOrganization(socket.tenantId);
+    const schoolSubdomain = organization?.subdomain;
     if (!schoolSubdomain) {
       throw authError(ErrorSocketEnum.SUBDOMAIN_NOT_FOUND);
     }

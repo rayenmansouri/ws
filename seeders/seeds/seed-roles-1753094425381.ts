@@ -1,10 +1,10 @@
 import { END_USER_ENUM } from "../../src/constants/globalEnums";
-import { SUPER_ADMIN_ROLE } from "../../src/feature/authorization/domain/role.entity";
 import { ISeeder } from "../interface";
 import { UserTypeEnum } from "../../src/feature/user-management/factory/enums";
-import { RoleService } from "../../src/feature/authorization/domain/Role.service";
 import { ACTION_ENUM, RESOURCES_ENUM } from "../../src/constants/ActionsResource";
 import { RoleModel } from "../../src/feature/roles/role.schema";
+import { SUPER_ADMIN_ROLE } from "../../src/feature/roles/constant";
+import { RoleService } from "../../src/core/express/middlewares/authorize";
 
 export default class SeedRoles implements ISeeder {
     roles = [

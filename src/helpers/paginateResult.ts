@@ -7,7 +7,7 @@ import { PaginationMeta } from "../newDatabase/mongo/types";
  * @param page page to discard elements
  * @returns sliced array or empty if input is null or has length = 0 or even if the params (limit/page) exceeds the array length
  */
-export function paginateResult<T = any>(
+export function paginateResult<T>(
   array: T[],
   limit = 10,
   page = 1,
@@ -23,9 +23,9 @@ export function paginateResult<T = any>(
       page: page,
       totalDocs: array.length,
       totalPages,
+      total: array.length,
       nextPage,
-      hasNextPage: !!nextPage,
-      hasMore: !!nextPage,
+      hasNextPage: nextPage !== null,
       hasPrevPage: page > 1 ? true : false,
       prevPage: page > 1 ? page - 1 : null,
     },

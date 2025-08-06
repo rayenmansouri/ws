@@ -57,10 +57,13 @@ export const exportAllRoutes = () => {
 
     fs.mkdirSync(path.join(WEB_SCHOOL_TYPES_DIRECTORY, "autoExport", feature, platform));
     const platformPath = path.join(API_DIRECTORY, feature, platform);
-    const userTypes = fs.readdirSync(platformPath);
-    userTypes.forEach(userType => {
-      processUserType(feature, platform, userType);
-    });
+    // TODO: TEMPORARY FIX THIS NEED TO BE REMOVED
+    if (platformPath.includes("auth")) {
+      const userTypes = fs.readdirSync(platformPath);
+      userTypes.forEach(userType => {
+        processUserType(feature, platform, userType);
+      });
+    }
   }
 
   function processSharedRoute(feature, route) {
@@ -83,10 +86,14 @@ export const exportAllRoutes = () => {
   function processUserType(feature, platform, userType) {
     fs.mkdirSync(path.join(WEB_SCHOOL_TYPES_DIRECTORY, "autoExport", feature, platform, userType));
     const userTypePath = path.join(API_DIRECTORY, feature, platform, userType);
-    const routes = fs.readdirSync(userTypePath);
-    routes.forEach(route => {
-      processRoute(feature, platform, userType, route);
-    });
+    // TODO: TEMPORARY FIX THIS NEED TO BE REMOVED
+    if (userTypePath.includes("login")) {
+      const routes = fs.readdirSync(userTypePath);
+
+      routes.forEach(route => {
+        processRoute(feature, platform, userType, route);
+      });
+    }
   }
 
   function processRoute(feature, platform, userType, route) {
@@ -95,8 +102,8 @@ export const exportAllRoutes = () => {
       feature,
       platform,
       userType,
-      route,
-      `${route}.route.ts`,
+      //route,
+      `${route.replace(".route.ts", "")}.route.ts`,
     );
     if (!fs.existsSync(routeFilePath)) return;
 
@@ -117,7 +124,9 @@ export const exportAllRoutes = () => {
   }
 
   function createRouteExportFile(feature, platform, userType, route, routeData) {
-    const capitalizedRoute = capitalizeFirstLetter(route);
+    console.log({ feature, platform, userType, route, routeData });
+    const routeName = route.replace(".route.ts", "");
+    const capitalizedRoute = capitalizeFirstLetter(routeName);
     const capitalizedUserType = capitalizeFirstLetter(userType);
 
     const routeExportPath = path.join(
@@ -131,16 +140,17 @@ export const exportAllRoutes = () => {
     const params = routeData.path.match(/(?<=:)\w+/g) || [];
     const paramsKey = params.length ? `[${params.map(param => `"${param}"`).join(", ")}]` : "[]";
 
-    const content = `import { ${capitalizedRoute}RouteConfig , ${capitalizedRoute}Response } from "../../../../../../src/api/${feature}/${platform}/${userType}/${route}/${route}.types";
+    const preFix = platform === "public" ? "" : `By${capitalizedUserType}`;
+    const content = `import { ${capitalizedRoute}RouteConfig , ${capitalizedRoute}Response } from "../../../../../../src/api-v2/${feature}/${platform}/${userType}/${routeName}.types";
     import { APIResponse } from "../../../../helpers.types";
 
-    export const ${route}By${capitalizedUserType}Route = {
+    export const ${routeName}${preFix}Route = {
     path: "${routeData.path}",
     method: "${routeData.method}",
     paramsKey: ${paramsKey},
     };
 
-    export type ${capitalizedRoute}By${capitalizedUserType}RouteTypes = ${capitalizedRoute}RouteConfig & {
+    export type ${capitalizedRoute}${preFix}RouteTypes = ${capitalizedRoute}RouteConfig & {
     response: APIResponse<${capitalizedRoute}Response> 
     };
     `;

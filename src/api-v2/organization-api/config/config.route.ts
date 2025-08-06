@@ -3,8 +3,8 @@ import { getCoreMiddlewares } from "../../../core/express/middlewares/registerCo
 import { ConfigController } from "./config.controller";
 import { configParamValidation, getConfigRouteType } from "./config-route.type";
 
-export const configRoute: RouteConfiguration<getConfigRouteType, "organizations/:organizationId/config"> = {
-    path: "organizations/:organizationId/config",
+export const configRoute: RouteConfiguration<getConfigRouteType, "/organizations/:organizationId/config"> = {
+    path: "/organizations/:organizationId/config",
     method: "get",
     isPublic: true,
     paramSchema: configParamValidation,

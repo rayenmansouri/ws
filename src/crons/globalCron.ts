@@ -22,14 +22,14 @@ export const initializeCrons = async (): Promise<void> => {
 };
 
 export const globalCron = async (): Promise<void> => {
-  Logger.info("GLOBAL CRON STARTED");
+  // Logger.info("GLOBAL CRON STARTED");
 
-  const schoolRepo = container.get("SchoolRepo");
-  const allSchools = await schoolRepo.findAll();
+  // const schoolRepo = container.get("SchoolRepo");
+  // const allSchools = await schoolRepo.findAll();
 
-  for (const school of allSchools) {
-    //If you need crone job for each school, uncomment implement below
-  }
+  // for (const school of allSchools) {
+  //   //If you need crone job for each school, uncomment implement below
+  // }
 
-  Logger.info("GLOBAL CRON COMPLETED");
+  // Logger.info("GLOBAL CRON COMPLETED");
 };

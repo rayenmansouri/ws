@@ -6,7 +6,7 @@ export const PLATFORMS = ["web", "mobile", "internal"];
 
 export const PROJECT_DIRECTORY = path.join(__dirname, "..");
 
-export const API_DIRECTORY = path.join(PROJECT_DIRECTORY, "src", "api");
+export const API_DIRECTORY = path.join(PROJECT_DIRECTORY, "src", "api-v2");
 
 export const FEATURE_DIRECTORY = path.join(PROJECT_DIRECTORY, "src", "feature");
 
