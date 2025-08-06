@@ -38,7 +38,7 @@ const logger = pino(
     base: undefined,
     timestamp: () =>
       `, "time" : "${new Date().toLocaleString("en-GB", { timeZone: "Africa/Tunis" })}"`,
-    level: environmentLogLevels[environment],
+    level: environmentLogLevels[environment] || "info",
   },
   transports,
 );

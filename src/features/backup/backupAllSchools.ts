@@ -5,20 +5,23 @@ import { localBackupRotation } from "./localBackupRetention";
 import { remoteBackupRotation } from "./remoteBackupRetention";
 import { uploadBackup } from "./uploadBackup";
 
-export const backupAllSchools = async (): Promise<void> => {
-  const schoolRepo = container.get("SchoolRepo");
-  const allSchools = await schoolRepo.findAll();
+export const backupAllOrganizations = async (): Promise<void> => {
+  const organizationRepo = container.get("SchoolRepo"); // Using legacy alias
+  const allOrganizations = await organizationRepo.findAll();
 
-  for (const school of allSchools) {
-    const { fileName, filePath } = await backupOneSchoolAndGetFileInformation(school.subdomain);
-    await localBackupRotation(school.subdomain);
+  for (const organization of allOrganizations) {
+    const { fileName, filePath } = await backupOneSchoolAndGetFileInformation(organization.subdomain);
+    await localBackupRotation(organization.subdomain);
 
     if (shouldUploadBackup) {
       await uploadBackup(fileName, filePath);
-      await remoteBackupRotation(school.subdomain);
+      await remoteBackupRotation(organization.subdomain);
     }
   }
 };
+
+// Legacy alias for backward compatibility
+export const backupAllSchools = backupAllOrganizations;
 
 export const backupMasterAndCentralDB = async (): Promise<void> => {
   for (const dbName of ["master", "central"]) {

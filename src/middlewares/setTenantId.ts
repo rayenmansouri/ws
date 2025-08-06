@@ -6,11 +6,13 @@ import { ID } from "../types/BaseEntity";
 
 export const setTenantId = AsyncHandlerForMiddleware(
   async (req: ProtectedRequest<{ params: { tenantId: ID } }>, _: Response, next: NextFunction) => {
-    const schoolRepo = container.get("SchoolRepo");
-    const school = await schoolRepo.findOneByIdOrThrow(req.params.tenantId, "notFound.school");
+    const organizationRepo = container.get("SchoolRepo"); // Using legacy alias
+    const organization = await organizationRepo.findOneByIdOrThrow(req.params.tenantId, "notFound.organization");
 
     req.tenantId = req.params.tenantId;
-    req.schoolTimeZone = school.timeZone;
+    (req as any).organizationTimeZone = organization.timeZone;
+    // Legacy compatibility
+    (req as any).schoolTimeZone = organization.timeZone;
     next();
   },
 );

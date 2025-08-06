@@ -28,12 +28,12 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
   }
 
   async main(req: TypedRequest<CreateUserRouteConfig>): Promise<void | APIResponse> {
-    const { firstName, lastName, email, password, schoolSubdomain, type } = req.body;
+    const { firstName, lastName, email, password, organizationSubdomain, type } = req.body;
     //check if user already exists
     const existingUser = await this.userRepo.findOne({ email });
     if(existingUser) throw new BadRequestError("global.userAlreadyExists");
-    const organization = await this.schoolRepo.findOne({ subdomain: schoolSubdomain });
-    if(!organization) throw new BadRequestError("global.schoolNotFound");
+    const organization = await this.schoolRepo.findOne({ subdomain: organizationSubdomain });
+    if(!organization) throw new BadRequestError("global.organizationNotFound");
     const hashedPassword = await AuthenticationHelper.hashString(password);
     //get roles
     const roles = await this.roleRepo.findAll({
@@ -46,20 +46,20 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
       fullName: `${firstName} ${lastName}`,
       email,
       password:hashedPassword,
-      schoolSubdomain,
+      organizationSubdomain,
       type: type as UserTypeEnum,
       roles: roles.map(role => role.id)
     });
    
     //hash password
-    this.userRepo.switchConnection(schoolSubdomain);
+    this.userRepo.switchConnection(organizationSubdomain);
     const createdUser = await this.userRepo.create({
       firstName,
       lastName, 
       fullName: `${firstName} ${lastName}`,
       email,
       password: hashedPassword,
-      schoolSubdomain,
+      organizationSubdomain,
       type: type as UserTypeEnum,
       roles: roles.map(role => role.id)
     });

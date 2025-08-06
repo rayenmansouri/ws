@@ -40,12 +40,15 @@ export interface BaseProtectedRequest extends Request {
   conn: Connection;
   newConnection: Connection;
   tenantId: ID;
-  schoolTimeZone: string;
+  organizationTimeZone: string;
   userId: string;
   tokenExpires: number;
   id: string;
   language: TLanguageEnum;
-  school: string;
+  organization: string;
+  // Legacy aliases for backward compatibility
+  schoolTimeZone?: string;
+  school?: string;
 }
 
 export type DefaultRequestOptions = {

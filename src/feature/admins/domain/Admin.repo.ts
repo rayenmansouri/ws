@@ -4,7 +4,7 @@ import { ListOptions } from "../../../types/types";
 import { ResponseWithPagination } from "../../authorization/domain/Role.repo";
 import { Admin, AdminMetaData } from "./admin.entity";
 
-export abstract class AdminRepo extends BaseRepo<AdminMetaData> {
+export abstract class AdminRepo extends BaseRepo<any> {
   abstract listAdmins(
     filter: {
       search?: string;

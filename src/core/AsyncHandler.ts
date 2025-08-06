@@ -6,7 +6,7 @@ import { Controller, Middleware, RouteContext, RouteTranslation } from "./Routes
 import { ApplicationError } from "./ApplicationErrors";
 import { IUser } from "../types/entities";
 import { container } from "./container/container";
-import { School } from "../feature/schools/domain/school.entity";
+import { Organization } from "../feature/organization-magement/domain/organization.entity";
 import { ID } from "../types/BaseEntity";
 import { schoolDocStore } from "./subdomainStore";
 import { APIErrorResponse } from "./responseAPI/APIErrorResponse";
@@ -19,10 +19,15 @@ export const AsyncHandlerForController = (
   return async (req: ProtectedRequest, res: Response, next: NextFunction) => {
     try {
       const requestContainer = container.createChild({ defaultScope: "Singleton" });
+      requestContainer.bind("Organization").toConstantValue({
+        ...schoolDocStore[req.tenantId],
+        _id: schoolDocStore[req.tenantId]?._id?.toString() as ID,
+      } as Organization);
+      // Legacy binding for backward compatibility
       requestContainer.bind("School").toConstantValue({
         ...schoolDocStore[req.tenantId],
         _id: schoolDocStore[req.tenantId]?._id?.toString() as ID,
-      } as School);
+      } as Organization);
       requestContainer.bind("Connection").toConstantValue(req.newConnection);
 
       const routeContext: RouteContext<any> = {

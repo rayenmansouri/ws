@@ -18,10 +18,10 @@ export class AdminApplicationService {
   ): Promise<ID[]> {
     const authorizedAdminRoles = await this.roleRepo.findRolesByPermission(action, resource);
 
-    const rolesIds = authorizedAdminRoles.map(role => role._id);
+    const rolesIds = authorizedAdminRoles.map(role => (role as any)._id || (role as any).id);
 
     const admins = await this.adminRepo.findManyByRoleIds(rolesIds);
 
-    return admins.map(admin => admin._id);
+    return admins.map(admin => admin.id as any);
   }
 }
