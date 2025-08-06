@@ -1,5 +1,4 @@
 import mongoose, { ObjectId } from "mongoose";
-import { IAttendance } from "../feature/sessionManagement/domain/session.entity";
 import { DAY_TO_MILLISECOND } from "./constants";
 
 export const getWeekOfDate = (firstSunday: Date, currentDate: Date) => {
@@ -18,7 +17,7 @@ export const deleteSpaces = (inputString: string): string => {
 };
 
 export const categorizeStudentsByAttendance = (
-  attendance: IAttendance,
+  attendance: Record<string, string>,
 ): {
   attendance_late: string[];
   attendance_absent: string[];

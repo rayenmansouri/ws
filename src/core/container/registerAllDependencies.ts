@@ -1,11 +1,10 @@
 import "reflect-metadata";
 import { NodeMailerEmailManager } from "../../feature/emailManager/infra/NodeMailerEmailManager";
-import { NotificationSettingsService } from "../../feature/notifications/NotificationSettings.service";
 import { RandomUtils } from "../../helpers/RandomUtils";
 import { StringUtils } from "../../helpers/StringUtils";
 import { LANGUAGE_ENUM } from "../../translation/constants";
 import { EventDispatcher } from "../domainEvents/EventDispatcher";
-import { HandlerSubscriber } from "../domainEvents/HandlerSubscriber";
+// import { HandlerSubscriber } from "../domainEvents/HandlerSubscriber";
 import { DropboxFileManager } from "../fileManager/DropboxFileManager";
 import { AdminApplicationService } from "./../../feature/admins/application/admin.application.service";
 import { TunisieSmsManager } from "../../feature/smsManager/infra/TunisieSmsManager";
@@ -32,10 +31,9 @@ export const registerAllDependencies = (): void => {
   container.bind("Session").toConstantValue(undefined);
   container.bind("Language").toConstantValue(LANGUAGE_ENUM.ENGLISH);
   container.bind("EventDispatcher").to(EventDispatcher).inSingletonScope();
-  container.bind("HandlerSubscriber").to(HandlerSubscriber).inSingletonScope();
+  // container.bind("HandlerSubscriber").to(HandlerSubscriber).inSingletonScope();
 
   // Essential services for user management and notifications
-  container.bind("NotificationSettingsService").to(NotificationSettingsService);
   container.bind("AdminApplicationService").to(AdminApplicationService);
   
 };

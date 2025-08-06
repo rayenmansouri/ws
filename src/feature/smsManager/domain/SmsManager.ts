@@ -1,12 +1,12 @@
 import { injectable } from "inversify";
-import { School } from "../../schools/domain/school.entity";
 import { inject } from "../../../core/container/TypedContainer";
 import logger from "../../../core/Logger";
 import { ISms } from "../sms/sms.interface";
+import { Organization } from "../../organization-magement/domain/organization.entity";
 
 @injectable()
 export abstract class SmsManager {
-  constructor(@inject("School") private school: School) {}
+  constructor(@inject("Organization") private school: Organization) {}
 
   protected abstract baseSendSms(message: string, receiverPhoneNumber: string): Promise<void>;
 
@@ -18,7 +18,7 @@ export abstract class SmsManager {
       return;
     }
 
-    if (!this.school.enableSms) return;
+    if (this.school.enableSms === false) return;
 
     try {
       await this.baseSendSms(message, receiverPhoneNumber);

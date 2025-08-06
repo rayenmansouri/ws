@@ -16,6 +16,7 @@ export type OrganizationInput = {
     maxStudentSeats: number;
     gradeBookTheme: GradeBookTheme;
     enableEmail: boolean;
+    enableSms?: boolean;
 };
 
 export type Organization ={

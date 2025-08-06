@@ -3,10 +3,17 @@ import { InternalError } from "../core/ApplicationErrors";
 import { File } from "../types/app-request";
 import { generateUniquePath } from "./upload";
 import iconv from "iconv-lite";
-import { IFile } from "../feature/sessionManagement/domain/session.entity";
 import path from "path";
 import { ALLOWED_VIDEO_EXTENSIONS } from "./constants";
 
+export type IFile = {
+  name: string;
+  public_id: string;
+  url: string;
+  date: Date;
+  size: number;
+  mimeType: string;
+};
 export class FileUpload {
   static getMediaFiles(files: File[]): File[] {
     const mediaFiles = files.filter(file => this.isMediaFile(file.mimetype));

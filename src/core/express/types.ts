@@ -1,4 +1,3 @@
-import { ID } from "./../../types/BaseEntity";
 import { Connection } from "mongoose";
 import { TActionsEnum, TResourcesEnum } from "../../constants/ActionsResource";
 import { TEndUserEnum } from "../../constants/globalEnums";
@@ -10,7 +9,6 @@ import { OmitFromEnum, PickFromEnum } from "../../types/utils/enums.util";
 import { BaseController } from "./controllers/BaseController";
 import { NextFunction, Request, Response } from "express";
 import { ZodObject, ZodTypeAny } from "zod";
-import { BaseUser } from "../../feature/users/domain/baseUser.entity";
 import { Role } from "../../feature/authorization/domain/role.entity";
 import { IMiddlewareFunction } from "./middlewares/interface";
 import { BaseUserEntity } from "../../feature/user-management/base-user/domain/base-user.entity";
@@ -23,7 +21,6 @@ export type Middleware = (
 
 type BaseTypedRequest = Request & {
   userType: TEndUserEnum | undefined;
-  user: Omit<BaseUser, "roles"> & { roles: Role[] };
   currentUser: BaseUserEntity
   DBConnection: Connection;
   tenantId: string

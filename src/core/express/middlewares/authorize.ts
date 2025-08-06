@@ -9,7 +9,7 @@ import { IMiddlewareFunction } from "./interface";
 
 export const authorizeAdmin = (action: TActionsEnum, resource: TResourcesEnum): Middleware =>
   asyncHandlerForMiddleware((req: TypedRequest, _: Response, next: NextFunction) => {
-    const user = req.user as unknown as { roles: Role[] };
+    const user = req.currentUser as unknown as { roles: Role[] };
     const isAllowed = AuthorizationService.isActionAllowed(user, action, resource);
 
     if (!isAllowed) throw new ForbiddenError();

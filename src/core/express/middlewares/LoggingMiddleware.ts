@@ -6,7 +6,7 @@ import Logger from "../../Logger";
 
 export const loggingMiddleware = (): Middleware =>
   asyncHandlerForMiddleware((req: TypedRequest, _: Response, next: NextFunction) => {
-    Logger.info(`${req.method} ${req.path} - User: ${req.user?.fullName || 'Unknown'}`);
+    Logger.info(`${req.method} ${req.path} - User: ${req.currentUser?.fullName || 'Unknown'}`);
     next();
   });
 

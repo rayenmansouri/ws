@@ -1,5 +1,5 @@
 import { injectable, unmanaged } from "inversify";
-import { CounterRepo } from "../feature/counter/counter.repo";
+// import { CounterRepo } from "../feature/counter/counter.repo";
 import { TranslationPaths } from "../translation/translationKeys";
 import { Populate } from "./populateTypes";
 import { BadRequestError, NotFoundError } from "./ApplicationErrors";
@@ -8,7 +8,7 @@ import { RemoveNull } from "../types/utils";
 
 @injectable()
 export abstract class BaseRepo<MetaData extends EntityMetaData> {
-  constructor(@unmanaged() private counterRepo: CounterRepo) {}
+  // constructor(@unmanaged() private counterRepo: CounterRepo) {}
   abstract getRandomId(): ID;
   abstract findOneByNewId<FieldsToPopulate extends keyof MetaData["populatedFields"] = never>(
     newId: string,
@@ -99,12 +99,12 @@ export abstract class BaseRepo<MetaData extends EntityMetaData> {
   protected abstract baseAddOne(payload: MetaData["entity"]): Promise<MetaData["entity"]>;
 
   async addOne(payload: Omit<MetaData["entity"], keyof BaseEntity>): Promise<MetaData["entity"]> {
-    const newId = await this.counterRepo.incrementAndGet();
+    const newId = 1
 
     const currentTime = new Date();
 
     const baseEntity: Omit<BaseEntity, "_id"> = {
-      newId: this.counterRepo.formatNewId(newId),
+      newId: newId.toString(),
       updatedAt: currentTime,
       createdAt: currentTime,
     };
@@ -122,7 +122,7 @@ export abstract class BaseRepo<MetaData extends EntityMetaData> {
   async addMany(payload: Omit<MetaData["entity"], keyof BaseEntity>[]): Promise<void> {
     const currentTime = new Date();
 
-    const currentCount = await this.counterRepo.getCurrentCount();
+    const currentCount = 1;
 
     const baseEntities: Omit<BaseEntity, "_id" | "newId"> = {
       updatedAt: currentTime,
@@ -135,12 +135,12 @@ export abstract class BaseRepo<MetaData extends EntityMetaData> {
           ({
             ...entity,
             ...baseEntities,
-            newId: this.counterRepo.formatNewId(currentCount + index + 1),
+            newId: (currentCount + index + 1).toString(),
           } as MetaData["entity"]),
       ),
     );
 
-    await this.counterRepo.incrementByValue(payload.length);
+    // await this.counterRepo.incrementByValue(payload.length);
   }
 
   protected abstract baseUpdateOneById(

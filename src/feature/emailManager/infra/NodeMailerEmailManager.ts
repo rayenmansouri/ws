@@ -1,17 +1,17 @@
 import { injectable } from "inversify";
 import nodemailer, { Transporter } from "nodemailer";
 import { emailService } from "../../../config";
-import { School } from "../../schools/domain/school.entity";
 import { inject } from "../../../core/container/TypedContainer";
 import { EmailManager } from "../domain/EmailManager";
 import { IEmail } from "../emails/email.interface";
+import { Organization } from "../../organization-magement/domain/organization.entity";
 
 @injectable()
 export class NodeMailerEmailManager extends EmailManager {
   private transporter: Transporter<unknown>;
   private username: string;
 
-  constructor(@inject("School") school: School) {
+  constructor(@inject("Organization") school: Organization) {
     super(school);
     this.username = emailService.username;
     this.transporter = nodemailer.createTransport({

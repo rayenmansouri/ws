@@ -29,6 +29,10 @@ export class DatabaseService {
     return this.organizationStore[id];
   }
 
+  getOrganizationBySubdomain(subdomain: string): Organization | undefined {
+    return Object.values(this.organizationStore).find(organization => organization.subdomain === subdomain);
+  }
+
   getAllOrganizations(): Organization[] {
     return Object.values(this.organizationStore);
   }

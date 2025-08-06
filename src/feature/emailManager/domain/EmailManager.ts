@@ -1,12 +1,12 @@
 import { injectable } from "inversify";
-import { School } from "../../schools/domain/school.entity";
 import { inject } from "../../../core/container/TypedContainer";
 import logger from "../../../core/Logger";
 import { IEmail } from "../emails/email.interface";
+import { Organization } from "../../organization-magement/domain/organization.entity";
 
 @injectable()
 export abstract class EmailManager {
-  constructor(@inject("School") private school: School) {}
+  constructor(@inject("Organization") private school: Organization) {}
 
   protected abstract baseSendEmail(template: IEmail, receiverEmail: string): Promise<void>;
 

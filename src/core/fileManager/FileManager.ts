@@ -1,7 +1,6 @@
 import { injectable } from "inversify";
 import path from "path";
 import { environment } from "../../config";
-import { School } from "../../feature/schools/domain/school.entity";
 import { deleteSpaces } from "../../helpers/functions";
 import { getVideoDurationFromBuffer } from "../../helpers/getVideoDuration";
 import { RandomUtils } from "../../helpers/RandomUtils";
@@ -10,9 +9,11 @@ import { BadRequestError, InternalError } from "../ApplicationErrors";
 import { inject } from "../container/TypedContainer";
 import logger from "../Logger";
 import { StringUtils } from "./../../helpers/StringUtils";
-import { schoolDocStore } from "./../subdomainStore";
 import { FileUpload } from "../../helpers/fileUpload";
 import { fixArabicLetter } from "../../helpers/fixArabicLetter";
+import { Organization } from "../../feature/organization-magement/domain/organization.entity";
+import { container } from "../container/container";
+import { DatabaseService } from "../database/database.service";
 
 export type FileUploadPayload = {
   name: string;
@@ -38,7 +39,7 @@ export abstract class FileManager {
   private tenantName: string;
 
   constructor(
-    @inject("School") school: School,
+    @inject("Organization") school: Organization,
     @inject("RandomUtils") private randomUtils: typeof RandomUtils,
   ) {
     this.tenantName = school.subdomain;
@@ -214,7 +215,8 @@ export abstract class FileManager {
   }
 
   static generateUniquePath = (fileName: string, tenantId: string, folderName: string): string => {
-    const schoolSubdomain = schoolDocStore[tenantId].subdomain;
+    const dbService = container.get<DatabaseService>("DBService");
+    const schoolSubdomain = dbService.getOrganizationBySubdomain(tenantId)?.subdomain;
     const originalname = StringUtils.removeArabicLetters(fileName);
     const extension = originalname.split(".").pop();
     const randomSuffix = `${new Date().getTime()}${Math.random() * 10000}`;
