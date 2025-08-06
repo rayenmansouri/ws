@@ -1,6 +1,4 @@
-import { EmailManager } from "../../../feature/emailManager/domain/EmailManager";
-import { FileManager } from "../../../core/fileManager/FileManager";
-import { SmsManager } from "../../../feature/smsManager/domain/SmsManager";
+
 import { RandomUtils } from "../../../helpers/RandomUtils";
 import { StringUtils } from "../../../helpers/StringUtils";
 import { TLanguageEnum } from "../../../translation/constants";
@@ -10,9 +8,7 @@ import { Organization } from "../../../feature/organization-magement/domain/orga
 
 export type CoreRegistry = {
   // Core Services
-  EmailManager: EmailManager;
-  FileManager: FileManager;
-  SmsManager: SmsManager;
+  
   
   // Utilities
   RandomUtils: typeof RandomUtils;

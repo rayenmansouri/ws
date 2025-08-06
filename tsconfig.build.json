@@ -4,15 +4,17 @@
     "outDir": "./dist"
   },
   "include": [
-    "src/config.ts",
-    "src/core/Logger.ts",
-    "src/core/ApplicationErrors.ts",
-    "src/newDatabase/mongo/types.ts"
+    "src/**/*.ts",
+    "seeders/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "dist",
     "**/*.test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    ".templates",
+    "src/__tests__/**/*",
+    "iecd-types/**",
+    "**/iecd-types/**"
   ]
 }
