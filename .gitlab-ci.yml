@@ -28,3 +28,17 @@ deploy-iecd-types:
     - git push -o ci.skip https://$DEPLOY_USERNAME:$WRITE_TOKEN@gitlab.com/iecd/iecd-backend.git/ HEAD:develop
   only:
     - develop
+  
+deploy-dev:
+  stage: deploy
+  needs:
+    - job: deploy-iecd-types
+  only:
+    - develop
+  script:
+    - echo "Triggering deployment webhook..."
+    - |
+      curl -X POST \
+        -H "X-Deploy-Token: $WEBHOOK_TOKEN_DEV" \
+        -H "Content-Type: application/json" \
+        "$WEBHOOK_URL_DEV"
