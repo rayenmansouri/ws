@@ -67,7 +67,7 @@ export const arabicTranslation: TranslationObject = {
     notification: "الإشعار غير موجود",
     subjectType: "نوع المادة غير موجود",
     groupType: "نوع المادة الاختيارية غير موجود",
-    school: "المدرسة غير موجودة",
+    organization: "المدرسة غير موجودة",
     class: "الصف غير موجود",
     term: "الفصل غير موجود",
     service: "الخدمة غير موجودة",
@@ -324,7 +324,7 @@ export const arabicTranslation: TranslationObject = {
     hasTeacherPaymentHistory: "المستوى لديه سجل دفع المعلم",
     hasTransactions: "المستوى لديه معاملات",
     hasClassTypes: "المستوى لديه أنواع صفوف",
-    cannotSwitchToNextSchoolYear: "لا يمكن التحويل إلى السنة الدراسية التالية",
+    cannotSwitchToNextAcademicYear: "لا يمكن التحويل إلى السنة الدراسية التالية",
     unsupportedExamGradeSystem: "نظام الاعداد الدراسية غير مدعوم",
   },
   subLevel: {

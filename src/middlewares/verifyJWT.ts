@@ -41,7 +41,7 @@ export const verifyJWT = (entity: TEndUserWithoutMasterEnums): Middleware =>
     )
       throw new AuthFailureError("Invalid token");
 
-    if (user.isArchived) throw new NotFoundError("global.userArchived");
+    if (user.isArchived) throw new AuthFailureError("global.userArchived");
 
     req.user = user;
     next();

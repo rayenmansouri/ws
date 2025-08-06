@@ -73,7 +73,7 @@ export const frenchTranslation: TranslationObject = {
     notification: "La notification est introuvable",
     subjectType: "Le type de matière est introuvable",
     groupType: "Le type de group est introuvable",
-    school: "L'école est introuvable",
+    organization: "L'école est introuvable",
     class: "La classe est introuvable",
     term: "Le terme est introuvable",
     service: "Le service est introuvable",
@@ -341,7 +341,7 @@ export const frenchTranslation: TranslationObject = {
     hasTransactions: "Le niveau a des transactions",
     hasPreRegistrations: "Le niveau a des pré-inscriptions",
     hasClassTypes: "Le niveau a des types de classe",
-    cannotSwitchToNextSchoolYear: "Le niveau ne peut pas être passé à l'année scolaire suivante",
+    cannotSwitchToNextAcademicYear: "Le niveau ne peut pas être passé à l'année scolaire suivante",
     unsupportedExamGradeSystem: "Le système de notes n'est pas supporté",
   },
   subLevel: {

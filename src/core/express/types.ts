@@ -23,14 +23,15 @@ type BaseTypedRequest = Request & {
   currentUser: BaseUserEntity
   DBConnection: Connection;
   tenantId: string
-  schoolTimeZone: string;
+  organizationTimeZone: string;
   userId: string;
   tokenExpires: number;
   id: string;
   language: TLanguageEnum;
   container: TypedContainer;
-  school: string;
+  organization: string;
   currentConnection?: string;
+  user?: any; // Added for compatibility with middleware
 };
 
 export type TypedRequestOptions = {

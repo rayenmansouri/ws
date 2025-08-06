@@ -43,7 +43,7 @@ export const verifyJWT = (entity: OmitFromEnum<TEndUserEnum, "master">): Middlew
     // Other user types commented out as repositories were deleted
   }
   */
-    if (!user.isActive)
+    if (!user || !user.isActive)
       throw new AuthFailureError("authentication.invalidCredentials", { isActive: false });
 
     if (
