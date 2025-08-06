@@ -9,22 +9,23 @@ import { inject } from "../../../core/container/TypedContainer";
 import { Injectable } from "../../../core/container/decorators/AutoRegister.decorator";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 
-
 @Injectable({
-    identifier: "ConfigController",
+  identifier: "ConfigController",
 })
 export class ConfigController extends BaseController<getConfigRouteType> {
-    constructor(
-        @inject(ORGANIZATION_REPOSITORY_IDENTIFIER) private organizationRepo: OrganizationRepository,
-    ) {
-        super();
-    }
+  constructor(
+    @inject(ORGANIZATION_REPOSITORY_IDENTIFIER) private organizationRepo: OrganizationRepository,
+  ) {
+    super();
+  }
 
-    async main(req: TypedRequest<getConfigRouteType>): Promise<void | APIResponse> {
-        const organization = await this.organizationRepo.findOne({ _id: req.params.organizationId });
-        if (!organization) {
-            throw new BadRequestError("global.error", { message: "Organization not found" });
-        }
-        return  new SuccessResponse<getConfigResponse>("global.success", { organizationSystemType: organization.organizationSystemType });
+  async main(req: TypedRequest<getConfigRouteType>): Promise<void | APIResponse> {
+    const organization = await this.organizationRepo.findOne({ _id: req.params.organizationId });
+    if (!organization) {
+      throw new BadRequestError("global.error", { message: "Organization not found" });
     }
+    return new SuccessResponse<getConfigResponse>("global.success", {
+      organizationSystemType: organization.organizationSystemType,
+    });
+  }
 }

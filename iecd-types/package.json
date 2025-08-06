@@ -14,7 +14,7 @@
     }
   },
   "scripts": {
-    "build": "zx ../CLI/ws.mjs route export && tsup",
+    "build": "zx ../CLI/iecd.mjs route export && tsup",
     "autoIncrement": "./replaceObjectId.sh",
     "prepare": "husky"
   },

@@ -1,4 +1,4 @@
 #!/bin/bash
 script_directory=$(dirname $0)
 
-zx $script_directory/ws.mjs "$@"
+zx $script_directory/iecd.mjs "$@"
