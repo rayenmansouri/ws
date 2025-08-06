@@ -1,16 +1,7 @@
 import mongoose, { ObjectId } from "mongoose";
 import { DAY_TO_MILLISECOND } from "./constants";
 
-export const getWeekOfDate = (firstSunday: Date, currentDate: Date) => {
-  const differenceInDays = Math.floor(
-    (currentDate.getTime() - firstSunday.getTime()) / DAY_TO_MILLISECOND,
-  );
-
-  const restOfDivision = differenceInDays % 14;
-
-  if (restOfDivision < 6) return "A";
-  else return "B";
-};
+// Removed unused function: getWeekOfDate
 
 export const deleteSpaces = (inputString: string): string => {
   return inputString.replace(/\s/g, "");

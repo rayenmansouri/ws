@@ -14,10 +14,7 @@ export const ErrorsCode = {
 };
 
 export const DAY_TO_MILLISECOND = 1000 * 3600 * 24;
-export const HOUR_TO_MILLISECOND = 1000 * 3600;
-export const MINUTES_TO_MILLISECOND = 60 * 1000;
-export const MONTH_TO_MILLISECOND = 30 * DAY_TO_MILLISECOND;
-export const MINUTES_IN_HOUR = 60;
+// Removed unused time constants
 
 export const entitiesInFrench = {
   admin: "administrateur",
@@ -26,20 +23,7 @@ export const entitiesInFrench = {
   teacher: "enseignant",
   master: "master",
 };
-export const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+// Removed unused monthNames array
 
 export const SCHEDULE_ENTITY_ENUM = {
   TEACHER: "teacher",

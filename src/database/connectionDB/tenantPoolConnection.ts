@@ -46,9 +46,7 @@ export const getNewTenantConnection = async (subdomain: string): Promise<mongoos
   return newConnectionPools[subdomain];
 };
 
-export const removeTenantConnectionFromPool = (subdomain: string): void => {
-  delete connectionPools[subdomain];
-};
+// Removed unused function: removeTenantConnectionFromPool
 
 export const getSchoolFromSubdomain = (subdomain: string): Organization | undefined => {
   const organization = Object.values(schoolDocStore).find((organizationDoc) => organizationDoc.subdomain === subdomain);

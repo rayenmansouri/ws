@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && npm run serve",
-    "start:sc": "npm run build && npm run serve:sc",
+
     "start:backup": "npm run build && npm run serve:backup",
     "dev": "ts-node-dev --ignore-watch src/apps/main/Routes.routes.ts src/apps/main/server.ts",
-    "dev:sc": "ts-node-dev src/apps/smart-calendar/server.ts",
+
     "dev:backup": "ts-node-dev src/apps/backup/server.ts",
     "serve": "node --trace-warnings dist/apps/main/server.js",
-    "serve:sc": "node dist/apps/smart-calendar/server.js",
+
     "serve:backup": "node dist/apps/backup/server.js",
     "build": "npm run clean && npm run buildRoutes && npm run build-ts",
     "clean": "rm -rf ./dist",
@@ -23,7 +23,7 @@
     "seed": "ts-node-dev  src/helpers/seeder.ts",
     "DB": "./importDB.sh",
     "app": "./run.sh",
-    "restart": "docker restart backend nginx smart-calendar",
+    "restart": "docker restart backend nginx",
     "fix": "ts-node-dev src/scripts/index.ts",
     "executor": "ts-node ./src/core/scriptExecutor.ts",
     "buildRoutes": "ts-node src/apps/main/index.routes.ts",

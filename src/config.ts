@@ -5,39 +5,26 @@ import { FRONT_URLS } from "./constants/frontUrls";
 if (process.env.NODE_ENV !== ENVIRONMENT_ENUM.TEST) dotenv.config();
 export const environment = process.env.NODE_ENV as TEnvironmentEnum;
 
-export const port = process.env.PORT;
-export const baseUrl = process.env.BASE_API_ENDPOINT;
+// Removed unused exports: port, baseUrl
 export const frontUrl = FRONT_URLS[environment];
 
-export const internalPort = process.env.INTERNAL_PORT;
-export const internalBaseUrl = process.env.INTERNAL_BASE_API_ENDPOINT;
-
-export const fetSmartCalendarUrl = process.env.SMART_CALENDAR_ENDPOINT;
+// Removed unused exports: internalPort, internalBaseUrl, fetSmartCalendarUrl
 
 export const smsExpiresIn = process.env.SMS_EXPIRES_IN!;
 
 export const databaseUser = process.env.DATABASE_USER;
 export const databasePassword = process.env.DATABASE_PASSWORD;
-export const databaseBaseURI = process.env.DATABASE_BASE_URI;
+const databaseBaseURI = process.env.DATABASE_BASE_URI;
 export const database_secret = process.env.DATABASE_BASE_URI?.split("//").join(
   `//${databaseUser}:${databasePassword}@`,
 );
 export const auth_db = "authSource=admin";
-export const masterDBUri = `${database_secret}/master?${auth_db}`;
-export const centralDBUri = `${database_secret}/central?${auth_db}`;
-
-export const defaultAvatarUrl =
-  "https://res.cloudinary.com/dfjh0nqb8/image/upload/v1685525139/default_1_tjknpf.svg";
+// Removed unused exports: masterDBUri, centralDBUri, defaultAvatarUrl
 export const saltRounds: number = parseInt(process.env.SALT_ROUNDS || "12");
 
 export const tokenSecret: string = process.env.JWT_SECRET || "";
 export const tokenExpireIn = process.env.JWT_EXPIRES_IN;
-export const forgetPasswordSecret: string = process.env.JWT_SECRET || "";
-export const forgetPasswordExpireIn = process.env.JWT_EXPIRES_IN;
-export const tokenMasterSecret: string = process.env.JWT_MASTER_SECRET || "";
-export const MasterTokenExpireIn = process.env.JWT_MASTER_EXPIRES_IN;
-
-export const webschoolEmail = "webschool@info.com";
+// Removed unused exports: forgetPasswordSecret, forgetPasswordExpireIn, MasterTokenExpireIn, webschoolEmail
 
 export const emailService = {
   username: process.env.EMAIL_USERNAME,
