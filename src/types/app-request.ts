@@ -3,7 +3,7 @@ import * as core from "express-serve-static-core";
 import { Connection } from "mongoose";
 import { TLanguageEnum } from "../translation/constants";
 import { IUser } from "./entities";
-import { BaseUser } from "../feature/users/domain/baseUser.entity";
+import { BaseUser } from "../feature/user-management/base-user/domain/base-user.entity";
 import { ID } from "./BaseEntity";
 import { Role } from "../feature/authorization/domain/role.entity";
 

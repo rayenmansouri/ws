@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { Server } from "socket.io";
 import { environment, tokenSecret } from "../../config";
 import { END_USER_ENUM, TEndUserEnum } from "../../constants/globalEnums";
-import { BaseUser } from "../../feature/users/domain/baseUser.entity";
+import { BaseUser } from "../../feature/user-management/base-user/domain/base-user.entity";
 import { ENVIRONMENT_ENUM } from "../../helpers/constants";
 import { parseDate } from "../../helpers/parseDate";
 import { platformType } from "../events/BaseEvent";

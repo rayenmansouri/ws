@@ -3,8 +3,8 @@ import { TEndUserEnum } from "../../../constants/globalEnums";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { AuthenticationHelper } from "../../../core/auth.helper";
 import { inject } from "../../../core/container/TypedContainer";
-import { School } from "../../schools/domain/school.entity";
-import { UsersRepo } from "../../users/domain/user.repo";
+import { Organization } from "../../organization-magement/domain/organization.entity";
+import { UserRepository } from "../../user-management/base-user/domain/base-user.repository";
 import { UserProfileDTO } from "../../users/dtos/userProfile.dto";
 import { UserMapper } from "../../users/mappers/User.mapper";
 
@@ -17,9 +17,9 @@ type LoginUseCaseInput = {
 @injectable()
 export class LoginUseCase {
   constructor(
-    @inject("UsersRepo") private userRepo: UsersRepo,
-    @inject("School") private school: School,
-    @inject("UsersRepo") private usersRepo: UsersRepo,
+    @inject("UserRepository") private userRepo: UserRepository,
+    @inject("Organization") private school: Organization,
+    @inject("UserRepository") private usersRepo: UserRepository,
   ) {}
 
   async execute(

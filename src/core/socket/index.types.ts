@@ -2,7 +2,7 @@ import { Connection } from "mongoose";
 import { Socket } from "socket.io";
 import { ExtendedError } from "socket.io/dist/namespace";
 import { TEndUserEnum } from "../../constants/globalEnums";
-import { BaseUser } from "../../feature/users/domain/baseUser.entity";
+import { BaseUser } from "../../feature/user-management/base-user/domain/base-user.entity";
 
 export type RequestFields = {
   tenantId: string;
