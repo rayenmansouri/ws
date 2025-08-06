@@ -1,9 +1,9 @@
 import "reflect-metadata";
 import { Router } from "express";
 import { createRoutes } from "../../core/RoutesV2/createRoutes";
-import { RouteConfiguration } from "../../core/express/types";
 import { loginRoute } from "../../api-v2/auth/public/login/login.route";
-import { organizationRoute } from "../../api-v2/organization-api/organization.route";
+import { organizationRoute } from "../../api-v2/organization-api/create-organization/organization.route";
+import { configRoute } from "../../api-v2/organization-api/config/config.route";
 
 const router = Router();
 
@@ -14,7 +14,8 @@ export const internalRouter = Router();
 
 router.use(webPublicRouter);
 
-const routes: RouteConfiguration<any, string>[] = [loginRoute, organizationRoute];
+const routes = [loginRoute, organizationRoute, configRoute];
+// @ts-expect-error - TypeScript can't properly infer union types for different route configurations
 createRoutes(routes);
 export default router;
  

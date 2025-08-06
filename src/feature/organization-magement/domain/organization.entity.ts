@@ -1,3 +1,4 @@
+import { OrganizationSystemType } from "../enums";
 
 export enum GradeBookTheme {
     YELLOW = "YELLOW",
@@ -8,6 +9,7 @@ export type OrganizationInput = {
     name: string;
     subdomain: string;
     email: string;
+    organizationSystemType: OrganizationSystemType;
     address: string
     directorName: string;
     configName: string;
@@ -55,6 +57,7 @@ export class OrganizationEntity{
     public cover: string;
     public timeZone: string | null;
     public address: string;
+    public organizationSystemType: OrganizationSystemType;
     constructor(
        json:any
     ){
@@ -78,6 +81,7 @@ export class OrganizationEntity{
         this.cover = json.cover;
         this.timeZone = json.timeZone;
         this.address = json.address;
+        this.organizationSystemType = json.organizationSystemType;
     }
 
 

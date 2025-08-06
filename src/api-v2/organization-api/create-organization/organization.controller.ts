@@ -1,14 +1,14 @@
-import { inject } from "../../core/container/TypedContainer";
-import { BaseController } from "../../core/express/controllers/BaseController";
-import { TypedRequest } from "../../core/express/types";
-import { APIResponse } from "../../core/responseAPI/APIResponse";
-import { SuccessResponse } from "../../core/responseAPI/APISuccessResponse";
-import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
-import { CreateOrganizationRouteConfig, CreateOrganizationResponse } from "./organization.types";
-import { Injectable } from "../../core/container/decorators/AutoRegister.decorator";
-import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
-import { DATABASE_SERVIßE_IDENTIFIER, DatabaseService } from "../../core/database/database.service";
-import { BadRequestError } from "../../core/ApplicationErrors";
+import { inject } from "../../../core/container/TypedContainer";
+import { BaseController } from "../../../core/express/controllers/BaseController";
+import { TypedRequest } from "../../../core/express/types";
+import { APIResponse } from "../../../core/responseAPI/APIResponse";
+import { SuccessResponse } from "../../../core/responseAPI/APISuccessResponse";
+import { OrganizationRepository } from "../../../feature/organization-magement/domain/organization.repo";
+import { Injectable } from "../../../core/container/decorators/AutoRegister.decorator";
+import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../../feature/organization-magement/constant";
+import { DATABASE_SERVIßE_IDENTIFIER, DatabaseService } from "../../../core/database/database.service";
+import { BadRequestError } from "../../../core/ApplicationErrors";
+import { CreateOrganizationResponse, CreateOrganizationRouteConfig } from "../organization.types";
 
 @Injectable({
   identifier: "CreateSchoolController",
@@ -39,6 +39,7 @@ export class CreateOrganizationController extends BaseController<CreateOrganizat
       maxStudentSeats: req.body.maxStudentSeats,
       gradeBookTheme: req.body.gradeBookTheme,
       enableEmail: req.body.enableEmail,
+      organizationSystemType: req.body.organizationSystemType,
     };
 
     const organization = await this.organizationRepo.create(mockSchool);

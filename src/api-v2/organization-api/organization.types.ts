@@ -1,5 +1,6 @@
 import { GradeBookTheme, Organization } from "../../feature/organization-magement/domain/organization.entity";
 import { TypedRequestOptions } from "../../core/express/types";
+import { OrganizationSystemType } from "../../feature/organization-magement/enums";
 
 export type CreateOrganizationRouteConfig = TypedRequestOptions & {
   body: {
@@ -15,6 +16,7 @@ export type CreateOrganizationRouteConfig = TypedRequestOptions & {
     maxStudentSeats: number;
     gradeBookTheme: GradeBookTheme;
     enableEmail: boolean;
+    organizationSystemType: OrganizationSystemType;
   };
   params: never;
   query: never;

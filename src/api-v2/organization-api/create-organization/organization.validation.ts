@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { OrganizationSystemType } from "../../../feature/organization-magement/enums";
 
 const createOrganization = z.object({
     name: z.string().min(1),
@@ -6,6 +7,7 @@ const createOrganization = z.object({
     subdomain: z.string().min(1),
     phoneNumber: z.string().min(1),
     directorName: z.string().min(1),
+    organizationSystemType: z.nativeEnum(OrganizationSystemType),
 });
 
 type TCreateOrganization = z.infer<typeof createOrganization>;

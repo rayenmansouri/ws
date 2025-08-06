@@ -1,6 +1,7 @@
 import { model } from "mongoose";
 import { Organization, GradeBookTheme } from "./organization.entity";
 import { createCompleteSchema } from "../../../core/database/schema";
+import { OrganizationSystemType } from "../enums";
 
 export const OrganizationKey = "organizations";
 export const OrganizationSchema = createCompleteSchema<Organization>({
@@ -23,7 +24,8 @@ export const OrganizationSchema = createCompleteSchema<Organization>({
   openSessionAdvanceInMin: { type: Number, required: false, default: 5 },
   notAvailableTimes: { type: [{ day: Number, hours: [Number] }], required: false, default: [] },
   cover: { type: String, required: false, default: "" },
-    phoneNumber: { type: String, required: false, default: "" },
+  phoneNumber: { type: String, required: false, default: "" },
+  organizationSystemType: { type: String, enum: Object.values(OrganizationSystemType), required: false, default: OrganizationSystemType.DNC },
   },
   options: {
     timestamps: true,
