@@ -1,4 +1,4 @@
-import { injectable, unmanaged } from "inversify";
+import { injectable } from "inversify";
 // import { CounterRepo } from "../feature/counter/counter.repo";
 import { TranslationPaths } from "../translation/translationKeys";
 import { Populate } from "./populateTypes";

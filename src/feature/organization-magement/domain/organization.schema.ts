@@ -26,6 +26,7 @@ export const OrganizationSchema = createCompleteSchema<Organization>({
   cover: { type: String, required: false, default: "" },
   phoneNumber: { type: String, required: false, default: "" },
   organizationSystemType: { type: String, enum: Object.values(OrganizationSystemType), required: false, default: OrganizationSystemType.DNC },
+  enableSms: { type: Boolean, required: false, default: false },
   },
   options: {
     timestamps: true,

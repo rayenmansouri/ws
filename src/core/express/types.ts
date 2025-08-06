@@ -9,7 +9,6 @@ import { OmitFromEnum, PickFromEnum } from "../../types/utils/enums.util";
 import { BaseController } from "./controllers/BaseController";
 import { NextFunction, Request, Response } from "express";
 import { ZodObject, ZodTypeAny } from "zod";
-import { Role } from "../../feature/authorization/domain/role.entity";
 import { IMiddlewareFunction } from "./middlewares/interface";
 import { BaseUserEntity } from "../../feature/user-management/base-user/domain/base-user.entity";
 
