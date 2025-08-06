@@ -3,7 +3,7 @@ import { ENVIRONMENT_ENUM, TEnvironmentEnum } from "./helpers/constants";
 import { FRONT_URLS } from "./constants/frontUrls";
 
 if (process.env.NODE_ENV !== ENVIRONMENT_ENUM.TEST) dotenv.config();
-export const environment = process.env.NODE_ENV as TEnvironmentEnum;
+export const environment = (process.env.NODE_ENV as TEnvironmentEnum) || ENVIRONMENT_ENUM.DEV;
 
 export const port = process.env.PORT;
 export const baseUrl = process.env.BASE_API_ENDPOINT;
