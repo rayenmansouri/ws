@@ -14,17 +14,17 @@ import { container } from "../../container/container";
 export const getTenantConnection = asyncHandlerForMiddleware(
   async (req: TypedRequest, _: Response, next: NextFunction) => {
     const tenantId = req.tenantId;
-    const schoolSubdomain = schoolDocStore[tenantId]?.subdomain;
-    req.school = schoolSubdomain;
+      const organizationSubdomain = schoolDocStore[tenantId]?.subdomain;
+  req.organization = organizationSubdomain;
 
-    if (!schoolSubdomain) throw new AuthFailureError();
+  if (!organizationSubdomain) throw new AuthFailureError();
 
-    const connection = await getNewTenantConnection(schoolSubdomain);
+    const connection = await getNewTenantConnection(organizationSubdomain);
     req.DBConnection = connection;
-    req.currentConnection = schoolSubdomain as string;
+    req.currentConnection = organizationSubdomain as string;
     //check if the user belongs to the tenant
     const userRepository = container.get<UserRepository>(BASE_USER_REPOSITORY_IDENTIFIER);
-    userRepository.switchConnection(schoolSubdomain as string);
+    userRepository.switchConnection(organizationSubdomain as string);
     const user = await userRepository.findOne({_id:req.userId});
     if(!user) throw new AuthFailureError();
     next();

@@ -10,7 +10,7 @@ export const setTenantId = AsyncHandlerForMiddleware(
     const school = await schoolRepo.findOneByIdOrThrow(req.params.tenantId, "notFound.school");
 
     req.tenantId = req.params.tenantId;
-    req.schoolTimeZone = school.timeZone;
+    req.organizationTimeZone = school.timeZone;
     next();
   },
 );

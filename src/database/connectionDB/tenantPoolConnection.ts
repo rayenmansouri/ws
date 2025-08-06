@@ -50,8 +50,11 @@ export const removeTenantConnectionFromPool = (subdomain: string): void => {
   delete connectionPools[subdomain];
 };
 
-export const getSchoolFromSubdomain = (subdomain: string): Organization | undefined => {
+export const getOrganizationFromSubdomain = (subdomain: string): Organization | undefined => {
   const organization = Object.values(schoolDocStore).find((organizationDoc) => organizationDoc.subdomain === subdomain);
 
   return organization as Organization | undefined;
 };
+
+// Keep the old function name for backward compatibility during migration
+export const getSchoolFromSubdomain = getOrganizationFromSubdomain;
