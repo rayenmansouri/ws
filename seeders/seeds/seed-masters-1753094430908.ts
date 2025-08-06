@@ -1,4 +1,5 @@
-import { SUPER_ADMIN_ROLE } from "../../src/feature/authorization/domain/role.entity";
+
+import { SUPER_ADMIN_ROLE } from "../../src/feature/roles/constant";
 import { RoleModel } from "../../src/feature/roles/role.schema";
 import { BaseUserModel } from "../../src/feature/user-management/base-user/domain/base-user.schema";
 import { UserTypeEnum } from "../../src/feature/user-management/factory/enums";

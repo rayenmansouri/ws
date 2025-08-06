@@ -3,13 +3,15 @@ import { omit } from "lodash";
 import { TEndUserEnum } from "../constants/globalEnums";
 import { ProtectedRequest } from "../types/app-request";
 import { Controller, Middleware, RouteContext, RouteTranslation } from "./Routes/createRoutes";
-import { ApplicationError } from "./ApplicationErrors";
+import { ApplicationError, BadRequestError } from "./ApplicationErrors";
 import { IUser } from "../types/entities";
 import { container } from "./container/container";
-import { School } from "../feature/schools/domain/school.entity";
+import { Organization } from "../feature/organization-magement/domain/organization.entity";
 import { ID } from "../types/BaseEntity";
 import { schoolDocStore } from "./subdomainStore";
 import { APIErrorResponse } from "./responseAPI/APIErrorResponse";
+import { DatabaseService } from "./database/database.service";
+import { DATABASE_SERVIßE_IDENTIFIER } from "./database/constant";
 
 export const AsyncHandlerForController = (
   controller: Controller<any>,
@@ -19,10 +21,10 @@ export const AsyncHandlerForController = (
   return async (req: ProtectedRequest, res: Response, next: NextFunction) => {
     try {
       const requestContainer = container.createChild({ defaultScope: "Singleton" });
-      requestContainer.bind("School").toConstantValue({
-        ...schoolDocStore[req.tenantId],
-        _id: schoolDocStore[req.tenantId]?._id?.toString() as ID,
-      } as School);
+      const databaseService = container.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
+      const organization =  databaseService.getOrganization(req.tenantId);
+      if(!organization) throw new BadRequestError("global.organizationNotFound");
+      requestContainer.bind("Organization").toConstantValue(organization);
       requestContainer.bind("Connection").toConstantValue(req.newConnection);
 
       const routeContext: RouteContext<any> = {

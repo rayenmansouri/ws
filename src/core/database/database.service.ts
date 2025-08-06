@@ -7,8 +7,8 @@ import logger from "../Logger";
 import { container } from "../container/container";
 import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
 import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
+import { DATABASE_SERVIßE_IDENTIFIER } from "./constant";
 
-export const DATABASE_SERVIßE_IDENTIFIER = "DatabaseService";
 
 
 //NOTE this should not be a request scoped

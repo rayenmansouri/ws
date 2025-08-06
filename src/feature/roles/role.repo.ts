@@ -7,7 +7,7 @@ import { Role, RoleDto, RoleInput } from "./role.entity";
 import { inject } from "../../core/container/TypedContainer";
 import { RoleKey, RoleSchema } from "./role.schema";
 import { BaseRepository } from "../../core/database/baseRepository";
-import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIER } from "../../core/database/constant";
+import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIR } from "../../core/database/constant";
 
 
 @Injectable({
@@ -17,7 +17,7 @@ export class RoleRepository extends BaseRepository<RoleInput, Role>{
     dto = RoleDto;
     constructor(
         @inject(CONNECTION_POOL_IDENTIFIER) connectionPool: ConnectionPool,
-        @inject(MASTER_CONNECTION_IDENTIFIER) masterConnection: Connection,
+        @inject(MASTER_CONNECTION_IDENTIFIR) masterConnection: Connection,
         @inject(CURRENT_CONNECTION_IDENTIFIER) currentConnection: string,
     ){
         super(connectionPool, masterConnection, currentConnection);
