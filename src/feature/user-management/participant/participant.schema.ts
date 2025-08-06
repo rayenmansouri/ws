@@ -1,6 +1,11 @@
 import { Schema } from "mongoose";
+import { ParticipantTypeEnum, ParticipantRoleEnum } from "./enums";
 
 export const ParticipantSchema = new Schema({
+  // Participant Classification
+  participantType: { type: String, enum: Object.values(ParticipantTypeEnum), required: true },
+  participantRole: { type: String, enum: Object.values(ParticipantRoleEnum), required: true },
+  
   // Personal Information
   birthDate: { type: String, required: true }, // ISO date string
   age: { type: Number, required: true }, // calculated from birthDate

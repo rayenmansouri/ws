@@ -1,6 +1,9 @@
 import { BaseUser } from "../base-user/domain/base-user.entity";
+import { ParticipantTypeEnum, ParticipantRoleEnum } from "./enums";
 
 export type Participant = BaseUser & {
+        participantType: ParticipantTypeEnum;
+        participantRole: ParticipantRoleEnum;
         birthDate: string;                    // ISO date string
         age: number;                         // calculated from birthDate
         gender: 'Male' | 'Female';
