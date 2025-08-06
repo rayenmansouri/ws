@@ -4,7 +4,6 @@ import { environment } from "../../config";
 import { deleteSpaces } from "../../helpers/functions";
 import { getVideoDurationFromBuffer } from "../../helpers/getVideoDuration";
 import { RandomUtils } from "../../helpers/RandomUtils";
-import { allMongoSchemas } from "../../newDatabase/mongo/schemas/allMongoSchemas";
 import { BadRequestError, InternalError } from "../ApplicationErrors";
 import { inject } from "../container/TypedContainer";
 import logger from "../Logger";
@@ -100,7 +99,7 @@ export abstract class FileManager {
 
   async uploadVideosFile(
     filePayload: FileUploadPayload[],
-    filePath: keyof typeof allMongoSchemas,
+    filePath: string,
     tenantId: string,
   ): Promise<VideoDetails[]> {
     const isEveryFileVideo = filePayload.every(file => FileUpload.isVideoFile(file.mimetype));
@@ -141,7 +140,7 @@ export abstract class FileManager {
 
   public async handelEditFile(data: {
     currentFiles: FileDetails[];
-    filePath: `${keyof typeof allMongoSchemas}`;
+    filePath: string;
     filesPathToBeDeleted?: string[];
     newFiles?: FileUploadPayload[];
   }): Promise<FileDetails[]> {
@@ -235,7 +234,7 @@ export abstract class FileManager {
 
   public async handelEditVideo(data: {
     currentFiles: VideoDetails[];
-    filePath: `${keyof typeof allMongoSchemas}`;
+    filePath: string;
     tenantId: string;
     filesPathToBeDeleted?: string[];
     newFiles?: FileUploadPayload[];
