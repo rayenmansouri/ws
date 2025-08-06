@@ -41,6 +41,15 @@ export default class SeedRoles implements ISeeder {
             ar: "المدرب",
             en: "Coach",
           },
+        },
+        {
+          name: UserTypeEnum.PARTICIPANT,
+          userTypes: [END_USER_ENUM.PARTICIPANT],
+          description: "Participant Role",
+          translation: {
+            ar: "المشارك",
+            en: "Participant",
+          },
         }
     ]
     

@@ -86,7 +86,8 @@ export class SocketManager {
       userType != END_USER_ENUM.ADMIN &&
       userType != END_USER_ENUM.TEACHER &&
       userType != END_USER_ENUM.PARENT &&
-      userType != END_USER_ENUM.STUDENT
+      userType != END_USER_ENUM.STUDENT &&
+      userType != END_USER_ENUM.PARTICIPANT
     )
       throw authError(ErrorSocketEnum.INVALID_USER_TYPE);
   }

@@ -10,6 +10,7 @@ export const END_USER_ENUM = {
   PARENT: "parent",
   MASTER: "master",
   COACH: "coach",
+  PARTICIPANT: "participant",
 } as const;
 
 export const END_USER_WITHOUT_MASTER_ENUM = omit(END_USER_ENUM, "MASTER");
