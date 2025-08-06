@@ -24,7 +24,7 @@ export class CreateOrganizationController extends BaseController<CreateOrganizat
 
   async main(req: TypedRequest<CreateOrganizationRouteConfig>): Promise<void | APIResponse> {
     // check if school already exists
-    const existingSchool = await this.organizationRepo.findOne({ subdomain: req.body.subdomain });
+    const existingSchool = await this.organizationRepo.findOne({ _id: req.body.subdomain });
     if(existingSchool) throw new BadRequestError("global.schoolAlreadyExists");
     const mockSchool = {
       name: req.body.name,
