@@ -1,7 +1,6 @@
 import { FileDetails } from "../../../core/fileManager/FileManager";
 import { GenerateMetaData } from "../../../core/populateTypes";
 import { BaseEntity } from "../../../types/BaseEntity";
-import { IFile } from "../../sessionManagement/domain/session.entity";
 import { TFeatureFlagsEnum } from "../constants/featureFlags";
 
 export type School = {
@@ -71,9 +70,11 @@ export type TEducationDepartmentEnum =
   (typeof EDUCATION_DEPARTMENT_ENUM)[keyof typeof EDUCATION_DEPARTMENT_ENUM];
 
 export const INSTANCE_TYPE_ENUM = {
-  TUNISIAN: "TUNISIAN",
-  CAMBRIDGE: "CAMBRIDGE",
-  IB: "IB",
+  DNC: "DNC", //tunis
+  CAR: "CAR", //center africa
+  SESAME: "SESAME", //senegal
+  CERES: "CERES",
+  LIBAN: "JANAH",
 } as const;
 
 export type TInstanceTypeEnum = (typeof INSTANCE_TYPE_ENUM)[keyof typeof INSTANCE_TYPE_ENUM];
