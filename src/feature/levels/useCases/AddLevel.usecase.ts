@@ -40,12 +40,12 @@ export class AddLevelUseCase {
 
     const newRank = levelRanks.length === 0 ? 1 : Math.max(...levelRanks) + 1;
 
-    if (
-      this.school.instanceType !== INSTANCE_TYPE_ENUM.TUNISIAN &&
-      (data.examGradeSystem === EXAM_GRADE_SYSTEM_ENUM.PRIMARY ||
-        data.examGradeSystem === EXAM_GRADE_SYSTEM_ENUM.SECONDARY)
-    )
-      throw new BadRequestError("level.unsupportedExamGradeSystem");
+    //if (
+    //  this.school.instanceType !== INSTANCE_TYPE_ENUM.TUNISIAN &&
+    //  (data.examGradeSystem === EXAM_GRADE_SYSTEM_ENUM.PRIMARY ||
+    //    data.examGradeSystem === EXAM_GRADE_SYSTEM_ENUM.SECONDARY)
+    //)
+    //  throw new BadRequestError("level.unsupportedExamGradeSystem");
 
     const level = await this.levelRepo.addOne({
       name: data.name,
