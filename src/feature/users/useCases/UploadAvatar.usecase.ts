@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { FileManager, FileUploadPayload } from "../../../core/fileManager/FileManager";
 import { TEndUserEnum } from "../../../constants/globalEnums";
 import { inject } from "../../../core/container/TypedContainer";

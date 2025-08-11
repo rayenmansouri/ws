@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { GetSubjectsOfClassTypesUseCase } from "../../classTypes/useCases/GetSubjectsOfClassTypes.usecase";
 import { TeacherRepo } from "../../teachers/domain/Teacher.repo";

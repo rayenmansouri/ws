@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { END_USER_ENUM } from "../../../constants/globalEnums";
 import { inject } from "../../../core/container/TypedContainer";
 import { EventDispatcher } from "../../../core/domainEvents/EventDispatcher";

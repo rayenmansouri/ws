@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { SessionRepo } from "../../sessionManagement/domain/Session.repo";

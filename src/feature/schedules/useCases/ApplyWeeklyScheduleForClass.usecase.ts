@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { omit } from "lodash";
 import moment from "moment";
 import { inject } from "../../../core/container/TypedContainer";

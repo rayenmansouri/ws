@@ -1,4 +1,4 @@
-import { injectable, unmanaged } from "inversify/lib/inversify";
+import { injectable, unmanaged } from "inversify";
 import { defaultAvatarUrl } from "../../../config";
 import { TEndUserWithoutMasterEnums } from "../../../constants/globalEnums";
 import { EventDispatcher } from "../../../core/domainEvents/EventDispatcher";

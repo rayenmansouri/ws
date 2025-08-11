@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { ClassGroupRepo } from "../domain/classGroup.repo";
 import { StudentProfileRepo } from "../../students/domain/StudentProfile.repo";

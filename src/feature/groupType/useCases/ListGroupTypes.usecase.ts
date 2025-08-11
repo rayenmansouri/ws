@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { applyMapperToPaginatedResponse } from "../../../helpers/applyMapperToPaginatedResponse";
 import { ResponseWithPagination } from "../../../newDatabase/mongo/types";

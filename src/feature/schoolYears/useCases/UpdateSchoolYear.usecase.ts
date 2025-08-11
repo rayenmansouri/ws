@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { LevelRepo } from "../../levels/repos/Level.repo";
 import { SubLevelRepo } from "../../subLevels/domains/SubLevel.repo";

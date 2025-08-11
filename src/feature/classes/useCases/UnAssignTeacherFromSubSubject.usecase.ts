@@ -1,10 +1,11 @@
-import { inject, injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { ID } from "../../../types/BaseEntity";
 import { SessionRepo } from "../../sessionManagement/domain/Session.repo";
 import { TeacherProfileRepo } from "../../teachers/domain/TeacherProfile.repo";
 import { WeeklySessionRepo } from "../../weeklySessions/repos/WeeklySession.repo";
 import { ClassRepo } from "../domain/Class.repo";
 import { ClassService } from "../domain/Class.service";
+import { inject } from "../../../core/container/TypedContainer";
 
 type UnAssignTeacherFromSubSubjectParams = {
   subSubjectTypeId: ID;

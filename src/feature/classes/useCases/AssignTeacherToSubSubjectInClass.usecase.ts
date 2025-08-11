@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { uniq } from "lodash";
 import { InternalError } from "../../../core/ApplicationErrors";
 import { inject } from "../../../core/container/TypedContainer";

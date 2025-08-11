@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { InternalError } from "../../../core/ApplicationErrors";
 import { inject } from "../../../core/container/TypedContainer";
 import { ClassRepo } from "../../classes/domain/Class.repo";

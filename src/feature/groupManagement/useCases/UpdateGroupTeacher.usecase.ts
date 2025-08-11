@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { inject } from "../../../core/container/TypedContainer";
 import { isIncludeArrayIds } from "../../../helpers/functionsUtils";

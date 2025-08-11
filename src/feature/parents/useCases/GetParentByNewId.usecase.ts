@@ -1,10 +1,11 @@
-import { inject, injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { InternalError } from "../../../core/ApplicationErrors";
 import { SchoolYearRepo } from "../../schoolYears/domain/SchoolYear.repo";
 import { StudentProfileRepo } from "../../students/domain/StudentProfile.repo";
 import { ParentRepo } from "../domain/Parent.repo";
 import { ParentDetailsDTO } from "../dtos/Parent.dto";
 import { ParentMapper } from "../mappers/Parent.mapper";
+import { inject } from "../../../core/container/TypedContainer";
 
 @injectable()
 export class GetParentByNewIdUseCase {

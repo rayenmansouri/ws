@@ -1,6 +1,6 @@
 import { ID } from "./../../../types/BaseEntity";
 import { Populate } from "../../../core/populateTypes";
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { ConversationRepo } from "../domain/Conversation.repo";
 import { BadRequestError } from "../../../core/ApplicationErrors";

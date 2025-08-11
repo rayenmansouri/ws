@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { UserProfileDTO } from "../../users/dtos/userProfile.dto";
 import { UserMapper } from "../../users/mappers/User.mapper";

@@ -1,13 +1,7 @@
-import { injectable } from "inversify/lib/inversify";
-import { InternalError } from "../../../core/ApplicationErrors";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
-import { ID } from "../../../types/BaseEntity";
-import { ClassTypeService } from "../../classTypes/domains/ClassType.service";
-import { GroupService } from "../../groupManagement/domains/Group.service";
-import { GroupType } from "../../groupManagement/domains/groupType.entity";
 import { GroupRepo } from "../../groupManagement/repos/Group.repo";
 import { GroupTypeRepo } from "../../groupManagement/repos/GroupType.repo";
-import { GroupTypeService } from "../domains/GroupType.service";
 
 type UpdateGroupTypeParams = Partial<{
   name: string;

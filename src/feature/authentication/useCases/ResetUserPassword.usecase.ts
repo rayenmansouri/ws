@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { END_USER_WITHOUT_MASTER_ENUM, TEndUserEnum } from "../../../constants/globalEnums";
 import { UsersRepo } from "../../users/domain/user.repo";

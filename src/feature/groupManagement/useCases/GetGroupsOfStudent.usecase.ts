@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { StudentRepo } from "../../students/domain/Student.repo";
 import { StudentApplicationService } from "../../students/application/Student.application.service";

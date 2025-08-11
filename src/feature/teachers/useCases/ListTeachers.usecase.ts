@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { ResponseWithPagination } from "../../../newDatabase/mongo/types";
 import { TeacherDTO } from "../dtos/Teacher.dto";
 import { ListOptions } from "../../../types/types";

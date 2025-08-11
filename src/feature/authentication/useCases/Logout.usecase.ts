@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { NotificationSettingsRepo } from "../../notifications/NotificationSettings.repo";
 import { ID } from "../../../types/BaseEntity";

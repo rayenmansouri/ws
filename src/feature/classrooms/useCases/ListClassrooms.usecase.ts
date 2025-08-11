@@ -1,9 +1,10 @@
-import { inject, injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { ListOptions } from "../../../types/types";
 import { ClassroomRepo } from "../domains/classroom.repo";
 import { ClassroomDTO } from "../dtos/Classroom.dto";
 import { ResponseWithPagination } from "../../../newDatabase/mongo/types";
 import { ClassroomMapper } from "../mappers/Classroom.mapper";
+import { inject } from "../../../core/container/TypedContainer";
 
 @injectable()
 export class ListClassroomsUseCase {

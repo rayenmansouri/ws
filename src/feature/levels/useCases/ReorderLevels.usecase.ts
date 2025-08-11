@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { pick } from "lodash";
 import { inject } from "../../../core/container/TypedContainer";
 import { NotFoundError } from "../../../core/ApplicationErrors";

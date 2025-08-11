@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { SCHEDULE_ENTITY_ENUM } from "../../../helpers/constants";
 import { ClassRepo } from "../../classes/domain/Class.repo";

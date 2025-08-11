@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { inject } from "../../../core/container/TypedContainer";
 import { EntityMapper } from "../../entity/mapper/entity.mapper";
 import { LevelRepo } from "../../levels/repos/Level.repo";

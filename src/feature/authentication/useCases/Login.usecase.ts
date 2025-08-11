@@ -1,4 +1,4 @@
-import { injectable } from "inversify/lib/inversify";
+import { injectable } from "inversify";
 import { TEndUserEnum } from "../../../constants/globalEnums";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { AuthenticationHelper } from "../../../core/auth.helper";

@@ -1,4 +1,4 @@
-import { injectable, unmanaged } from "inversify/lib/inversify";
+import { injectable, unmanaged } from "inversify";
 import { TEndUserWithoutMasterEnums } from "../../../constants/globalEnums";
 import { FileDetails, FileManager, FileUploadPayload } from "../../../core/fileManager/FileManager";
 import { ID } from "../../../types/BaseEntity";
