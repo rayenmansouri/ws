@@ -27,6 +27,7 @@ export const englishTranslation: TranslationObject = {
     parentEmailOrPhoneNumberRequired: "Parent email or phone number is required",
     newPasswordMustNoBeTheSameAsOldPassword: "New password must not be the same as old password",
     invalidPassword: "Invalid password",
+    invalidData: "Invalid data provided",
   },
   alreadyExist: {
     schoolYear: "School year already exists",

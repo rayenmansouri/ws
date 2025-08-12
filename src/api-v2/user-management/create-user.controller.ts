@@ -41,9 +41,9 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
     if (type === UserTypeEnum.PARTICIPANT && Object.keys(participantData).length > 0) {
       try {
         participantSchema.parse(participantData);
-      } catch (error: any) {
+      } catch (error: unknown) {    
         if(error instanceof z.ZodError ) {
-          throw new BadRequestError("user.invalidData",error.issues);
+          throw new BadRequestError("validation.invalidData",error.issues);
         }
         throw error;
       }

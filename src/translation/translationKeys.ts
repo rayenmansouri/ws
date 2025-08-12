@@ -20,6 +20,7 @@ export type TranslationObject = {
     parentEmailOrPhoneNumberRequired: string;
     newPasswordMustNoBeTheSameAsOldPassword: string;
     invalidPassword: string;
+    invalidData: string;
   };
   authentication: {
     invalidCredentials: string;
