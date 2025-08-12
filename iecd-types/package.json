@@ -2,15 +2,14 @@
   "name": "@softylines-alternance/iecd-types-test",
   "version": "1.0.5",
   "description": "iecd types package",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "typings": "./dist/index.d.ts",
+  "main": "./js-dist/index.mjs",
+  "types": "./js-dist/index.d.ts",
+  "typings": "./js-dist/index.d.ts",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "module": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "require": "./js-dist/index.js",
+      "module": "./js-dist/index.mjs",
+      "types": "./js-dist/index.d.ts"
     }
   },
   "scripts": {
