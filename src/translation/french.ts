@@ -25,6 +25,7 @@ export const frenchTranslation: TranslationObject = {
     examType: "Le type d'examen est déjà utilisé",
   },
   validation: {
+    invalidData: "Les données sont invalides",
     parentEmailOrPhoneNumberRequired: "L'email ou le numéro de téléphone du parent est requis",
     newPasswordMustNoBeTheSameAsOldPassword:
       "Le nouveau mot de passe ne doit pas être le même que l'ancien mot de passe",

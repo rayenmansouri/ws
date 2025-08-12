@@ -21,6 +21,7 @@ export const arabicTranslation: TranslationObject = {
     examType: "نوع الامتحان مستخدم",
   },
   validation: {
+    invalidData: "البيانات غير صالحة",
     parentEmailOrPhoneNumberRequired: "يجب توفير البريد الإلكتروني أو رقم الهاتف للولي",
     newPasswordMustNoBeTheSameAsOldPassword: "يجب أن يكون كلمة المرور الجديدة مختلفة عن القديمة",
     invalidPassword: "كلمة المرور غير صالحة",

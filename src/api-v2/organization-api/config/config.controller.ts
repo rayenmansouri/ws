@@ -20,7 +20,7 @@ export class ConfigController extends BaseController<getConfigRouteType> {
   }
 
   async main(req: TypedRequest<getConfigRouteType>): Promise<void | APIResponse> {
-    const organization = await this.organizationRepo.findOne({ _id: req.params.organizationId });
+    const organization = await this.organizationRepo.findOne({ subdomain: req.params.organizationId });
     if (!organization) {
       throw new BadRequestError("global.error", { message: "Organization not found" });
     }
