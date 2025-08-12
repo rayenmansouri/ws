@@ -1,5 +1,5 @@
 {
-  "name": "@Softylines-Alternance/iecd-types",
+  "name": "@Softylines-Alternance/iecd-types-test",
   "version": "1.0.3",
   "description": "iecd types package",
   "main": "./dist/index.js",
