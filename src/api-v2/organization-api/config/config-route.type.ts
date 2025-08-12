@@ -6,8 +6,16 @@ export const configParamValidation = z.object({
 });
 
 export type getConfigResponse = {
-    organizationSystemType: OrganizationSystemType
-    ;
+    instanceType: OrganizationSystemType
+    flags: {
+        messages: boolean;
+        announcements: boolean;
+        smartCalendar: boolean;
+        tutorials: boolean;
+        darkMode: boolean;
+        lms: boolean;
+        library: boolean;
+    }
 };
 
 export type getConfigParamValidation = z.infer<typeof configParamValidation>;

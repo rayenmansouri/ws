@@ -25,7 +25,16 @@ export class ConfigController extends BaseController<getConfigRouteType> {
       throw new BadRequestError("global.error", { message: "Organization not found" });
     }
     return new SuccessResponse<getConfigResponse>("global.success", {
-      organizationSystemType: organization.organizationSystemType,
+      instanceType: organization.organizationSystemType,
+      flags: {
+        messages: false,
+        announcements: false,
+        smartCalendar: false,
+        tutorials: false,
+        darkMode: false,
+        lms: false,
+        library: false
+      }
     });
   }
 }
