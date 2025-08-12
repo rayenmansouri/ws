@@ -444,6 +444,7 @@ export const englishTranslation: TranslationObject = {
   },
   user: {
     avatarUploadedSuccessfully: "Avatar uploaded successfully",
+    invalidData: "Invalid user data",
   },
   alert: {
     invalidAlertConfiguration: "Incorrect alert configuration",

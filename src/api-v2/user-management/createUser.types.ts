@@ -1,5 +1,6 @@
 import { TypedRequestOptions } from "../../core/express/types";
 import { BaseUser } from "../../feature/user-management/base-user/domain/base-user.entity";
+import { UserTypeEnum } from "../../feature/user-management/factory/enums";
 
 export type CreateUserRouteConfig = TypedRequestOptions & {
   body: {
@@ -7,8 +8,9 @@ export type CreateUserRouteConfig = TypedRequestOptions & {
     lastName: string;
     email: string;
     password: string;
-    type: string;
+    type: UserTypeEnum; 
     schoolSubdomain: string;
+    participantData?: Record<string, unknown>;
   };
   params: never;
   query: never;

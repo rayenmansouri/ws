@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "iecd-types",
+			"path": "../../../../../iecd-v3/iecd-backend-v1/iecd-types"
+		},
+		{
+			"name": "iecd-backend",
+			"path": "../../../.."
+		}
+	],
+	"settings": {
+		"material-icon-theme.files.associations": {}
+	}
+}

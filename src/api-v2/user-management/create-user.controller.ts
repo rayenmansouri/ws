@@ -14,6 +14,8 @@ import { OrganizationRepository } from "../../feature/organization-magement/doma
 import { AuthenticationHelper } from "../../core/auth.helper";
 import { ROLE_REPOSITORY_IDENTIFIER } from "../../feature/roles/constant";
 import { RoleRepository } from "../../feature/roles/role.repo";
+import { getParticipantValidationSchema } from "../../feature/user-management/factory/zod-schema.factory";
+import { z } from "zod";
 
 @Injectable({
   identifier: "CreateUserController",
@@ -28,12 +30,24 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
   }
 
   async main(req: TypedRequest<CreateUserRouteConfig>): Promise<void | APIResponse> {
-    const { firstName, lastName, email, password, schoolSubdomain, type } = req.body;
+    const { firstName, lastName, email, password, schoolSubdomain, type, participantData = {} } = req.body;
     //check if user already exists
     const existingUser = await this.userRepo.findOne({ email });
     if(existingUser) throw new BadRequestError("global.userAlreadyExists");
     const organization = await this.schoolRepo.findOne({ subdomain: schoolSubdomain });
     if(!organization) throw new BadRequestError("global.schoolNotFound");
+    const organizationSystemType = organization.organizationSystemType;
+    const participantSchema = getParticipantValidationSchema(organizationSystemType);
+    if (type === UserTypeEnum.PARTICIPANT && Object.keys(participantData).length > 0) {
+      try {
+        participantSchema.parse(participantData);
+      } catch (error: any) {
+        if(error instanceof z.ZodError ) {
+          throw new BadRequestError("user.invalidData",error.issues);
+        }
+        throw error;
+      }
+    }
     const hashedPassword = await AuthenticationHelper.hashString(password);
     //get roles
     const roles = await this.roleRepo.findAll({
@@ -47,8 +61,9 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
       email,
       password:hashedPassword,
       schoolSubdomain,
-      type: type as UserTypeEnum,
-      roles: roles.map(role => role.id)
+      type: type,
+      roles: roles.map(role => role.id),
+      ...participantData
     });
    
     //hash password
@@ -60,8 +75,9 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
       email,
       password: hashedPassword,
       schoolSubdomain,
-      type: type as UserTypeEnum,
-      roles: roles.map(role => role.id)
+      type: type,
+      roles: roles.map(role => role.id),
+      ...participantData
     });
     return new SuccessResponse<CreateUserResponse>("global.success", { user: createdUser });
   }

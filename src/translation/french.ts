@@ -462,6 +462,7 @@ export const frenchTranslation: TranslationObject = {
   },
   user: {
     avatarUploadedSuccessfully: "Avatar téléchargé avec succès",
+    invalidData: "Données utilisateur invalides",
   },
   alert: {
     invalidAlertConfiguration: "Configuration d'alerte incorrecte",

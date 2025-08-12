@@ -437,6 +437,7 @@ export const arabicTranslation: TranslationObject = {
   },
   user: {
     avatarUploadedSuccessfully: "تم تحميل الصورة الرمزية بنجاح",
+    invalidData: "بيانات المستخدم غير صحيحة",
   },
   alert: {
     invalidAlertConfiguration: "تكوين تنبيه غير صحيح",

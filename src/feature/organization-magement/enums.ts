@@ -4,4 +4,5 @@ export enum OrganizationSystemType {
     SESAME = "SESAME", //senegal
     CERES = "CERES",
     LIBAN = "JANAH",
+    DEFAULT = "DEFAULT",
 }

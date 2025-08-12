@@ -1,4 +1,5 @@
 
+import { OrganizationSystemType } from "../../src/feature/organization-magement/enums";
 import { SUPER_ADMIN_ROLE } from "../../src/feature/roles/constant";
 import { RoleModel } from "../../src/feature/roles/role.schema";
 import { BaseUserModel } from "../../src/feature/user-management/base-user/domain/base-user.schema";
@@ -27,7 +28,7 @@ export default class SeedMasters implements ISeeder {
     async seed(): Promise<void> {
         console.log("seeding masters");
         await BaseUserModel.deleteMany({});
-        const masterModel = getUserModel(UserTypeEnum.MASTER);
+        const masterModel = getUserModel(UserTypeEnum.MASTER, OrganizationSystemType.DEFAULT);
         for (const master of this.masters) {
             const hashedPassword = await HashingHelper.generateHash(master.password);
             const role = await RoleModel.findOne({

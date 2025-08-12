@@ -15,6 +15,7 @@ export type TranslationObject = {
     badRequest: string;
     fileIsRequired: string;
   };
+ 
   validation: {
     parentEmailOrPhoneNumberRequired: string;
     newPasswordMustNoBeTheSameAsOldPassword: string;
@@ -443,6 +444,7 @@ export type TranslationObject = {
   };
   user: {
     avatarUploadedSuccessfully: string;
+    invalidData: string;
   };
   alert: {
     invalidAlertConfiguration: string;
