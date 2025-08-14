@@ -1,52 +1,46 @@
-import { exec, ExecException } from "child_process";
+import { spawn } from "child_process";
+import Logger from "./Logger";
 
-const executeScript = (scriptName: string, scriptArgs: string[]): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    const command = `ts-node ./src/scripts/${scriptName}.ts ${scriptArgs.join(" ")}`;
-    const childProcess = exec(command);
+export const executeScript = (scriptName: string): void => {
+  const child = spawn("npm", ["run", scriptName]);
 
-    childProcess.stdout?.on("data", (data: string | Buffer) => {
-      console.log(data.toString());
-    });
+  child.stdout.on("data", (data) => {
+    Logger.info(data.toString());
+  });
 
-    childProcess.stderr?.on("data", (data: string | Buffer) => {
-      console.error(`Error: ${data.toString()}`);
-    });
+  child.stderr.on("data", (data) => {
+    Logger.error(`Error: ${data.toString()}`);
+  });
 
-    childProcess.on("error", (err: ExecException) => {
-      console.error(`Error executing script: ${err.message}`);
-      reject(err);
-    });
+  child.on("error", (err) => {
+    Logger.error(`Error executing script: ${err.message}`);
+  });
 
-    childProcess.on("close", (code: number) => {
-      if (code === 0) {
-        console.log(`Script '${scriptName}' executed successfully.`);
-        resolve();
-      } else {
-        console.error(`Script '${scriptName}' exited with code ${code}.`);
-        reject(new Error(`Script '${scriptName}' exited with code ${code}.`));
-      }
-    });
+  child.on("close", (code) => {
+    if (code === 0) {
+      Logger.info(`Script '${scriptName}' executed successfully.`);
+    } else {
+      Logger.error(`Script '${scriptName}' exited with code ${code}.`);
+    }
   });
 };
 
-const main = async () => {
+export const scriptExecutor = (): void => {
   const args = process.argv.slice(2);
-  const scriptNameArgIndex = args.findIndex(arg => arg === "--scriptName");
+  const scriptNameArg = args.find((arg) => arg.startsWith("--scriptName="));
 
-  if (scriptNameArgIndex === -1 || scriptNameArgIndex + 1 >= args.length) {
-    console.error("Please provide a script name using --scriptName argument.");
-    process.exit(1);
-  }
-
-  const scriptName = args[scriptNameArgIndex + 1];
-
-  try {
-    await executeScript(scriptName, process.argv);
-  } catch (error) {
-    console.error("Failed to run script:", error);
-    process.exit(1);
+  if (scriptNameArg) {
+    const scriptName = scriptNameArg.split("=")[1];
+    executeScript(scriptName);
+  } else {
+    Logger.error("Please provide a script name using --scriptName argument.");
   }
 };
 
-main();
+if (require.main === module) {
+  try {
+    scriptExecutor();
+  } catch (error) {
+    Logger.error("Failed to run script:", error);
+  }
+}
