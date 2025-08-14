@@ -4,6 +4,7 @@ import { PLATFORM_ENUM, RouteConfiguration } from "../../../core/express/types";
 import { CreateOrganizationController } from "./organization.controller";
 import { organizationValidation } from "./organization.validation";
 import { CreateOrganizationRouteConfig } from "../organization.types";
+import { publicRouter } from "../../../apps/main/routers/public-router";
 
 export const organizationRoute: RouteConfiguration<CreateOrganizationRouteConfig, "/organizations"> = {
     path: "/organizations",
@@ -13,6 +14,7 @@ export const organizationRoute: RouteConfiguration<CreateOrganizationRouteConfig
     controller: CreateOrganizationController,
     isTransactionEnabled: false,
     platform: PLATFORM_ENUM.WEB,
-    middlewaresClasses:getAuthenticatedMiddlewares()
+    middlewaresClasses:getAuthenticatedMiddlewares(),
+    router: publicRouter
 };
 

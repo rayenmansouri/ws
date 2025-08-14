@@ -21,6 +21,8 @@ export abstract class BaseRepository<Input,Output>{
         this.connection = this.currentConnection === MASTER_USER_TENANT_ID ? this.masterConnection : this.connectionPool[this.currentConnection];
     }
 
+   
+
     switchConnection(tenantId: string): void{
         if(tenantId == MASTER_USER_TENANT_ID){
             this.connection = this.masterConnection;

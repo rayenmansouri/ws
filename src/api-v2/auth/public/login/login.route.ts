@@ -1,4 +1,5 @@
 
+import { publicRouter } from "../../../../apps/main/routers/public-router";
 import { getCoreMiddlewares } from "../../../../core/express/middlewares/registerCoreMiddlewares";
 import { PLATFORM_ENUM, RouteConfiguration } from "../../../../core/express/types";
 import { LoginController } from "./login.controller";
@@ -14,5 +15,6 @@ export const loginRoute: RouteConfiguration<LoginRouteConfig, "/login"> = {
   isTransactionEnabled: false,
   isPublic: true,
   platform: PLATFORM_ENUM.WEB,
-  middlewaresClasses:getCoreMiddlewares()
+  middlewaresClasses:getCoreMiddlewares(),
+  router: publicRouter
 };

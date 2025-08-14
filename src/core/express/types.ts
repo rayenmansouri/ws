@@ -7,7 +7,7 @@ import { TLanguageEnum } from "../../translation/constants";
 import { FilesInRequest } from "../../types/app-request";
 import { OmitFromEnum, PickFromEnum } from "../../types/utils/enums.util";
 import { BaseController } from "./controllers/BaseController";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { ZodObject, ZodTypeAny } from "zod";
 import { IMiddlewareFunction } from "./middlewares/interface";
 import { BaseUserEntity } from "../../feature/user-management/base-user/domain/base-user.entity";
@@ -65,6 +65,7 @@ export type RouteConfiguration<Options extends TypedRequestOptions, Path extends
   controller: (new (...args: any[]) => BaseController<Options>) & { identifier?: string };
   middlewaresClasses?: (new (routeConfig: RouteConfiguration<TypedRequestOptions, string>) => IMiddlewareFunction)[]
   platform?: TPlatformEnum;
+  router: Router;
   isTransactionEnabled?: boolean;
 } & (
   | {

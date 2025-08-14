@@ -140,7 +140,10 @@ export class SocketManager {
   private addTenantConnectionToSocket = async (socket: protectsSocket): Promise<void> => {
     const databaseService = container.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
     const organization = databaseService.getOrganization(socket.tenantId);
-    const schoolSubdomain = organization?.subdomain;
+    if (!organization) {
+      throw authError(ErrorSocketEnum.SUBDOMAIN_NOT_FOUND);
+    }
+    const schoolSubdomain = organization.subdomain;
     if (!schoolSubdomain) {
       throw authError(ErrorSocketEnum.SUBDOMAIN_NOT_FOUND);
     }

@@ -3,6 +3,7 @@ import { getAuthenticatedMiddlewares, getCoreMiddlewares } from "../../../core/e
 import { PLATFORM_ENUM, RouteConfiguration } from "../../../core/express/types";
 import { MeController } from "./me.controller";
 import { MeRouteConfig } from "./me.types";
+import { publicRouter } from "../../../apps/main/routers/public-router";
 
 export const meRoute: RouteConfiguration<MeRouteConfig, "/me"> = {
   path: "/me",
@@ -12,5 +13,6 @@ export const meRoute: RouteConfiguration<MeRouteConfig, "/me"> = {
   isPublic: false,
   endUser: "admin",
   platform: PLATFORM_ENUM.WEB,
-  middlewaresClasses: getAuthenticatedMiddlewares()
+  middlewaresClasses: getAuthenticatedMiddlewares(),
+  router: publicRouter
 };

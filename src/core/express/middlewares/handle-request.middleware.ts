@@ -6,8 +6,9 @@ import { schoolDocStore } from "../../subdomainStore";
 import mongoose, { ClientSession } from "mongoose";
 import { APIResponse } from "../../responseAPI/APIResponse";
 import { BaseController } from "../controllers/BaseController";
-import { CONNECTION_POOL_IDENTIFIER, DATABASE_SERVIßE_IDENTIFIER } from "../../database/constant";
+import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, DATABASE_SERVIßE_IDENTIFIER } from "../../database/constant";
 import { DatabaseService } from "../../database/database.service";
+import { MASTER_USER_TENANT_ID } from "../../../feature/user-management/master/domain/master.entity";
 
 export class HandleRequestMiddleware implements IMiddlewareFunction {
   constructor(
@@ -32,10 +33,7 @@ async handleRequest(req: TypedRequest<TypedRequestOptions>, res: Response, next:
       requestContainer.bind("School").toConstantValue(schoolDocStore[req.tenantId]);
       const databaseService = requestContainer.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
       requestContainer.bind(CONNECTION_POOL_IDENTIFIER).toConstantValue(databaseService.getConnectionPool());
-      //todo to be removed
-      if(req.DBConnection !== undefined){
-        requestContainer.bind("Connection").toConstantValue(req.DBConnection);
-      }
+      requestContainer.bind(CURRENT_CONNECTION_IDENTIFIER).toConstantValue(req.currentConnection || MASTER_USER_TENANT_ID);
 
       if (this.routeConfig.isTransactionEnabled !== undefined) {
         session = await mongoose.connection.startSession();

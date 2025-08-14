@@ -2,31 +2,36 @@ import { NextFunction, Response } from "express";
 import { Middleware, RouteConfiguration, TypedRequest, TypedRequestOptions } from "../types";
 import { asyncHandlerForMiddleware } from "./asyncHandler";
 import { AuthFailureError } from "../../ApplicationErrors";
-import { schoolDocStore } from "../../subdomainStore";
-import { getNewTenantConnection } from "../../../database/connectionDB/tenantPoolConnection";
 import { IMiddlewareFunction } from "./interface";
 import { END_USER_ENUM } from "../../../constants/globalEnums";
-import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../../feature/user-management/constants";
-import { UserRepository } from "../../../feature/user-management/base-user/domain/base-user.repository";
 import { container } from "../../container/container";
+import { DatabaseService } from "../../database/database.service";
+import { DATABASE_SERVIßE_IDENTIFIER } from "../../database/constant";
+import { Organization } from "../../../feature/organization-magement/domain/organization.entity";
+import { Connection } from "mongoose";
+import { MASTER_USER_TENANT_ID } from "../../../feature/user-management/master/domain/master.entity";
 
+
+function getOrganizationOrThrow(tenantId: string): {organization: Organization, connection: Connection} {
+  const databaseService = container.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
+  const organization = databaseService.getOrganization(tenantId);
+  if(!organization) throw new AuthFailureError();
+  const connection = databaseService.getNewTenantConnection(organization.subdomain);
+  return { organization, connection };
+}
 
 export const getTenantConnection = asyncHandlerForMiddleware(
   async (req: TypedRequest, _: Response, next: NextFunction) => {
     const tenantId = req.tenantId;
-    const schoolSubdomain = schoolDocStore[tenantId]?.subdomain;
-    req.school = schoolSubdomain;
-
-    if (!schoolSubdomain) throw new AuthFailureError();
-
-    const connection = await getNewTenantConnection(schoolSubdomain);
+    if(tenantId === MASTER_USER_TENANT_ID) {
+      throw new AuthFailureError("user.doesNotBelongToTenant");
+    }
+    const { organization, connection } = getOrganizationOrThrow(tenantId);
+    req.school = organization?.subdomain;
     req.DBConnection = connection;
-    req.currentConnection = schoolSubdomain as string;
+    req.currentConnection = organization.subdomain;
     //check if the user belongs to the tenant
-    const userRepository = container.get<UserRepository>(BASE_USER_REPOSITORY_IDENTIFIER);
-    userRepository.switchConnection(schoolSubdomain as string);
-    const user = await userRepository.findOne({_id:req.userId});
-    if(!user) throw new AuthFailureError();
+    if(req.currentUser.schoolSubdomain !== organization.subdomain) throw new AuthFailureError("user.doesNotBelongToTenant");
     next();
   },
 );

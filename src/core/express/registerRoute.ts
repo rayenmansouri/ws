@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import { webPublicRouter } from "../../apps/main/index.routes";
 import {
   RouteConfiguration,
   TypedRequestOptions,
@@ -9,7 +8,7 @@ import { HandleRequestMiddleware } from "./middlewares/handle-request.middleware
 export const registerRoute =
   <Options extends TypedRequestOptions>() =>
   <Path extends string>(routeConfig: RouteConfiguration<Options, Path>): void => {
-    const { middlewaresClasses = [] } = routeConfig;
+    const { middlewaresClasses = [], router } = routeConfig;
     const middlewares = [];
     for (const middlewareClass of middlewaresClasses) {
       const middleware = new middlewareClass(routeConfig as RouteConfiguration<TypedRequestOptions, string>);
@@ -18,5 +17,5 @@ export const registerRoute =
       }
     }
     middlewares.push(new HandleRequestMiddleware(routeConfig as RouteConfiguration<TypedRequestOptions, string>).getMiddleware());
-    webPublicRouter[routeConfig.method](routeConfig.path, ...middlewares as RequestHandler[]);
+    router[routeConfig.method](routeConfig.path, ...middlewares as RequestHandler[]);
   };

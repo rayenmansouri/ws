@@ -1,3 +1,4 @@
+import { publicRouter } from "../../apps/main/routers/public-router";
 import { ACTION_ENUM, RESOURCES_ENUM } from "../../constants/ActionsResource";
 import { END_USER_ENUM } from "../../constants/globalEnums";
 import { getAuthorizedMiddlewares } from "../../core/express/middlewares/registerCoreMiddlewares";
@@ -18,5 +19,6 @@ export const createUserRoute: RouteConfiguration<CreateUserRouteConfig, "/users"
     controller: CreateUserController,
     isTransactionEnabled: false,
     platform: "web",
-    middlewaresClasses: getAuthorizedMiddlewares()
+    middlewaresClasses: getAuthorizedMiddlewares(),
+    router: publicRouter
 };

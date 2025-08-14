@@ -62,7 +62,7 @@ export class OrganizationEntity{
     constructor(
        json:any
     ){
-        this.id = json.id;
+        this.id = json._id;
         this.name = json.name;
         this.phone = json.phone;
         this.email = json.email;
