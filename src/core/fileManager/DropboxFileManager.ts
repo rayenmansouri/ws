@@ -10,6 +10,7 @@ import {
 import { ENVIRONMENT_ENUM } from "../../helpers/constants";
 import { InternalError } from "../ApplicationErrors";
 import { FileManager, FileUploadPayload, FileDetails } from "./FileManager";
+import logger from "../Logger";
 
 @injectable()
 export class DropboxFileManager extends FileManager {
@@ -132,7 +133,7 @@ export class DropboxFileManager extends FileManager {
         mimeType: files[i].mimetype,
       }));
     } catch (error) {
-      console.error((error as AxiosError).response?.data);
+      logger.error("Dropbox file manager error:", (error as AxiosError).response?.data);
       throw new InternalError("Something went wrong with external service");
     }
   }

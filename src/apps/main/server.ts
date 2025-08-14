@@ -17,19 +17,16 @@ connectToMasterDatabase()
   .then(async () => {
     await bootstrap();
     const server = createServer(app);
-    //SocketManager.initialize(server);
+    // TODO: Initialize socket manager when needed
+    // SocketManager.initialize(server);
+    // TODO: Subscribe to domain event handlers when implemented
     // container.get<HandlerSubscriber>("HandlerSubscriber").subscribeHandlers();
+    
     server
       .listen(port, () => {
         Logger.info(`Server running on port: ${port} ✅`);
       })
       .on("error", e => Logger.error(e));
-
-    //internalApp
-      // .listen(internalPort, () => {
-      //   Logger.info(`Internal server running on port: ${internalPort} ✅`);
-      // })
-      // .on("error", e => Logger.error(e));
   })
   .catch(error => {
     Logger.error("Failed to start the server: ", error);

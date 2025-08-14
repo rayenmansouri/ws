@@ -6,7 +6,7 @@ import { schoolDocStore } from "../../subdomainStore";
 import mongoose, { ClientSession } from "mongoose";
 import { APIResponse } from "../../responseAPI/APIResponse";
 import { BaseController } from "../controllers/BaseController";
-import { CONNECTION_POOL_IDENTIFIER, DATABASE_SERVIßE_IDENTIFIER } from "../../database/constant";
+import { CONNECTION_POOL_IDENTIFIER, DATABASE_SERVICE_IDENTIFIER } from "../../database/constant";
 import { DatabaseService } from "../../database/database.service";
 
 export class HandleRequestMiddleware implements IMiddlewareFunction {
@@ -30,9 +30,10 @@ async handleRequest(req: TypedRequest<TypedRequestOptions>, res: Response, next:
       }
       req.container = requestContainer;
       requestContainer.bind("School").toConstantValue(schoolDocStore[req.tenantId]);
-      const databaseService = requestContainer.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
+      const databaseService = requestContainer.get<DatabaseService>(DATABASE_SERVICE_IDENTIFIER);
       requestContainer.bind(CONNECTION_POOL_IDENTIFIER).toConstantValue(databaseService.getConnectionPool());
-      //todo to be removed
+      
+      // Bind the database connection to the request container
       if(req.DBConnection !== undefined){
         requestContainer.bind("Connection").toConstantValue(req.DBConnection);
       }

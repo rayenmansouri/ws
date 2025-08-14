@@ -6,7 +6,7 @@ import { BaseRepository } from "../../../../core/database/baseRepository";
 import { ConnectionPool } from "../../../../database/connectionDB/tenantPoolConnection";
 import { Injectable } from "../../../../core/container/decorators/AutoRegister.decorator";
 import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../constants";
-import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIR } from "../../../../core/database/constant";
+import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIER } from "../../../../core/database/constant";
 
 @Injectable({
     identifier: BASE_USER_REPOSITORY_IDENTIFIER,
@@ -14,7 +14,7 @@ import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNE
 export class UserRepository extends BaseRepository<CreateBaseUser, BaseUserEntity> {
     constructor(
         @inject(CONNECTION_POOL_IDENTIFIER) connectionPool: ConnectionPool,
-        @inject(MASTER_CONNECTION_IDENTIFIR) masterConnection: Connection,
+        @inject(MASTER_CONNECTION_IDENTIFIER) masterConnection: Connection,
         @inject(CURRENT_CONNECTION_IDENTIFIER) currentConnection: string,
     ) {
         super(connectionPool, masterConnection, currentConnection);

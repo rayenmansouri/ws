@@ -1,4 +1,4 @@
-import { BadRequestError, payloadToLargeError } from "./ApplicationErrors";
+import { BadRequestError, PayloadTooLargeError } from "./ApplicationErrors";
 import { MAX_FILE_SIZE_IN_MB } from "./express/middlewares/upload";
 import { APIErrorResponse } from "./responseAPI/APIErrorResponse";
 
@@ -26,7 +26,7 @@ export const handelConflictWrite = (): APIErrorResponse => {
 };
 
 export const handleLimitFileSizeError = (): APIErrorResponse => {
-  const error = new payloadToLargeError(
+  const error = new PayloadTooLargeError(
     `File is too large - Maximum File Size is ${MAX_FILE_SIZE_IN_MB}MB`,
   );
   return new APIErrorResponse(error);
