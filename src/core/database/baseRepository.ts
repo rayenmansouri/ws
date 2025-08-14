@@ -1,9 +1,9 @@
 import { injectable } from "inversify";
 import { ConnectionPool } from "../../database/connectionDB/tenantPoolConnection";
-import { Connection, FilterQuery, Model } from "mongoose";
+import { Connection, FilterQuery, Model, PopulateOptions } from "mongoose";
 import { inject } from "../container/TypedContainer";
 import { MASTER_USER_TENANT_ID } from "../../feature/user-management/master/domain/master.entity";
-import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIR } from "./constant";
+import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, DATABASE_SERVICE_IDENTIFIER, MASTER_CONNECTION_IDENTIFIER } from "./constant";
 
 
 type PropsOnly<T> = {
@@ -15,7 +15,7 @@ export abstract class BaseRepository<Input,Output>{
     abstract dto: new (...args: any[]) => Output;
     constructor(
         @inject(CONNECTION_POOL_IDENTIFIER) private connectionPool: ConnectionPool,
-        @inject(MASTER_CONNECTION_IDENTIFIR) private masterConnection: Connection,
+        @inject(MASTER_CONNECTION_IDENTIFIER) private masterConnection: Connection,
         @inject(CURRENT_CONNECTION_IDENTIFIER) private currentConnection: string,
     ){
         this.connection = this.currentConnection === MASTER_USER_TENANT_ID ? this.masterConnection : this.connectionPool[this.currentConnection];
@@ -33,9 +33,15 @@ export abstract class BaseRepository<Input,Output>{
         this.connection = connection;
     }
 
-    async findOne(query: FilterQuery<Input>): Promise<Output | null> {
+    async findOne(query: FilterQuery<Input>, populateOptions?: string | PopulateOptions | (string | PopulateOptions)[]): Promise<Output | null> {
         const model = this.getModel();
-        const result = await model.findOne(query).populate('roles').lean()
+        let queryBuilder = model.findOne(query);
+        
+        if (populateOptions) {
+            queryBuilder = queryBuilder.populate(populateOptions);
+        }
+        
+        const result = await queryBuilder.lean();
         return result ? new this.dto(result) : null;
     }
 
@@ -45,9 +51,15 @@ export abstract class BaseRepository<Input,Output>{
         return new this.dto(result);
     }
 
-    async findAll(query: FilterQuery<Output> = {}): Promise<Output[]> {
+    async findAll(query: FilterQuery<Output> = {}, populateOptions?: string | PopulateOptions | (string | PopulateOptions)[]): Promise<Output[]> {
         const model = this.getModel();
-        const result = await model.find(query).lean();
+        let queryBuilder = model.find(query);
+        
+        if (populateOptions) {
+            queryBuilder = queryBuilder.populate(populateOptions);
+        }
+        
+        const result = await queryBuilder.lean();
         return result.map(item => new this.dto(item));
     }
     

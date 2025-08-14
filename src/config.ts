@@ -19,12 +19,19 @@ export const smsExpiresIn = process.env.SMS_EXPIRES_IN!;
 export const databaseUser = process.env.DATABASE_USER;
 export const databasePassword = process.env.DATABASE_PASSWORD;
 export const databaseBaseURI = process.env.DATABASE_BASE_URI;
-export const database_secret = process.env.DATABASE_BASE_URI?.split("//").join(
-  `//${databaseUser}:${databasePassword}@`,
-);
+
+// Secure database URI construction
+function constructSecureDBUri(dbName: string): string {
+  if (!databaseUser || !databasePassword || !databaseBaseURI) {
+    throw new Error("Database configuration incomplete - missing required environment variables");
+  }
+  const baseUri = databaseBaseURI.replace('://', `://${databaseUser}:${databasePassword}@`);
+  return `${baseUri}/${dbName}?authSource=admin`;
+}
+
 export const auth_db = "authSource=admin";
-export const masterDBUri = `${database_secret}/master?${auth_db}`;
-export const centralDBUri = `${database_secret}/central?${auth_db}`;
+export const masterDBUri = constructSecureDBUri('master');
+export const centralDBUri = constructSecureDBUri('central');
 
 export const defaultAvatarUrl =
   "https://res.cloudinary.com/dfjh0nqb8/image/upload/v1685525139/default_1_tjknpf.svg";
@@ -32,8 +39,8 @@ export const saltRounds: number = parseInt(process.env.SALT_ROUNDS || "12");
 
 export const tokenSecret: string = process.env.JWT_SECRET || "";
 export const tokenExpireIn = process.env.JWT_EXPIRES_IN;
-export const forgetPasswordSecret: string = process.env.JWT_SECRET || "";
-export const forgetPasswordExpireIn = process.env.JWT_EXPIRES_IN;
+export const forgetPasswordSecret: string = process.env.JWT_FORGET_PASSWORD_SECRET || process.env.JWT_SECRET || "";
+export const forgetPasswordExpireIn = process.env.JWT_FORGET_PASSWORD_EXPIRES_IN || process.env.JWT_EXPIRES_IN;
 export const tokenMasterSecret: string = process.env.JWT_MASTER_SECRET || "";
 export const MasterTokenExpireIn = process.env.JWT_MASTER_EXPIRES_IN;
 

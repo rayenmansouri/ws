@@ -7,7 +7,7 @@ import logger from "../Logger";
 import { container } from "../container/container";
 import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
 import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
-import { DATABASE_SERVIßE_IDENTIFIER } from "./constant";
+import { DATABASE_SERVICE_IDENTIFIER } from "./constant";
 
 
 
@@ -65,7 +65,7 @@ export class DatabaseService {
 
 export const initializeDatabases = async () => {
     const organizationRepo = container.get<OrganizationRepository>(ORGANIZATION_REPOSITORY_IDENTIFIER);
-    const databaseService = container.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
+    const databaseService = container.get<DatabaseService>(DATABASE_SERVICE_IDENTIFIER);
     const organizations = await organizationRepo.findAll();
   
     for(const organization of organizations){

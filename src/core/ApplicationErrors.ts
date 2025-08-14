@@ -42,7 +42,7 @@ export class BadRequestError extends ApplicationError {
   }
 }
 
-export class payloadToLargeError extends ApplicationError {
+export class PayloadTooLargeError extends ApplicationError {
   constructor(key: TranslationPaths | (string & {}) = "global.largePayload", data?: unknown) {
     super(APPLICATION_ERROR_TYPE_ENUM.PAYLOAD_TOO_LARGE, key, data);
   }

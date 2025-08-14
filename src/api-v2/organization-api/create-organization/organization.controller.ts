@@ -6,7 +6,7 @@ import { SuccessResponse } from "../../../core/responseAPI/APISuccessResponse";
 import { OrganizationRepository } from "../../../feature/organization-magement/domain/organization.repo";
 import { Injectable } from "../../../core/container/decorators/AutoRegister.decorator";
 import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../../feature/organization-magement/constant";
-import { DATABASE_SERVIßE_IDENTIFIER } from "../../../core/database/constant";
+import { DATABASE_SERVICE_IDENTIFIER } from "../../../core/database/constant";
 import { DatabaseService } from "../../../core/database/database.service";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { CreateOrganizationResponse, CreateOrganizationRouteConfig } from "../organization.types";
@@ -17,7 +17,7 @@ import { CreateOrganizationResponse, CreateOrganizationRouteConfig } from "../or
 export class CreateOrganizationController extends BaseController<CreateOrganizationRouteConfig> {
   constructor(
     @inject(ORGANIZATION_REPOSITORY_IDENTIFIER) private organizationRepo: OrganizationRepository,
-    @inject(DATABASE_SERVIßE_IDENTIFIER) private databaseService: DatabaseService,
+    @inject(DATABASE_SERVICE_IDENTIFIER) private databaseService: DatabaseService,
 
   ) {
     super();

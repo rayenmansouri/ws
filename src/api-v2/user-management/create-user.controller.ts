@@ -40,18 +40,8 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
       name: type
     })
     if(roles.length === 0) throw new BadRequestError("global.roleNotFound");
-    await this.userRepo.create({
-      firstName,
-      lastName, 
-      fullName: `${firstName} ${lastName}`,
-      email,
-      password:hashedPassword,
-      schoolSubdomain,
-      type: type as UserTypeEnum,
-      roles: roles.map(role => role.id)
-    });
    
-    //hash password
+    // Switch to the appropriate tenant connection before creating the user
     this.userRepo.switchConnection(schoolSubdomain);
     const createdUser = await this.userRepo.create({
       firstName,

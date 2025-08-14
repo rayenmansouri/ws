@@ -6,6 +6,7 @@ import { schoolDocStore } from "../../subdomainStore";
 import { getNewTenantConnection } from "../../../database/connectionDB/tenantPoolConnection";
 import { IMiddlewareFunction } from "./interface";
 import { END_USER_ENUM } from "../../../constants/globalEnums";
+import logger from "../../Logger";
 
 const getTenantConnectionFromParam = asyncHandlerForMiddleware(
     async (req: TypedRequest, _: Response, next: NextFunction) => {
@@ -17,7 +18,7 @@ const getTenantConnectionFromParam = asyncHandlerForMiddleware(
       if (!schoolSubdomain) throw new AuthFailureError();
   
       const connection = await getNewTenantConnection(schoolSubdomain);
-      console.log("created new tenant connection");
+      logger.info("Created new tenant connection");
       req.DBConnection = connection;
       next();
     },

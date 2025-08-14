@@ -11,7 +11,7 @@ import { middlewareWS, nextWS, protectsSocket } from "./index.types";
 import { getNewTenantConnection } from "../../database/connectionDB/tenantPoolConnection";
 import { container } from "../container/container";
 import { DatabaseService } from "../database/database.service";
-import { DATABASE_SERVIßE_IDENTIFIER } from "../database/constant";
+import { DATABASE_SERVICE_IDENTIFIER } from "../database/constant";
 
 const authError = (msg: ErrorSocketEnum): Error => new Error(msg);
 
@@ -137,7 +137,7 @@ export class SocketManager {
   };
 
   private addTenantConnectionToSocket = async (socket: protectsSocket): Promise<void> => {
-    const databaseService = container.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
+    const databaseService = container.get<DatabaseService>(DATABASE_SERVICE_IDENTIFIER);
     const organization = databaseService.getOrganization(socket.tenantId);
     const schoolSubdomain = organization?.subdomain;
     if (!schoolSubdomain) {

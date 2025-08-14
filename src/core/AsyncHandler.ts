@@ -11,7 +11,7 @@ import { ID } from "../types/BaseEntity";
 import { schoolDocStore } from "./subdomainStore";
 import { APIErrorResponse } from "./responseAPI/APIErrorResponse";
 import { DatabaseService } from "./database/database.service";
-import { DATABASE_SERVIßE_IDENTIFIER } from "./database/constant";
+import { DATABASE_SERVICE_IDENTIFIER } from "./database/constant";
 
 export const AsyncHandlerForController = (
   controller: Controller<any>,
@@ -21,7 +21,7 @@ export const AsyncHandlerForController = (
   return async (req: ProtectedRequest, res: Response, next: NextFunction) => {
     try {
       const requestContainer = container.createChild({ defaultScope: "Singleton" });
-      const databaseService = container.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
+      const databaseService = container.get<DatabaseService>(DATABASE_SERVICE_IDENTIFIER);
       const organization =  databaseService.getOrganization(req.tenantId);
       if(!organization) throw new BadRequestError("global.organizationNotFound");
       requestContainer.bind("Organization").toConstantValue(organization);
