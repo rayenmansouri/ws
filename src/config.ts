@@ -19,9 +19,10 @@ export const smsExpiresIn = process.env.SMS_EXPIRES_IN!;
 export const databaseUser = process.env.DATABASE_USER;
 export const databasePassword = process.env.DATABASE_PASSWORD;
 export const databaseBaseURI = process.env.DATABASE_BASE_URI;
-export const database_secret = process.env.DATABASE_BASE_URI?.split("//").join(
-  `//${databaseUser}:${databasePassword}@`,
-);
+export const database_secret = process.env.MONGODB_URI;
+//process.env.DATABASE_BASE_URI?.split("//").join(
+//  `//${databaseUser}:${databasePassword}@`,
+//);
 export const auth_db = "authSource=admin";
 export const masterDBUri = `${database_secret}/master?${auth_db}`;
 export const centralDBUri = `${database_secret}/central?${auth_db}`;

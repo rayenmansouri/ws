@@ -24,10 +24,9 @@ deploy-iecd-types:
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - cat .npmrc
     - npm publish
-    - git push -o ci.skip https://$DEPLOY_USERNAME:$WRITE_TOKEN@gitlab.com/iecd/iecd-backend-v1.git/ HEAD:develop
+    - git push -o ci.skip https://$DEPLOY_USERNAME:$WRITE_TOKEN@gitlab.com/Softylines-Alternance/iecd-backend-v1.git/ HEAD:develop
   only:
     - develop
-  
 deploy-dev:
   stage: deploy
   needs:
