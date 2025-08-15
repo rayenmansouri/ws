@@ -13,6 +13,10 @@ import { MASTER_USER_TENANT_ID } from "../../feature/user-management/master/doma
 import mongoose from "mongoose";
 import { EMAIL_MANAGER_IDENTIFIER } from "../../feature/emailManager/constants";
 import { SMS_MANAGER_IDENTIFIER } from "../../feature/smsManager/constants";
+import { UPDATE_CURRENT_USER_PASSWORD_USE_CASE_IDENTIFIER } from "../../feature/authentication/useCases/constants";
+import { UpdateCurrentUserPasswordUseCase } from "../../feature/authentication/useCases/UpdateCurrentUserPassword.usecase";
+import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../feature/user-management/constants";
+import { UserRepository } from "../../feature/user-management/base-user/domain/base-user.repository";
 
 export const registerAllDependencies = (): void => {
   // Register core dependencies (keeping existing functionality)

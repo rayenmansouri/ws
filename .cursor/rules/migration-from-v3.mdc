@@ -1,0 +1,110 @@
+# Migration Rules from v3 to New Backend Architecture
+
+## **Core Architecture Changes**
+- **Old**: `/features/` folder structure
+- **New**: `/feature/` folder structure (singular)
+- **Rule**: Always use the new `/feature/` structure
+
+## **File-Specific Migration Rules**
+
+### **1. Controller Files (.controller.ts)**
+- **Old**: Extends `BaseController` with `@injectable()` and string-based injection
+- **New**: Extends `BaseController` with `@Injectable({ identifier: "..." })` and constant-based injection
+- **Rule**: Use `@Injectable({ identifier: "ControllerName" })` and inject dependencies via constants, not strings
+
+### **2. Use Case Files (.usecase.ts)**
+- **Old**: `@injectable()` with direct entity dependencies and string injection
+- **New**: `@Injectable({ identifier: CONSTANT_IDENTIFIER })` with repository pattern and constant injection
+- **Rule**: Use `@Injectable({ identifier: USE_CASE_CONSTANT })`, inject repositories not entities, use constants for all injections
+
+### **3. Route Files (.route.ts)**
+- **Old**: `registerSharedRoute()` with complex `END_USER_ENUM` arrays and platform restrictions
+- **New**: `RouteConfiguration<RouteConfig, "/path">` with `publicRouter` and simplified properties
+- **Rule**: Use `RouteConfiguration` type, `publicRouter`, and simplified `endUser`/`platform` properties
+
+### **4. Types Files (.types.ts)**
+- **Old**: Simple types with `ForgetPasswordValidation & { files: never }`
+- **New**: Same structure but validation includes `userType` in body
+- **Rule**: Include `userType` in request body validation, keep the same type structure
+
+### **5. Validation Files (.validation.ts)**
+- **Old**: `userType` not in body validation (comes from middleware)
+- **New**: `userType` included in body validation with `UserTypeEnum`
+- **Rule**: Add `userType: z.nativeEnum(UserTypeEnum)` to body validation
+
+### **6. Entity Files (.entity.ts)**
+- **Old**: Direct MongoDB types with complex refs
+- **New**: Clean TypeScript types with DTOs and proper interfaces
+- **Rule**: Use clean TypeScript types, implement DTOs, avoid MongoDB-specific complexity
+
+### **7. Repository Files (.repo.ts)**
+- **Old**: Direct entity operations with string-based injection
+- **New**: Repository pattern with constant-based injection and proper interfaces
+- **Rule**: Use repository pattern, inject via constants, implement proper interfaces
+
+### **8. Schema Files (.schema.ts)**
+- **Old**: Complex MongoDB schemas with `@ts-ignore` and multiple refs
+- **New**: Clean entity-based schemas using `createMongoSchema<Entity>`
+- **Rule**: Use `createMongoSchema<Entity>()`, avoid `@ts-ignore`, keep schemas simple
+
+### **9. Constants Files (.constants.ts)**
+- **Old**: No centralized constants
+- **New**: Centralized constants for all identifiers
+- **Rule**: Create constants for all injectable identifiers, use them consistently
+
+### **10. Index Files (index.ts)**
+- **Old**: Basic exports
+- **New**: Proper barrel exports for the feature
+- **Rule**: Export all public interfaces, use cases, and repositories from index files
+
+## **Dependency Injection Pattern**
+- **Old**: `@injectable()` with string-based injection (`@inject("VerificationCodeRepo")`)
+- **New**: `@Injectable({ identifier: "..." })` with constant-based injection (`@inject(VERIFICATION_CODE_REPOSITORY_IDENTIFIER)`)
+- **Rule**: Use `@Injectable({ identifier: CONSTANT_IDENTIFIER })` and inject via constants, not strings
+
+## **Route Registration**
+- **Old**: `registerSharedRoute()` with complex configuration and `END_USER_ENUM` arrays
+- **New**: `RouteConfiguration` type with `publicRouter` and simpler structure
+- **Rule**: Use `RouteConfiguration<RouteConfig, "/path">` format with `publicRouter`
+
+## **Validation & Request Handling**
+- **Old**: `userType` comes from `req.userType` (middleware)
+- **New**: `userType` is part of request body validation
+- **Rule**: Include `userType` in request body validation, not rely on middleware
+
+## **Use Case Structure**
+- **Old**: Business logic mixed with controller logic
+- **New**: Clean separation - controllers call use cases, use cases handle business logic
+- **Rule**: Controllers should only call use cases, never contain business logic
+
+## **File Naming Convention**
+- **Old**: camelCase (`forgetPassword.controller.ts`)
+- **New**: kebab-case (`forget-password.controller.ts`)
+- **Rule**: Use kebab-case for all new files
+
+## **Container Registration**
+- **Old**: Direct string-based registration
+- **New**: Identifier-based registration with constants
+- **Rule**: Always use constants for identifiers and register in both container files
+
+## **Entity & Repository Pattern**
+- **Old**: Direct MongoDB schema with complex refs
+- **New**: Clean entity-based approach with DTOs
+- **Rule**: Use entities and DTOs, avoid complex MongoDB schemas
+
+## **Error Handling & Validation**
+- **Old**: Inline error messages
+- **New**: Centralized translation keys
+- **Rule**: Use translation keys for all error messages
+
+## **Platform & User Type Handling**
+- **Old**: Complex `END_USER_ENUM` arrays with platform restrictions
+- **New**: Simplified `endUser` and `platform` properties
+- **Rule**: Use the new simplified enum system
+
+## **Key Principle**
+The new architecture emphasizes cleaner separation of concerns, constant-based dependency injection, and more maintainable code structure. Always follow the new patterns when migrating from v3.
+description:
+globs:
+alwaysApply: false
+---

@@ -9,6 +9,7 @@ const createUser = z.object({
     email: z.string().email("Invalid email format"),
     password: z.string().min(6, "Password must be at least 6 characters"),
     participantData: z.any().optional(),
+    phoneNumber: z.string().min(1, "Phone number is required"),
 });
 
 type TCreateUser = z.infer<typeof createUser>;

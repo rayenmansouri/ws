@@ -27,8 +27,8 @@ export class VerificationCodeRepository extends BaseRepository<VerificationCodeI
         return this.connection.model<VerificationCode>(VerificationCodeKey, VerificationCodeSchema);
     }
 
-    async findByUser(userId: string, userType: string): Promise<VerificationCode | null> {
-        return this.findOne({ user: userId, userType, isUsed: false });
+    async findByUser(userId: string): Promise<VerificationCode | null> {
+        return this.findOne({ user: userId, isUsed: false });
     }
 
     async findByCode(verificationCode: string): Promise<VerificationCode | null> {

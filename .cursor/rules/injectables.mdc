@@ -1,7 +1,0 @@
----
-description: 
-globs: 
-alwaysApply: true
----
-- You should always register the class both [containerRegistry.ts](mdc:src/core/container/containerRegistry.ts) and [container.ts](mdc:src/core/container/container.ts) and follow the organizations there whenever you use the @injecatble() decorator from inversify.
-- You don't need to pass generics, the types are already handled

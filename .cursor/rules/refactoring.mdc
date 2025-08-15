@@ -1,6 +1,0 @@
----
-description: 
-globs: 
-alwaysApply: false
----
-- When refactoring you whould always run the command `npm run build-ts` to check that there are no errors you should only finish when the command returns no errors

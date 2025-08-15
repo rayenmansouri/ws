@@ -9,7 +9,6 @@ import { BaseUserEntity } from "../../users/domain/baseUser.entity";
 import { VerificationCodeRepository } from "../domain/verificationCode.repo";
 import { CREATE_VERIFICATION_CODE_USE_CASE_IDENTIFIER } from "./constants";
 import { AuthenticationHelper } from "../../../core/auth.helper";
-import { smsExpiresIn } from "../../../config";
 import moment from "moment";
 import { ForgetPasswordEmail } from "../../emailManager/emails/ForgetPasswordEmail";
 import { ForgetPasswordSms } from "../../smsManager/sms/FogetPasswordSms";
@@ -43,10 +42,9 @@ type ForgetPasswordRequest = {
       if (userType === UserTypeEnum.MASTER) throw new BadRequestError("master user type is not allowed");
   
       const isEmail = credential.includes("@");
-  
+
       const hashedVerificationCode = await AuthenticationHelper.hashString(verificationCode);
-      const verificationCodeExpiresAt = moment().add(smsExpiresIn, "minutes").toDate();
-  
+      const verificationCodeExpiresAt = moment().add(1e3*5, "minutes").toDate();
       const payload = {
         verificationCode: hashedVerificationCode,
         verificationCodeExpiresAt,

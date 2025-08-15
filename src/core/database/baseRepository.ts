@@ -52,6 +52,13 @@ export abstract class BaseRepository<Input,Output>{
         const result = await model.find(query).lean();
         return result.map(item => new this.dto(item));
     }
+
+    async updateOne(query: FilterQuery<Input>, input: Partial<Input>): Promise<Output | null> {
+        const model = this.getModel();
+        const result = await model.findOneAndUpdate(query, { $set: input }, { new: true });
+        if(!result) return null;
+        return new this.dto(result);
+    }
     
     abstract getModel(): Model<PropsOnly<Output>>;
 }

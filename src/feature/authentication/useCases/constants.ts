@@ -1,1 +1,2 @@
 export const CREATE_VERIFICATION_CODE_USE_CASE_IDENTIFIER = "CreateVerificationCodeUseCase";
+export const UPDATE_CURRENT_USER_PASSWORD_USE_CASE_IDENTIFIER = "UpdateCurrentUserPasswordUseCase";

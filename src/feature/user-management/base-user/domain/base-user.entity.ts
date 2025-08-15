@@ -10,11 +10,11 @@ export type CreateBaseUser = {
   schoolSubdomain: string;
   type: UserTypeEnum;
   roles: string[];
+  passwordChangedAt?: Date;
 };
 
 export type BaseUser = CreateBaseUser & {
   id: string
-  passwordChangedAt: Date;
 };
 
 export class BaseUserEntity{
@@ -27,7 +27,7 @@ export class BaseUserEntity{
     public phoneNumber: string;
     public password: string;
     public type: UserTypeEnum;
-    public passwordChangedAt: Date;
+    public passwordChangedAt?: Date;
     public roles: string[];
     constructor(
        json:any
