@@ -11,6 +11,7 @@ import { adminRouter } from "./routers/admin-router";
 import { masterRouter } from "./routers/master-router";
 import { dashboardRoute } from "../../api-v2/dashboard/dashboard.route";
 import { levelsOverviewRoute } from "../../api-v2/level/web/admin/levelsOverview/levelsOverview.route";
+import { forgetPasswordRoute } from "../../api-v2/auth/public/forget-password/forget-password.route";
 
 const router = Router();
 
@@ -21,7 +22,7 @@ router.use(publicRouter);
 router.use("/admin", adminRouter);
 router.use("/master", masterRouter);
 
-const routes = [loginRoute, meRoute, organizationRoute, configRoute, createUserRoute, dashboardRoute, levelsOverviewRoute];
+const routes = [loginRoute, meRoute, organizationRoute, configRoute, createUserRoute, dashboardRoute, levelsOverviewRoute,forgetPasswordRoute];
 // @ts-expect-error - TypeScript can't properly infer union types for different route configurations
 createRoutes(routes);
 export default router;

@@ -1,3 +1,5 @@
+import { UserTypeEnum } from "../feature/user-management/factory/enums";
+
 export const ENVIRONMENT_ENUM = {
   DEV: "development",
   STAGING: "staging",
@@ -19,12 +21,11 @@ export const MINUTES_TO_MILLISECOND = 60 * 1000;
 export const MONTH_TO_MILLISECOND = 30 * DAY_TO_MILLISECOND;
 export const MINUTES_IN_HOUR = 60;
 
-export const entitiesInFrench = {
-  admin: "administrateur",
-  student: "élève",
-  parent: "parent",
-  teacher: "enseignant",
-  master: "master",
+export const entitiesInFrench: Record<UserTypeEnum, string> = {
+  [UserTypeEnum.ADMIN]: "administrateur",
+  [UserTypeEnum.MASTER]: "master",
+  [UserTypeEnum.COACH]: "coach",
+  [UserTypeEnum.PARTICIPANT]: "participant",
 };
 export const monthNames = [
   "January",

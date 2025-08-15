@@ -30,7 +30,7 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
   }
 
   async main(req: TypedRequest<CreateUserRouteConfig>): Promise<void | APIResponse> {
-    const { firstName, lastName, email, password, schoolSubdomain, type, participantData = {} } = req.body;
+    const { firstName, lastName, email, password, schoolSubdomain, type, participantData = {}, phoneNumber } = req.body;
     //check if user already exists
     const existingUser = await this.userRepo.findOne({ email });
     if(existingUser) throw new BadRequestError("global.userAlreadyExists");
@@ -59,6 +59,7 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
       lastName, 
       fullName: `${firstName} ${lastName}`,
       email,
+      phoneNumber,
       password:hashedPassword,
       schoolSubdomain,
       type: type,
@@ -73,6 +74,7 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
       lastName, 
       fullName: `${firstName} ${lastName}`,
       email,
+      phoneNumber,
       password: hashedPassword,
       schoolSubdomain,
       type: type,

@@ -10,6 +10,7 @@ export type CreateUserRouteConfig = TypedRequestOptions & {
     password: string;
     type: UserTypeEnum; 
     schoolSubdomain: string;
+    phoneNumber: string;
     participantData?: Record<string, unknown>;
   };
   params: never;

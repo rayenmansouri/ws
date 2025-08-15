@@ -5,6 +5,7 @@ export type CreateBaseUser = {
   lastName: string;
   fullName: string;
   email: string;
+  phoneNumber: string;
   password: string;
   schoolSubdomain: string;
   type: UserTypeEnum;
@@ -23,6 +24,7 @@ export class BaseUserEntity{
     public lastName: string;
     public fullName: string;
     public email: string;
+    public phoneNumber: string;
     public password: string;
     public type: UserTypeEnum;
     public passwordChangedAt: Date;
@@ -36,6 +38,7 @@ export class BaseUserEntity{
         this.lastName = json.lastName;
         this.fullName = json.fullName;
         this.email = json.email;
+        this.phoneNumber = json.phoneNumber;
         this.password = json.password;
         this.type = json.type;
         this.passwordChangedAt = json.passwordChangedAt; 
@@ -50,6 +53,7 @@ export class BaseUserEntity{
             lastName: this.lastName,
             fullName: this.fullName,
             email: this.email,
+            phoneNumber: this.phoneNumber,
             password: this.password,
             type: this.type,
             passwordChangedAt: this.passwordChangedAt,

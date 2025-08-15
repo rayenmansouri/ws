@@ -1,0 +1,1 @@
+export const CREATE_VERIFICATION_CODE_USE_CASE_IDENTIFIER = "CreateVerificationCodeUseCase";

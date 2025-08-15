@@ -7,7 +7,7 @@ import { StringUtils } from "../../helpers/StringUtils";
 import { TLanguageEnum } from "../../translation/constants";
 import { EventDispatcher } from "../domainEvents/EventDispatcher";
 import { UserRepository } from "../../feature/user-management/base-user/domain/base-user.repository";
-import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
+import { VerificationCodeRepository } from "../../feature/authentication/domain/verificationCode.repo";
 import { ConnectionPool } from "../../database/connectionDB/tenantPoolConnection";
 import { DatabaseService } from "../../core/database/database.service";
 
@@ -31,6 +31,6 @@ export type containerRegistry = {
   // constants
   MasterConnection: Connection;
   UserRepository: UserRepository;
-  OrganizationRepository: OrganizationRepository;
+  VerificationCodeRepository: VerificationCodeRepository;
   ConnectionPool: ConnectionPool;
 };

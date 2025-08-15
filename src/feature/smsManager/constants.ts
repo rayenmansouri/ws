@@ -1,0 +1,1 @@
+export const SMS_MANAGER_IDENTIFIER = "SMSManager";

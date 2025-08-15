@@ -26,15 +26,15 @@ export class ConfigController extends BaseController<getConfigRouteType> {
     }
     return new SuccessResponse<getConfigResponse>("global.success", {
       instanceType: organization.organizationSystemType,
-      flags: {
-        messages: false,
-        announcements: false,
-        smartCalendar: false,
-        tutorials: false,
-        darkMode: false,
-        lms: false,
-        library: false
-      }
+       flags: {
+            "messages": true,
+            "announcements": true,
+            "smartCalendar": true,
+            "tutorials": true,
+            "darkMode": true,
+            "lms": true,
+            "library": false
+        } 
     });
   }
 }
