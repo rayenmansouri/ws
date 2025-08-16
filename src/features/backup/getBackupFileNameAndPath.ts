@@ -2,12 +2,12 @@ import { join } from 'path';
 import { backupFolderName } from './constants';
 
 export const getBackupFileNameAndPath = (
-  schoolSubdomain: string,
+  organizationSubdomain: string,
 ): { fileName: string; filePath: string } => {
   const currentDate = new Date().toISOString().slice(0, 10);
   const currentTime = new Date().toISOString().slice(11, 16);
 
-  const fileName = `${schoolSubdomain}_${currentDate}_${currentTime}.archive`;
+  const fileName = `${organizationSubdomain}_${currentDate}_${currentTime}.archive`;
 
   const filePath = join(
     __dirname,
@@ -15,7 +15,7 @@ export const getBackupFileNameAndPath = (
     '..',
     '..',
     backupFolderName,
-    schoolSubdomain,
+    organizationSubdomain,
     currentDate,
   );
 

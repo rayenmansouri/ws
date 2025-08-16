@@ -1,4 +1,4 @@
-import { School } from "../../feature/schools/domain/school.entity";
+import { Organization } from "../../feature/organization-magement/domain/organization.entity";
 import { RandomUtils } from "../../helpers/RandomUtils";
 import { FileDetails, FileManager, FileUploadPayload } from "./FileManager";
 import { ENVIRONMENT_ENUM } from "../../helpers/constants";
@@ -16,7 +16,7 @@ describe("File Manager", () => {
     buffer: Buffer.from(""),
   };
   const filePath = "students/avatar";
-  const mockSchool = { subdomain: "test" } as School;
+  const mockOrganization = { subdomain: "test" } as Organization;
   const fileLink = "https://cdn.webschool.tn/avatar/23431.jpg";
 
   beforeEach(() => {
@@ -34,7 +34,7 @@ describe("File Manager", () => {
       protected baseBatchUploadFiles = mockbaseBatchUploadFiles;
     }
 
-    fileManager = new TestFileManager(mockSchool, MockRandomUtils);
+    fileManager = new TestFileManager(mockOrganization, MockRandomUtils);
   });
 
   describe("format file Name", () => {
@@ -56,7 +56,7 @@ describe("File Manager", () => {
     it("Should return the correct file details", async () => {
       const fileDetails = await fileManager.uploadFile(filePayload, filePath);
 
-      const expectedFilePath = `/${ENVIRONMENT_ENUM.TEST}/${mockSchool.subdomain}/${filePath}/${UUID}.jpg`;
+      const expectedFilePath = `/${ENVIRONMENT_ENUM.TEST}/${mockOrganization.subdomain}/${filePath}/${UUID}.jpg`;
 
       expect(fileDetails.name).toBe(filePayload.name);
       expect(fileDetails.path).toBe(expectedFilePath);
@@ -67,7 +67,7 @@ describe("File Manager", () => {
     it("Should call the baseUploadFile", async () => {
       await fileManager.uploadFile(filePayload, filePath);
 
-      const expectedFilePath = `/${ENVIRONMENT_ENUM.TEST}/${mockSchool.subdomain}/${filePath}/${UUID}.jpg`;
+      const expectedFilePath = `/${ENVIRONMENT_ENUM.TEST}/${mockOrganization.subdomain}/${filePath}/${UUID}.jpg`;
       expect(mockBaseUploadFile).toHaveBeenCalledWith(filePayload, expectedFilePath);
     });
 

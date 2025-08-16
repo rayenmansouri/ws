@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
 import {
   getNewTenantConnection,
-  getSchoolFromSubdomain,
+  getOrganizationFromSubdomain,
 } from "../../../database/connectionDB/tenantPoolConnection";
 import { Middleware, RouteConfiguration, TypedRequest, TypedRequestOptions } from "../types";
 import { asyncHandlerForMiddleware } from "./asyncHandler";
@@ -10,16 +10,16 @@ import { IMiddlewareFunction } from "./interface";
 export const getTenantConnectionForPublicRoutes = asyncHandlerForMiddleware(
   async (req: TypedRequest, _: Response, next: NextFunction) => {
     //@ts-expect-error - This is needed to not complicate the type
-    const schoolSubdomain = req.query.schoolSubdomain as string;
+    const organizationSubdomain = req.query.organizationSubdomain as string;
 
-    const school = getSchoolFromSubdomain(schoolSubdomain);
+    const organization = getOrganizationFromSubdomain(organizationSubdomain);
 
-    if (!school) {
+    if (!organization) {
       next();
       return;
     }
 
-    const connection = await getNewTenantConnection(schoolSubdomain);
+    const connection = await getNewTenantConnection(organizationSubdomain);
     req.DBConnection = connection;
 
     next();

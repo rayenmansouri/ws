@@ -5,9 +5,9 @@ import { backupRetentionDays } from '../../config';
 import { backupFolderName } from './constants';
 import { sortArrayOfStringsAscending } from '../../helpers/sortArrayByDate';
 
-export const localBackupRotation = async (schoolSubdomain: string) => {
-  const schoolDirectory = join(__dirname, '..', '..', '..', backupFolderName, schoolSubdomain);
-  const subDirectories = await readdir(schoolDirectory);
+export const localBackupRotation = async (organizationSubdomain: string) => {
+  const organizationDirectory = join(__dirname, '..', '..', '..', backupFolderName, organizationSubdomain);
+  const subDirectories = await readdir(organizationDirectory);
 
   const sortedSubDirectories = sortArrayOfStringsAscending(subDirectories);
 
@@ -18,8 +18,8 @@ export const localBackupRotation = async (schoolSubdomain: string) => {
   const subDirectoriesToDelete = sortedSubDirectories.slice(0, numberOfSubDirectoriesToRemove);
 
   for (const directoryName of subDirectoriesToDelete) {
-    const directoryPath = join(schoolDirectory, directoryName);
-    Logger.info(`Deleting all backups in local folder ${directoryName} for ${schoolSubdomain}`);
+    const directoryPath = join(organizationDirectory, directoryName);
+    Logger.info(`Deleting all backups in local folder ${directoryName} for ${organizationSubdomain}`);
     await rm(directoryPath, { recursive: true });
   }
 };
