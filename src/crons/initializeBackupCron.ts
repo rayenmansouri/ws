@@ -1,7 +1,7 @@
 import schedule from "node-schedule";
-import { backupMasterAndCentralDB } from "./../features/backup/backupAllSchools";
+import { backupMasterAndCentralDB } from "./../features/backup/backupAllOrganizations";
 import { backupEndAt, backupStartAt, numberOfHoursBetweenBackups } from "../config";
-import { backupAllSchools } from "../features/backup/backupAllSchools";
+import { backupAllOrganizations } from "../features/backup/backupAllOrganizations";
 
 export const initializeBackupCron = async () => {
   const rule = new schedule.RecurrenceRule();
@@ -9,7 +9,7 @@ export const initializeBackupCron = async () => {
   rule.minute = 0;
 
   schedule.scheduleJob(rule, async () => {
-    await backupAllSchools();
+    await backupAllOrganizations();
     await backupMasterAndCentralDB();
   });
 };

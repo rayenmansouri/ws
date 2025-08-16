@@ -6,10 +6,10 @@ import { sortArrayOfStringsAscending } from '../../helpers/sortArrayByDate';
 import { deleteDirectory } from '../../core/dropbox/deleteDirectory';
 import { getSubDirectoriesOfPath } from '../../core/dropbox/getSubDirectoriesOfPath';
 
-export const remoteBackupRotation = async (schoolSubdomain: string) => {
-  const schoolDirectory = join('/', environment, schoolSubdomain, backupFolderName);
+export const remoteBackupRotation = async (organizationSubdomain: string) => {
+  const organizationDirectory = join('/', environment, organizationSubdomain, backupFolderName);
 
-  const subDirectories = await getSubDirectoriesOfPath(schoolDirectory);
+  const subDirectories = await getSubDirectoriesOfPath(organizationDirectory);
 
   const sortedSubDirectories = sortArrayOfStringsAscending(subDirectories);
 
@@ -20,8 +20,8 @@ export const remoteBackupRotation = async (schoolSubdomain: string) => {
   const subDirectoriesToDelete = sortedSubDirectories.slice(0, numberOfSubDirectoriesToRemove);
 
   for (const directoryName of subDirectoriesToDelete) {
-    const directoryPath = join(schoolDirectory, directoryName);
-    Logger.info(`Deleting all backups in remote folder ${directoryName} for ${schoolSubdomain}`);
+    const directoryPath = join(organizationDirectory, directoryName);
+    Logger.info(`Deleting all backups in remote folder ${directoryName} for ${organizationSubdomain}`);
     await deleteDirectory(directoryPath);
   }
 };

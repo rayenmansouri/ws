@@ -73,7 +73,7 @@ export const frenchTranslation: TranslationObject = {
     notification: "La notification est introuvable",
     subjectType: "Le type de matière est introuvable",
     groupType: "Le type de group est introuvable",
-    school: "L'école est introuvable",
+    school: "L'organisation est introuvable",
     class: "La classe est introuvable",
     term: "Le terme est introuvable",
     service: "Le service est introuvable",
@@ -419,9 +419,9 @@ export const frenchTranslation: TranslationObject = {
     deletedSuccessfully: "Maître supprimé avec succès",
   },
   school: {
-    addedSuccessfully: "École ajoutée avec succès",
+    addedSuccessfully: "Organisation ajoutée avec succès",
     configNotFound: "La configuration n'existe pas",
-    updatedSuccessfully: "École mise à jour avec succès",
+    updatedSuccessfully: "Organisation mise à jour avec succès",
   },
   grade: {
     coefficientMustBePositive: "Le coefficient doit être positif",

@@ -1,4 +1,4 @@
-import { getCurrentTimeOfSchool } from "../core/getCurrentTimeOfSchool";
+import { getCurrentTimeOfOrganization } from "../core/getCurrentTimeOfOrganization";
 import { InternalError } from "../core/ApplicationErrors";
 import { File } from "../types/app-request";
 import { generateUniquePath } from "./upload";
@@ -71,7 +71,7 @@ export class FileUpload {
       name: this.formatFileOriginalname(fileBeforeUpload[index].originalname),
       public_id: file.public_id,
       url: file.url,
-      date: getCurrentTimeOfSchool(tenantId),
+      date: getCurrentTimeOfOrganization(tenantId),
       size: fileBeforeUpload[index].buffer.byteLength,
       mimeType: path.extname(fileBeforeUpload[index].originalname).replace(".", ""),
     }));
