@@ -24,6 +24,7 @@ type BaseTypedRequest = Request & {
   DBConnection: Connection;
   tenantId: string
   schoolTimeZone: string;
+  organization: string;
   userId: string;
   tokenExpires: number;
   id: string;

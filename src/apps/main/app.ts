@@ -7,7 +7,6 @@ import { errorHandler } from "../../middlewares/errorHandler";
 import { logRequest } from "../../middlewares/logRequest";
 import routes from "./index.routes";
 import * as Sentry from "@sentry/node";
-import "./Routes.routes";
 
 process.on("uncaughtException", e => {
   Logger.error(e);
