@@ -18,7 +18,7 @@ export class SendWelcomeSmsHandler implements EventHandler<NewUserAddedEvent> {
   async handle(event: NewUserAddedEvent): Promise<void> {
     if (!event.user.phoneNumber) return;
 
-    const organization = await this.organizationRepo.findOne({ subdomain: event.schoolSubdomain });
+    const organization = await this.organizationRepo.findOne({ subdomain: event.organizationSubdomain });
     if (!organization) return;
 
     const welcomeAboardSms = new WelcomeSms({

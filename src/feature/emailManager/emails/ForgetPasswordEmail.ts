@@ -1,13 +1,13 @@
 import { frontUrl, smsExpiresIn } from "../../../config";
 import { entitiesInFrench } from "../../../helpers/constants";
-import { School } from "../../schools/domain/school.entity";
+import { Organization } from "../../organization-magement/domain/organization.entity";
 import { UserTypeEnum } from "../../user-management/factory/enums";
 import { IEmail } from "./email.interface";
 
 type ForgetPasswordEmailProps = {
   verificationCode: string;
   entity: UserTypeEnum;
-} & Pick<School, "subdomain" | "phoneNumber" | "address" | "email">;
+} & Pick<Organization, "subdomain" | "phoneNumber" | "address" | "email">;
 
 export class ForgetPasswordEmail implements IEmail {
   public subject: string;

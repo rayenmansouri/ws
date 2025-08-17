@@ -7,6 +7,7 @@ import { ConnectionPool } from "../../../../database/connectionDB/tenantPoolConn
 import { Injectable } from "../../../../core/container/decorators/AutoRegister.decorator";
 import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../constants";
 import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIR } from "../../../../core/database/constant";
+import { FileDetails } from "../../../../core/fileManager/FileManager";
 
 @Injectable({
     identifier: BASE_USER_REPOSITORY_IDENTIFIER,
@@ -25,4 +26,23 @@ export class UserRepository extends BaseRepository<CreateBaseUser, BaseUserEntit
     }
 
     dto = BaseUserEntity;
+
+    
+    async updateAvatar(userId: string, avatar: FileDetails): Promise<void> {
+        await this.connection.model<BaseUser>(BaseUserKey, BaseUserSchema).updateOne(
+            { _id: userId },
+            { 
+                $set: { 
+                    avatar: {
+                        link: avatar.link,
+                        name: avatar.name,
+                        path: avatar.path,
+                        uploadedAt: avatar.uploadedAt,
+                        size: avatar.size,
+                        mimeType: avatar.mimeType
+                    }
+                } 
+            }
+        );
+    }
 } ;

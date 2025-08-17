@@ -30,8 +30,9 @@ async handleRequest(req: TypedRequest<TypedRequestOptions>, res: Response, next:
         requestContainer.bind("Language").toConstantValue(language);
       }
       req.container = requestContainer;
-      requestContainer.bind("Organization").toConstantValue(organizationDocStore[req.tenantId]);
       const databaseService = requestContainer.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
+      const organization = databaseService.getOrganization(req.tenantId);
+      requestContainer.bind("Organization").toConstantValue(organization);
       requestContainer.bind(CONNECTION_POOL_IDENTIFIER).toConstantValue(databaseService.getConnectionPool());
       requestContainer.bind(CURRENT_CONNECTION_IDENTIFIER).toConstantValue(req.currentConnection || MASTER_USER_TENANT_ID);
 

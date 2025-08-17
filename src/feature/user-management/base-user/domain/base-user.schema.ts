@@ -25,6 +25,14 @@ export const BaseUserSchema = createCompleteSchema<BaseUser>({
       phoneNumber: { type: String, required: true },
       fullName: { type: String, required: true },
       passwordChangedAt: { type: Date, required: false },
+      avatar: {
+        link: { type: String, required: false },
+        name: { type: String, required: false },
+        path: { type: String, required: false },
+        uploadedAt: { type: Date, required: false },
+        size: { type: Number, required: false },
+        mimeType: { type: String, required: false },
+      },
     },
     options: BaseOptions,
 });

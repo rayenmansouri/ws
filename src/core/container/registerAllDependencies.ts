@@ -13,10 +13,8 @@ import { MASTER_USER_TENANT_ID } from "../../feature/user-management/master/doma
 import mongoose from "mongoose";
 import { EMAIL_MANAGER_IDENTIFIER } from "../../feature/emailManager/constants";
 import { SMS_MANAGER_IDENTIFIER } from "../../feature/smsManager/constants";
-import { UPDATE_CURRENT_USER_PASSWORD_USE_CASE_IDENTIFIER } from "../../feature/authentication/useCases/constants";
-import { UpdateCurrentUserPasswordUseCase } from "../../feature/authentication/useCases/UpdateCurrentUserPassword.usecase";
-import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../feature/user-management/constants";
-import { UserRepository } from "../../feature/user-management/base-user/domain/base-user.repository";
+import { FileManager } from "../fileManager/FileManager";
+import { DropboxFileManager } from "../fileManager/DropboxFileManager";
 
 export const registerAllDependencies = (): void => {
   // Register core dependencies (keeping existing functionality)
@@ -32,14 +30,12 @@ export const registerAllDependencies = (): void => {
   container.bind("Session").toConstantValue(undefined);
   container.bind("Language").toConstantValue(LANGUAGE_ENUM.ENGLISH);
   container.bind("EventDispatcher").to(EventDispatcher).inSingletonScope();
+  container.bind("FileManager").to(DropboxFileManager).inSingletonScope();
 
   // Email and SMS services
   container.bind(EMAIL_MANAGER_IDENTIFIER).to(NodeMailerEmailManager).inSingletonScope();
   container.bind(SMS_MANAGER_IDENTIFIER).to(TunisieSmsManager).inSingletonScope();
 
-  // Repositories
-
-  // Event handlers
   container.bind("HandlerSubscriber").to(HandlerSubscriber).inSingletonScope();
 
 };

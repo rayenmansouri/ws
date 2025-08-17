@@ -215,7 +215,7 @@ export abstract class FileManager {
 
   static generateUniquePath = (fileName: string, tenantId: string, folderName: string): string => {
     const dbService = container.get<DatabaseService>("DBService");
-    const schoolSubdomain = dbService.getOrganizationBySubdomain(tenantId)?.subdomain;
+    const schoolSubdomain = dbService.getOrganization(tenantId)?.subdomain;
     const originalname = StringUtils.removeArabicLetters(fileName);
     const extension = originalname.split(".").pop();
     const randomSuffix = `${new Date().getTime()}${Math.random() * 10000}`;
