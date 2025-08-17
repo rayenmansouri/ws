@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express";
 import { Middleware, RouteConfiguration, TypedRequest, TypedRequestOptions } from "../types";
 import { IMiddlewareFunction } from "./interface";
 import { container } from "../../container/container";
-import { schoolDocStore } from "../../subdomainStore";
+import { organizationDocStore } from "../../subdomainStore";
 import mongoose, { ClientSession } from "mongoose";
 import { APIResponse } from "../../responseAPI/APIResponse";
 import { BaseController } from "../controllers/BaseController";
@@ -30,7 +30,7 @@ async handleRequest(req: TypedRequest<TypedRequestOptions>, res: Response, next:
         requestContainer.bind("Language").toConstantValue(language);
       }
       req.container = requestContainer;
-      requestContainer.bind("School").toConstantValue(schoolDocStore[req.tenantId]);
+      requestContainer.bind("Organization").toConstantValue(organizationDocStore[req.tenantId]);
       const databaseService = requestContainer.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
       requestContainer.bind(CONNECTION_POOL_IDENTIFIER).toConstantValue(databaseService.getConnectionPool());
       requestContainer.bind(CURRENT_CONNECTION_IDENTIFIER).toConstantValue(req.currentConnection || MASTER_USER_TENANT_ID);

@@ -1,10 +1,10 @@
-import { getCurrentTimeOfSchool } from '../core/getCurrentTimeOfSchool';
+import { getCurrentTimeOfOrganization } from '../core/getCurrentTimeOfOrganization';
 
-export const convertDateToServerTime = (date: Date, schoolId: string) => {
-  const currentTimeOfSchool = getCurrentTimeOfSchool(schoolId);
+export const convertDateToServerTime = (date: Date, organizationId: string) => {
+  const currentTimeOfOrganization = getCurrentTimeOfOrganization(organizationId);
   const currentServerTime = new Date();
 
-  const difference = currentTimeOfSchool.getTime() - currentServerTime.getTime();
+  const difference = currentTimeOfOrganization.getTime() - currentServerTime.getTime();
 
   const convertedDate = new Date(date.getTime() - difference);
   return convertedDate;

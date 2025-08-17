@@ -68,7 +68,7 @@ export const arabicTranslation: TranslationObject = {
     notification: "الإشعار غير موجود",
     subjectType: "نوع المادة غير موجود",
     groupType: "نوع المادة الاختيارية غير موجود",
-    school: "المدرسة غير موجودة",
+    school: "المنظمة غير موجودة",
     class: "الصف غير موجود",
     term: "الفصل غير موجود",
     service: "الخدمة غير موجودة",
@@ -396,9 +396,9 @@ export const arabicTranslation: TranslationObject = {
     deletedSuccessfully: "تم حذف الماستر بنجاح",
   },
   school: {
-    addedSuccessfully: "تمت إضافة المدرسة بنجاح",
+    addedSuccessfully: "تمت إضافة المنظمة بنجاح",
     configNotFound: "الإعدادات غير موجودة",
-    updatedSuccessfully: "تم تحديث المدرسة بنجاح",
+    updatedSuccessfully: "تم تحديث المنظمة بنجاح",
   },
   grade: {
     coefficientMustBePositive: "يجب أن يكون ضارب العلامة إيجابيًا",

@@ -72,7 +72,7 @@ export const englishTranslation: TranslationObject = {
     notification: "Notification is not found",
     subjectType: "Subject type is not found",
     groupType: "Optional subject type is not found",
-    school: "School is not found",
+    school: "Organization is not found",
     class: "Class is not found",
     term: "Term is not found",
     service: "Service is not found",
@@ -403,9 +403,9 @@ export const englishTranslation: TranslationObject = {
     deletedSuccessfully: "Master deleted successfully",
   },
   school: {
-    addedSuccessfully: "School added successfully",
+    addedSuccessfully: "Organization added successfully",
     configNotFound: "Config not found",
-    updatedSuccessfully: "School updated successfully",
+    updatedSuccessfully: "Organization updated successfully",
   },
   grade: {
     coefficientMustBePositive: "Coefficient must be positive",

@@ -4,7 +4,7 @@ import { Constructor } from "../../types/utils";
 import { container } from "../container/container";
 import {
   getNewTenantConnection,
-  getSchoolFromSubdomain,
+  getOrganizationFromSubdomain,
 } from "../../database/connectionDB/tenantPoolConnection";
 import { EventHandler } from "./EventHandler";
 import * as Sentry from "@sentry/node";
@@ -33,18 +33,18 @@ export class EventDispatcher {
         name: `DomainEvent: ${event.constructor.name}`,
         op: "domain.event",
         attributes: {
-          schoolSubdomain: event.schoolSubdomain,
+          organizationSubdomain: event.organizationSubdomain,
           timestamp: new Date().toISOString(),
         },
         forceTransaction: true, // Ensures this span is treated as a transaction
       },
       async () => {
         for (const HandlerClass of handlerClasses) {
-          const connection = await getNewTenantConnection(event.schoolSubdomain);
-          const school = getSchoolFromSubdomain(event.schoolSubdomain)!;
+          const connection = await getNewTenantConnection(event.organizationSubdomain);
+          const organization = getOrganizationFromSubdomain(event.organizationSubdomain)!;
           const childContainer = container.createChild();
           childContainer.bind("Connection").toConstantValue(connection);
-          childContainer.bind("School").toConstantValue(school);
+          childContainer.bind("Organization").toConstantValue(organization);
 
           const handlerName = HandlerClass.name;
 
@@ -67,7 +67,7 @@ export class EventDispatcher {
                 Sentry.withScope(scope => {
                   scope.setContext("event", {
                     ...event,
-                    schoolSubdomain: event.schoolSubdomain,
+                    organizationSubdomain: event.organizationSubdomain,
                   });
                   scope.setTag("event", event.constructor.name);
                   scope.setTag("handler", handlerName);

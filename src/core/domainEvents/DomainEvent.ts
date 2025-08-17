@@ -1,9 +1,9 @@
 export abstract class DomainEvent {
   public readonly occurredAt: Date;
-  public readonly schoolSubdomain: string;
+  public readonly organizationSubdomain: string;
 
-  constructor(schoolSubdomain: string) {
-    this.schoolSubdomain = schoolSubdomain;
+  constructor(organizationSubdomain: string) {
+    this.organizationSubdomain = organizationSubdomain;
     this.occurredAt = new Date();
   }
 }

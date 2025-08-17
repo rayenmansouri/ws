@@ -1,18 +1,18 @@
 import { shouldUploadBackup } from "../../config";
 import { container } from "../../core/container/container";
-import { backupOneSchoolAndGetFileInformation } from "./backupOneSchool";
+import { backupOneOrganizationAndGetFileInformation } from "./backupOneOrganization";
 import { localBackupRotation } from "./localBackupRetention";
 import { remoteBackupRotation } from "./remoteBackupRetention";
 import { uploadBackup } from "./uploadBackup";
 import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
 import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
 
-export const backupAllSchools = async (): Promise<void> => {
+export const backupAllOrganizations = async (): Promise<void> => {
   const organizationRepo = container.get<OrganizationRepository>(ORGANIZATION_REPOSITORY_IDENTIFIER);
   const allOrganizations = await organizationRepo.findAll();
 
   for (const organization of allOrganizations) {
-    const { fileName, filePath } = await backupOneSchoolAndGetFileInformation(organization.subdomain);
+    const { fileName, filePath } = await backupOneOrganizationAndGetFileInformation(organization.subdomain);
     await localBackupRotation(organization.subdomain);
 
     if (shouldUploadBackup) {
@@ -24,7 +24,7 @@ export const backupAllSchools = async (): Promise<void> => {
 
 export const backupMasterAndCentralDB = async (): Promise<void> => {
   for (const dbName of ["master", "central"]) {
-    const { fileName, filePath } = await backupOneSchoolAndGetFileInformation(dbName);
+    const { fileName, filePath } = await backupOneOrganizationAndGetFileInformation(dbName);
     await localBackupRotation(dbName);
 
     if (shouldUploadBackup) {
