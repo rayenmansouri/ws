@@ -1,6 +1,31 @@
 stages:
   - deploy
 
+deploy-shared-types:
+  stage: deploy
+  image: node:lts-slim
+  cache:
+    key: $CI_COMMIT_REF_SLUG-shared-types
+    paths:
+      - src/shared-types/node_modules/
+  before_script:
+    - TXT_RED="\e[31m"
+  script:
+    - start=$(date +%s) && npm install
+    - end=$(date +%s) && duration=$((end - start)) && echo -e "${TXT_RED}Installed node_modules in $duration seconds"
+    - cd src/shared-types/
+    - npm install
+    - npm run build
+    - apt-get update && apt-get install -y git
+    - git config --global user.email "ci@gitlab.com"
+    - git config --global user.name "Gitlab CI"
+    - echo "@iecd:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
+    - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
+    - cat .npmrc
+    - npm publish
+  only:
+    - develop
+
 deploy-iecd-types:
   stage: deploy
   image: node:lts-slim
@@ -33,6 +58,7 @@ deploy-dev:
   stage: deploy
   needs:
     - job: deploy-iecd-types
+    - job: deploy-shared-types
   only:
     - develop
   script:
