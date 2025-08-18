@@ -1,7 +1,7 @@
 import nodemailer, { TransportOptions } from "nodemailer";
 import { emailService } from "../config";
 import Logger from "../core/Logger";
-import { schoolDocStore } from "./../core/subdomainStore";
+import { organizationDocStore } from "./../core/subdomainStore";
 
 interface EmailOptions {
   email: string | undefined;
@@ -30,7 +30,7 @@ export const sendEmailService = async (options: EmailOptions, tenantId: string) 
   };
 
   try {
-    const isSendEmailEnabled = schoolDocStore[tenantId].enableEmail;
+    const isSendEmailEnabled = organizationDocStore[tenantId].enableEmail;
     if (isSendEmailEnabled) await transporter.sendMail(mailOptions);
   } catch (error) {
     Logger.error(String(error));

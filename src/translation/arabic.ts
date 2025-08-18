@@ -26,7 +26,7 @@ export const arabicTranslation: TranslationObject = {
     invalidPassword: "كلمة المرور غير صالحة",
   },
   alreadyExist: {
-    schoolYear: "السنة الدراسية موجودة بالفعل",
+    organizationYear: "السنة الدراسية موجودة بالفعل",
   },
   authentication: {
     invalidCredentials: "بيانات اعتماد غير صالحة",
@@ -48,11 +48,13 @@ export const arabicTranslation: TranslationObject = {
     accessDenied: "تم رفض الوصول",
     badRequest: "طلب سيء",
     fileIsRequired: "الملف مطلوب",
+    organizationNotFound: "المؤسسة غير موجودة",
+    organizationAlreadyExists: "المؤسسة موجودة بالفعل",
   },
   notFound: {
     chapterAttachment: "المرفق غير موجود",
     tutorial: "الدليل غير موجود",
-    schoolYear: "السنة الدراسية غير موجودة",
+    organizationYear: "السنة الدراسية غير موجودة",
     classroom: "الصف غير موجود",
     teacherProfile: "الملف الشخصي للاستاذ غير موجود",
     teacher: "الاستاذ غير موجود",
@@ -67,7 +69,7 @@ export const arabicTranslation: TranslationObject = {
     notification: "الإشعار غير موجود",
     subjectType: "نوع المادة غير موجود",
     groupType: "نوع المادة الاختيارية غير موجود",
-    school: "المدرسة غير موجودة",
+    organization: "المؤسسة غير موجودة",
     class: "الصف غير موجود",
     term: "الفصل غير موجود",
     service: "الخدمة غير موجودة",
@@ -394,10 +396,10 @@ export const arabicTranslation: TranslationObject = {
     updatedSuccessfully: "تم تحديث الماستر بنجاح",
     deletedSuccessfully: "تم حذف الماستر بنجاح",
   },
-  school: {
-    addedSuccessfully: "تمت إضافة المدرسة بنجاح",
+  organization: {
+    addedSuccessfully: "تمت إضافة المؤسسة بنجاح",
     configNotFound: "الإعدادات غير موجودة",
-    updatedSuccessfully: "تم تحديث المدرسة بنجاح",
+    updatedSuccessfully: "تم تحديث المؤسسة بنجاح",
   },
   grade: {
     coefficientMustBePositive: "يجب أن يكون ضارب العلامة إيجابيًا",
@@ -405,7 +407,7 @@ export const arabicTranslation: TranslationObject = {
     markMustBeNullIfDispensed: "يجب أن يكون العلامة خاليًا إذا كانت العلامة معطلة",
     notFound: "العلامة غير موجودة",
   },
-  schoolYear: {
+  organizationYear: {
     hasEnded: "السنة الدراسية قد انتهت",
   },
   weeklySession: {

@@ -2,21 +2,21 @@ import { NextFunction, Response } from "express";
 import { Middleware, RouteConfiguration, TypedRequest, TypedRequestOptions } from "../types";
 import { asyncHandlerForMiddleware } from "./asyncHandler";
 import { AuthFailureError } from "../../ApplicationErrors";
-import { schoolDocStore } from "../../subdomainStore";
+import { organizationDocStore } from "../../subdomainStore";
 import { getNewTenantConnection } from "../../../database/connectionDB/tenantPoolConnection";
 import { IMiddlewareFunction } from "./interface";
 import { END_USER_ENUM } from "../../../constants/globalEnums";
 
 const getTenantConnectionFromParam = asyncHandlerForMiddleware(
     async (req: TypedRequest, _: Response, next: NextFunction) => {
-      const schoolId = (req.params as {schoolId: string}).schoolId; 
-      if (!schoolId) throw new AuthFailureError();
-      const schoolSubdomain = schoolDocStore[schoolId]?.subdomain as string;
-      req.school = schoolSubdomain;
+      const organizationId = (req.params as {organizationId: string}).organizationId; 
+      if (!organizationId) throw new AuthFailureError();
+      const organizationSubdomain = organizationDocStore[organizationId]?.subdomain as string;
+      req.organization = organizationSubdomain;
   
-      if (!schoolSubdomain) throw new AuthFailureError();
+      if (!organizationSubdomain) throw new AuthFailureError();
   
-      const connection = await getNewTenantConnection(schoolSubdomain);
+      const connection = await getNewTenantConnection(organizationSubdomain);
       console.log("created new tenant connection");
       req.DBConnection = connection;
       next();

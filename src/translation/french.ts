@@ -31,7 +31,7 @@ export const frenchTranslation: TranslationObject = {
     invalidPassword: "Mot de passe invalide",
   },
   alreadyExist: {
-    schoolYear: "L'année scolaire existe déjà",
+    organizationYear: "L'année scolaire existe déjà",
   },
   authentication: {
     invalidCredentials: "Identifiants invalides",
@@ -53,12 +53,14 @@ export const frenchTranslation: TranslationObject = {
     accessDenied: "Accès refusé",
     badRequest: "Mauvaise demande",
     fileIsRequired: "Le fichier est requis",
+    organizationNotFound: "L'organisation est introuvable",
+    organizationAlreadyExists: "L'organisation existe déjà",
   },
   notFound: {
     chapterAttachment: "Pièce jointe de chapitre introuvable",
     tutorial: "Tutoriel introuvable",
     group: "Groupe non trouvé",
-    schoolYear: "Année scolaire introuvable",
+    organizationYear: "Année scolaire introuvable",
     classroom: "Classe non trouvée",
     teacherProfile: "Profile de l'enseignant non trouvé",
     teacher: "Enseignant non trouvé",
@@ -73,7 +75,7 @@ export const frenchTranslation: TranslationObject = {
     notification: "La notification est introuvable",
     subjectType: "Le type de matière est introuvable",
     groupType: "Le type de group est introuvable",
-    school: "L'école est introuvable",
+    organization: "L'organisation est introuvable",
     class: "La classe est introuvable",
     term: "Le terme est introuvable",
     service: "Le service est introuvable",
@@ -418,10 +420,10 @@ export const frenchTranslation: TranslationObject = {
     updatedSuccessfully: "Maître mis à jour avec succès",
     deletedSuccessfully: "Maître supprimé avec succès",
   },
-  school: {
-    addedSuccessfully: "École ajoutée avec succès",
+  organization: {
+    addedSuccessfully: "Organisation ajoutée avec succès",
     configNotFound: "La configuration n'existe pas",
-    updatedSuccessfully: "École mise à jour avec succès",
+    updatedSuccessfully: "Organisation mise à jour avec succès",
   },
   grade: {
     coefficientMustBePositive: "Le coefficient doit être positif",
@@ -429,7 +431,7 @@ export const frenchTranslation: TranslationObject = {
     markMustBeNullIfDispensed: "La note doit être nulle si la note est dispensée",
     notFound: "Note introuvable",
   },
-  schoolYear: {
+  organizationYear: {
     hasEnded: "L'année scolaire a pris fin",
   },
   weeklySession: {
