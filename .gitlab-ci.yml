@@ -52,7 +52,7 @@ deploy-shared-types:
     - npm publish
     - git push -o ci.skip https://$DEPLOY_USERNAME:$WRITE_TOKEN@gitlab.com/Softylines-Alternance/iecd-backend-v1.git/ HEAD:feat/participant
   only:
-    - feat/pariticpant
+    - feat/participant
     
 deploy-dev:
   stage: deploy
