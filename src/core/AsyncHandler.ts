@@ -8,7 +8,7 @@ import { IUser } from "../types/entities";
 import { container } from "./container/container";
 import { Organization } from "../feature/organization-magement/domain/organization.entity";
 import { ID } from "../types/BaseEntity";
-import { schoolDocStore } from "./subdomainStore";
+import { organizationDocStore } from "./subdomainStore";
 import { APIErrorResponse } from "./responseAPI/APIErrorResponse";
 import { DatabaseService } from "./database/database.service";
 import { DATABASE_SERVIßE_IDENTIFIER } from "./database/constant";

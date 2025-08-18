@@ -21,7 +21,7 @@ export const BaseUserSchema = createCompleteSchema<BaseUser>({
       type: { type: String, enum: Object.values(UserTypeEnum), required: true },
       roles: [{ type: Types.ObjectId, ref: RoleKey }],
       password: { type: String, required: true },
-      schoolSubdomain: { type: String, required: true },
+      organizationSubdomain: { type: String, required: true },
       fullName: { type: String, required: true },
       passwordChangedAt: { type: Date, required: false },
     },

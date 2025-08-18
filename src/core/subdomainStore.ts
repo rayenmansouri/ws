@@ -7,7 +7,7 @@ interface SchoolDocStore {
   [key: string]: any;
 }
 
-export const schoolDocStore: SchoolDocStore = {};
+export const organizationDocStore: SchoolDocStore = {};
 
 export const initializeSubdomains = async () => {
   const organizationRepo = container.get<OrganizationRepository>(ORGANIZATION_REPOSITORY_IDENTIFIER);
@@ -21,12 +21,12 @@ export const initializeSubdomains = async () => {
 };
 
 export const addSchoolToGlobalStore = (school: any) => {
-  schoolDocStore[school.id] = school;
+  organizationDocStore[school.id] = school;
 };
 
-export const removeSchoolFromGlobalStore = (schoolSubdomain: string) => {
-  const schoolDoc = Object.values(schoolDocStore).find(
-    school => school.subdomain === schoolSubdomain,
+export const removeSchoolFromGlobalStore = (organizationSubdomain: string) => {
+  const schoolDoc = Object.values(organizationDocStore).find(
+    school => school.subdomain === organizationSubdomain,
   );
-  if (schoolDoc) delete schoolDocStore[schoolDoc.id];
+  if (schoolDoc) delete organizationDocStore[schoolDoc.id];
 };

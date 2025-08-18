@@ -139,12 +139,12 @@ export class SocketManager {
   private addTenantConnectionToSocket = async (socket: protectsSocket): Promise<void> => {
     const databaseService = container.get<DatabaseService>(DATABASE_SERVIßE_IDENTIFIER);
     const organization = databaseService.getOrganization(socket.tenantId);
-    const schoolSubdomain = organization?.subdomain;
-    if (!schoolSubdomain) {
+    const organizationSubdomain = organization?.subdomain;
+    if (!organizationSubdomain) {
       throw authError(ErrorSocketEnum.SUBDOMAIN_NOT_FOUND);
     }
 
-    const connection = await getNewTenantConnection(schoolSubdomain);
+    const connection = await getNewTenantConnection(organizationSubdomain);
     socket.connection = connection;
   };
 

@@ -14,6 +14,8 @@ export type TranslationObject = {
     accessDenied: string;
     badRequest: string;
     fileIsRequired: string;
+    organizationNotFound: string;
+    organizationAlreadyExists: string;
   };
   validation: {
     parentEmailOrPhoneNumberRequired: string;
@@ -54,7 +56,7 @@ export type TranslationObject = {
     notification: string;
     subjectType: string;
     groupType: string;
-    school: string;
+    organization: string;
     term: string;
     service: string;
     expense: string;
@@ -81,7 +83,7 @@ export type TranslationObject = {
     osAppVersion: string;
     sessionType: string;
     classroom: string;
-    schoolYear: string;
+    organizationYear: string;
     invoice: string;
     alert: string;
     bankTransfer: string;
@@ -112,7 +114,7 @@ export type TranslationObject = {
     classroom: string;
   };
   alreadyExist: {
-    schoolYear: string;
+    organizationYear: string;
   };
   holiday: {
     createdSuccessfully: string;
@@ -412,12 +414,12 @@ export type TranslationObject = {
     updatedSuccessfully: string;
     deletedSuccessfully: string;
   };
-  school: {
+  organization: {
     addedSuccessfully: string;
     configNotFound: string;
     updatedSuccessfully: string;
   };
-  schoolYear: {
+  organizationYear: {
     hasEnded: string;
   };
   invoice: {

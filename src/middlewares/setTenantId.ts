@@ -14,7 +14,7 @@ export const setTenantId = AsyncHandlerForMiddleware(
     if (!organization) throw new NotFoundError("notFound.organization");
 
     req.tenantId = req.params.tenantId;
-    req.schoolTimeZone = organization.timeZone || "Africa/Tunis";
+    req.organizationTimeZone = organization.timeZone || "Africa/Tunis";
     next();
   },
 );

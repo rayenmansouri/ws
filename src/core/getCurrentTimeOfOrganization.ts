@@ -1,7 +1,7 @@
-import { schoolDocStore } from "./subdomainStore";
+import { organizationDocStore } from "./subdomainStore";
 
-export const getCurrentTimeOfSchool = (schoolId: string): Date => {
-  const schoolDoc = schoolDocStore[schoolId];
+export const getCurrentTimeOfSchool = (organizationId: string): Date => {
+  const schoolDoc = organizationDocStore[organizationId];
 
   const timeZone = schoolDoc.timeZone;
 
@@ -12,8 +12,8 @@ export const getCurrentTimeOfSchool = (schoolId: string): Date => {
 
   return currentTime;
 };
-export const getTimeOfSchool = (schoolId: string, date: Date): Date => {
-  const schoolDoc = schoolDocStore[schoolId];
+export const getTimeOfSchool = (organizationId: string, date: Date): Date => {
+  const schoolDoc = organizationDocStore[organizationId];
 
   const timeZone = schoolDoc.timeZone;
 

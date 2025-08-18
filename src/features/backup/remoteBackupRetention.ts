@@ -6,8 +6,8 @@ import { sortArrayOfStringsAscending } from '../../helpers/sortArrayByDate';
 import { deleteDirectory } from '../../core/dropbox/deleteDirectory';
 import { getSubDirectoriesOfPath } from '../../core/dropbox/getSubDirectoriesOfPath';
 
-export const remoteBackupRotation = async (schoolSubdomain: string) => {
-  const schoolDirectory = join('/', environment, schoolSubdomain, backupFolderName);
+export const remoteBackupRotation = async (organizationSubdomain: string) => {
+  const schoolDirectory = join('/', environment, organizationSubdomain, backupFolderName);
 
   const subDirectories = await getSubDirectoriesOfPath(schoolDirectory);
 
@@ -21,7 +21,7 @@ export const remoteBackupRotation = async (schoolSubdomain: string) => {
 
   for (const directoryName of subDirectoriesToDelete) {
     const directoryPath = join(schoolDirectory, directoryName);
-    Logger.info(`Deleting all backups in remote folder ${directoryName} for ${schoolSubdomain}`);
+    Logger.info(`Deleting all backups in remote folder ${directoryName} for ${organizationSubdomain}`);
     await deleteDirectory(directoryPath);
   }
 };

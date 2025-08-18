@@ -29,7 +29,7 @@ export const englishTranslation: TranslationObject = {
     invalidPassword: "Invalid password",
   },
   alreadyExist: {
-    schoolYear: "School year already exists",
+    organizationYear: "Organization year already exists",
   },
   authentication: {
     invalidCredentials: "Invalid credentials",
@@ -51,12 +51,14 @@ export const englishTranslation: TranslationObject = {
     accessDenied: "Access denied",
     badRequest: "Bad request",
     fileIsRequired: "File is required",
+    organizationNotFound: "Organization is not found",
+    organizationAlreadyExists: "Organization already exists",
   },
   notFound: {
     chapterAttachment: "Chapter attachment not found",
     tutorial: "Tutorial not found",
     group: "Group not found",
-    schoolYear: "School year is not found",
+    organizationYear: "Organization year is not found",
     classroom: "Classroom not found",
     teacher: "Teacher not found",
     teacherProfile: "Teacher profile not found",
@@ -71,7 +73,7 @@ export const englishTranslation: TranslationObject = {
     notification: "Notification is not found",
     subjectType: "Subject type is not found",
     groupType: "Optional subject type is not found",
-    school: "School is not found",
+    organization: "Organization is not found",
     class: "Class is not found",
     term: "Term is not found",
     service: "Service is not found",
@@ -401,10 +403,10 @@ export const englishTranslation: TranslationObject = {
     updatedSuccessfully: "Master updated successfully",
     deletedSuccessfully: "Master deleted successfully",
   },
-  school: {
-    addedSuccessfully: "School added successfully",
+  organization: {
+    addedSuccessfully: "Organization added successfully",
     configNotFound: "Config not found",
-    updatedSuccessfully: "School updated successfully",
+    updatedSuccessfully: "Organization updated successfully",
   },
   grade: {
     coefficientMustBePositive: "Coefficient must be positive",
@@ -412,8 +414,8 @@ export const englishTranslation: TranslationObject = {
     markMustBeNullIfDispensed: "Mark must be null if dispensed",
     notFound: "Grade not found",
   },
-  schoolYear: {
-    hasEnded: "School year has ended",
+  organizationYear: {
+    hasEnded: "Organization year has ended",
   },
   weeklySession: {
     cannotBeUpdated: "Weekly session cannot be updated",

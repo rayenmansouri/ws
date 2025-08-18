@@ -6,14 +6,14 @@ import { backupFolderName } from './constants';
 import { uploadFileToDropbox } from '../../core/dropbox/uploadFileToDropbox';
 
 export const uploadBackup = async (fileName: string, filePath: string) => {
-  const [schoolSubdomain, backupDay] = fileName.split('_');
+  const [organizationSubdomain, backupDay] = fileName.split('_');
 
   const backupFileFullPath = join(filePath, fileName);
   const backupFileBuffer = await readFile(backupFileFullPath);
 
   Logger.info(`Uploading backup ${fileName}`);
 
-  const uploadPath = `/${environment}/${schoolSubdomain}/${backupFolderName}/${backupDay}/${fileName}`;
+  const uploadPath = `/${environment}/${organizationSubdomain}/${backupFolderName}/${backupDay}/${fileName}`;
   await uploadFileToDropbox(backupFileBuffer, uploadPath);
 
   Logger.info(`Finished uploading backup ${fileName}`);
