@@ -6,12 +6,10 @@ import { AuthFailureError } from "./ApplicationErrors";
 
 export class AuthenticationHelper {
   static async checkStringHashMatch(str: string, hashedStr: string): Promise<boolean> {
-    console.log("checking string hash match ",str,hashedStr);
     return await bcrypt.compare(str, hashedStr);
   }
 
   static async hashString(value: string): Promise<string> {
-    console.log("hashing string ",value,saltRounds);
     return await bcrypt.hash(value, saltRounds);
   }
 

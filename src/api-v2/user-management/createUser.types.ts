@@ -8,7 +8,9 @@ export type CreateUserRouteConfig = TypedRequestOptions & {
     lastName: string;
     email: string;
     password: string;
-    type: UserTypeEnum; 
+    type: UserTypeEnum;
+    gender: string;
+    birthDate: Date;
     schoolSubdomain: string;
     phoneNumber: string;
     participantData?: Record<string, unknown>;

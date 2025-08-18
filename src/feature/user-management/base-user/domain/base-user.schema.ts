@@ -18,6 +18,8 @@ export const BaseUserSchema = createCompleteSchema<BaseUser>({
       firstName: { type: String, required: true },
       lastName: { type: String, required: true },
       email: { type: String, required: true },
+      gender: { type: String, required: true },
+      birthDate: { type: Date, required: true },
       type: { type: String, enum: Object.values(UserTypeEnum), required: true },
       roles: [{ type: Types.ObjectId, ref: RoleKey }],
       password: { type: String, required: true },

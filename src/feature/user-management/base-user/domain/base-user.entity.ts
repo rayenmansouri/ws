@@ -19,15 +19,19 @@ export type CreateBaseUser = {
     size: number;
     mimeType: string;
   };
+  gender: string;
+  birthDate: Date;
 };
 
 export type BaseUser = CreateBaseUser & {
   id: string
 };
 
-export class BaseUserEntity{
+export class BaseUserEntity implements BaseUser{
     public id: string;
     public schoolSubdomain: string;
+    public gender: string;
+    public birthDate: Date;
     public firstName: string;
     public lastName: string;
     public fullName: string;
@@ -50,6 +54,8 @@ export class BaseUserEntity{
     ){
         this.id = json._id.toString();
         this.schoolSubdomain = json.schoolSubdomain;
+        this.gender = json.gender;
+        this.birthDate = json.birthDate;
         this.firstName = json.firstName;
         this.lastName = json.lastName;
         this.fullName = json.fullName;
@@ -75,7 +81,9 @@ export class BaseUserEntity{
             type: this.type,
             passwordChangedAt: this.passwordChangedAt,
             roles: this.roles,
-            avatar: this.avatar
+            avatar: this.avatar,
+            gender: this.gender,
+            birthDate: this.birthDate
         };
     }
 

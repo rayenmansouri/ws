@@ -18,6 +18,7 @@ export default class SeedMasters implements ISeeder {
             fullName: "admin",
             password: "password",
             address1: "sahloul",
+            gender: "male",
             address2: "tunis",
             birthDate: new Date("1990-01-01"),
             phoneNumber: "1234567890",
