@@ -1,6 +1,6 @@
 {
-  "name": "@softylines-alternance/shared-types",
-  "version": "2.0.0",
+  "name": "@Softylines-Alternance/shared-types",
+  "version": "3.0.0",
   "description": "",
   "main": "index.js",
   "dependencies": {
