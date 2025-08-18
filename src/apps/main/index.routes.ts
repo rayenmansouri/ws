@@ -4,7 +4,7 @@ import { createRoutes } from "../../core/RoutesV2/createRoutes";
 import { meRoute } from "../../api-v2/auth/me/me.route";
 import { organizationRoute } from "../../api-v2/organization-api/create-organization/organization.route";
 import { configRoute } from "../../api-v2/organization-api/config/config.route";
-import { createUserRoute } from "../../api-v2/user-management/createUser.route";
+import { createAdminRoute, coachRoute, createParticipantRoute } from "../../api-v2/user-management/createUser.route";
 import { uploadAvatarRoute } from "../../api-v2/user-management/uploadAvatar/uploadAvatar.route";
 import { publicRouter } from "./routers/public-router";
 import { adminRouter } from "./routers/admin-router";
@@ -25,7 +25,7 @@ router.use(publicRouter);
 router.use("/admin", adminRouter);
 router.use("/master", masterRouter);
 
-const routes = [adminLoginRoute, meRoute, organizationRoute, configRoute, createUserRoute, uploadAvatarRoute, dashboardRoute, levelsOverviewRoute,forgetPasswordRoute, updateCurrentUserPasswordRoute];
+const routes = [adminLoginRoute, meRoute, organizationRoute, configRoute, createParticipantRoute, createAdminRoute, coachRoute, uploadAvatarRoute, dashboardRoute, levelsOverviewRoute,forgetPasswordRoute, updateCurrentUserPasswordRoute];
 createRoutes(routes as RouteConfiguration<TypedRequestOptions, string>[]);
 export default router;
  
