@@ -39,6 +39,7 @@ export interface BaseProtectedRequest extends Request {
   user: Omit<BaseUser, "roles"> & { roles: Role[] };
   conn: Connection;
   newConnection: Connection;
+  schoolTimeZone: string;
   tenantId: ID;
   organizationTimeZone: string;
   userId: string;

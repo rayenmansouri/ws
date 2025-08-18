@@ -1,5 +1,5 @@
-import { Participant } from "../base-participant.entity";
+import { BaseParticipant } from "../base-participant.entity";
 
-export type DncParticipant = Participant & {
+export type DncParticipant = BaseParticipant & {
     dncParticipant: boolean;
 } 

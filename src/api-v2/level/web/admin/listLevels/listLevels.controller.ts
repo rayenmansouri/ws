@@ -13,8 +13,8 @@ export class ListLevelsController extends BaseController<ListLevelsRouteConfig> 
     const mockLevels: ListLevelsResponse = {
       data: [],
       pagination: {
-        page: req.query.page || 1,
-        limit: req.query.limit || 10,
+        page: req.query.page ?? 1,
+        limit: req.query.limit ?? 10,
         total: 0,
         totalPages: 0,
       },

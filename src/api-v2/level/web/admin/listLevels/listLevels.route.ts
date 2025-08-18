@@ -3,6 +3,7 @@ import { getTenantAuthenticatedMiddlewares } from "../../../../../core/express/m
 import { PLATFORM_ENUM, RouteConfiguration } from "../../../../../core/express/types";
 import { ListLevelsController } from "./listLevels.controller";
 import { ListLevelsRouteConfig } from "./listLevels.types";
+import { listLevelsValidation } from "./listLevels.validation";
 
 export const listLevelsRoute: RouteConfiguration<ListLevelsRouteConfig, "/levels"> = {
   path: "/levels",
@@ -13,6 +14,7 @@ export const listLevelsRoute: RouteConfiguration<ListLevelsRouteConfig, "/levels
   isPublic: false,
   isTransactionEnabled: false,
   platform: PLATFORM_ENUM.WEB,
+  querySchema: listLevelsValidation.query,
   endUser: "admin",
   authorization: { action: "VIEW", resource: "LEVEL" },
 };

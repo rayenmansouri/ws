@@ -3,11 +3,15 @@ import { RouteConfiguration } from "../../../core/express/types";
 import { UploadAvatarController } from "./uploadAvatar.controller";
 import { UploadAvatarRouteConfig } from "./uploadAvatar.types";
 import { getCoreMiddlewares } from "../../../core/express/middlewares/registerCoreMiddlewares";
+import { z } from "zod";
 
 export const uploadAvatarRoute: RouteConfiguration<UploadAvatarRouteConfig, "/avatar"> = {
     path: "/avatar",
     method: "patch",
-    endUser: "ADMIN",
+    bodySchema: z.object({}),
+    querySchema: z.object({}),
+    isPublic: false,
+    endUser: "admin",
     controller: UploadAvatarController,
     isTransactionEnabled: false,
     platform: "web",

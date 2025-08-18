@@ -5,7 +5,6 @@ import { RandomUtils } from "../../../helpers/RandomUtils";
 import { EmailManager } from "../../emailManager/domain/EmailManager";
 import { SmsManager } from "../../smsManager/domain/SmsManager";
 import { UserTypeEnum } from "../../user-management/factory/enums";
-import { BaseUserEntity } from "../../users/domain/baseUser.entity";
 import { VerificationCodeRepository } from "../domain/verificationCode.repo";
 import { CREATE_VERIFICATION_CODE_USE_CASE_IDENTIFIER } from "./constants";
 import { AuthenticationHelper } from "../../../core/auth.helper";
@@ -16,6 +15,7 @@ import { InternalError } from "../../../core/ApplicationErrors";
 import { VERIFICATION_CODE_REPOSITORY_IDENTIFIER } from "../domain/constant";
 import { EMAIL_MANAGER_IDENTIFIER } from "../../emailManager/constants";
 import { SMS_MANAGER_IDENTIFIER } from "../../smsManager/constants";
+import { BaseUserEntity } from "../../user-management/base-user/domain/base-user.entity";
 
 type ForgetPasswordRequest = {
     credential: string;

@@ -2,10 +2,10 @@ import { BadRequestError } from "../../../core/ApplicationErrors";
 import { Injectable } from "../../../core/container/decorators/AutoRegister.decorator";
 import { inject } from "../../../core/container/TypedContainer";
 import { AuthenticationHelper } from "../../../core/auth.helper";
-import { BaseUserEntity } from "../../users/domain/baseUser.entity";
 import { UserRepository } from "../../user-management/base-user/domain/base-user.repository";
 import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../user-management/constants";
 import { UPDATE_CURRENT_USER_PASSWORD_USE_CASE_IDENTIFIER } from "./constants";
+import { BaseUserEntity } from "../../user-management/base-user/domain/base-user.entity";
 
 export type UpdateCurrentUserPasswordUseCaseRequest = {
   user: Pick<BaseUserEntity, "id" | "password" | "schoolSubdomain">;

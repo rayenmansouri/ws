@@ -1,6 +1,6 @@
-import { TypedRequestOptions } from "../../core/express/types";
+import { TypedRequest } from "../../../core/express/types";
 
-export type UploadAvatarRouteConfig = TypedRequestOptions & {
+export type UploadAvatarRouteConfig = TypedRequest & {
   files: { avatar: Express.Multer.File[] };
 };
 

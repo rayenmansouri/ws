@@ -1,6 +1,11 @@
 import { ListLevelsValidation } from "./listLevels.validation";
 
-export type ListLevelsRouteConfig = ListLevelsValidation & { files: never };
+export type ListLevelsRouteConfig = {
+  body: null;
+  params: null;
+  query: ListLevelsValidation;
+  files: never;
+};
 
 export type ListLevelsResponse = {
   data: Array<{
