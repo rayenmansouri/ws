@@ -21,6 +21,8 @@
     "upgrade": "npm update --save-dev && npm update --save",
     "coverage": "jest --coverage --verbose",
     "test": "node --max-old-space-size=4096 ./node_modules/.bin/jest --colors --runInBand -b",
+    "test:e2e": "npx jest --config jest.e2e.config.js --colors --runInBand",
+    "test:e2e:watch": "npx jest --config jest.e2e.config.js --colors --runInBand --watch",
     "seed": "ts-node-dev  src/helpers/seeder.ts",
     "DB": "./importDB.sh",
     "app": "./run.sh",
