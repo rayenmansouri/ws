@@ -7,7 +7,7 @@ import { SuccessResponse } from "../../core/responseAPI/APISuccessResponse";
 import { UserTypeEnum } from "../../feature/user-management/factory/enums";
 import { inject } from "../../core/container/TypedContainer";
 import { Injectable } from "../../core/container/decorators/AutoRegister.decorator";
-import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../feature/user-management/constants";
+import { BASE_USER_REPOSITORY_IDENTIFIER, REPOSITORY_FACTORY_IDENTIFIER } from "../../feature/user-management/constants";
 import { BadRequestError } from "../../core/ApplicationErrors";
 import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../feature/organization-magement/constant";
 import { OrganizationRepository } from "../../feature/organization-magement/domain/organization.repo";
@@ -16,26 +16,32 @@ import { ROLE_REPOSITORY_IDENTIFIER } from "../../feature/roles/constant";
 import { RoleRepository } from "../../feature/roles/role.repo";
 import { getParticipantValidationSchema } from "../../feature/user-management/factory/zod-schema.factory";
 import { z } from "zod";
+import { RepositoryFactory } from "../../feature/user-management/factory/repository.factory";
 
 @Injectable({
   identifier: "CreateUserController",
 })
 export class CreateUserController extends BaseController<CreateUserRouteConfig> {
   constructor(
-    @inject(BASE_USER_REPOSITORY_IDENTIFIER) private userRepo: UserRepository,
     @inject(ORGANIZATION_REPOSITORY_IDENTIFIER) private schoolRepo: OrganizationRepository,
     @inject(ROLE_REPOSITORY_IDENTIFIER) private roleRepo: RoleRepository,
+    @inject(REPOSITORY_FACTORY_IDENTIFIER) private repositoryFactory: RepositoryFactory,
   ) {
     super();
   }
 
   async main(req: TypedRequest<CreateUserRouteConfig>): Promise<void | APIResponse> {
-    const { firstName, lastName, email, password, schoolSubdomain, type,phoneNumber, participantData = {}, gender, birthDate } = req.body;
+    const { firstName, lastName, email, password,
+            schoolSubdomain, type,phoneNumber,
+            participantData = {}, gender, birthDate,
+    } = req.body;
+    const userRepository = this.repositoryFactory.getRepository(type);
     //check if user already exists
-    const existingUser = await this.userRepo.findOne({ email });
+    const existingUser = await userRepository.findOne({ email });
     if(existingUser) throw new BadRequestError("global.userAlreadyExists");
     const organization = await this.schoolRepo.findOne({ subdomain: schoolSubdomain });
     if(!organization) throw new BadRequestError("global.schoolNotFound");
+    userRepository.organization = organization;
     const organizationSystemType = organization.organizationSystemType;
     const participantSchema = getParticipantValidationSchema(organizationSystemType);
     if (type === UserTypeEnum.PARTICIPANT && Object.keys(participantData).length > 0) {
@@ -54,7 +60,7 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
       name: type
     })
     if(roles.length === 0) throw new BadRequestError("global.roleNotFound");
-    await this.userRepo.create({
+    await userRepository.create({
       firstName,
       lastName, 
       fullName: `${firstName} ${lastName}`,
@@ -70,8 +76,8 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
     });
    
     //hash password
-    this.userRepo.switchConnection(schoolSubdomain);
-    const createdUser = await this.userRepo.create({
+    userRepository.switchConnection(schoolSubdomain);
+    const createdUser = await userRepository.create({
       firstName,
       lastName, 
       fullName: `${firstName} ${lastName}`,

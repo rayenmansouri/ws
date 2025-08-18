@@ -1,4 +1,4 @@
-import { model, Model } from "mongoose";
+import { Connection, Model } from "mongoose";
 import { MasterSchema } from "../master/domain/master.schema";
 import { UserTypeEnum } from "./enums";
 import { BaseUser } from "../base-user/domain/base-user.entity";
@@ -8,18 +8,21 @@ import { OrganizationSystemType } from "../../organization-magement/enums";
 import { dncMongoSchema } from "../participant/dnc/dnc-mongo.schema";
 import { participantSchema } from "../participant/participant.schema";
 
-export function getUserModel<T extends BaseUser>(type: UserTypeEnum, schoolSystemEnum: OrganizationSystemType): Model<T> { 
-  const BaseUserModel = model<BaseUser>("users", BaseUserSchema);
+export function getUserModel<T extends BaseUser>(connection: Connection, type: UserTypeEnum, schoolSystemEnum: OrganizationSystemType): Model<T> { 
+  const BaseUserModel = connection.model<BaseUser>("users", BaseUserSchema);
   switch (type) {
     case UserTypeEnum.MASTER:
       return BaseUserModel.discriminator<T>(UserTypeEnum.MASTER, MasterSchema);
     case UserTypeEnum.COACH:
       return BaseUserModel.discriminator<T>(UserTypeEnum.COACH, CoachSchema);
     case UserTypeEnum.PARTICIPANT:
-      const participant = BaseUserModel.discriminator<T>(UserTypeEnum.PARTICIPANT, participantSchema);
       switch (schoolSystemEnum) {
         case OrganizationSystemType.DNC:
-          return participant.discriminator<T>(UserTypeEnum.PARTICIPANT, dncMongoSchema);
+          const dncSchema = BaseUserModel?.discriminators?.[UserTypeEnum.PARTICIPANT] as Model<T>;
+          if(dncSchema !== undefined) {
+            return dncSchema;
+          }
+          return BaseUserModel.discriminator<T>(UserTypeEnum.PARTICIPANT, participantSchema.add(dncMongoSchema));
         default:
           throw new Error(`School system ${schoolSystemEnum} not supported`);
       }

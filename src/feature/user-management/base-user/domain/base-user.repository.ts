@@ -8,17 +8,21 @@ import { Injectable } from "../../../../core/container/decorators/AutoRegister.d
 import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../constants";
 import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNECTION_IDENTIFIR } from "../../../../core/database/constant";
 import { FileDetails } from "../../../../core/fileManager/FileManager";
+import { Organization } from "../../../organization-magement/domain/organization.entity";
 
 @Injectable({
     identifier: BASE_USER_REPOSITORY_IDENTIFIER,
 })
 export class UserRepository extends BaseRepository<CreateBaseUser, BaseUserEntity> {
+    public organization: Organization;
     constructor(
         @inject(CONNECTION_POOL_IDENTIFIER) connectionPool: ConnectionPool,
         @inject(MASTER_CONNECTION_IDENTIFIR) masterConnection: Connection,
         @inject(CURRENT_CONNECTION_IDENTIFIER) currentConnection: string,
+        @inject("Organization") organization: Organization,
     ) {
         super(connectionPool, masterConnection, currentConnection);
+        this.organization = organization;
     }
 
     getModel(): Model<BaseUser> {

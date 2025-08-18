@@ -35,7 +35,7 @@ export const registerAllDependencies = (): void => {
   // Email and SMS services
   container.bind(EMAIL_MANAGER_IDENTIFIER).to(NodeMailerEmailManager).inSingletonScope();
   container.bind(SMS_MANAGER_IDENTIFIER).to(TunisieSmsManager).inSingletonScope();
-
+  container.bind("Organization").toConstantValue(undefined);
   container.bind("HandlerSubscriber").to(HandlerSubscriber).inSingletonScope();
 
 };
