@@ -1,4 +1,4 @@
-import { publicRouter } from "../../apps/main/routers/public-router";
+import { adminRouter } from "../../apps/main/routers/admin-router";
 import { getTenantAuthenticatedMiddlewares } from "../../core/express/middlewares/registerCoreMiddlewares";
 import { PLATFORM_ENUM, RouteConfiguration } from "../../core/express/types";
 import { DashboardController } from "./dashboard.controller";
@@ -10,7 +10,7 @@ export const dashboardRoute: RouteConfiguration<GetDashboardRouteConfig, "/dashb
     method: "get",
     controller: DashboardController,
     middlewaresClasses: getTenantAuthenticatedMiddlewares(),
-    router: publicRouter,
+    router: adminRouter,
     isPublic: false,
     isTransactionEnabled: false,
     platform: PLATFORM_ENUM.WEB,

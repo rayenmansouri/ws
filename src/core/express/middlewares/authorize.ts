@@ -13,14 +13,14 @@ export class RoleService {
   constructor() {}
 
   static formatPermission(action: TActionsEnum, resource: TResourcesEnum): string {
-    return `${action}.${resource}`;
+    return `${action}_${resource}`;
   }
 
   static ensurePermissionsAreValid(permissions: string[]): void {
     let isValid = true;
 
     for (const permission of permissions) {
-      const [action, resource] = permission.split(".");
+      const [action, resource] = permission.split("_");
 
       if (!action || !resource) isValid = false;
 
@@ -48,7 +48,6 @@ export class AuthorizationService {
     if (this.isSuperAdmin(user)) return true;
 
     const permission = RoleService.formatPermission(action, resource);
-
     const hasPermission = user.roles.some(role => {
       return role.permissions.includes(permission);
     });

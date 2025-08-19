@@ -1,22 +1,27 @@
 import { GetDashboardValidation } from "./dashboard.validation";
 
 export type AdminDashboardDTO = {
-    totalClasses: number;
-    totalStudentsCount: number;
-    unaffectedStudentsCount: number;
-    affectedStudentsCount: number;
-    totalParents: number;
-    totalTeachers: number;
-    staffCount: number;
-    levels: { name: string; _id: string }[];
-    subLevels: {
+  affectedStudentsCount: number;
+  unaffectedStudentsCount: number;
+  totalTeachers: number;
+  totalStudentsCount: number;
+  totalParents: number;
+  totalClasses: number;
+  staffCount: number;
+  levels: Array<{
+    _id: string;
+    name: string;
+  }>;
+  tabStats: {
+    chartData: Array<{
       name: string;
-      totalClasses: number;
-      totalStudents: number;
-      affectedStudents: number;
-      unaffectedStudents: number;
-      newId: string;
-    }[];
+      data: number[];
+    }>;
+    tableData: Array<{
+      _id: number;
+      totalTeenagers: number;
+    }>;
+  };
 };
 export type GetDashboardRouteConfig = GetDashboardValidation & { files: never }
 export type GetDashboardResponse = AdminDashboardDTO
