@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { Router } from "express";
 import { createRoutes } from "../../core/RoutesV2/createRoutes";
-import { meRoute } from "../../api-v2/auth/me/me.route";
+import { adminMeRoute } from "../../api-v2/auth/me/me.route";
 import { organizationRoute } from "../../api-v2/organization-api/create-organization/organization.route";
 import { configRoute } from "../../api-v2/organization-api/config/config.route";
 import { createAdminRoute, coachRoute, createParticipantRoute } from "../../api-v2/user-management/createUser.route";
@@ -25,7 +25,7 @@ router.use(publicRouter);
 router.use("/admin", adminRouter);
 router.use("/master", masterRouter);
 
-const routes = [adminLoginRoute, meRoute, organizationRoute, configRoute, createParticipantRoute, createAdminRoute, coachRoute, uploadAvatarRoute, dashboardRoute, levelsOverviewRoute,forgetPasswordRoute, updateCurrentUserPasswordRoute];
+const routes = [adminLoginRoute, adminMeRoute, organizationRoute, configRoute, createParticipantRoute, createAdminRoute, coachRoute, uploadAvatarRoute, dashboardRoute, levelsOverviewRoute,forgetPasswordRoute, updateCurrentUserPasswordRoute];
 createRoutes(routes as RouteConfiguration<TypedRequestOptions, string>[]);
 export default router;
  

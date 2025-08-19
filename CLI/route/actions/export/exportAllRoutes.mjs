@@ -57,13 +57,7 @@ export const exportAllRoutes = () => {
 
     fs.mkdirSync(path.join(WEB_SCHOOL_TYPES_DIRECTORY, "autoExport", feature, platform));
     const platformPath = path.join(API_DIRECTORY, feature, platform);
-    // TODO: TEMPORARY FIX THIS NEED TO BE REMOVED
-    if (platformPath.includes("auth")) {
-      const userTypes = fs.readdirSync(platformPath);
-      userTypes.forEach(userType => {
-        processUserType(feature, platform, userType);
-      });
-    }
+  
   }
 
   function processSharedRoute(feature, route) {
@@ -86,14 +80,11 @@ export const exportAllRoutes = () => {
   function processUserType(feature, platform, userType) {
     fs.mkdirSync(path.join(WEB_SCHOOL_TYPES_DIRECTORY, "autoExport", feature, platform, userType));
     const userTypePath = path.join(API_DIRECTORY, feature, platform, userType);
-    // TODO: TEMPORARY FIX THIS NEED TO BE REMOVED
-    if (userTypePath.includes("login")) {
-      const routes = fs.readdirSync(userTypePath);
+    const routes = fs.readdirSync(userTypePath);
 
-      routes.forEach(route => {
-        processRoute(feature, platform, userType, route);
-      });
-    }
+    routes.forEach(route => {
+      processRoute(feature, platform, userType, route);
+    });
   }
 
   function processRoute(feature, platform, userType, route) {

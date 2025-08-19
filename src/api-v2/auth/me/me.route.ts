@@ -1,11 +1,11 @@
-import { get } from "lodash";
-import { getAuthenticatedMiddlewares, getCoreMiddlewares } from "../../../core/express/middlewares/registerCoreMiddlewares";
+
+import { getAuthenticatedMiddlewares } from "../../../core/express/middlewares/registerCoreMiddlewares";
 import { PLATFORM_ENUM, RouteConfiguration } from "../../../core/express/types";
 import { MeController } from "./me.controller";
 import { MeRouteConfig } from "./me.types";
-import { publicRouter } from "../../../apps/main/routers/public-router";
+import { adminRouter } from "../../../apps/main/routers/admin-router";
 
-export const meRoute: RouteConfiguration<MeRouteConfig, "/me"> = {
+export const adminMeRoute: RouteConfiguration<MeRouteConfig, "/me"> = {
   path: "/me",
   method: "get",
   controller: MeController,
@@ -14,5 +14,5 @@ export const meRoute: RouteConfiguration<MeRouteConfig, "/me"> = {
   endUser: "admin",
   platform: PLATFORM_ENUM.WEB,
   middlewaresClasses: getAuthenticatedMiddlewares(),
-  router: publicRouter
+  router: adminRouter
 };

@@ -37,3 +37,4 @@ declare module 'glob' {
   const glob: Glob;
   export = glob;
 }
+
