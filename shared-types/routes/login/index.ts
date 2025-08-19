@@ -1,5 +1,6 @@
 import { LoginResponse } from "../../../src/api-v2/auth/public/login/login.types";
 import { LoginRouteConfig } from "../../../src/api-v2/auth/public/login/login.types";
+import { ReplaceDatesWithStrings } from "../../utils";
 
 export const loginRoute = {
     path: "/login",
@@ -7,6 +8,6 @@ export const loginRoute = {
     paramsKey: [],
   };
  
-export type LoginRouteType = LoginRouteConfig & {
-  response: LoginResponse
+export type LoginRouteType = ReplaceDatesWithStrings<LoginRouteConfig> & {
+  response: ReplaceDatesWithStrings<LoginResponse>
 }

@@ -1,6 +1,5 @@
+import { ReplaceDatesWithStrings } from "./utils";
+import { OrganizationSystemType as OrganizationSystemTypeEnum } from "../src/feature/organization-magement/enums";
 export * from "./routes";
 
-export { OrganizationSystemType } from "../src/feature/organization-magement/enums";
-
-
-
+export type OrganizationSystemType = ReplaceDatesWithStrings<OrganizationSystemTypeEnum>;

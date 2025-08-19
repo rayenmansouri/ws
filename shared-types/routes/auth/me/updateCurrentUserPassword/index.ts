@@ -1,3 +1,4 @@
+import { ReplaceDatesWithStrings } from "../../../../utils";
 import { UpdateCurrentUserPasswordResponse } from "../../../../../src/api-v2/auth/me/updateCurrentUserPassword/updateCurrentUserPassword.types";
 import { UpdateCurrentUserPasswordRouteConfig } from "../../../../../src/api-v2/auth/me/updateCurrentUserPassword/updateCurrentUserPassword.types";
 
@@ -7,6 +8,6 @@ export const updateCurrentUserPasswordRoute = {
     paramsKey: [],
 };
 
-export type UpdateCurrentUserPasswordRouteType = UpdateCurrentUserPasswordRouteConfig & {
-  response: UpdateCurrentUserPasswordResponse
+export type UpdateCurrentUserPasswordRouteType = ReplaceDatesWithStrings<UpdateCurrentUserPasswordRouteConfig> & {
+  response: ReplaceDatesWithStrings<UpdateCurrentUserPasswordResponse>
 }

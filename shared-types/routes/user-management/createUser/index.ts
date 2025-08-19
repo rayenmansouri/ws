@@ -1,3 +1,4 @@
+import { ReplaceDatesWithStrings } from "../../../utils";
 import { CreateUserResponse } from "../../../../src/api-v2/user-management/createUser.types";
 import { CreateUserRouteConfig } from "../../../../src/api-v2/user-management/createUser.types";
 
@@ -21,6 +22,6 @@ export const createCoachRouteObject = {
 };
 
 
-export type CreateUserRouteType = CreateUserRouteConfig & {
-  response: CreateUserResponse
+export type CreateUserRouteType = ReplaceDatesWithStrings<CreateUserRouteConfig> & {
+  response: ReplaceDatesWithStrings<CreateUserResponse>
 }

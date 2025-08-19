@@ -1,5 +1,6 @@
 import { GetDashboardResponse } from "../../../src/api-v2/dashboard/dashboard.types";
 import { GetDashboardRouteConfig } from "../../../src/api-v2/dashboard/dashboard.types";
+import { ReplaceDatesWithStrings } from "../../utils";
 
 export const dashboardRoute = {
     path: "/dashboard",
@@ -7,6 +8,6 @@ export const dashboardRoute = {
     paramsKey: [],
 };
 
-export type DashboardRouteType = GetDashboardRouteConfig & {
-  response: GetDashboardResponse
+export type DashboardRouteType = ReplaceDatesWithStrings<GetDashboardRouteConfig> & {
+  response: ReplaceDatesWithStrings<GetDashboardResponse>
 }

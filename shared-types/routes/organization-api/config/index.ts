@@ -1,3 +1,4 @@
+import { ReplaceDatesWithStrings } from "../../../utils";
 import { getConfigResponse } from "../../../../src/api-v2/organization-api/config/config-route.type";
 import { getConfigRouteType } from "../../../../src/api-v2/organization-api/config/config-route.type";
 
@@ -7,6 +8,6 @@ export const configRoute = {
     paramsKey: ["organizationId"],
 };
 
-export type ConfigRouteType = getConfigRouteType & {
-  response: getConfigResponse
+export type ConfigRouteType = ReplaceDatesWithStrings<getConfigRouteType> & {
+  response: ReplaceDatesWithStrings<getConfigResponse>
 }

@@ -1,3 +1,4 @@
+import { ReplaceDatesWithStrings } from "../../../../utils";
 import { ResetPasswordResponse } from "../../../../../src/api-v2/auth/public/reset-password/reset-password.types";
 import { ResetPasswordRouteConfig } from "../../../../../src/api-v2/auth/public/reset-password/reset-password.types";
 
@@ -7,6 +8,6 @@ export const resetPasswordRoute = {
     paramsKey: [],
 };
 
-export type ResetPasswordRouteType = ResetPasswordRouteConfig & {
-  response: ResetPasswordResponse
+export type ResetPasswordRouteType = ReplaceDatesWithStrings<ResetPasswordRouteConfig> & {
+  response: ReplaceDatesWithStrings<ResetPasswordResponse>
 }
