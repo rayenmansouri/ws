@@ -11,19 +11,20 @@ export function paginateResult<T>(
   array: T[],
   limit = 10,
   page = 1,
+  arrayLength: number,
 ): { docs: T[]; meta: PaginationMeta } {
   const start = (page - 1) * limit;
   const end = start + limit;
-  const totalPages = Math.ceil(array.length / limit);
+  const totalPages = Math.ceil(arrayLength / limit);
   const nextPage = page + 1 <= totalPages ? page + 1 : null;
   return {
     docs: array.slice(start, end),
     meta: {
       limit,
       page: page,
-      totalDocs: array.length,
+      totalDocs: arrayLength,
       totalPages,
-      total: array.length,
+      total: arrayLength,
       nextPage,
       hasNextPage: nextPage !== null,
       hasPrevPage: page > 1 ? true : false,

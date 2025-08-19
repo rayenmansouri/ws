@@ -53,6 +53,20 @@ export abstract class BaseRepository<Input,Output>{
         return result.map(item => new this.dto(item));
     }
 
+    async count(query: FilterQuery<Output> = {}): Promise<number> {
+        const model = this.getModel();
+        return await model.countDocuments(query);
+    }
+    
+    async findAllWithPagination(query: FilterQuery<Output> = {}, page: number = 1, limit: number = 10): Promise<Output[]> {
+        const model = this.getModel();
+        const result = await model.find(query)
+                                  .skip((page - 1) * limit)
+                                  .limit(limit)
+                                  .lean();
+        return result.map(item => new this.dto(item));
+    }
+
     async updateOne(query: FilterQuery<Input>, input: Partial<Input>): Promise<Output | null> {
         const model = this.getModel();
         const result = await model.findOneAndUpdate(query, { $set: input }, { new: true });

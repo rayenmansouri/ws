@@ -15,11 +15,10 @@ deploy-iecd-types:
     - end=$(date +%s) && duration=$((end - start)) && echo -e "${TXT_RED}Installed node_modules in $duration seconds"
     - cd iecd-types/
     - npm install
-    - npm run autoIncrement
     - apt-get update && apt-get install -y git
     - git config --global user.email "ci@gitlab.com"
     - git config --global user.name "Gitlab CI"
-    - ./autoIncrement.sh
+    - npm run autoIncrement
     - echo "@Softylines-Alternance:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - cat .npmrc
@@ -41,10 +40,10 @@ deploy-shared-types:
     - start=$(date +%s) && npm install
     - end=$(date +%s) && duration=$((end - start)) && echo -e "${TXT_RED}Installed node_modules in $duration seconds"
     - cd shared-types/
+    - apt-get update && apt-get install -y git
     - npm install
     - npm run build
     - npm run autoIncrement
-    - apt-get update && apt-get install -y git
     - git config --global user.email "ci@ci@gitlab.com"
     - git config --global user.name "Gitlab CI"
     - echo "@Softylines-Alternance:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc

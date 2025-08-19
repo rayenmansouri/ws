@@ -44,10 +44,11 @@ export class ListStudentController extends BaseController<ListStudentRouteConfig
     }
     
     // Get all students first, then paginate
-    const allStudents = await userRepository.findAll(filters);
+    const count = await userRepository.count(filters);
+    const allStudents = await userRepository.findAllWithPagination(filters, page, limit);
     
     // Apply pagination
-    const paginatedResult = paginateResult(allStudents, limit, page);
+    const paginatedResult = paginateResult(allStudents, limit, page, count);
     
     // Transform the response to match our schema
     const transformedStudents: StudentResponse[] = paginatedResult.docs.map((student) => {
