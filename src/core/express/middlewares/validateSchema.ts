@@ -33,9 +33,7 @@ export const validateSchema =
       next(new BadRequestError(error));
       return;
     }
-   
     req[source] = result.data; 
-    
     next();
   };
 
@@ -53,6 +51,7 @@ export class ValidateSchemaMiddleware implements IMiddlewareFunction {
       return [validateSchema(this.routeConfig.bodySchema, VALIDATION_SOURCE.BODY)];
     }
     if(this.routeConfig.querySchema !== undefined){
+
       return [parseQuery,validateSchema(this.routeConfig.querySchema, VALIDATION_SOURCE.QUERY)];
     }
     if(this.routeConfig.paramSchema !== undefined){

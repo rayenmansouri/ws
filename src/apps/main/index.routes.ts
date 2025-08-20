@@ -4,6 +4,7 @@ import { createRoutes } from "../../core/RoutesV2/createRoutes";
 import { adminMeRoute, coachMeRoute, masteMeRoute, participantMeRoute } from "../../api-v2/auth/me/me.route";
 import { organizationRoute } from "../../api-v2/organization-api/create-organization/organization.route";
 import { configRoute } from "../../api-v2/organization-api/config/config.route";
+import { getAllOrganizationsRoute } from "../../api-v2/organization-api/get-all-organizations/route";
 import { createAdminRoute, coachRoute, createParticipantRoute } from "../../api-v2/user-management/createUser.route";
 import { uploadAvatarRoute } from "../../api-v2/user-management/uploadAvatar/uploadAvatar.route";
 import { listStudentRoute } from "../../api-v2/user-management/list-student";
@@ -33,12 +34,13 @@ router.use("/participant", participantRouter);
 router.use("/coach", coachRouter);
 
 const routes = [listLevelsRoute,adminLoginRoute,logoutRoute,adminMeRoute,
-                organizationRoute, configRoute, createParticipantRoute,
+                organizationRoute, configRoute, getAllOrganizationsRoute, createParticipantRoute,
                 createAdminRoute, coachRoute, uploadAvatarRoute,
                 listStudentRoute, dashboardRoute, levelsOverviewRoute,
                 forgetPasswordRoute, updateCurrentUserPasswordRoute,
                 logoutRoute,masteMeRoute,participantMeRoute,coachMeRoute,
-                masterLoginRoute,participantLoginRoute,coachLoginRoute
+                masterLoginRoute,participantLoginRoute,coachLoginRoute,
+                getAllOrganizationsRoute
 ];
 createRoutes(routes as RouteConfiguration<TypedRequestOptions, string>[]);
 export default router;
