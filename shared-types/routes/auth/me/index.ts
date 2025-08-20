@@ -8,6 +8,17 @@ export const meRoute = {
     paramsKey: [],
 };
 
-export type MeRouteType = ReplaceDatesWithStrings<MeRouteConfig> & {
-  response: ReplaceDatesWithStrings<MeResponse>
+export type MeRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<MeRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<MeRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<MeRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<MeRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<MeResponse>;
+  };
 }

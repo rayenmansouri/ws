@@ -8,6 +8,17 @@ export const createOrganizationRoute = {
     paramsKey: [],
 };
 
-export type CreateOrganizationRouteType = ReplaceDatesWithStrings<CreateOrganizationRouteConfig> & {
-  response: ReplaceDatesWithStrings<CreateOrganizationResponse>
+export type CreateOrganizationRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<CreateOrganizationRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<CreateOrganizationRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<CreateOrganizationRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<CreateOrganizationRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<CreateOrganizationResponse>;
+  };
 }

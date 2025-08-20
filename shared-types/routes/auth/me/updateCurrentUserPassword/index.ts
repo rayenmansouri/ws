@@ -8,6 +8,17 @@ export const updateCurrentUserPasswordRoute = {
     paramsKey: [],
 };
 
-export type UpdateCurrentUserPasswordRouteType = ReplaceDatesWithStrings<UpdateCurrentUserPasswordRouteConfig> & {
-  response: ReplaceDatesWithStrings<UpdateCurrentUserPasswordResponse>
+export type UpdateCurrentUserPasswordRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<UpdateCurrentUserPasswordRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<UpdateCurrentUserPasswordRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<UpdateCurrentUserPasswordRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<UpdateCurrentUserPasswordRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<UpdateCurrentUserPasswordResponse>;
+  };
 }

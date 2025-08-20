@@ -8,6 +8,31 @@ export const loginRoute = {
     paramsKey: [],
   };
  
-export type LoginRouteType = ReplaceDatesWithStrings<LoginRouteConfig> & {
-  response: ReplaceDatesWithStrings<LoginResponse>
+export type LoginRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<LoginRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<LoginRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<LoginRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<LoginRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<LoginResponse>;
+  };
 }
+
+
+export type RouteType = {
+  body?: unknown;
+  params?: unknown;
+  query?: unknown;
+  files?: unknown;
+  response: {
+    status: string;
+    message: string;
+    data: unknown;
+  };
+};
+

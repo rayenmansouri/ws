@@ -8,6 +8,17 @@ export const resetPasswordRoute = {
     paramsKey: [],
 };
 
-export type ResetPasswordRouteType = ReplaceDatesWithStrings<ResetPasswordRouteConfig> & {
-  response: ReplaceDatesWithStrings<ResetPasswordResponse>
+export type ResetPasswordRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<ResetPasswordRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<ResetPasswordRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<ResetPasswordRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<ResetPasswordRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<ResetPasswordResponse>;
+  };
 }

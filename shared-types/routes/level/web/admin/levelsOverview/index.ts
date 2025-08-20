@@ -8,6 +8,17 @@ export const levelsOverviewRoute = {
     paramsKey: [],
 };
 
-export type LevelsOverviewRouteType = ReplaceDatesWithStrings<LevelsOverviewRouteConfig> & {
-  response: ReplaceDatesWithStrings<LevelsOverviewResponse>
+export type LevelsOverviewRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<LevelsOverviewRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<LevelsOverviewRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<LevelsOverviewRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<LevelsOverviewRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<LevelsOverviewResponse>;
+  };
 }

@@ -8,6 +8,17 @@ export const configRoute = {
     paramsKey: ["organizationId"],
 };
 
-export type ConfigRouteType = ReplaceDatesWithStrings<getConfigRouteType> & {
-  response: ReplaceDatesWithStrings<getConfigResponse>
+export type ConfigRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<getConfigRouteType['body']>;
+  params?: ReplaceDatesWithStrings<getConfigRouteType['params']>;
+  query?: ReplaceDatesWithStrings<getConfigRouteType['query']>;
+  files?: ReplaceDatesWithStrings<getConfigRouteType['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<getConfigResponse>;
+  };
 }

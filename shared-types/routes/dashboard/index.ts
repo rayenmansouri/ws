@@ -8,6 +8,17 @@ export const dashboardRoute = {
     paramsKey: [],
 };
 
-export type DashboardRouteType = ReplaceDatesWithStrings<GetDashboardRouteConfig> & {
-  response: ReplaceDatesWithStrings<GetDashboardResponse>
+export type DashboardRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<GetDashboardRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<GetDashboardRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<GetDashboardRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<GetDashboardRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<GetDashboardResponse>;
+  };
 }

@@ -7,6 +7,17 @@ export const listLevelsRoute = {
     paramsKey: [],
 };
 
-export type ListLevelsRouteType = ReplaceDatesWithStrings<ListLevelsRouteConfig> & {
-  response: ReplaceDatesWithStrings<ListLevelsResponse>
+export type ListLevelsRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<ListLevelsRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<ListLevelsRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<ListLevelsRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<ListLevelsRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<ListLevelsResponse>;
+  };
 }

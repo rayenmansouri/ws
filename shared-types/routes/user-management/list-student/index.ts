@@ -7,5 +7,16 @@ export const listStudentRouteObject = {
 };
 
 export type ListStudentRouteType = {
-  response: ListStudentResponse
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: unknown;
+  params?: unknown;
+  query?: unknown;
+  files?: unknown;
+  response: {
+    status: string;
+    message: string;
+    data: ListStudentResponse;
+  };
 }

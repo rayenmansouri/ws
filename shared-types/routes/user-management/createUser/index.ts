@@ -22,6 +22,17 @@ export const createCoachRouteObject = {
 };
 
 
-export type CreateUserRouteType = ReplaceDatesWithStrings<CreateUserRouteConfig> & {
-  response: ReplaceDatesWithStrings<CreateUserResponse>
+export type CreateUserRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<CreateUserRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<CreateUserRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<CreateUserRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<CreateUserRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<CreateUserResponse>;
+  };
 }

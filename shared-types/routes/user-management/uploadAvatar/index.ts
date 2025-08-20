@@ -8,6 +8,17 @@ export const uploadAvatarRoute = {
     paramsKey: [],
 };
 
-export type UploadAvatarRouteType = ReplaceDatesWithStrings<UploadAvatarRouteConfig> & {
-  response: ReplaceDatesWithStrings<UploadAvatarResponse>
+export type UploadAvatarRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<UploadAvatarRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<UploadAvatarRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<UploadAvatarRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<UploadAvatarRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<UploadAvatarResponse>;
+  };
 }

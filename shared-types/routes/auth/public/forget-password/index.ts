@@ -8,6 +8,17 @@ export const forgetPasswordRoute = {
     paramsKey: [],
 };
 
-export type ForgetPasswordRouteType = ReplaceDatesWithStrings<ForgetPasswordRouteConfig> & {
-  response: ReplaceDatesWithStrings<ForgetPasswordResponse>
+export type ForgetPasswordRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<ForgetPasswordResponse>;
+  };
 }
