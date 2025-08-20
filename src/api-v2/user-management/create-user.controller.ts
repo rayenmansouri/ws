@@ -17,6 +17,7 @@ import { RoleRepository } from "../../feature/roles/role.repo";
 import { getParticipantValidationSchema } from "../../feature/user-management/factory/zod-schema.factory";
 import { z } from "zod";
 import { RepositoryFactory } from "../../feature/user-management/factory/repository.factory";
+import { UserRoleMap } from "../../feature/roles/enums";
 
 @Injectable({
   identifier: "CreateUserController",
@@ -57,7 +58,7 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
     const hashedPassword = await AuthenticationHelper.hashString(password);
     //get roles
     const roles = await this.roleRepo.findAll({
-      name: type
+      userTypes: { $in: [type] }
     })
     if(roles.length === 0) throw new BadRequestError("global.roleNotFound");
     await userRepository.create({
