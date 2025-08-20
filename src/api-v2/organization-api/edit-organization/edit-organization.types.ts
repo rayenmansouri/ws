@@ -1,6 +1,6 @@
 import { GradeBookTheme, Organization } from "../../../feature/organization-magement/domain/organization.entity";
 import { TypedRequestOptions } from "../../../core/express/types";
-import { OrganizationSystemType } from "../../../feature/organization-magement/enums";
+import { OrganizationSystemType, ZoneTemplate } from "../../../feature/organization-magement/enums";
 
 export type EditOrganizationRouteConfig = TypedRequestOptions & {
   body: {
@@ -24,6 +24,7 @@ export type EditOrganizationRouteConfig = TypedRequestOptions & {
     notAvailableTimes?: { day: number; hours: number[] }[];
     cover?: string;
     timeZone?: string | null;
+    zonetemplate?: ZoneTemplate;
   };
   params: {
     id: string;

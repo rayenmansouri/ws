@@ -8,3 +8,10 @@ export enum OrganizationSystemType {
   LIBAN = "JANAH",
   DEFAULT = "DEFAULT",
 }
+
+export enum ZoneTemplate {
+  FRANCE = "france",
+  SUB_SAHARAN_AFRICA = "subSaharanAfrica",
+  MEDITERRANEAN_BASIN = "mediterraneanBasin",
+  SOUTHEAST_ASIA = "southeastAsia",
+}

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { GradeBookTheme } from "../../../feature/organization-magement/domain/organization.entity";
-import { OrganizationSystemType } from "../../../feature/organization-magement/enums";
+import { OrganizationSystemType, ZoneTemplate } from "../../../feature/organization-magement/enums";
 
 const body = z.object({
   name: z.string().min(1).max(255).optional(),
@@ -27,6 +27,7 @@ const body = z.object({
   ).optional(),
   cover: z.string().url().optional(),
   timeZone: z.string().max(50).nullable().optional(),
+  zonetemplate: z.nativeEnum(ZoneTemplate).optional(),
 });
 
 const params = z.object({

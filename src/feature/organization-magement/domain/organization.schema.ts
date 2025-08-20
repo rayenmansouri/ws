@@ -1,7 +1,7 @@
 import { model } from "mongoose";
 import { Organization, GradeBookTheme } from "./organization.entity";
 import { createCompleteSchema } from "../../../core/database/schema";
-import { OrganizationSystemType } from "../enums";
+import { OrganizationSystemType, FEATURE_FLAGS_ENUM, ZoneTemplate } from "../enums";
 
 export const OrganizationKey = "organizations";
 export const OrganizationSchema = createCompleteSchema<Organization>({
@@ -27,6 +27,19 @@ export const OrganizationSchema = createCompleteSchema<Organization>({
   phoneNumber: { type: String, required: false, default: "" },
   organizationSystemType: { type: String, enum: Object.values(OrganizationSystemType), required: false, default: OrganizationSystemType.DNC },
   enableSms: { type: Boolean, required: false, default: false },
+  zonetemplate: { type: String, enum: Object.values(ZoneTemplate), required: false },
+  featureFlags: { 
+    type: Object, 
+    required: false, 
+    default: {
+      [FEATURE_FLAGS_ENUM.MESSAGES]: true,
+      [FEATURE_FLAGS_ENUM.ANNOUNCEMENTS]: true,
+      [FEATURE_FLAGS_ENUM.SMART_CALENDAR]: true,
+      [FEATURE_FLAGS_ENUM.TUTORIALS]: true,
+      [FEATURE_FLAGS_ENUM.DARK_MODE]: false,
+      [FEATURE_FLAGS_ENUM.LMS]: false,
+    }
+  },
   },
   options: {
     timestamps: true,

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { OrganizationSystemType } from "../../../feature/organization-magement/enums";
+import { OrganizationSystemType, ZoneTemplate } from "../../../feature/organization-magement/enums";
 
 const createOrganization = z.object({
     name: z.string().min(1),
@@ -8,6 +8,7 @@ const createOrganization = z.object({
     phoneNumber: z.string().min(1),
     directorName: z.string().min(1),
     organizationSystemType: z.nativeEnum(OrganizationSystemType),
+    zonetemplate: z.nativeEnum(ZoneTemplate).optional(),
 });
 
 type TCreateOrganization = z.infer<typeof createOrganization>;
@@ -17,7 +18,7 @@ export type OrganizationValidation = {
     params: never;
     query: never;
 };
-
+ 
 export const organizationValidation = {
     createOrganization,
 };

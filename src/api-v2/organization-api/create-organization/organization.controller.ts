@@ -41,6 +41,8 @@ export class CreateOrganizationController extends BaseController<CreateOrganizat
       gradeBookTheme: req.body.gradeBookTheme,
       enableEmail: req.body.enableEmail,
       organizationSystemType: req.body.organizationSystemType,
+      featureFlags: req.body.featureFlags,
+      zonetemplate: req.body.zonetemplate,
     };
 
     const organization = await this.organizationRepo.create(mockSchool);
