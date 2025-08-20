@@ -48,6 +48,7 @@ export const arabicTranslation: TranslationObject = {
     accessDenied: "تم رفض الوصول",
     badRequest: "طلب سيء",
     fileIsRequired: "الملف مطلوب",
+    userNotFound: "المستخدم غير موجود",
   },
   notFound: {
     chapterAttachment: "المرفق غير موجود",
@@ -437,6 +438,7 @@ export const arabicTranslation: TranslationObject = {
   },
   user: {
     avatarUploadedSuccessfully: "تم تحميل الصورة الرمزية بنجاح",
+    invalidData: "بيانات المستخدم غير صالحة",
   },
   alert: {
     invalidAlertConfiguration: "تكوين تنبيه غير صحيح",
