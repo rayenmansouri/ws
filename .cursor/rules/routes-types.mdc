@@ -1,0 +1,258 @@
+# Routes Types Rule for @shared-types/routes/
+
+## **Overview**
+This rule defines the standard structure and patterns for adding route types inside the `shared-types/routes/` folder. All route type definitions must follow this consistent pattern to maintain type safety and consistency across the frontend and backend.
+
+## **File Structure Requirements**
+
+### **1. File Location & Naming**
+- **Location**: `shared-types/routes/{feature}/{subfeature}/index.ts`
+- **Naming**: Use kebab-case for folder names (e.g., `forget-password/`, `user-management/`)
+- **File**: Always use `index.ts` as the entry point
+
+## **Complete Implementation Process (Step-by-Step)**
+
+### **Step 1: Create Route Types File**
+Create the route types file following the structure below.
+
+### **Step 2: Export from Main Index (MANDATORY)**
+**CRITICAL**: Export your new route from `shared-types/routes/index.ts`:
+```typescript
+export * from './auth/public/logout';
+```
+
+**Without this export, the route types will NOT be available to the frontend!**
+
+### **2. Import Pattern**
+```typescript
+import { ReplaceDatesWithStrings } from "../../../utils";
+import { ResponseType } from "../../../../src/api-v2/{path}/types";
+import { RouteConfigType } from "../../../../src/api-v2/{path}/types";
+```
+
+**Rules for imports:**
+- Always import `ReplaceDatesWithStrings` utility
+- Import response and route config types from the corresponding `src/api-v2/` implementation
+- Use relative paths with correct `../` count based on folder depth
+- Import both `ResponseType` and `RouteConfigType` from the same file
+
+### **3. Route Object Export**
+```typescript
+export const routeNameRoute = {
+    path: "/api-endpoint",
+    method: "get" | "post" | "put" | "patch" | "delete",
+    paramsKey: string[],
+};
+```
+
+**Rules for route objects:**
+- **Naming**: Use `{featureName}Route` format (e.g., `logoutRoute`, `dashboardRoute`)
+- **Path**: Must start with `/` and match the actual API endpoint
+- **Method**: Use lowercase HTTP methods
+- **paramsKey**: Array of string parameter names (usually empty `[]` for most routes)
+
+### **4. Route Type Definition**
+```typescript
+export type FeatureRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<RouteConfigType['body']>;
+  params?: ReplaceDatesWithStrings<RouteConfigType['params']>;
+  query?: ReplaceDatesWithStrings<RouteConfigType['query']>;
+  files?: ReplaceDatesWithStrings<RouteConfigType['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<ResponseType>;
+  };
+}
+```
+
+**Rules for type definitions:**
+- **Naming**: Use `{Feature}RouteType` format (e.g., `LogoutRouteType`, `DashboardRouteType`)
+- **Required fields**: `path`, `method`, `paramsKey`, `response`
+- **Optional fields**: `body`, `params`, `query`, `files` (use `?` if not required)
+- **Response structure**: Always use the standard `{ status, message, data }` format
+- **Date handling**: Wrap all types with `ReplaceDatesWithStrings<T>` utility
+
+## **Folder Structure Examples**
+
+### **Simple Route (e.g., Dashboard)**
+```
+shared-types/routes/dashboard/index.ts
+```
+
+### **Nested Route (e.g., Level Admin)**
+```
+shared-types/routes/level/web/admin/listLevels/index.ts
+```
+
+### **Feature with Subfeatures (e.g., Auth)**
+```
+shared-types/routes/auth/
+├── me/index.ts
+├── public/
+│   ├── login/index.ts
+│   ├── logout/index.ts
+│   ├── forget-password/index.ts
+│   └── reset-password/index.ts
+```
+
+## **Type Mapping Rules**
+
+### **1. Body Types**
+- **POST/PUT/PATCH**: Usually required, map from `RouteConfigType['body']`
+- **GET/DELETE**: Usually not required, use `never` or omit
+
+### **2. Params Types**
+- **Dynamic routes**: Map from `RouteConfigType['params']` (e.g., `/users/:id`)
+- **Static routes**: Use `never` or omit
+
+### **3. Query Types**
+- **Filtering/Sorting**: Map from `RouteConfigType['query']`
+- **Simple routes**: Use `never` or omit
+
+### **4. Files Types**
+- **File uploads**: Map from `RouteConfigType['files']`
+- **Non-upload routes**: Use `never` or omit
+
+### **5. Response Types**
+- **Always required**: Map from `ResponseType`
+- **Structure**: Always use `{ status, message, data }` format
+- **Data type**: Use `ReplaceDatesWithStrings<ResponseType>`
+
+## **Common Patterns**
+
+### **1. Empty Route (GET with no body/params)**
+```typescript
+export type SimpleRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<ResponseType>;
+  };
+}
+```
+
+### **2. POST Route with Body**
+```typescript
+export type CreateRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body: ReplaceDatesWithStrings<RouteConfigType['body']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<ResponseType>;
+  };
+}
+```
+
+### **3. Dynamic Route with Params**
+```typescript
+export type DynamicRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  params: ReplaceDatesWithStrings<RouteConfigType['params']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<ResponseType>;
+  };
+}
+```
+
+## **Export Requirements - MANDATORY STEP**
+
+### **1. Main Routes Index (REQUIRED)**
+**Every new route MUST be exported from the main index file:**
+```typescript
+// shared-types/routes/index.ts
+export * from './auth/me';
+export * from './auth/public/logout';
+export * from './dashboard';
+// ... other exports
+```
+
+**This step is MANDATORY and must be done for every new route to make it available to the frontend.**
+
+### **2. Feature Index Files (Optional)**
+```typescript
+// shared-types/routes/auth/index.ts (if needed)
+export * from './me';
+export * from './public/logout';
+export * from './public/forget-password';
+```
+
+## **Validation Rules**
+
+### **1. Type Consistency**
+- Route object path must match the type definition path
+- Method must match between object and type
+- All imported types must exist in the source files
+
+### **2. Naming Conventions**
+- Use PascalCase for type names (`LogoutRouteType`)
+- Use camelCase for route objects (`logoutRoute`)
+- Use kebab-case for folder names (`forget-password`)
+
+### **3. Import Path Accuracy**
+- Count `../` correctly based on folder depth
+- Ensure paths resolve to actual files
+- Use relative paths, never absolute paths
+
+## **Example Implementation**
+
+### **Complete Logout Route Example**
+```typescript
+import { ReplaceDatesWithStrings } from "../../../../utils";
+import { LogoutResponse } from "../../../../../src/api-v2/auth/public/logout/logout.types";
+import { LogoutRouteConfig } from "../../../../../src/api-v2/auth/public/logout/logout.types";
+
+export const logoutRoute = {
+    path: "/logout",
+    method: "post",
+    paramsKey: [],
+};
+
+export type LogoutRouteType = {
+  path: string;
+  method: string;
+  paramsKey: string[];
+  body?: ReplaceDatesWithStrings<LogoutRouteConfig['body']>;
+  params?: ReplaceDatesWithStrings<LogoutRouteConfig['params']>;
+  query?: ReplaceDatesWithStrings<LogoutRouteConfig['query']>;
+  files?: ReplaceDatesWithStrings<LogoutRouteConfig['files']>;
+  response: {
+    status: string;
+    message: string;
+    data: ReplaceDatesWithStrings<LogoutResponse>;
+  };
+}
+```
+
+## **Key Principles**
+1. **Consistency**: All routes must follow the same structure
+2. **Type Safety**: Use `ReplaceDatesWithStrings` for all complex types
+3. **Maintainability**: Keep imports and exports organized
+4. **Documentation**: Clear naming that reflects the route purpose
+5. **Validation**: Ensure all types are properly mapped from source files
+
+## **Common Mistakes to Avoid**
+- ❌ Missing `ReplaceDatesWithStrings` wrapper
+- ❌ Incorrect import path depth (`../` count)
+- ❌ Inconsistent naming between route object and type
+- ❌ Missing required fields in type definition
+- ❌ Incorrect HTTP method casing
+- ❌ **MISSING EXPORTS IN MAIN INDEX FILE (Most Common Mistake!)**
+- ❌ Creating route types but forgetting to export them
+description:
+globs:
+alwaysApply: false
+---

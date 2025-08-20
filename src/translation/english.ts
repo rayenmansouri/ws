@@ -36,6 +36,7 @@ export const englishTranslation: TranslationObject = {
     invalidCredentials: "Invalid credentials",
     cannotResetYourOwnPassword: "You cannot reset your own password",
     resetUserPasswordWithSuccess: "User password reset successfully",
+    logoutSuccess: "Logged out successfully",
   },
   classTypeRules: {
     classTypeAndLevelAreNotValid: "Class type and level are not valid",

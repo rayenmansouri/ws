@@ -38,6 +38,7 @@ export const frenchTranslation: TranslationObject = {
     invalidCredentials: "Identifiants invalides",
     cannotResetYourOwnPassword: "Vous ne pouvez pas réinitialiser votre propre mot de passe",
     resetUserPasswordWithSuccess: "Mot de passe réinitialisé avec succès",
+    logoutSuccess: "Déconnexion réussie",
   },
   classTypeRules: {
     classTypeAndLevelAreNotValid: "Le type de classe et le niveau ne sont pas valides",

@@ -26,6 +26,7 @@ export type TranslationObject = {
     invalidCredentials: string;
     cannotResetYourOwnPassword: string;
     resetUserPasswordWithSuccess: string;
+    logoutSuccess: string;
   };
   classGroup: {
     notBelongToThisClass: string;

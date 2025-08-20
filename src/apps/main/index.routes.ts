@@ -16,6 +16,7 @@ import { forgetPasswordRoute } from "../../api-v2/auth/public/forget-password/fo
 import { updateCurrentUserPasswordRoute } from "../../api-v2/auth/me/updateCurrentUserPassword/updateCurrentUserPassword.route";
 import { RouteConfiguration, TypedRequestOptions } from "../../core/express/types";
 import { adminLoginRoute } from "../../api-v2/auth/public/login/login.route";
+import { logoutRoute } from "../../api-v2/auth/public/logout";
 import { listLevelsRoute } from "../../api-v2/level/web/admin/listLevels/listLevels.route";
 
 const router = Router();
@@ -27,11 +28,13 @@ router.use(publicRouter);
 router.use("/admin", adminRouter);
 router.use("/master", masterRouter);
 
-const routes = [listLevelsRoute,adminLoginRoute,adminMeRoute,
+const routes = [listLevelsRoute,adminLoginRoute,logoutRoute,adminMeRoute,
                 organizationRoute, configRoute, createParticipantRoute,
                 createAdminRoute, coachRoute, uploadAvatarRoute,
                 listStudentRoute, dashboardRoute, levelsOverviewRoute,
-                forgetPasswordRoute, updateCurrentUserPasswordRoute];
+                forgetPasswordRoute, updateCurrentUserPasswordRoute,
+                logoutRoute
+];
 createRoutes(routes as RouteConfiguration<TypedRequestOptions, string>[]);
 export default router;
  

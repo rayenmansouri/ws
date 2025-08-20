@@ -4,6 +4,7 @@ import { ReplaceDatesWithStrings } from "../utils";
 export * from './auth/me';
 export * from './auth/me/updateCurrentUserPassword';
 export * from './auth/public/forget-password';
+export * from './auth/public/logout';
 export * from './auth/public/reset-password';
 export * from './login';
 
@@ -21,3 +22,6 @@ export * from './organization-api/config';
 // Level routes
 export * from './level/web/admin/listLevels';
 export * from './level/web/admin/levelsOverview';
+
+
+export * from './auth/public/logout';

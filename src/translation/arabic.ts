@@ -33,6 +33,7 @@ export const arabicTranslation: TranslationObject = {
     invalidCredentials: "بيانات اعتماد غير صالحة",
     cannotResetYourOwnPassword: "لا يمكنك تغيير كلمة المرور الخاصة بك",
     resetUserPasswordWithSuccess: "تم إعادة تعيين كلمة المرور بنجاح",
+    logoutSuccess: "تم تسجيل الخروج بنجاح",
   },
   classTypeRules: {
     classTypeAndLevelAreNotValid: "نوع الفصل والمستوى غير صالحين",
