@@ -1,7 +1,7 @@
 import { inject } from "../../../core/container/TypedContainer";
 import { BaseController } from "../../../core/express/controllers/BaseController";
 import { TypedRequest } from "../../../core/express/types";
-import { FileUploadPayload } from "../../../core/fileManager/FileManager";
+import { FileUploadPayload, LocallyUploadedFile } from "../../../core/fileManager/FileManager";
 import { BadRequestError } from "../../../core/ApplicationErrors";
 import { APIResponse } from "../../../core/responseAPI/APIResponse";
 import { SuccessResponse } from "../../../core/responseAPI/APISuccessResponse";
@@ -26,18 +26,19 @@ export class UploadAvatarController extends BaseController<UploadAvatarRouteConf
       throw new BadRequestError("Avatar file is required");
     }
 
-    const formatFile: FileUploadPayload = {
+    const formatFile: LocallyUploadedFile = {
       mimetype: avatarFile.mimetype,
       buffer: avatarFile.buffer,
       name: avatarFile.originalname,
+      path: avatarFile.path,
     };
 
-    await this.uploadAvatarUseCase.execute({
+    const res = await this.uploadAvatarUseCase.execute({
       file: formatFile,
       userId: req.currentUser.id,
       userType: req.currentUser.type as UserTypeEnum,
     });
 
-    return new SuccessResponse<UploadAvatarResponse>("Avatar uploaded successfully");
+    return new SuccessResponse<UploadAvatarResponse>("Avatar uploaded successfully", res);
   }
 }

@@ -28,7 +28,9 @@ async handleRequest(req: TypedRequest<TypedRequestOptions>, res: Response, next:
       const organization = databaseService.getOrganization(req.tenantId);
       const requestContainer = container.createChild({ defaultScope: "Singleton" });
 
-      requestContainer.bind("Organization").toConstantValue(organization);
+      requestContainer.bind("Organization").toConstantValue(organization || {
+        subdomain: MASTER_USER_TENANT_ID,
+      });
       requestContainer.bind(CONNECTION_POOL_IDENTIFIER).toConstantValue(databaseService.getConnectionPool());
       requestContainer.bind(CURRENT_CONNECTION_IDENTIFIER).toConstantValue(req.currentConnection || MASTER_USER_TENANT_ID);
 

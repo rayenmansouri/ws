@@ -20,6 +20,13 @@ export type FileUploadPayload = {
   buffer: Buffer;
 };
 
+export type LocallyUploadedFile = {
+  name: string;
+  mimetype: string;
+  buffer: Buffer;
+  path: string;
+};
+
 export type FileDetails = {
   name: string;
   link: string;

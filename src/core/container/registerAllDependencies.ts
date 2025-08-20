@@ -13,8 +13,7 @@ import { MASTER_USER_TENANT_ID } from "../../feature/user-management/master/doma
 import mongoose from "mongoose";
 import { EMAIL_MANAGER_IDENTIFIER } from "../../feature/emailManager/constants";
 import { SMS_MANAGER_IDENTIFIER } from "../../feature/smsManager/constants";
-import { FileManager } from "../fileManager/FileManager";
-import { DropboxFileManager } from "../fileManager/DropboxFileManager";
+import { LocalFileManager } from "../fileManager/LocalFileManager";
 
 export const registerAllDependencies = (): void => {
   // Register core dependencies (keeping existing functionality)
@@ -30,12 +29,14 @@ export const registerAllDependencies = (): void => {
   container.bind("Session").toConstantValue(undefined);
   container.bind("Language").toConstantValue(LANGUAGE_ENUM.ENGLISH);
   container.bind("EventDispatcher").to(EventDispatcher).inSingletonScope();
-  container.bind("FileManager").to(DropboxFileManager).inSingletonScope();
+  container.bind("FileManager").to(LocalFileManager).inSingletonScope();
 
   // Email and SMS services
   container.bind(EMAIL_MANAGER_IDENTIFIER).to(NodeMailerEmailManager).inSingletonScope();
   container.bind(SMS_MANAGER_IDENTIFIER).to(TunisieSmsManager).inSingletonScope();
-  container.bind("Organization").toConstantValue(undefined);
+  container.bind("Organization").toConstantValue({
+    subdomain: MASTER_USER_TENANT_ID,
+  });
   container.bind("HandlerSubscriber").to(HandlerSubscriber).inSingletonScope();
 
 };

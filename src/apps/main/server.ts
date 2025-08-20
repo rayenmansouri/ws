@@ -6,11 +6,22 @@ import { connectToMasterDatabase } from "../../database/connectionDB/masterDBCon
 import app from "./app";
 import { registerAllDependencies } from "../../core/container/registerAllDependencies";
 import { initializeDatabases } from "../../core/database/database.service";
+import fs from "fs/promises";
+import path from "path";
 
 
 async function bootstrap(): Promise<void> {
   registerAllDependencies();
   await initializeDatabases();
+  
+  // Ensure uploads directory exists
+  try {
+    const uploadsDir = path.join(process.cwd(), 'uploads');
+    await fs.mkdir(uploadsDir, { recursive: true });
+    Logger.info('Uploads directory created/verified ✅');
+  } catch (error) {
+    Logger.error('Failed to create uploads directory:', error);
+  }
 }
 
 connectToMasterDatabase()

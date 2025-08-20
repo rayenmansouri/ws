@@ -2,7 +2,7 @@ import { publicRouter } from "../../../apps/main/routers/public-router";
 import { RouteConfiguration } from "../../../core/express/types";
 import { UploadAvatarController } from "./uploadAvatar.controller";
 import { UploadAvatarRouteConfig } from "./uploadAvatar.types";
-import { getCoreMiddlewares } from "../../../core/express/middlewares/registerCoreMiddlewares";
+import { getAuthenticatedMiddlewares, getCoreMiddlewares } from "../../../core/express/middlewares/registerCoreMiddlewares";
 import { z } from "zod";
 
 export const uploadAvatarRoute: RouteConfiguration<UploadAvatarRouteConfig, "/avatar"> = {
@@ -16,7 +16,7 @@ export const uploadAvatarRoute: RouteConfiguration<UploadAvatarRouteConfig, "/av
     isTransactionEnabled: false,
     platform: "web",
     router: publicRouter,
-    middlewaresClasses: getCoreMiddlewares(),
+    middlewaresClasses: getAuthenticatedMiddlewares(),
     upload: { 
         fields: [{ name: "avatar", maxCount: 1 }] 
     }

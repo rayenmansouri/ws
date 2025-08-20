@@ -1,13 +1,14 @@
 import { inject } from "../../../core/container/TypedContainer";
-import { FileManager, FileUploadPayload } from "../../../core/fileManager/FileManager";
+import { FileDetails, FileManager, LocallyUploadedFile } from "../../../core/fileManager/FileManager";
 import { UserRepository } from "../base-user/domain/base-user.repository";
 import { UserTypeEnum } from "../factory/enums";
 import { BASE_USER_REPOSITORY_IDENTIFIER, UPLOAD_AVATAR_USECASE_IDENTIFIER } from "../constants";
 import { NotFoundError } from "../../../core/ApplicationErrors";
 import { Injectable } from "../../../core/container/decorators/AutoRegister.decorator";
+import { backendUri } from "../../../configs/backend-config";
 
 type UploadAvatarRequest = {
-  file: FileUploadPayload;
+  file: LocallyUploadedFile;
   userId: string;
   userType: UserTypeEnum;
 };
@@ -21,7 +22,7 @@ export class UploadAvatarUseCase {
     @inject("FileManager") private fileManager: FileManager,
   ) {}
 
-  async execute(data: UploadAvatarRequest): Promise<void> {
+  async execute(data: UploadAvatarRequest): Promise<FileDetails> {
     const user = await this.baseUserRepository.findOne({ _id: data.userId });
     
     if (!user) {
@@ -32,14 +33,24 @@ export class UploadAvatarUseCase {
     if (user.avatar?.link) {
       await this.fileManager.deleteFiles([user.avatar.link]);
     }
-    console.log("uploading file ...")
-    // Upload new avatar
-    const avatarFile = await this.fileManager.uploadFile(
-      data.file,
-      `${data.userType}/avatars/${data.userId}`,
-    );
-
+  
     // Update user avatar in database
-    await this.baseUserRepository.updateAvatar(data.userId, avatarFile);
+    await this.baseUserRepository.updateAvatar(data.userId, {
+      name: data.file.name,
+      link: `${backendUri}/uploads/${data.file.path}`,
+      path: data.file.path,
+      uploadedAt: new Date(),
+      size: data.file.buffer.length,
+      mimeType: data.file.mimetype,
+    });
+
+    return {
+      name: data.file.name,
+      link: `${backendUri}/uploads/${data.file.path}`,
+      path: data.file.path,
+      uploadedAt: new Date(),
+      size: data.file.buffer.length,
+      mimeType: data.file.mimetype,
+    }
   }
 }
