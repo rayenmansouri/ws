@@ -1,6 +1,6 @@
 {
   "name": "@Softylines-Alternance/shared-types",
-  "version": "3.0.8",
+  "version": "3.0.9",
   "description": "",
   "main": "dist/shared-types/index.js",
   "types": "dist/shared-types/index.d.ts",
