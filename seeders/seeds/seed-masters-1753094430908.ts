@@ -14,10 +14,10 @@ export default class SeedMasters implements ISeeder {
         {
             firstName: "admin",
             lastName: "admin",
-            email: "admin@gmail.com",
-            schoolSubdomain:"$",
+            email: "master@gmail.com",
             fullName: "admin",
             password: "password",
+            schoolSubdomain: "master",
             address1: "sahloul",
             gender: "male",
             address2: "tunis",

@@ -22,3 +22,35 @@ export type MeRouteType = {
     data: ReplaceDatesWithStrings<MeResponse>;
   };
 }
+
+export type MeRouteTypeAdmin = MeRouteType & {
+    response: {
+        status: string;
+        message: string;
+        data: ReplaceDatesWithStrings<MeResponse>;
+    };
+}
+
+export type MeRouteTypeMaster = MeRouteType & {
+    response: {
+        status: string;
+        message: string;
+        data: ReplaceDatesWithStrings<MeResponse>;
+    };
+}
+
+export type MeRouteTypeParticipant = MeRouteType & {
+    response: {
+        status: string;
+        message: string;
+        data: ReplaceDatesWithStrings<MeResponse>;
+    };
+}
+
+export type MeRouteTypeCoach = MeRouteType & {
+    response: {
+        status: string;
+        message: string;
+        data: ReplaceDatesWithStrings<MeResponse>;
+    };
+}
