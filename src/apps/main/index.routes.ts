@@ -5,6 +5,7 @@ import { adminMeRoute, coachMeRoute, masteMeRoute, participantMeRoute } from "..
 import { organizationRoute } from "../../api-v2/organization-api/create-organization/organization.route";
 import { configRoute } from "../../api-v2/organization-api/config/config.route";
 import { getAllOrganizationsRoute } from "../../api-v2/organization-api/get-all-organizations/route";
+import { editOrganizationRoute } from "../../api-v2/organization-api/edit-organization";
 import { createAdminRoute, coachRoute, createParticipantRoute } from "../../api-v2/user-management/createUser.route";
 import { uploadAvatarRoute } from "../../api-v2/user-management/uploadAvatar/uploadAvatar.route";
 import { listStudentRoute } from "../../api-v2/user-management/list-student";
@@ -34,7 +35,7 @@ router.use("/participant", participantRouter);
 router.use("/coach", coachRouter);
 
 const routes = [listLevelsRoute,adminLoginRoute,logoutRoute,adminMeRoute,
-                organizationRoute, configRoute, getAllOrganizationsRoute, createParticipantRoute,
+                organizationRoute, configRoute, getAllOrganizationsRoute, editOrganizationRoute, createParticipantRoute,
                 createAdminRoute, coachRoute, uploadAvatarRoute,
                 listStudentRoute, dashboardRoute, levelsOverviewRoute,
                 forgetPasswordRoute, updateCurrentUserPasswordRoute,
