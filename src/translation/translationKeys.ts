@@ -14,6 +14,7 @@ export type TranslationObject = {
     accessDenied: string;
     badRequest: string;
     fileIsRequired: string;
+    userNotFound: string;
   };
   validation: {
     parentEmailOrPhoneNumberRequired: string;
@@ -443,6 +444,7 @@ export type TranslationObject = {
   };
   user: {
     avatarUploadedSuccessfully: string;
+    invalidData: string;
   };
   alert: {
     invalidAlertConfiguration: string;

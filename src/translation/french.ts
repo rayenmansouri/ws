@@ -53,6 +53,7 @@ export const frenchTranslation: TranslationObject = {
     accessDenied: "Accès refusé",
     badRequest: "Mauvaise demande",
     fileIsRequired: "Le fichier est requis",
+    userNotFound: "Utilisateur introuvable",
   },
   notFound: {
     chapterAttachment: "Pièce jointe de chapitre introuvable",
@@ -462,6 +463,7 @@ export const frenchTranslation: TranslationObject = {
   },
   user: {
     avatarUploadedSuccessfully: "Avatar téléchargé avec succès",
+    invalidData: "Données utilisateur invalides",
   },
   alert: {
     invalidAlertConfiguration: "Configuration d'alerte incorrecte",

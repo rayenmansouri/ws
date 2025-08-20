@@ -48,6 +48,7 @@ export const englishTranslation: TranslationObject = {
     unsupportedFile: "Unsupported file type",
     invalidJSON: "Invalid JSON",
     success: "Success",
+    userNotFound: "User not found",
     accessDenied: "Access denied",
     badRequest: "Bad request",
     fileIsRequired: "File is required",
@@ -444,6 +445,7 @@ export const englishTranslation: TranslationObject = {
   },
   user: {
     avatarUploadedSuccessfully: "Avatar uploaded successfully",
+    invalidData: "Invalid user data",
   },
   alert: {
     invalidAlertConfiguration: "Incorrect alert configuration",
