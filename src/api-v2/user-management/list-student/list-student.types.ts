@@ -1,12 +1,13 @@
 import { z } from "zod";
 import { ResponseWithPagination } from "../../../newDatabase/mongo/types";
+import { DiscriminatorKey } from "../../../feature/user-management/factory/discriminator";
 
 // Query validation schema
 export const listStudentQuerySchema = z.object({
   search: z.string().optional(),
   page: z.number().optional().transform(val => val ?? 1),
   limit: z.number().optional().transform(val => val ?? 10),
-  type: z.enum(["PARTICIPANT", "ADMIN", "COACH"]).optional(),
+  type: z.nativeEnum(DiscriminatorKey).optional(),
   status: z.enum(["active", "inactive"]).optional(),
 });
 

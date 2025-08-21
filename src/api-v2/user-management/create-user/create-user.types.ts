@@ -1,20 +1,9 @@
 import { TypedRequestOptions } from "../../../core/express/types";
 import { BaseUser } from "../../../feature/user-management/base-user/domain/base-user.entity";
-import { UserTypeEnum } from "../../../feature/user-management/factory/enums";
+import { CreateBaseUser } from "../../../feature/user-management/base-user/domain/base-user.entity";
 
 export type CreateUserRouteConfig = TypedRequestOptions & {
-  body: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    type: UserTypeEnum;
-    gender: string;
-    birthDate: string;
-    schoolSubdomain: string;
-    phoneNumber: string;
-    participantData?: Record<string, unknown>;
-  };
+  body: CreateBaseUser;
   params: never;
   query: never;
   files: never;

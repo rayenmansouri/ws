@@ -15,6 +15,8 @@ import { CreateUserResponse, CreateUserRouteConfig } from "./create-user.types";
 import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../../feature/user-management/constants";
 import { UserRepository } from "../../../feature/user-management/base-user/domain/base-user.repository";
 import { SeekingGradeParticipant } from "../../../feature/user-management/participant/enums";
+import { getDiscriminatorKey } from "../../../feature/user-management/factory/discriminator";
+import { UserTypeEnum } from "../../../feature/user-management/factory/enums";
 
 @Injectable({
   identifier: "CreateUserController",
@@ -30,10 +32,7 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
   }
 
   async main(req: TypedRequest<CreateUserRouteConfig>): Promise<void | APIResponse> {
-    const { firstName, lastName, email, password,
-            schoolSubdomain, type,phoneNumber,
-            participantData = {}, gender, birthDate,
-    } = req.body;
+    const { email,schoolSubdomain,password,type } = req.body;
     //check if user already exists
     const existingUser = await this.baseUserRepository.findOne({ email });
     if(existingUser) throw new BadRequestError("global.userAlreadyExists");
@@ -41,42 +40,29 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
     if(!organization) throw new BadRequestError("global.schoolNotFound");
     const organizationSystemType = organization.organizationSystemType;
     
-    this.repositoryFactory.validateUserInput({userType:type,organizationSystemType,data:req.body})
     const hashedPassword = await AuthenticationHelper.hashString(password);
     //get roles
     const roles = await this.roleRepo.findAll({
       userTypes: { $in: [type] }
     })
     if(roles.length === 0) throw new BadRequestError("global.roleNotFound");
-    const userRepository = this.repositoryFactory.getRepository(type,organizationSystemType,participantData?.seekingGrade as SeekingGradeParticipant);
+    let key = getDiscriminatorKey(type,organizationSystemType);
+    if(type === UserTypeEnum.PARTICIPANT){
+      key = getDiscriminatorKey(type,organizationSystemType,req.body.seekingGrade);
+    }
+    const userRepository = this.repositoryFactory.getRepository(key);
     await userRepository.create({
-      firstName,
-      lastName, 
-      email,
-      phoneNumber,
-      password:hashedPassword,
-      schoolSubdomain,
-      type: type,
+      ...req.body,
+      password: hashedPassword,
       roles: roles.map(role => role.id),
-      gender,
-      birthDate,
-      ...participantData
     });
    
     //hash password
     userRepository.switchConnection(schoolSubdomain);
     const createdUser = await userRepository.create({
-      firstName,
-      lastName, 
-      email,
-      phoneNumber,
+      ...req.body,
       password: hashedPassword,
-      schoolSubdomain,
-      type: type,
       roles: roles.map(role => role.id),
-      gender,
-      birthDate,
-      ...participantData
     });
     return new SuccessResponse<CreateUserResponse>("global.success", { user: createdUser });
   }

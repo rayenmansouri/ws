@@ -9,6 +9,7 @@ import { REPOSITORY_FACTORY_IDENTIFIER } from "../../../feature/user-management/
 import { UserFactory } from "../../../feature/user-management/factory/abstract-factory";
 import { UserTypeEnum } from "../../../feature/user-management/factory/enums";
 import { paginateResult } from "../../../helpers/paginateResult";
+import { getDiscriminatorKey } from "../../../feature/user-management/factory/discriminator";
 
 @Injectable({
   identifier: "ListStudentController",
@@ -24,8 +25,7 @@ export class ListStudentController extends BaseController<ListStudentRouteConfig
     const { search, page = 1, limit = 10, type, status } = req.query;
     
     // Get the appropriate repository based on type
-    const userType = type ? (type as UserTypeEnum) : UserTypeEnum.PARTICIPANT;
-    const userRepository = this.repositoryFactory.getRepository(userType);
+    const userRepository = this.repositoryFactory.getRepository(type);
     
     // Build query filters
     const filters: Record<string, unknown> = {};

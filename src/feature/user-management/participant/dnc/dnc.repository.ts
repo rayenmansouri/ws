@@ -9,8 +9,9 @@ import { Organization } from "../../../organization-magement/domain/organization
 import { BaseUser } from "../../base-user/domain/base-user.entity";
 import { DncParticipantEntity } from "./dnc.entity";
 import { BaseUserKey, BaseUserSchema } from "../../base-user/domain/base-user.schema";
-import { DatabaseModelFactory, DatabaseModelFactoryIdentifier } from "../../factory/database-factory";
 import { SeekingGradeParticipant } from "../enums";
+import { getDiscriminatorKey } from "../../factory/discriminator";
+import { UserTypeEnum } from "../../factory/enums";
 
 @Injectable({
     identifier: DNC_PARTICIPANT_REPOSITORY_IDENTIFIER,
@@ -21,7 +22,6 @@ export class DncParticipantRepository extends UserRepository{
         @inject(MASTER_CONNECTION_IDENTIFIR) masterConnection: Connection,
         @inject(CURRENT_CONNECTION_IDENTIFIER) currentConnection: string,
         @inject("Organization") organization: Organization,
-        @inject(DatabaseModelFactoryIdentifier) private databaseModelFactory: DatabaseModelFactory,
     ) {
         super(connectionPool, masterConnection, currentConnection, organization);
         this.organization = organization;
@@ -31,9 +31,14 @@ export class DncParticipantRepository extends UserRepository{
         if(this.organization == undefined) {
             return this.connection.model<BaseUser>(BaseUserKey, BaseUserSchema);
         }
-        return this.databaseModelFactory.getParticipantModel(this.connection,
-                                                            this.organization.organizationSystemType,
-                                                            SeekingGradeParticipant.SEEKING_GRADE_PARTICIPANT);
+        return this.connection.model<BaseUser>(
+            getDiscriminatorKey(
+                UserTypeEnum.PARTICIPANT,
+                this.organization.organizationSystemType,
+                SeekingGradeParticipant.SEEKING_GRADE_PARTICIPANT
+            ),
+            BaseUserSchema
+        );
     }
 
     dto = DncParticipantEntity;

@@ -1,28 +1,9 @@
 import { Role } from "../../../roles/role.entity";
 import { UserTypeEnum } from "../../factory/enums";
+import { createUserValidationSchema } from "./validation.schema";
+import { z } from "zod";
 
-export type CreateBaseUser = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  password: string;
-  schoolSubdomain: string;
-  type: UserTypeEnum;
-  passwordChangedAt?: Date;
-  avatar?: {
-    link: string;
-    name: string;
-    path: string;
-    uploadedAt: Date;
-    size: number;
-    mimeType: string;
-  };
-  gender: string;
-  birthDate: string;
-  roles?: string[];
-  participantData?: Record<string,unknown>;
-};
+export type CreateBaseUser = z.infer<typeof createUserValidationSchema>;
 
 export type BaseUser = Omit<CreateBaseUser, 'roles' | 'birthDate'> & {
   id: string;
@@ -42,7 +23,7 @@ export class BaseUserEntity implements BaseUser{
     public email: string;
     public phoneNumber: string;
     public password: string;
-    public type: UserTypeEnum;
+    public type: UserTypeEnum.ADMIN | UserTypeEnum.COACH | UserTypeEnum.PARTICIPANT | UserTypeEnum.MASTER;
     public passwordChangedAt?: Date;
     public roles?: Role[];
     public avatar?: {
