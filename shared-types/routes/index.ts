@@ -1,4 +1,3 @@
-import { ReplaceDatesWithStrings } from "../utils";
 
 // Auth routes
 export * from './auth/me';
@@ -18,6 +17,7 @@ export * from './user-management/uploadAvatar';
 // Organization API routes
 export * from './organization-api/create-organization';
 export * from './organization-api/config';
+export * from './organization-api/get-all-organization';
 
 // Level routes
 export * from './level/web/admin/listLevels';
