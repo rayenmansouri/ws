@@ -19,6 +19,7 @@ export type CreateOrganizationRouteConfig = TypedRequestOptions & {
     organizationSystemType: OrganizationSystemType;
     featureFlags?: Record<TFeatureFlagsEnum, boolean>;
     zonetemplate?: ZoneTemplate;
+    country: string;
   };
   params: never;
   query: never;

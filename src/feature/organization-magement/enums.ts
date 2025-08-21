@@ -14,6 +14,35 @@ export enum ZoneTemplate {
     SOUTHEAST_ASIA = "southeastAsia",
 }
 
+// Country enums for each organization system type
+export enum DncCountryEnum {
+    TUNISIA = "Tunisia",
+    SOUSSE = "Sousse",
+    KAIROUAN = "Kairouan",
+}
+
+export enum LibanCountryEnum {
+    LEBANON = "Lebanon",
+}
+
+export enum CarCountryEnum {
+    CENTRAL_AFRICAN_REPUBLIC = "Central African Republic",
+    CHAD = "Chad",
+    CAMEROON = "Cameroon",
+}
+
+export enum SesameCountryEnum {
+    SENEGAL = "Senegal",
+    MALI = "Mali",
+    BURKINA_FASO = "Burkina Faso",
+}
+
+export enum CeresCountryEnum {
+    EGYPT = "Egypt",
+    JORDAN = "Jordan",
+    MOROCCO = "Morocco",
+}
+
 export const FEATURE_FLAGS_ENUM = {
     MESSAGES: "messages",
     ANNOUNCEMENTS: "announcements",
