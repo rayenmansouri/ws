@@ -48,6 +48,7 @@ export const arabicTranslation: TranslationObject = {
     accessDenied: "تم رفض الوصول",
     badRequest: "طلب سيء",
     fileIsRequired: "الملف مطلوب",
+    userUpdateFailed: "فشل في تحديث المستخدم",
   },
   notFound: {
     chapterAttachment: "المرفق غير موجود",

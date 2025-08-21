@@ -53,6 +53,7 @@ export const frenchTranslation: TranslationObject = {
     accessDenied: "Accès refusé",
     badRequest: "Mauvaise demande",
     fileIsRequired: "Le fichier est requis",
+    userUpdateFailed: "Échec de la mise à jour de l'utilisateur",
   },
   notFound: {
     chapterAttachment: "Pièce jointe de chapitre introuvable",
