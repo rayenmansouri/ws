@@ -3,8 +3,8 @@ import { paginationOptionsValidation } from "../../../core/validator";
 
 const query = paginationOptionsValidation.extend({
   search: z.string().optional(),
-  limit: z.number(),
-  page: z.number(),  
+  limit: z.number().optional(),
+  page: z.number().optional(),  
 });
 
 export const getAllOrganizationsValidation = {

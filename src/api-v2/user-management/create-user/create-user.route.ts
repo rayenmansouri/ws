@@ -1,12 +1,12 @@
-import { adminRouter } from "../../apps/main/routers/admin-router";
-import { ACTION_ENUM, RESOURCES_ENUM } from "../../constants/ActionsResource";
-import { END_USER_ENUM } from "../../constants/globalEnums";
-import { getAuthorizedMiddlewares } from "../../core/express/middlewares/registerCoreMiddlewares";
-import { RouteConfiguration } from "../../core/express/types";
+import { adminRouter } from "../../../apps/main/routers/admin-router";
+import { ACTION_ENUM, RESOURCES_ENUM } from "../../../constants/ActionsResource";
+import { END_USER_ENUM } from "../../../constants/globalEnums";
+import { getAuthorizedMiddlewares } from "../../../core/express/middlewares/registerCoreMiddlewares";
+import { RouteConfiguration } from "../../../core/express/types";
 import { CreateUserController } from "./create-user.controller";
-import { CreateUserRouteConfig } from "./createUser.types";
-import { createUserValidation } from "./createUser.validation";
-import { createAdminRouteObject, createCoachRouteObject, createParticipantRouteObject } from "../../../shared-types/routes/user-management/createUser";
+import { CreateUserRouteConfig } from "./create-user.types";
+import { createUserValidation } from "./create-user.validation";
+import { createAdminRouteObject, createCoachRouteObject, createParticipantRouteObject } from "../../../../shared-types/routes/user-management/createUser";
 
 export const createParticipantRoute: RouteConfiguration<CreateUserRouteConfig, string> = {
     path: createParticipantRouteObject.path, 

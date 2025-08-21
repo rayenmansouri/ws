@@ -1,0 +1,232 @@
+# Entity Patterns Rule for Domain Entities
+
+## **Overview**
+This rule defines the standard structure and patterns for creating domain entities inside the `src/feature/{feature-name}/domain/` folder. All entity definitions must follow this consistent pattern to maintain code quality, type safety, and consistency across the codebase.
+
+## **File Structure Requirements**
+
+### **1. File Location & Naming**
+- **Location**: `src/feature/{feature-name}/domain/{entity-name}.entity.ts`
+- **Naming**: Use PascalCase for entity class names (e.g., `OrganizationEntity`, `UserEntity`)
+- **File Extension**: Always use `.entity.ts` suffix
+
+## **Complete Implementation Process (Step-by-Step)**
+
+### **Step 1: Import Dependencies**
+```typescript
+import { EnumType1, EnumType2, TEnumType, ENUM_CONSTANTS } from "../enums";
+```
+
+**Rules for imports:**
+- Import enums and types from the same feature's enums file
+- Use relative paths with correct `../` count based on folder depth
+- Import all required enums, types, and constants
+
+### **Step 2: Define Enums (if needed)**
+```typescript
+export enum EntityEnum {
+    VALUE1 = "VALUE1",
+    VALUE2 = "VALUE2",
+}
+```
+
+**Rules for enums:**
+- Use PascalCase for enum names
+- Use UPPER_CASE for enum values
+- Export enums that might be used elsewhere
+- Keep enums simple and focused
+
+### **Step 3: Define Input Type**
+```typescript
+export type EntityInput = {
+    requiredField1: string;
+    requiredField2: number;
+    optionalField?: boolean;
+    enumField: EntityEnum;
+    complexField?: Record<string, boolean>;
+};
+```
+
+**Rules for input types:**
+- **Naming**: Use `{EntityName}Input` format
+- **Required fields**: No `?` modifier
+- **Optional fields**: Use `?` modifier
+- **Types**: Use specific types (string, number, boolean, custom types)
+- **Complex types**: Use proper TypeScript syntax (Record, Array, union types)
+
+### **Step 4: Define Complete Entity Type**
+```typescript
+export type Entity = {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    // ... other computed/derived fields
+} & EntityInput;
+```
+
+**Rules for complete entity types:**
+- **Naming**: Use `{EntityName}` format (singular, no suffix)
+- **Inheritance**: Extend from `EntityInput` using intersection types (`&`)
+- **Required fields**: Always include `id` and other system fields
+- **Computed fields**: Include fields that are derived or computed
+
+### **Step 5: Constructor Parameter**
+```typescript
+constructor(json: any) {
+    // Implementation
+}
+```
+
+**Rules for constructor:**
+- **Parameter type**: Use `any` for flexibility
+- **Parameter name**: Use `json` as the parameter name
+- **Access pattern**: Access properties directly from the json parameter
+
+### **Step 6: Define Entity Class**
+```typescript
+export class EntityEntity {
+    public id: string;
+    public requiredField1: string;
+    public requiredField2: number;
+    public optionalField: boolean;
+    public enumField: EntityEnum;
+    public complexField: Record<string, boolean>;
+
+    constructor(json: any) {
+        this.id = json._id || json.id || '';
+        this.requiredField1 = json.requiredField1 || '';
+        this.requiredField2 = json.requiredField2 ?? 0;
+        this.optionalField = json.optionalField ?? false;
+        this.enumField = json.enumField ?? EntityEnum.DEFAULT_VALUE;
+        this.complexField = json.complexField || {};
+    }
+}
+```
+
+**Rules for entity classes:**
+- **Naming**: Use `{EntityName}Entity` format
+- **Public properties**: All properties should be public
+- **Constructor**: Accept `EntityConstructorData` interface
+- **Default values**: Use `??` for primitive types, `||` for objects/strings
+- **ID handling**: Prioritize `_id` over `id` for MongoDB compatibility
+
+## **Field Type Patterns**
+
+### **String Fields**
+```typescript
+this.fieldName = json.fieldName || '';
+```
+
+### **Number Fields**
+```typescript
+this.fieldName = json.fieldName ?? 0; // or appropriate default
+```
+
+### **Boolean Fields**
+```typescript
+this.fieldName = json.fieldName ?? true; // or false based on business logic
+```
+
+### **Enum Fields**
+```typescript
+this.fieldName = json.fieldName ?? EnumType.DEFAULT_VALUE;
+```
+
+### **Object/Array Fields**
+```typescript
+this.fieldName = json.fieldName || {};
+this.fieldName = json.fieldName || [];
+```
+
+### **Nullable Fields**
+```typescript
+this.fieldName = json.fieldName || null;
+```
+
+## **Complex Type Examples**
+
+### **Record Types**
+```typescript
+featureFlags: Record<TFeatureFlagsEnum, boolean>;
+```
+
+### **Array Types**
+```typescript
+notAvailableTimes: { day: number; hours: number[] }[];
+```
+
+### **Union Types**
+```typescript
+timeZone: string | null;
+```
+
+### **Optional Fields**
+```typescript
+zonetemplate?: ZoneTemplate;
+```
+
+## **Default Value Patterns**
+
+### **Common Defaults**
+```typescript
+// Strings
+this.name = json.name || '';
+this.description = json.description || '';
+
+// Numbers
+this.maxSeats = json.maxSeats ?? 100;
+this.delayInMinutes = json.delayInMinutes ?? 30;
+
+// Booleans
+this.enableFeature = json.enableFeature ?? true;
+this.isActive = json.isActive ?? false;
+
+// Arrays
+this.tags = json.tags || [];
+this.permissions = json.permissions || [];
+
+// Objects
+this.config = json.config || {};
+this.metadata = json.metadata || {};
+```
+
+## **File Organization Example**
+
+```typescript
+// 1. Imports
+import { EnumType1, EnumType2 } from "../enums";
+
+// 2. Enums (if needed)
+export enum EntityEnum { ... }
+
+// 3. Input Type
+export type EntityInput = { ... }
+
+// 4. Complete Entity Type
+export type Entity = { ... } & EntityInput
+
+// 5. Entity Class
+export class EntityEntity { ... }
+```
+
+## **Best Practices**
+
+1. **Consistency**: Follow the exact naming conventions and patterns
+2. **Type Safety**: Use strict typing, avoid `any`
+3. **Default Values**: Provide sensible defaults for all fields
+4. **Documentation**: Add JSDoc comments for complex fields
+5. **Validation**: Consider adding validation logic in constructors
+6. **Immutability**: Consider making properties readonly where appropriate
+7. **Testing**: Create unit tests for entity constructors and methods
+
+## **Common Pitfalls to Avoid**
+
+1. **Missing default values**: Always provide defaults for optional fields
+2. **Incorrect ID handling**: Use `_id || id || ''` pattern for MongoDB compatibility
+3. **Type mismatches**: Ensure constructor data interface matches entity class
+4. **Missing exports**: Export all types and classes that need external access
+5. **Inconsistent naming**: Follow the exact naming patterns specified
+description:
+globs:
+alwaysApply: false
+---

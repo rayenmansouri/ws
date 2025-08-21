@@ -5,10 +5,11 @@ import { PLATFORM_ENUM, RouteConfiguration } from "../../../../core/express/type
 import { UpdateCurrentUserPasswordController } from "./updateCurrentUserPassword.controller";
 import { UpdateCurrentUserPasswordRouteConfig } from "./updateCurrentUserPassword.types";
 import { updateCurrentUserPasswordValidation } from "./updateCurrentUserPassword.validation";
+import { updateCurrentUserPasswordRoute as updateCurrentUserPasswordRouteConfig } from "../../../../../shared-types/routes/auth/me/updateCurrentUserPassword";
 
 export const updateCurrentUserPasswordRoute: RouteConfiguration<UpdateCurrentUserPasswordRouteConfig, "/password"> = {
-  path: "/password",
-  method: "patch",
+  path: updateCurrentUserPasswordRouteConfig.path,
+  method: updateCurrentUserPasswordRouteConfig.method,
   controller: UpdateCurrentUserPasswordController,
   isTransactionEnabled: false,
   isPublic: false,

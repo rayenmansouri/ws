@@ -6,7 +6,7 @@ import { organizationRoute } from "../../api-v2/organization-api/create-organiza
 import { configRoute } from "../../api-v2/organization-api/config/config.route";
 import { getAllOrganizationsRoute } from "../../api-v2/organization-api/get-all-organizations/route";
 import { editOrganizationRoute } from "../../api-v2/organization-api/edit-organization";
-import { createAdminRoute, coachRoute, createParticipantRoute } from "../../api-v2/user-management/createUser.route";
+import { createAdminRoute, coachRoute, createParticipantRoute } from "../../api-v2/user-management/create-user/create-user.route";
 import { uploadAvatarRoute } from "../../api-v2/user-management/uploadAvatar/uploadAvatar.route";
 import { listStudentRoute } from "../../api-v2/user-management/list-student";
 import { publicRouter } from "./routers/public-router";

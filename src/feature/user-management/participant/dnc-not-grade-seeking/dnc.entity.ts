@@ -2,24 +2,7 @@
 import { BaseUser, BaseUserEntity } from "../../base-user/domain/base-user.entity";
 import { UserTypeEnum } from "../../factory/enums";
 
-export enum DncCenterEnum {
-    sousse = "sousse",
-    kairouan = "kairouan",
-};
-
-export enum DncParentRelationEnum {
-    father = "father",
-    mother = "mother",
-    brother = "bother",
-    sister = "sister",
-};
-
-export enum candidateOriginEnum {
-    school = "BETI",
-    other = "RECOMMENDATION",
-};
-
-export type dncType = {
+export type dncNotGradeSeekingType = {
     uniqueId: string;
     address1?: string;
     address2?: string; 
@@ -29,10 +12,10 @@ export type dncType = {
     DNC: string;
 }
 
-export type DncUser = BaseUser & dncType;
+export type DncNotGradeSeekingUser = BaseUser & dncNotGradeSeekingType;
 
 
-export class DncParticipantEntity extends BaseUserEntity implements DncUser {
+export class DncNotGradeSeekingParticipantEntity extends BaseUserEntity implements DncNotGradeSeekingUser {
     public id: string;
     public uniqueId: string;
     public address1?: string;

@@ -12,11 +12,11 @@ export type getAllOrganizationsRouteType = {
     method: string;
     paramsKey: string[];
 };
-//get all organizations route type for admin
-export type getAllOrganizationsRouteTypeMaster = getAllOrganizationsRouteType & {
+
+export type getAllOrganizationsRouteTypeAdmin = getAllOrganizationsRouteType & {
     response: {
         status: string;
         message: string;
         data: ReplaceDatesWithStrings<GetAllOrganizationsResponse>;
     };
-};
+}

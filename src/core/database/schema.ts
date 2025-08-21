@@ -1,24 +1,17 @@
 import { Schema  } from "mongoose";
 
-type SchemaOptions = {
-    discriminatorKey?:string,
-    collection?:string,
-    timestamps?:boolean,
-}
 
 type CreateSchemaParam<T> = {
     name:string,
-    schemaDefinition: Record<keyof Omit<T, "id">, unknown>,
-    options:SchemaOptions,
+    schemaDefinition: Schema<T>,
 }
 
 export const schemaRegistry:Record<string,Schema> = {};
 // Helper function that enforces complete schema definition
 export function createCompleteSchema<T>(param:CreateSchemaParam<T>): Schema<T> {
-    const {name,schemaDefinition,options} = param;
-    const schema = new Schema<T>(schemaDefinition,options);
-    schemaRegistry[name] = schema;
-    return schema;
+    const {name,schemaDefinition } = param;
+    schemaRegistry[name] = schemaDefinition;
+    return schemaDefinition;
 }
 
 export function getSchema(name:string): Schema | undefined {

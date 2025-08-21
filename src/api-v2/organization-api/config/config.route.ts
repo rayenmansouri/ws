@@ -3,10 +3,11 @@ import { getCoreMiddlewares } from "../../../core/express/middlewares/registerCo
 import { ConfigController } from "./config.controller";
 import { configParamValidation, getConfigRouteType } from "./config-route.type";
 import { publicRouter } from "../../../apps/main/routers/public-router";
+import { configRoute as configRouteConfig } from "../../../../shared-types/routes/organization-api/config";
 
 export const configRoute: RouteConfiguration<getConfigRouteType, "/organizations/:organizationId/config"> = {
-    path: "/organizations/:organizationId/config",
-    method: "get",
+    path: configRouteConfig.path,
+    method: configRouteConfig.method,
     isPublic: true,
     paramSchema: configParamValidation,
     controller: ConfigController,

@@ -1,12 +1,14 @@
-import { model } from "mongoose";
+import { model, Schema } from "mongoose";
 import { Organization, GradeBookTheme } from "./organization.entity";
 import { createCompleteSchema } from "../../../core/database/schema";
 import { OrganizationSystemType, FEATURE_FLAGS_ENUM, ZoneTemplate } from "../enums";
 
 export const OrganizationKey = "organizations";
+
+
 export const OrganizationSchema = createCompleteSchema<Organization>({
   name: "Organization",
-  schemaDefinition: {
+  schemaDefinition: new Schema<Organization>({
   name: { type: String, required: true },
   address: { type: String, required: false, default: "" },
   email: { type: String, required: true },
@@ -37,13 +39,10 @@ export const OrganizationSchema = createCompleteSchema<Organization>({
       [FEATURE_FLAGS_ENUM.SMART_CALENDAR]: true,
       [FEATURE_FLAGS_ENUM.TUTORIALS]: true,
       [FEATURE_FLAGS_ENUM.DARK_MODE]: false,
-      [FEATURE_FLAGS_ENUM.LMS]: false,
+      [FEATURE_FLAGS_ENUM.LMS]: false
     }
-  },
-  },
-  options: {
-    timestamps: true,
-  },
-});
+  }})})
+
+
 
 export const OrganizationModel = model<Organization>(OrganizationKey, OrganizationSchema);

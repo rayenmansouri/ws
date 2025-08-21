@@ -1,13 +1,12 @@
 
-import { connection } from "mongoose";
+import { connection, Model } from "mongoose";
 import { OrganizationSystemType } from "../../src/feature/organization-magement/enums";
 import { SUPER_ADMIN_ROLE } from "../../src/feature/roles/constant";
 import { RoleModel } from "../../src/feature/roles/role.schema";
-import { BaseUserModel } from "../../src/feature/user-management/base-user/domain/base-user.schema";
-import { UserTypeEnum } from "../../src/feature/user-management/factory/enums";
-import { getUserModel } from "../../src/feature/user-management/factory/models-factory";
+import { BaseUserModel, BaseUserSchema } from "../../src/feature/user-management/base-user/domain/base-user.schema";
 import { HashingHelper } from "../../src/helpers/HashUtils";
 import { ISeeder } from "../interface";
+import { UserTypeEnum } from "../../src/feature/user-management/factory/enums";
 
 export default class SeedMasters implements ISeeder {
     masters = [
@@ -16,6 +15,7 @@ export default class SeedMasters implements ISeeder {
             lastName: "admin",
             email: "master@gmail.com",
             fullName: "admin",
+            type:UserTypeEnum.MASTER,
             password: "password",
             schoolSubdomain: "master",
             address1: "sahloul",
@@ -30,7 +30,7 @@ export default class SeedMasters implements ISeeder {
     async seed(): Promise<void> {
         console.log("seeding masters");
         await BaseUserModel.deleteMany({});
-        const masterModel = getUserModel(connection,UserTypeEnum.MASTER, OrganizationSystemType.DEFAULT);
+        const masterModel = connection.model("users",BaseUserSchema);
         for (const master of this.masters) {
             const hashedPassword = await HashingHelper.generateHash(master.password);
             const role = await RoleModel.findOne({

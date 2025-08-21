@@ -8,11 +8,12 @@ import { PLATFORM_ENUM, RouteConfiguration } from "../../../../core/express/type
 import { LoginController } from "./login.controller";
 import { LoginRouteConfig } from "./login.types";
 import { loginValidation } from "./login.validation";
+import { loginRoute as loginRouteConfig } from "../../../../../shared-types/routes/login";
 
 
 export const adminLoginRoute: RouteConfiguration<LoginRouteConfig, "/login"> = {
-  path: "/login",
-  method: "post",
+  path: loginRouteConfig.path,
+  method: loginRouteConfig.method,
   bodySchema: loginValidation.body,
   controller: LoginController,
   isTransactionEnabled: false,
@@ -24,8 +25,8 @@ export const adminLoginRoute: RouteConfiguration<LoginRouteConfig, "/login"> = {
 
 
 export const masterLoginRoute: RouteConfiguration<LoginRouteConfig, "/login"> = {
-  path: "/login",
-  method: "post",
+  path: loginRouteConfig.path,
+  method: loginRouteConfig.method,
   bodySchema: loginValidation.body,
   controller: LoginController,
   isTransactionEnabled: false,
@@ -37,8 +38,8 @@ export const masterLoginRoute: RouteConfiguration<LoginRouteConfig, "/login"> = 
 
 
 export const participantLoginRoute: RouteConfiguration<LoginRouteConfig, "/login"> = {
-  path: "/login",
-  method: "post",
+  path: loginRouteConfig.path,
+  method: loginRouteConfig.method,
   bodySchema: loginValidation.body,
   controller: LoginController,
   isTransactionEnabled: false,
@@ -50,8 +51,8 @@ export const participantLoginRoute: RouteConfiguration<LoginRouteConfig, "/login
 
 
 export const coachLoginRoute: RouteConfiguration<LoginRouteConfig, "/login"> = {
-  path: "/login",
-  method: "post",
+  path: loginRouteConfig.path,
+  method: loginRouteConfig.method,
   bodySchema: loginValidation.body,
   controller: LoginController,
   isTransactionEnabled: false,

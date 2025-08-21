@@ -3,12 +3,13 @@ import { END_USER_ENUM } from "../../../constants/globalEnums";
 import { getAuthenticatedMiddlewares } from "../../../core/express/middlewares/registerCoreMiddlewares";
 import { PLATFORM_ENUM, RouteConfiguration } from "../../../core/express/types";
 import { GetAllOrganizationsController } from "./get-all-organizations.controller";
-import { GetAllOrganizationsRouteConfig } from "./get-all-organizations.types";
+import { GetAllOrganizationsRouteConfig  } from "./get-all-organizations.types";
 import { getAllOrganizationsValidation } from "./get-all-organizations.validation";
+import { getAllOrganizationsRoute as getAllOrganizationsRouteConfig } from "../../../../shared-types/routes/organization-api/get-all-organization";
 
 export const getAllOrganizationsRoute: RouteConfiguration<GetAllOrganizationsRouteConfig, "/organizations"> = {
-    path: "/organizations",
-    method: "get",
+    path: getAllOrganizationsRouteConfig.path,
+    method: getAllOrganizationsRouteConfig.method,
     endUser: END_USER_ENUM.ADMIN,
     querySchema: getAllOrganizationsValidation.query,
     controller: GetAllOrganizationsController,

@@ -6,7 +6,7 @@ import { SuccessResponse } from "../../../core/responseAPI/APISuccessResponse";
 import { inject } from "../../../core/container/TypedContainer";
 import { Injectable } from "../../../core/container/decorators/AutoRegister.decorator";
 import { REPOSITORY_FACTORY_IDENTIFIER } from "../../../feature/user-management/constants";
-import { RepositoryFactory } from "../../../feature/user-management/factory/repository.factory";
+import { UserFactory } from "../../../feature/user-management/factory/abstract-factory";
 import { UserTypeEnum } from "../../../feature/user-management/factory/enums";
 import { paginateResult } from "../../../helpers/paginateResult";
 
@@ -15,7 +15,7 @@ import { paginateResult } from "../../../helpers/paginateResult";
 })
 export class ListStudentController extends BaseController<ListStudentRouteConfig> {
   constructor(
-    @inject(REPOSITORY_FACTORY_IDENTIFIER) private repositoryFactory: RepositoryFactory,
+    @inject(REPOSITORY_FACTORY_IDENTIFIER) private repositoryFactory: UserFactory,
   ) {
     super();
   }

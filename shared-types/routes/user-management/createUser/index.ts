@@ -1,6 +1,5 @@
 import { ReplaceDatesWithStrings } from "../../../utils";
-import { CreateUserResponse } from "../../../../src/api-v2/user-management/createUser.types";
-import { CreateUserRouteConfig } from "../../../../src/api-v2/user-management/createUser.types";
+import { CreateUserResponse, CreateUserRouteConfig } from "../../../../src/api-v2/user-management/create-user/create-user.types";
 
 export const createParticipantRouteObject = {
     path: "/users/participants",

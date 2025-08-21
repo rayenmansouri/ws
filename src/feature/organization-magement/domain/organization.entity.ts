@@ -39,33 +39,6 @@ export type Organization ={
   featureFlags: Record<TFeatureFlagsEnum, boolean>;
 } & OrganizationInput;
 
-interface OrganizationConstructorData {
-  _id?: string;
-  id?: string;
-  name?: string;
-  phone?: string;
-  email?: string;
-  website?: string;
-  subdomain?: string;
-  phoneNumber?: string;
-  directorName?: string;
-  configName?: string;
-  gradeBookTheme?: GradeBookTheme;
-  logo?: string | null;
-  forceCloseSessionDelayInMin?: number;
-  openSessionDelayInMin?: number;
-  openSessionAdvanceInMin?: number;
-  maxStudentSeats?: number;
-  notAvailableTimes?: { day: number; hours: number[] }[];
-  enableEmail?: boolean;
-  cover?: string;
-  timeZone?: string | null;
-  address?: string;
-  organizationSystemType?: OrganizationSystemType;
-  featureFlags?: Record<TFeatureFlagsEnum, boolean>;
-  zonetemplate?: ZoneTemplate;
-}
-
 export class OrganizationEntity{
     public id: string;
     public name: string;
@@ -91,7 +64,7 @@ export class OrganizationEntity{
     public featureFlags: Record<TFeatureFlagsEnum, boolean>;
     public zonetemplate?: ZoneTemplate;
     constructor(
-       json: OrganizationConstructorData
+       json: any
     ){
         this.id = json._id || json.id || '';
         this.name = json.name || '';

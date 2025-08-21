@@ -7,10 +7,11 @@ import { adminRouter } from "../../../apps/main/routers/admin-router";
 import { masterRouter } from "../../../apps/main/routers/master-router";
 import { participantRouter } from "../../../apps/main/routers/participant-router";
 import { coachRouter } from "../../../apps/main/routers/coach-router";
+import { meRoute } from "../../../../shared-types/routes/auth/me";
 
 export const adminMeRoute: RouteConfiguration<MeRouteConfig, "/me"> = {
-  path: "/me",
-  method: "get",
+  path: meRoute.path,
+  method: meRoute.method,
   controller: MeController,
   isTransactionEnabled: false,
   isPublic: false,
@@ -22,8 +23,8 @@ export const adminMeRoute: RouteConfiguration<MeRouteConfig, "/me"> = {
 
 
 export const masteMeRoute: RouteConfiguration<MeRouteConfig, "/me"> = {
-  path: "/me",
-  method: "get",
+  path: meRoute.path,
+  method: meRoute.method,
   controller: MeController,
   isTransactionEnabled: false,
   isPublic: false,
@@ -34,8 +35,8 @@ export const masteMeRoute: RouteConfiguration<MeRouteConfig, "/me"> = {
 };
 
 export const participantMeRoute: RouteConfiguration<MeRouteConfig, "/me"> = { 
-  path: "/me",
-  method: "get",
+  path: meRoute.path,
+  method: meRoute.method,
   controller: MeController,
   isTransactionEnabled: false,
   isPublic: false,
@@ -47,8 +48,8 @@ export const participantMeRoute: RouteConfiguration<MeRouteConfig, "/me"> = {
 
 
 export const coachMeRoute: RouteConfiguration<MeRouteConfig, "/me"> = { 
-  path: "/me",
-  method: "get",
+  path: meRoute.path,
+  method: meRoute.method,
   controller: MeController,
   isTransactionEnabled: false,
   isPublic: false,

@@ -1,8 +1,9 @@
-import mongoose, { Types } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 import { UserTypeEnum } from "../../factory/enums";
 import { BaseUser } from "./base-user.entity";
 import { createCompleteSchema } from "../../../../core/database/schema";
 import { RoleKey } from "../../../roles/role.schema";
+import { DiscriminatorKey } from "../../factory/discriminator";
 
 export const BaseOptions = {
     discriminatorKey: "type",
@@ -14,18 +15,24 @@ export const BaseUserKey = "users";
 
 export const BaseUserSchema = createCompleteSchema<BaseUser>({
     name: BaseUserKey,
-    schemaDefinition: {
+    schemaDefinition: new Schema<BaseUser>({
       firstName: { type: String, required: true },
       lastName: { type: String, required: true },
       email: { type: String, required: true },
       gender: { type: String, required: true },
       birthDate: { type: Date, required: true },
-      type: { type: String, enum: Object.values(UserTypeEnum), required: true },
+      type: { type: String, enum: Object.values(DiscriminatorKey), required: true },
       roles: [{ type: Types.ObjectId, ref: RoleKey }],
       password: { type: String, required: true },
       schoolSubdomain: { type: String, required: true },
       phoneNumber: { type: String, required: true },
-      fullName: { type: String, required: true },
+      fullName: { 
+        type: String, 
+        required: false,
+        default: function() {
+          return `${this.firstName} ${this.lastName}`;
+        }
+      },
       passwordChangedAt: { type: Date, required: false },
       avatar: {
         link: { type: String, required: false },
@@ -35,8 +42,7 @@ export const BaseUserSchema = createCompleteSchema<BaseUser>({
         size: { type: Number, required: false },
         mimeType: { type: String, required: false },
       },
-    },
-    options: BaseOptions,
+    },BaseOptions)
 });
 
 export const BaseUserModel = mongoose.model<BaseUser>("BaseUser", BaseUserSchema);

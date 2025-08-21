@@ -4,10 +4,11 @@ import { PLATFORM_ENUM, RouteConfiguration } from "../../../../../core/express/t
 import { ListLevelsController } from "./listLevels.controller";
 import { ListLevelsRouteConfig } from "./listLevels.types";
 import { listLevelsValidation } from "./listLevels.validation";
+import { listLevelsRoute as listLevelsRouteConfig } from "../../../../../../shared-types/routes/level/web/admin/listLevels";
 
 export const listLevelsRoute: RouteConfiguration<ListLevelsRouteConfig, "/levels"> = {
-  path: "/levels",
-  method: "get",
+  path: listLevelsRouteConfig.path,
+  method: listLevelsRouteConfig.method,
   controller: ListLevelsController,
   middlewaresClasses: getTenantAuthenticatedMiddlewares(),
   router: adminRouter,

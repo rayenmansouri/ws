@@ -1,6 +1,6 @@
-import { TypedRequestOptions } from "../../core/express/types";
-import { BaseUser } from "../../feature/user-management/base-user/domain/base-user.entity";
-import { UserTypeEnum } from "../../feature/user-management/factory/enums";
+import { TypedRequestOptions } from "../../../core/express/types";
+import { BaseUser } from "../../../feature/user-management/base-user/domain/base-user.entity";
+import { UserTypeEnum } from "../../../feature/user-management/factory/enums";
 
 export type CreateUserRouteConfig = TypedRequestOptions & {
   body: {
@@ -10,7 +10,7 @@ export type CreateUserRouteConfig = TypedRequestOptions & {
     password: string;
     type: UserTypeEnum;
     gender: string;
-    birthDate: Date;
+    birthDate: string;
     schoolSubdomain: string;
     phoneNumber: string;
     participantData?: Record<string, unknown>;

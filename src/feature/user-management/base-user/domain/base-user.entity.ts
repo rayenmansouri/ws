@@ -1,15 +1,14 @@
+import { Role } from "../../../roles/role.entity";
 import { UserTypeEnum } from "../../factory/enums";
 
 export type CreateBaseUser = {
   firstName: string;
   lastName: string;
-  fullName: string;
   email: string;
   phoneNumber: string;
   password: string;
   schoolSubdomain: string;
   type: UserTypeEnum;
-  roles: string[];
   passwordChangedAt?: Date;
   avatar?: {
     link: string;
@@ -20,11 +19,16 @@ export type CreateBaseUser = {
     mimeType: string;
   };
   gender: string;
-  birthDate: Date;
+  birthDate: string;
+  roles?: string[];
+  participantData?: Record<string,unknown>;
 };
 
-export type BaseUser = CreateBaseUser & {
-  id: string
+export type BaseUser = Omit<CreateBaseUser, 'roles' | 'birthDate'> & {
+  id: string;
+  fullName: string;
+  roles?: Role[]
+  birthDate: Date;
 };
 
 export class BaseUserEntity implements BaseUser{
@@ -40,7 +44,7 @@ export class BaseUserEntity implements BaseUser{
     public password: string;
     public type: UserTypeEnum;
     public passwordChangedAt?: Date;
-    public roles: string[];
+    public roles?: Role[];
     public avatar?: {
       link: string;
       name: string;

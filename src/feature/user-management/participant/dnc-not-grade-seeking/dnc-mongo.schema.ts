@@ -1,10 +1,10 @@
 import { createCompleteSchema } from "../../../../core/database/schema";
-import { dncType } from "./dnc.entity";
 import { Schema } from "mongoose";
+import { dncNotGradeSeekingType } from "./dnc.entity";
 
-export const dncMongoSchema = createCompleteSchema<dncType>({
-  name: "dnc",
-  schemaDefinition: new Schema<dncType>({
+export const dncNotGradeSeekingMongoSchema = createCompleteSchema<dncNotGradeSeekingType>({
+  name: "dncNotGradeSeeking",
+  schemaDefinition: new Schema<dncNotGradeSeekingType>({
     uniqueId: { type: String, required: true },
     address1: { type: String, required: false },
     address2: { type: String, required: false },
