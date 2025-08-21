@@ -51,6 +51,7 @@ export const englishTranslation: TranslationObject = {
     accessDenied: "Access denied",
     badRequest: "Bad request",
     fileIsRequired: "File is required",
+    userUpdateFailed: "User update failed",
   },
   notFound: {
     chapterAttachment: "Chapter attachment not found",

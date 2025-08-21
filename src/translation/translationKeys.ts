@@ -14,6 +14,7 @@ export type TranslationObject = {
     accessDenied: string;
     badRequest: string;
     fileIsRequired: string;
+    userUpdateFailed: string;
   };
   validation: {
     parentEmailOrPhoneNumberRequired: string;
