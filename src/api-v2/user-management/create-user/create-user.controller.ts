@@ -12,6 +12,8 @@ import { ROLE_REPOSITORY_IDENTIFIER } from "../../../feature/roles/constant";
 import { RoleRepository } from "../../../feature/roles/role.repo";
 import { UserFactory, UserFactoryIdentifier } from "../../../feature/user-management/factory/abstract-factory";
 import { CreateUserResponse, CreateUserRouteConfig } from "./create-user.types";
+import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../../feature/user-management/constants";
+import { UserRepository } from "../../../feature/user-management/base-user/domain/base-user.repository";
 import { SeekingGradeParticipant } from "../../../feature/user-management/participant/enums";
 
 @Injectable({
@@ -22,6 +24,7 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
     @inject(ORGANIZATION_REPOSITORY_IDENTIFIER) private schoolRepo: OrganizationRepository,
     @inject(ROLE_REPOSITORY_IDENTIFIER) private roleRepo: RoleRepository,
     @inject(UserFactoryIdentifier) private repositoryFactory: UserFactory,
+    @inject(BASE_USER_REPOSITORY_IDENTIFIER) private baseUserRepository: UserRepository,
   ) {
     super();
   }
@@ -31,34 +34,36 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
             schoolSubdomain, type,phoneNumber,
             participantData = {}, gender, birthDate,
     } = req.body;
-    
-    // Get organization first to determine system type and seeking grade
+    //check if user already exists
+    const existingUser = await this.baseUserRepository.findOne({ email });
+    if(existingUser) throw new BadRequestError("global.userAlreadyExists");
     const organization = await this.schoolRepo.findOne({ subdomain: schoolSubdomain });
     if(!organization) throw new BadRequestError("global.schoolNotFound");
-    
     const organizationSystemType = organization.organizationSystemType;
-    // For participants, extract seeking grade from participantData, default to SEEKING_GRADE_PARTICIPANT
-    const seekingGrade = type === "PARTICIPANT" ? 
-      (participantData.seekingGrade as SeekingGradeParticipant || SeekingGradeParticipant.SEEKING_GRADE_PARTICIPANT) : 
-      undefined;
-    
-    const userRepository = this.repositoryFactory.getRepository(type, organizationSystemType, seekingGrade);
-    userRepository.organization = organization;
-    
-    //check if user already exists
-    const existingUser = await userRepository.findOne({ email });
-    if(existingUser) throw new BadRequestError("global.userAlreadyExists");
     
     this.repositoryFactory.validateUserInput({userType:type,organizationSystemType,data:req.body})
     const hashedPassword = await AuthenticationHelper.hashString(password);
-    
     //get roles
     const roles = await this.roleRepo.findAll({
       userTypes: { $in: [type] }
     })
     if(roles.length === 0) throw new BadRequestError("global.roleNotFound");
+    const userRepository = this.repositoryFactory.getRepository(type,organizationSystemType,participantData?.seekingGrade as SeekingGradeParticipant);
+    await userRepository.create({
+      firstName,
+      lastName, 
+      email,
+      phoneNumber,
+      password:hashedPassword,
+      schoolSubdomain,
+      type: type,
+      roles: roles.map(role => role.id),
+      gender,
+      birthDate,
+      ...participantData
+    });
    
-    // Switch to tenant connection and create user
+    //hash password
     userRepository.switchConnection(schoolSubdomain);
     const createdUser = await userRepository.create({
       firstName,
@@ -73,7 +78,6 @@ export class CreateUserController extends BaseController<CreateUserRouteConfig> 
       birthDate,
       ...participantData
     });
-    
     return new SuccessResponse<CreateUserResponse>("global.success", { user: createdUser });
   }
 }
