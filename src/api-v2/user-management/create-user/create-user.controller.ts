@@ -14,7 +14,6 @@ import { UserFactory, UserFactoryIdentifier } from "../../../feature/user-manage
 import { CreateUserResponse, CreateUserRouteConfig } from "./create-user.types";
 import { BASE_USER_REPOSITORY_IDENTIFIER } from "../../../feature/user-management/constants";
 import { UserRepository } from "../../../feature/user-management/base-user/domain/base-user.repository";
-import { SeekingGradeParticipant } from "../../../feature/user-management/participant/enums";
 import { getDiscriminatorKey } from "../../../feature/user-management/factory/discriminator";
 import { UserTypeEnum } from "../../../feature/user-management/factory/enums";
 
