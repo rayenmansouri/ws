@@ -3,15 +3,15 @@ import { GetDashboardRouteConfig } from "../../../src/api-v2/dashboard/dashboard
 import { ReplaceDatesWithStrings } from "../../utils";
 
 export const dashboardRoute = {
-    path: "/dashboard",
-    method: "get",
-    paramsKey: [],
+    path: "/dashboard" as const,
+    method: "get" as const,
+    paramsKey: [] as const,
 };
 
 export type DashboardRouteType = {
-  path: string;
-  method: string;
-  paramsKey: string[];
+  path: "/dashboard";
+  method: "get";
+  paramsKey: readonly string[];
   body?: ReplaceDatesWithStrings<GetDashboardRouteConfig['body']>;
   params?: ReplaceDatesWithStrings<GetDashboardRouteConfig['params']>;
   query?: ReplaceDatesWithStrings<GetDashboardRouteConfig['query']>;

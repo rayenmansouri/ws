@@ -3,15 +3,15 @@ import { ForgetPasswordResponse } from "../../../../../src/api-v2/auth/public/fo
 import { ForgetPasswordRouteConfig } from "../../../../../src/api-v2/auth/public/forget-password/forget-password.types";
 
 export const forgetPasswordRoute = {
-    path: "/forget-password",
-    method: "post",
-    paramsKey: [],
+    path: "/forget-password" as const,
+    method: "post" as const,
+    paramsKey: [] as const,
 };
 
 export type ForgetPasswordRouteType = {
-  path: string;
-  method: string;
-  paramsKey: string[];
+  path: "/forget-password";
+  method: "post";
+  paramsKey: readonly string[];
   body?: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['body']>;
   params?: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['params']>;
   query?: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['query']>;

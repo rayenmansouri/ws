@@ -3,15 +3,15 @@ import { UpdateCurrentUserPasswordResponse } from "../../../../../src/api-v2/aut
 import { UpdateCurrentUserPasswordRouteConfig } from "../../../../../src/api-v2/auth/me/updateCurrentUserPassword/updateCurrentUserPassword.types";
 
 export const updateCurrentUserPasswordRoute = {
-    path: "/password",
-    method: "patch",
-    paramsKey: [],
+    path: "/password" as const,
+    method: "patch" as const,
+    paramsKey: [] as const,
 };
 
 export type UpdateCurrentUserPasswordRouteType = {
-  path: string;
-  method: string;
-  paramsKey: string[];
+  path: "/password";
+  method: "patch";
+  paramsKey: readonly string[];
   body?: ReplaceDatesWithStrings<UpdateCurrentUserPasswordRouteConfig['body']>;
   params?: ReplaceDatesWithStrings<UpdateCurrentUserPasswordRouteConfig['params']>;
   query?: ReplaceDatesWithStrings<UpdateCurrentUserPasswordRouteConfig['query']>;

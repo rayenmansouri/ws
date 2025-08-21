@@ -2,9 +2,9 @@ import { ListLevelsResponse } from "../../../../../../src/api-v2/level/web/admin
 import { ListLevelsRouteConfig } from "../../../../../../src/api-v2/level/web/admin/listLevels/listLevels.types";
 import { ReplaceDatesWithStrings } from "../../../../../utils";
 export const listLevelsRoute = {
-    path: "/levels",
-    method: "get",
-    paramsKey: [],
+    path: "/levels" as const,
+    method: "get" as const,
+    paramsKey: [] as const,
 };
 
 export type ListLevelsRouteType = {

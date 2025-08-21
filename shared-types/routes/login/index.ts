@@ -3,15 +3,15 @@ import { LoginRouteConfig } from "../../../src/api-v2/auth/public/login/login.ty
 import { ReplaceDatesWithStrings } from "../../utils";
 
 export const loginRoute = {
-    path: "/login",
-    method: "post",
-    paramsKey: [],
+    path: "/login" as const,
+    method: "post" as const,
+    paramsKey: [] as const,
   };
  
 export type LoginRouteType = {
-  path: string;
-  method: string;
-  paramsKey: string[];
+  path: "/login";
+  method: "post";
+  paramsKey: readonly string[];
   body?: ReplaceDatesWithStrings<LoginRouteConfig['body']>;
   params?: ReplaceDatesWithStrings<LoginRouteConfig['params']>;
   query?: ReplaceDatesWithStrings<LoginRouteConfig['query']>;

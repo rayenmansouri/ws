@@ -3,9 +3,9 @@ import { LevelsOverviewRouteConfig } from "../../../../../../src/api-v2/level/we
 import { ReplaceDatesWithStrings } from "../../../../../utils";
 
 export const levelsOverviewRoute = {
-    path: "/levels/overview",
-    method: "get",
-    paramsKey: [],
+    path: "/levels/overview" as const,
+    method: "get" as const,
+    paramsKey: [] as const,
 };
 
 export type LevelsOverviewRouteType = {

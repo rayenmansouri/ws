@@ -3,15 +3,15 @@ import { MeResponse } from "../../../../src/api-v2/auth/me/me.types";
 import { MeRouteConfig } from "../../../../src/api-v2/auth/me/me.types";
 
 export const meRoute = {
-    path: "/me",
-    method: "get",
-    paramsKey: [],
+    path: "/me" as const,
+    method: "get" as const,
+    paramsKey: [] as const,
 };
 
 export type MeRouteType = {
-  path: string;
-  method: string;
-  paramsKey: string[];
+  path: "/me";
+  method: "get";
+  paramsKey: readonly string[];
   body?: ReplaceDatesWithStrings<MeRouteConfig['body']>;
   params?: ReplaceDatesWithStrings<MeRouteConfig['params']>;
   query?: ReplaceDatesWithStrings<MeRouteConfig['query']>;

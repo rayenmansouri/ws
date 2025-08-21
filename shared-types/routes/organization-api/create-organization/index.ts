@@ -3,15 +3,15 @@ import { CreateOrganizationResponse } from "../../../../src/api-v2/organization-
 import { CreateOrganizationRouteConfig } from "../../../../src/api-v2/organization-api/organization.types";
 
 export const createOrganizationRoute = {
-    path: "/organizations",
-    method: "post",
-    paramsKey: [],
+    path: "/organizations" as const,
+    method: "post" as const,
+    paramsKey: [] as const,
 };
 
 export type CreateOrganizationRouteType = {
-  path: string;
-  method: string;
-  paramsKey: string[];
+  path: "/organizations";
+  method: "post";
+  paramsKey: readonly string[];
   body?: ReplaceDatesWithStrings<CreateOrganizationRouteConfig['body']>;
   params?: ReplaceDatesWithStrings<CreateOrganizationRouteConfig['params']>;
   query?: ReplaceDatesWithStrings<CreateOrganizationRouteConfig['query']>;
