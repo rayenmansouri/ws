@@ -30,8 +30,8 @@ export const UserFactoryIdentifier = "UserFactory";
 export class UserFactory{
    constructor(
     @inject(BASE_USER_REPOSITORY_IDENTIFIER) private baseUserRepository:UserRepository,
-     @inject(DNC_NOT_GRADE_SEEKING_PARTICIPANT_REPOSITORY_IDENTIFIER) private dncNotGradeSeekingParticipantRepository:DncParticipantRepository,
-     @inject(DNC_PARTICIPANT_REPOSITORY_IDENTIFIER) private dncRepository:DncNotSeekingGradeParticipantRepository,
+     @inject(DNC_NOT_GRADE_SEEKING_PARTICIPANT_REPOSITORY_IDENTIFIER) private dncNotGradeSeekingParticipantRepository:DncNotSeekingGradeParticipantRepository,
+     @inject(DNC_PARTICIPANT_REPOSITORY_IDENTIFIER) private dncRepository:DncParticipantRepository,
    ){}
 
    getParticipantValidationSchema(organizationSystemType:OrganizationSystemType,seekingGrade:SeekingGradeParticipant){
@@ -73,7 +73,7 @@ export class UserFactory{
         case OrganizationSystemType.DNC:
             return seekingGrade === SeekingGradeParticipant.SEEKING_GRADE_PARTICIPANT  ? this.dncRepository : this.dncNotGradeSeekingParticipantRepository;
         default:
-            throw new Error(`Not dnc repository for ${organizationSystemType}`)
+            throw new BadRequestError(`No participant repository available for organization system type: ${organizationSystemType}`)
     }
    }
 
@@ -84,10 +84,12 @@ export class UserFactory{
         case UserTypeEnum.COACH:
             return this.baseUserRepository;
         case UserTypeEnum.PARTICIPANT:
-            if(organizationSystemType === undefined || seekingGrade === undefined) throw new Error("Organization system type and seeking grade are required");
+            if(organizationSystemType === undefined || seekingGrade === undefined) {
+                throw new BadRequestError("Organization system type and seeking grade are required for participant users");
+            }
             return this.getParticipantRepository(organizationSystemType,seekingGrade);
         default:
-            throw new Error(`Not repository for ${organizationSystemType}`)
+            throw new BadRequestError(`No repository available for user type: ${userType}`)
     }
    }
 }

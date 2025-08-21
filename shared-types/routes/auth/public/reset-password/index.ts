@@ -12,7 +12,7 @@ export type ResetPasswordRouteType = {
   path: string;
   method: string;
   paramsKey: string[];
-  body?: ReplaceDatesWithStrings<ResetPasswordRouteConfig['body']>;
+  body: ReplaceDatesWithStrings<ResetPasswordRouteConfig['body']>;
   params?: ReplaceDatesWithStrings<ResetPasswordRouteConfig['params']>;
   query?: ReplaceDatesWithStrings<ResetPasswordRouteConfig['query']>;
   files?: ReplaceDatesWithStrings<ResetPasswordRouteConfig['files']>;

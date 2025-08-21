@@ -12,7 +12,7 @@ export type ForgetPasswordRouteType = {
   path: "/forget-password";
   method: "post";
   paramsKey: readonly string[];
-  body?: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['body']>;
+  body: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['body']>;
   params?: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['params']>;
   query?: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['query']>;
   files?: ReplaceDatesWithStrings<ForgetPasswordRouteConfig['files']>;
