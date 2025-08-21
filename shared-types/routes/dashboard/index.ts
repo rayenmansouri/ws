@@ -5,7 +5,7 @@ import { ReplaceDatesWithStrings } from "../../utils";
 export const dashboardRoute = {
     path: "/dashboard" as const,
     method: "get" as const,
-    paramsKey: [] as const,
+    paramsKey: [],
 };
 
 export type DashboardRouteType = {

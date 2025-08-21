@@ -43,12 +43,17 @@ export class GetAllOrganizationsController extends BaseController<GetAllOrganiza
     const totalPages = Math.ceil(total / limit);
     
     return new SuccessResponse<GetAllOrganizationsResponse>("global.success", { 
-      organizations: organizations,
-      pagination: {
+      docs: organizations,
+      meta: {
         page,
         limit,
-        total,
-        totalPages
+        totalDocs: total,
+        totalPages: Math.ceil(total / limit),
+        hasMore: total > page * limit,
+        hasPrevPage: page > 1,
+        hasNextPage: page < totalPages,
+        nextPage: page + 1,
+        prevPage: page - 1,
       }
     });
   }

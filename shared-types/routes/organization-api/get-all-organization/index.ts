@@ -4,7 +4,7 @@ import { GetAllOrganizationsResponse } from "../../../../src/api-v2/organization
 export const getAllOrganizationsRoute = {
     path: "/organizations" as const,
     method: "get" as const,
-    paramsKey: [] as const,
+    paramsKey: [],
 };
 
 export type getAllOrganizationsRouteType = {

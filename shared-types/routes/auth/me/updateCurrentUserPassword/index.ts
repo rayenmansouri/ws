@@ -5,7 +5,7 @@ import { UpdateCurrentUserPasswordRouteConfig } from "../../../../../src/api-v2/
 export const updateCurrentUserPasswordRoute = {
     path: "/password" as const,
     method: "patch" as const,
-    paramsKey: [] as const,
+    paramsKey: [],
 };
 
 export type UpdateCurrentUserPasswordRouteType = {

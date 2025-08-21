@@ -5,7 +5,7 @@ import { ReplaceDatesWithStrings } from "../../../../../utils";
 export const levelsOverviewRoute = {
     path: "/levels/overview" as const,
     method: "get" as const,
-    paramsKey: [] as const,
+    paramsKey: [],
 };
 
 export type LevelsOverviewRouteType = {

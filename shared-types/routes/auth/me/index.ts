@@ -5,7 +5,7 @@ import { MeRouteConfig } from "../../../../src/api-v2/auth/me/me.types";
 export const meRoute = {
     path: "/me" as const,
     method: "get" as const,
-    paramsKey: [] as const,
+    paramsKey: [],
 };
 
 export type MeRouteType = {

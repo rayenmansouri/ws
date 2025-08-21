@@ -1,5 +1,6 @@
 import { TypedRequestOptions } from "../../../core/express/types";
 import { Organization } from "../../../feature/organization-magement/domain/organization.entity";
+import { ResponseWithPagination } from "../../../constants/paginated-response";
 
 export type GetAllOrganizationsRouteConfig = TypedRequestOptions & {
   body: never;
@@ -12,12 +13,4 @@ export type GetAllOrganizationsRouteConfig = TypedRequestOptions & {
   files: never;
 };
 
-export type GetAllOrganizationsResponse = { 
-  organizations: Organization[];
-  pagination: {
-    page: number;
-    limit: number;
-    total: number;
-    totalPages: number;
-  };
-};
+export type GetAllOrganizationsResponse = ResponseWithPagination<Organization>;

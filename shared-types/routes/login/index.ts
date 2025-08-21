@@ -5,7 +5,7 @@ import { ReplaceDatesWithStrings } from "../../utils";
 export const loginRoute = {
     path: "/login" as const,
     method: "post" as const,
-    paramsKey: [] as const,
+    paramsKey: [],
   };
  
 export type LoginRouteType = {

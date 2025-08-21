@@ -5,7 +5,7 @@ import { ForgetPasswordRouteConfig } from "../../../../../src/api-v2/auth/public
 export const forgetPasswordRoute = {
     path: "/forget-password" as const,
     method: "post" as const,
-    paramsKey: [] as const,
+    paramsKey: [],
 };
 
 export type ForgetPasswordRouteType = {

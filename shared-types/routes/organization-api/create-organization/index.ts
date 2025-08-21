@@ -5,7 +5,7 @@ import { CreateOrganizationRouteConfig } from "../../../../src/api-v2/organizati
 export const createOrganizationRoute = {
     path: "/organizations" as const,
     method: "post" as const,
-    paramsKey: [] as const,
+    paramsKey: [],
 };
 
 export type CreateOrganizationRouteType = {
