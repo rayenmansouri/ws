@@ -50,6 +50,18 @@ export abstract class BaseRepository<Input,Output>{
         const result = await model.find(query).lean();
         return result.map(item => new this.dto(item));
     }
+
+    async findOneAndUpdate(query: FilterQuery<Input>, update: Partial<Input>): Promise<Output | null> {
+        const model = this.getModel();
+        const result = await model.findOneAndUpdate(query, update, { new: true }).populate('roles').lean();
+        return result ? new this.dto(result) : null;
+    }
+
+    async findOneAndDelete(query: FilterQuery<Input>): Promise<Output | null> {
+        const model = this.getModel();
+        const result = await model.findOneAndDelete(query).populate('roles').lean();
+        return result ? new this.dto(result) : null;
+    }
     
     abstract getModel(): Model<PropsOnly<Output>>;
 }
