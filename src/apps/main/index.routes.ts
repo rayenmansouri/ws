@@ -22,7 +22,7 @@ import { logoutRoute } from "../../api-v2/auth/public/logout";
 import { listLevelsRoute } from "../../api-v2/level/web/admin/listLevels/listLevels.route";
 import { coachRouter } from "./routers/coach-router";
 import { participantRouter } from "./routers/participant-router";
-import { editOrganizationFeatureFlagRoute } from "../../api∂-v2/organization-api/feature-flag/edit-organization-feature.route";
+import { editOrganizationFeatureFlagRoute } from "../../api-v2/organization-api/feature-flag/edit-organization-feature.route";
 
 const router = Router();
 
