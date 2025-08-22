@@ -2,7 +2,7 @@ import { Organization, OrganizationInput } from "../../../feature/organization-m
 import { TypedRequestOptions } from "../../../core/express/types";
 
 export type CreateOrganizationRouteConfig = TypedRequestOptions & {
-  body: Omit<OrganizationInput, "featureFlags" | "website">;
+  body: OrganizationInput;
   params: never;
   query: never;
   files: never;

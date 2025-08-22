@@ -29,7 +29,7 @@ export class CreateOrganizationController extends BaseController<CreateOrganizat
     if(existingSchool) throw new BadRequestError("global.schoolAlreadyExists");
     
 
-    const organization = await this.organizationRepo.create(req.body);
+    const organization = await this.organizationRepo.create({...req.body });
     this.databaseService.addOrganization(organization);
     this.databaseService.getNewTenantConnection(organization.subdomain);
     return new SuccessResponse<CreateOrganizationResponse>("global.success", { organization: organization });

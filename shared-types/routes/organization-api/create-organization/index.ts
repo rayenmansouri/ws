@@ -12,7 +12,7 @@ export type CreateOrganizationRouteType = {
   path: "/organizations";
   method: "post";
   paramsKey: readonly string[];
-  body?: ReplaceDatesWithStrings<CreateOrganizationRouteConfig['body']>;
+  body?: ReplaceDatesWithStrings<Omit<CreateOrganizationRouteConfig['body'], "featureFlags" | "website">>;
   params?: ReplaceDatesWithStrings<CreateOrganizationRouteConfig['params']>;
   query?: ReplaceDatesWithStrings<CreateOrganizationRouteConfig['query']>;
   files?: ReplaceDatesWithStrings<CreateOrganizationRouteConfig['files']>;
