@@ -1,6 +1,7 @@
         import { Role } from "../../../roles/role.entity";
 import { BaseUser, BaseUserEntity } from "../../base-user/domain/base-user.entity";
 import { UserTypeEnum } from "../../factory/enums";
+import { DncUser } from "../dnc/dnc.entity";
 
 export type dncNotGradeSeekingType = {
     uniqueId: string;
