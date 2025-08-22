@@ -17,7 +17,7 @@ describe("File Manager", () => {
   };
   const filePath = "students/avatar";
   const mockSchool = { subdomain: "test" } as School;
-  const fileLink = "https://cdn.webschool.tn/avatar/23431.jpg";
+  const fileLink = "https://cdn.iecd.tn/avatar/23431.jpg";
 
   beforeEach(() => {
     mockBaseUploadFile = jest.fn(() => fileLink);

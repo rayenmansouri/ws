@@ -19,9 +19,9 @@
     "prepare": "husky"
   },
   "keywords": [
-    "webschool"
+    "iecd"
   ],
-  "author": "webschool",
+  "author": "iecd",
   "license": "MIT",
   "devDependencies": {
     "husky": "9.0.11",
