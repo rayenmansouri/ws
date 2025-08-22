@@ -12,7 +12,7 @@ import { CONNECTION_POOL_IDENTIFIER, CURRENT_CONNECTION_IDENTIFIER, MASTER_CONNE
     identifier: ORGANIZATION_REPOSITORY_IDENTIFIER,
 })
 export class OrganizationRepository extends BaseRepository<OrganizationInput, Organization>{
-    dto = OrganizationEntity;
+    dto = OrganizationEntity as any;    
     constructor(
         @inject(CONNECTION_POOL_IDENTIFIER) connectionPool: ConnectionPool,
         @inject(MASTER_CONNECTION_IDENTIFIR) masterConnection: Connection,
@@ -21,7 +21,7 @@ export class OrganizationRepository extends BaseRepository<OrganizationInput, Or
         super(connectionPool, masterConnection, currentConnection);
     }
 
-    getModel(): Model<Organization> {
-        return this.connection.model<Organization>(OrganizationKey, OrganizationSchema);
+    getModel(): Model<any> {
+        return this.connection.model<any>(OrganizationKey, OrganizationSchema);
     }
 }

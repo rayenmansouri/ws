@@ -3,7 +3,7 @@ import { getAuthenticatedMiddlewares } from "../../../core/express/middlewares/r
 import { PLATFORM_ENUM, RouteConfiguration } from "../../../core/express/types";
 import { CreateOrganizationController } from "./organization.controller";
 import { organizationValidation } from "./organization.validation";
-import { CreateOrganizationRouteConfig } from "../organization.types";
+import { CreateOrganizationRouteConfig } from "./organization.types";
 import { masterRouter } from "../../../apps/main/routers/master-router";
 import { createOrganizationRoute } from "../../../../shared-types/routes/organization-api/create-organization";
 

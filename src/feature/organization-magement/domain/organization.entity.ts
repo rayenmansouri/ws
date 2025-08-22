@@ -1,45 +1,21 @@
 import { OrganizationSystemType, TFeatureFlagsEnum, FEATURE_FLAGS_ENUM, ZoneTemplate } from "../enums";
+import { createOrganization } from "./organization.validation";
+import { z } from "zod";
 
 export enum GradeBookTheme {
     YELLOW = "YELLOW",
     BLUE = "BLUE",
 }
-
-export type OrganizationInput = {
-    name: string;
-    subdomain: string;
-    email: string;
-    organizationSystemType: OrganizationSystemType;
-    address: string
-    directorName: string;
-    configName: string;
-    maxStudentSeats: number;
-    gradeBookTheme: GradeBookTheme;
-    enableEmail: boolean;
-    enableSms?: boolean;
-    featureFlags?: Record<TFeatureFlagsEnum, boolean>;
-    zonetemplate?: ZoneTemplate;
-};
+export type OrganizationInput = z.infer<typeof createOrganization>;
 
 export type Organization ={
   id: string;
-  website: string;
-  subdomain: string;
-  phoneNumber: string;
-  directorName: string;
   timeZone: string | null;
   logo: string | null;
-  forceCloseSessionDelayInMin: number;
-  openSessionDelayInMin: number;
-  openSessionAdvanceInMin: number;
-  maxStudentSeats: number;
-  notAvailableTimes: { day: number; hours: number[] }[];
-  enableEmail: boolean;
-  cover: string;
   featureFlags: Record<TFeatureFlagsEnum, boolean>;
 } & OrganizationInput;
 
-export class OrganizationEntity{
+export class OrganizationEntity {
     public id: string;
     public name: string;
     public phone: string;
@@ -63,6 +39,8 @@ export class OrganizationEntity{
     public organizationSystemType: OrganizationSystemType;
     public featureFlags: Record<TFeatureFlagsEnum, boolean>;
     public zonetemplate?: ZoneTemplate;
+    public country: string;
+    
     constructor(
        json: any
     ){
@@ -96,5 +74,6 @@ export class OrganizationEntity{
             [FEATURE_FLAGS_ENUM.DARK_MODE]: false,
             [FEATURE_FLAGS_ENUM.LMS]: false,
         };
+        this.country = json.country || '';
     }
 }

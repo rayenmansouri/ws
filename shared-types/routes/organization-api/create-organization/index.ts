@@ -1,6 +1,6 @@
 import { ReplaceDatesWithStrings } from "../../../utils";
-import { CreateOrganizationResponse } from "../../../../src/api-v2/organization-api/organization.types";
-import { CreateOrganizationRouteConfig } from "../../../../src/api-v2/organization-api/organization.types";
+import { CreateOrganizationResponse } from "../../../../src/api-v2/organization-api/create-organization/organization.types";
+import { CreateOrganizationRouteConfig } from "../../../../src/api-v2/organization-api/create-organization/organization.types";
 
 export const createOrganizationRoute = {
     path: "/organizations" as const,

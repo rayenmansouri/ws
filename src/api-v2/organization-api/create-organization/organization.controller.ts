@@ -27,25 +27,9 @@ export class CreateOrganizationController extends BaseController<CreateOrganizat
     // check if school already exists
     const existingSchool = await this.organizationRepo.findOne({ subdomain: req.body.subdomain });
     if(existingSchool) throw new BadRequestError("global.schoolAlreadyExists");
-    const mockSchool = {
-      name: req.body.name,
-      address: req.body.address,
-      phone: req.body.phone,
-      email: req.body.email,
-      website: req.body.website,
-      subdomain: req.body.subdomain,
-      phoneNumber: req.body.phoneNumber,
-      directorName: req.body.directorName,
-      configName: req.body.configName,
-      maxStudentSeats: req.body.maxStudentSeats,
-      gradeBookTheme: req.body.gradeBookTheme,
-      enableEmail: req.body.enableEmail,
-      organizationSystemType: req.body.organizationSystemType,
-      featureFlags: req.body.featureFlags,
-      zonetemplate: req.body.zonetemplate,
-    };
+    
 
-    const organization = await this.organizationRepo.create(mockSchool);
+    const organization = await this.organizationRepo.create(req.body);
     this.databaseService.addOrganization(organization);
     this.databaseService.getNewTenantConnection(organization.subdomain);
     return new SuccessResponse<CreateOrganizationResponse>("global.success", { organization: organization });

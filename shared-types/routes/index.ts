@@ -23,5 +23,3 @@ export * from './organization-api/get-all-organization';
 export * from './level/web/admin/listLevels';
 export * from './level/web/admin/levelsOverview';
 
-
-export * from './auth/public/logout';
