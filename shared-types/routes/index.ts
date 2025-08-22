@@ -22,4 +22,4 @@ export * from './organization-api/get-all-organization';
 // Level routes
 export * from './level/web/admin/listLevels';
 export * from './level/web/admin/levelsOverview';
-
+export * from './organization-api/edit-flag';

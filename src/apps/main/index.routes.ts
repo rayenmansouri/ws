@@ -22,6 +22,7 @@ import { logoutRoute } from "../../api-v2/auth/public/logout";
 import { listLevelsRoute } from "../../api-v2/level/web/admin/listLevels/listLevels.route";
 import { coachRouter } from "./routers/coach-router";
 import { participantRouter } from "./routers/participant-router";
+import { editOrganizationFeatureFlagRoute } from "../../api∂-v2/organization-api/feature-flag/edit-organization-feature.route";
 
 const router = Router();
 
@@ -41,7 +42,9 @@ const routes = [listLevelsRoute,adminLoginRoute,logoutRoute,adminMeRoute,
                 forgetPasswordRoute, updateCurrentUserPasswordRoute,
                 logoutRoute,masteMeRoute,participantMeRoute,coachMeRoute,
                 masterLoginRoute,participantLoginRoute,coachLoginRoute,
-                getAllOrganizationsRoute
+                getAllOrganizationsRoute,
+                editOrganizationFeatureFlagRoute
+                
 ];
 createRoutes(routes as RouteConfiguration<TypedRequestOptions, string>[]);
 export default router;

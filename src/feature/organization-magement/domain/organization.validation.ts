@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CarCountryEnum, CeresCountryEnum, DncCountryEnum, LibanCountryEnum, OrganizationSystemType, SesameCountryEnum, TFeatureFlagsEnum, ZoneTemplate } from "../enums";
+import { CarCountryEnum, CeresCountryEnum, DncCountryEnum, FEATURE_FLAGS_ENUM, LibanCountryEnum, OrganizationSystemType, SesameCountryEnum, ZoneTemplate } from "../enums";
 
 const baseOrganizationFields = {
     name: z.string().min(1),
@@ -13,6 +13,7 @@ const baseOrganizationFields = {
     zonetemplate: z.nativeEnum(ZoneTemplate).optional(),
     maxStudentSeats: z.number().optional(),
     website: z.string().optional(),
+    featureFlags: z.record(z.enum(Object.values(FEATURE_FLAGS_ENUM) as [string, ...string[]]), z.boolean()).optional(),
 };
 
 // Conditional validation schema using discriminated union based on organizationSystemType

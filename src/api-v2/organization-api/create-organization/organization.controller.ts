@@ -9,7 +9,7 @@ import { ORGANIZATION_REPOSITORY_IDENTIFIER } from "../../../feature/organizatio
 import { DATABASE_SERVIßE_IDENTIFIER } from "../../../core/database/constant";
 import { DatabaseService } from "../../../core/database/database.service";
 import { BadRequestError } from "../../../core/ApplicationErrors";
-import { CreateOrganizationResponse, CreateOrganizationRouteConfig } from "../organization.types";
+import { CreateOrganizationResponse, CreateOrganizationRouteConfig } from "./organization.types";
 
 @Injectable({
   identifier: "CreateSchoolController",
