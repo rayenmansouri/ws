@@ -1,3 +1,3 @@
-# webschool types
+# iecd types
 
-Webschool types package
+IECD types package

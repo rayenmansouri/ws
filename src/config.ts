@@ -37,7 +37,7 @@ export const forgetPasswordExpireIn = process.env.JWT_EXPIRES_IN;
 export const tokenMasterSecret: string = process.env.JWT_MASTER_SECRET || "";
 export const MasterTokenExpireIn = process.env.JWT_MASTER_EXPIRES_IN;
 
-export const webschoolEmail = "webschool@info.com";
+export const iecdEmail = "iecd@info.com";
 
 export const emailService = {
   username: process.env.EMAIL_USERNAME,

@@ -22,7 +22,7 @@ export const sendEmailService = async (options: EmailOptions, tenantId: string) 
   } as TransportOptions);
 
   const mailOptions = {
-    from: { name: "WebSchool", address: emailService.username },
+    from: { name: "IECD", address: emailService.username },
     to: options.email,
     subject: options.subject,
     text: options.message,
