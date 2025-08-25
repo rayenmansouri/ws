@@ -56,7 +56,7 @@ export class EventDispatcher {
             async handlerSpan => {
               try {
                 // @ts-expect-error - Handler uuid can not be typed
-                const handler = childContainer.get(HandlerClass.uuid) as EventHandler<DomainEvent>;
+                const handler = childContainer.get(HandlerClass.uuid);
                 await handler.handle(event);
                 handlerSpan.setStatus({ code: 1 });
               } catch (handlerError) {

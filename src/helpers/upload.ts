@@ -93,7 +93,7 @@ export const uploadManyFiles = async (
     return {
       public_id: obj.data.id,
       url: uploadFilePaths[i] + "&raw=1",
-      fileName: iconv.decode(Buffer.from(files[i].originalname!, "latin1"), "utf8"),
+      fileName: iconv.decode(Buffer.from(files[i].originalname, "latin1"), "utf8"),
     };
   });
 };

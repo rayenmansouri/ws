@@ -1,5 +1,6 @@
 import { Workbook } from "exceljs";
 import { ExportTableManager } from "../export-table-strategy.interface";
+
 export class XLSXExportStrategy implements ExportTableManager {
   async export(data: object[]): Promise<Buffer> {
     const buffer = await this.getXLSXBuffer(data);

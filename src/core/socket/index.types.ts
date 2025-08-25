@@ -13,5 +13,5 @@ export type RequestFields = {
   userType: TEndUserEnum;
 };
 export type protectsSocket = Socket & RequestFields;
-export type nextWS = (err?: ExtendedError | undefined) => void;
+export type nextWS = (err?: ExtendedError  ) => void;
 export type middlewareWS = (socket: Socket, next: nextWS) => void;
